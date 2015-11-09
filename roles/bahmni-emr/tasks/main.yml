@@ -1,0 +1,102 @@
+- name: add mysql 5.6 yum repo
+  template: src=mysql.repo.j2 dest=/etc/yum.repos.d/mysql.repo
+
+- name: Install openmrs from bahmni-repo
+  yum: name={{ openmrs_rpm }}  state=present
+#
+#- name: Copy openmrs conf
+#  template:
+#    src=openmrs.conf.j2
+#    dest={{ openmrs_install_dir }}/etc/openmrs.conf
+#    mode=644
+#    owner={{ bahmni_user }}
+#    group={{ bahmni_group }}
+#
+#- name: Copy openmrs-runtime properties
+#  template:
+#    src=openmrs-runtime.properties.j2
+#    dest={{ openmrs_install_dir }}/etc/openmrs-runtime.properties
+#    mode=644
+#    owner={{ bahmni_user }}
+#    group={{ bahmni_group }}
+#
+#- name: copy database snapshots
+#  copy:
+#    src=snapshots.zip
+#    dest="{{ openmrs_snapshots_tmp_dir }}/"
+#    mode=0644
+#    owner={{ bahmni_user }}
+#    group={{ bahmni_group }}
+#    force=no
+#
+#
+#- name: copy database snapshots
+#  unarchive:
+#    copy=no
+#    src="{{ openmrs_snapshots_tmp_dir }}/snapshots.zip"
+#    dest="{{ openmrs_snapshots_tmp_dir }}/"
+#    creates="{{ openmrs_snapshots_tmp_dir }}/snapshots"
+#    mode=0644
+#    owner={{ bahmni_user }}
+#    group={{ bahmni_group }}
+#    force=no
+#
+#- name: copy liquibase jar
+#  copy:
+#    src=liquibase-core-2.0.5.jar
+#    dest="{{ openmrs_snapshots_tmp_dir }}/liquibase-core-2.0.5.jar"
+#    mode=0644
+#    owner={{ bahmni_user }}
+#    group={{ bahmni_group }}
+#    force=no
+#
+#- name: copy liquibase run scripts
+#  template:
+#    src=run-snapshot-liquibase.sh.j2
+#    dest="{{ openmrs_snapshots_tmp_dir }}/run-snapshot-liquibase.sh"
+#    mode=0755
+#    owner={{ bahmni_user }}
+#    group={{ bahmni_group }}
+#
+#- name: Openmrs db should be present
+#  mysql_db:
+#    name=openmrs
+#    state=present
+#    login_user=root
+#    login_password="{{ mysql_root_password }}"
+#
+#- name: create openmrs user
+#  mysql_user:
+#    name: "{{ openmrs_db_username }}"
+#    password: "{{ openmrs_db_password }}"
+#    login_user: root
+#    login_password: "{{ mysql_root_password }}"
+#    host: "{{ groups['openmrs-db'][0] | default('localhost', true)}}"
+#    priv: "openmrs.*:ALL,GRANT"
+#
+#- name: add permissions to openmrs user
+#  mysql_user:
+#    name: "{{ openmrs_db_username }}"
+#    password: "{{ openmrs_db_password }}"
+#    login_user: root
+#    login_password: "{{ mysql_root_password }}"
+#    host: "localhost"
+#    priv: "openmrs.*:ALL,GRANT"
+#
+#- name: run liquibase snapshots
+#  shell: "{{ openmrs_snapshots_tmp_dir }}/run-snapshot-liquibase.sh"
+#
+#- name: Get IpTable rules
+#  shell: iptables -L
+#  register: iptablesrules
+#
+#- name: Allow bdshr port through firewall
+#  command: /sbin/iptables -I INPUT 1 -p tcp --dport {{ openmrs_port }} -j ACCEPT -m comment --comment "OPENMRS"
+#  when: iptablesrules.stdout.find("OPENMRS") == -1
+#
+#- name: save iptables
+#  command: service iptables save
+#
+#- name: Start openmrs
+#  service: name=openmrs state=restarted enabled=yes
+#  tags: run_openmrs

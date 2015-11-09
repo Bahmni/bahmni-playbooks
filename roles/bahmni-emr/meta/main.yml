@@ -1,5 +1,4 @@
 ---
 dependencies:
   - { role: oracle-java }
-  - { role: mysql }
 

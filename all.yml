@@ -7,18 +7,18 @@
   tags:
     - setup
 
-- hosts: openmrs-db
+
+- hosts: bahmni-emr-db
   sudo: yes
   roles:
     - { role: mysql }
   tags:
-    - openmrs-db
-    - openmrs
+    - bahmni-emr-db
 
-- hosts: openmrs
+- hosts: bahmni-emr
   sudo: yes
   roles:
-    - { role: openmrs }
+    - { role: bahmni-emr }
   tags:
-    - openmrs
+    - bahmni-emr
 

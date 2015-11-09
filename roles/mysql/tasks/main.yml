@@ -7,7 +7,7 @@
   register: mysqlVersion
   ignore_errors: true
 
-- name: Uninstall MySQL if 5.6 is present
+- name: Uninstall MySQL if 5.6 is absent
   yum: name={{ item }} state=absent
   with_items:
     - mysql-server
@@ -17,10 +17,11 @@
 - name: Install mysql from bahmni-repo
   yum: name={{ item }} state=present
   with_items:
-    - https://bahmni-repo.twhosted.com/packages/localrepo/MySQL-shared-5.6.12-2.el6.x86_64.rpm
-    - https://bahmni-repo.twhosted.com/packages/localrepo/MySQL-shared-compat-5.6.12-2.el6.x86_64.rpm
-    - https://bahmni-repo.twhosted.com/packages/localrepo/MySQL-client-5.6.12-2.el6.x86_64.rpm
-    - https://bahmni-repo.twhosted.com/packages/localrepo/MySQL-server-5.6.12-2.el6.x86_64.rpm
+    - mysql-community-common
+    - mysql-community-libs-compat
+    - mysql-community-client
+    - mysql-community-server
+
   when: mysqlVersion|failed or mysqlVersion.stdout.find('5.6') == -1
 
 - name: Copy mysql config
@@ -30,7 +31,7 @@
     mode=755
 
 - name: Start Mysql Service
-  service: name=mysql state=started enabled=true
+  service: name=mysqld state=started enabled=true
 
 - name: Register mysql root password
   command: awk '/password/{print $NF}' ~/.mysql_secret
@@ -40,7 +41,7 @@
   command: /usr/bin/mysqladmin -uroot -p{{ generated_root_password.stdout }} password {{ mysql_root_password }}
   ignore_errors: yes
 
-- name: update mysql root password 
+- name: update and grant privileges to mysql user
   sudo: yes
   mysql_user: 
     name: root 
