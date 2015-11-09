@@ -1,0 +1,11 @@
+192.168.33.11 ansible_ssh_user=bahmni  ansible_ssh_port=22 ansible_ssh_pass=p@ssw0rd
+
+[openmrs]
+192.168.33.11
+
+[openmrs-db]
+192.168.33.11
+
+[local:children]
+openmrs
+openmrs-db

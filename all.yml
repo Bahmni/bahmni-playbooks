@@ -1,0 +1,24 @@
+- hosts: all
+  sudo: yes
+  roles:
+    - { role: bahmni-base }
+    - { role: bahmni-user }
+    - { role: selinux, selinux_state: permissive, selinux_policy: targeted }
+  tags:
+    - setup
+
+- hosts: openmrs-db
+  sudo: yes
+  roles:
+    - { role: mysql }
+  tags:
+    - openmrs-db
+    - openmrs
+
+- hosts: openmrs
+  sudo: yes
+  roles:
+    - { role: openmrs }
+  tags:
+    - openmrs
+

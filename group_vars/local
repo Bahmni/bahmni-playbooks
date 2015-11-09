@@ -1,0 +1,24 @@
+bahmni_group: bahmni
+bahmni_user: bahmni
+bahmni_password_hash: $1$IW4OvlrH$Kui/55oif8W3VZIrnX6jL1
+
+mysql_user: root
+mysql_old_root_password: password
+mysql_root_password: password
+
+bahmni_ntp_timezone: Asia/Kolkata
+
+openmrs_install_dir: /opt/openmrs
+openmrs_log_dir: /var/log/openmrs
+openmrs_port: 8081
+openmrs_modules_dir: /home/bahmni/.OpenMRS/modules
+openmrs_run_dir: /var/run/openmrs
+openmrs_context_path: openmrs
+openmrs_server_options: "-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m"
+
+openmrs_auto_update_database: false
+openmrs_db_username: openmrs-user
+openmrs_db_password: password
+openmrs_snapshots_tmp_dir: /tmp/openmrs-snapshots
+
+

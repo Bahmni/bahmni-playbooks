@@ -1,0 +1,33 @@
+---
+- name: Install EPEL repo.
+  yum:
+    name: "{{ epel_repo_url }}"
+    state: present
+
+- name: Import EPEL GPG key.
+  rpm_key:
+    key: "{{ epel_repo_gpg_key_url }}"
+    state: present
+
+- name: Install libselinux-python
+  yum: name=libselinux-python state=present
+
+- name: Install ntp
+  yum: name=ntp state=present
+  tags: ntp
+  
+- name: Set the correct timezone.
+  file: src=/usr/share/zoneinfo/{{ bahmni_ntp_timezone }}  dest=/etc/localtime state=link force=yes
+  tags: ntp
+
+- name: start and enable ntpd
+  service: name=ntpd state=started enabled=yes
+  tags: ntp
+
+- name: install utils
+  yum: name={{ item }} state=present
+  with_items:
+    - tree
+    - htop
+    - lsof
+  tags: utils

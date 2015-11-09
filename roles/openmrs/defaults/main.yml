@@ -1,0 +1,12 @@
+openmrs_install_dir: /opt/openmrs
+openmrs_log_dir: /var/log/openmrs
+openmrs_port: 8081
+openmrs_modules_dir: /home/bahmni/.OpenMRS/modules
+openmrs_run_dir: /var/run/openmrs
+openmrs_context_path: openmrs
+openmrs_server_args: "-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m"
+
+openmrs_auto_update_database: false
+openmrs_db_username: root
+openmrs_db_password: password
+

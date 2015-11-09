@@ -1,0 +1,6 @@
+auto_update_database=false
+connection.username={{ openmrs_db_username }}
+connection.password={{ openmrs_db_password }}
+connection.url=jdbc:mysql://{{ groups['openmrs-db'][0] | default('localhost', true)}}:3306/openmrs?autoReconnect=true&sessionVariables=storage_engine=InnoDB&useUnicode=true&characterEncoding=UTF-8
+
+

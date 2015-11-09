@@ -1,0 +1,62 @@
+---
+- name: Install python mysql for ansible
+  yum: name=MySQL-python state=present
+
+- name: Check if any version of mysql is present
+  command: mysql --version
+  register: mysqlVersion
+  ignore_errors: true
+
+- name: Uninstall MySQL if 5.6 is present
+  yum: name={{ item }} state=absent
+  with_items:
+    - mysql-server
+    - mysql
+  when: mysqlVersion|success and mysqlVersion.stdout.find('5.6') == -1
+
+- name: Install mysql from bahmni-repo
+  yum: name={{ item }} state=present
+  with_items:
+    - https://bahmni-repo.twhosted.com/packages/localrepo/MySQL-shared-5.6.12-2.el6.x86_64.rpm
+    - https://bahmni-repo.twhosted.com/packages/localrepo/MySQL-shared-compat-5.6.12-2.el6.x86_64.rpm
+    - https://bahmni-repo.twhosted.com/packages/localrepo/MySQL-client-5.6.12-2.el6.x86_64.rpm
+    - https://bahmni-repo.twhosted.com/packages/localrepo/MySQL-server-5.6.12-2.el6.x86_64.rpm
+  when: mysqlVersion|failed or mysqlVersion.stdout.find('5.6') == -1
+
+- name: Copy mysql config
+  template:
+    src=my.cnf.j2
+    dest=/etc/my.cnf
+    mode=755
+
+- name: Start Mysql Service
+  service: name=mysql state=started enabled=true
+
+- name: Register mysql root password
+  command: awk '/password/{print $NF}' ~/.mysql_secret
+  register: generated_root_password
+
+- name: Update mysql root password
+  command: /usr/bin/mysqladmin -uroot -p{{ generated_root_password.stdout }} password {{ mysql_root_password }}
+  ignore_errors: yes
+
+- name: update mysql root password 
+  sudo: yes
+  mysql_user: 
+    name: root 
+    password: "{{ mysql_root_password }}"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    host: "%"
+    priv: "*.*:ALL,GRANT"
+
+- name: Get IpTable rules
+  shell: iptables -L
+  register: iptablesrules
+
+- name: Allow mysql port through firewall
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport 3306 -j ACCEPT -m comment --comment "MYSQL"
+  when: iptablesrules.stdout.find("MYSQL") == -1
+
+- name: save iptables
+  command: service iptables save

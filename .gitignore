@@ -1,0 +1,11 @@
+**/*.DS_Store
+*.log
+*.iml
+.project
+.settings
+.idea/*
+.tmp
+.vagrant
+target
+*~
+.projectile

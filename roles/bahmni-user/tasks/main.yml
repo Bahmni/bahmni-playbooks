@@ -1,0 +1,26 @@
+- name: Create group
+  user:
+    name={{ bahmni_group }}
+    state=present
+  sudo: yes
+
+- name: Create user
+  user: name={{ bahmni_user }} group={{ bahmni_group }} generate_ssh_key=yes ssh_key_bits=2048 state=present password={{ bahmni_password_hash }}
+  sudo: yes
+
+- name: configure sudoers
+  lineinfile: "dest=/etc/sudoers state=present backup=yes regexp='^{{ bahmni_user }}' insertafter='^# %wheel' line='{{ bahmni_user }} ALL=(ALL) NOPASSWD: ALL' validate='visudo -cf %s'"
+  sudo: yes
+
+# - name: allow bdshr ssh access
+#   lineinfile:
+#     dest=/etc/ssh/sshd_config
+#     backrefs=yes
+#     backup=yes
+#     regexp='(^AllowGroups+\s)([\w\- ]+)(?<![bdshr])'
+#     line='\1\2 bdshr'
+#   tags:
+#     - sshd
+
+# - name: reload sshd
+#   service: name=sshd state=reloaded

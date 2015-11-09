@@ -1,0 +1,23 @@
+CREATE DATABASE IF NOT EXISTS openmrs DEFAULT CHARACTER SET utf8;
+
+use openmrs;
+
+CREATE TABLE IF NOT EXISTS `liquibasechangelog` (
+			  `ID` varchar(63) NOT NULL,
+			  `AUTHOR` varchar(63) NOT NULL,
+			  `FILENAME` varchar(200) NOT NULL,
+			  `DATEEXECUTED` datetime NOT NULL,
+			  `MD5SUM` varchar(32) DEFAULT NULL,
+			  `DESCRIPTION` varchar(255) DEFAULT NULL,
+			  `COMMENTS` varchar(255) DEFAULT NULL,
+			  `TAG` varchar(255) DEFAULT NULL,
+			  `LIQUIBASE` varchar(10) DEFAULT NULL,
+			  `EXECTYPE` varchar(20) DEFAULT NULL,
+			  `ORDEREXECUTED` varchar(20) DEFAULT NULL,
+			  PRIMARY KEY (`ID`,`AUTHOR`,`FILENAME`)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+GRANT ALL PRIVILEGES ON openmrs.* TO '{{ openmrs_db_user }}'@'localhost' identified by '{{ openmrs_db_password }}'  WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON openmrs.* TO '{{ openmrs_db_user }}'@'{{ groups['openmrs-db'][0] | default('localhost', true)}}' identified by '{{ openmrs_db_password }}'  WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;
