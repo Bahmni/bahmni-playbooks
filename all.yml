@@ -7,7 +7,6 @@
   tags:
     - setup
 
-
 - hosts: bahmni-emr-db
   sudo: yes
   roles:

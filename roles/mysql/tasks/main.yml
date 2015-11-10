@@ -43,16 +43,6 @@
   command: /usr/bin/mysqladmin -uroot password {{ mysql_root_password }}
   ignore_errors: yes
 
-- name: update and grant privileges to mysql user
-  sudo: yes
-  mysql_user: 
-    name: root 
-    password: "{{ mysql_root_password }}"
-    login_user: root
-    login_password: "{{ mysql_root_password }}"
-    host: "%"
-    priv: "*.*:ALL,GRANT"
-
 - name: Get IpTable rules
   shell: iptables -L
   register: iptablesrules
