@@ -38,12 +38,8 @@
 - name: Start Mysql Service
   service: name=mysqld state=started enabled=true
 
-- name: Register mysql root password
-  command: awk '/password/{print $NF}' ~/.mysql_secret
-  register: generated_root_password
-
 - name: Update mysql root password
-  command: /usr/bin/mysqladmin -uroot -p{{ generated_root_password.stdout }} password {{ mysql_root_password }}
+  command: /usr/bin/mysqladmin -uroot password {{ mysql_root_password }}
   ignore_errors: yes
 
 - name: update and grant privileges to mysql user
