@@ -1,4 +1,9 @@
 ---
+- name: add mysql 5.6 yum repo
+  template:
+    src=mysql.repo.j2
+    dest=/etc/yum.repos.d/mysql.repo
+
 - name: Install python mysql for ansible
   yum: name=MySQL-python state=present
 
@@ -14,7 +19,7 @@
     - mysql
   when: mysqlVersion|success and mysqlVersion.stdout.find('5.6') == -1
 
-- name: Install mysql from bahmni-repo
+- name: Install mysql from mysql56 yum repository
   yum: name={{ item }} state=present
   with_items:
     - mysql-community-common

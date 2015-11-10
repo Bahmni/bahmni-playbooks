@@ -1,9 +1,11 @@
 - name: add mysql 5.6 yum repo
-  template: src=mysql.repo.j2 dest=/etc/yum.repos.d/mysql.repo
-
+  template:
+    src=mysql.repo.j2
+    dest=/etc/yum.repos.d/mysql.repo
+    
 - name: Install openmrs from bahmni-repo
-  yum: name={{ openmrs_rpm }}  state=present
-#
+  yum: name="bahmni-emr-{{ emr_version }}" state=present
+
 #- name: Copy openmrs conf
 #  template:
 #    src=openmrs.conf.j2
