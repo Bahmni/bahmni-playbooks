@@ -23,6 +23,7 @@
   yum: name={{ item }} state=present
   with_items:
     - mysql-community-common
+    - mysql-community-libs
     - mysql-community-libs-compat
     - mysql-community-client
     - mysql-community-server
