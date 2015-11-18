@@ -1,5 +1,5 @@
-emr_version: 0.78-5126
-openmrs_port: 8081
+emr_version: 0.78-5177
+openmrs_port: 8080
 openmrs_modules_dir: /home/bahmni/.OpenMRS/modules
 openmrs_context_path: openmrs
 openmrs_server_args: "-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m"
