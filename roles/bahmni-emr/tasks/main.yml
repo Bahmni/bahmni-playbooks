@@ -2,34 +2,33 @@
   template:
     src=mysql.repo.j2
     dest=/etc/yum.repos.d/mysql.repo
-    
+
 - name: Install openmrs from bahmni-repo
   yum: name="bahmni-emr-{{ emr_version }}" state=present
 
-# - name: Copy openmrs conf
-#  template:
-#    src=openmrs.conf.j2
-#    dest={{ openmrs_install_dir }}/etc/openmrs.conf
-#    mode=644
-#    owner={{ bahmni_user }}
-#    group={{ bahmni_group }}
+- name: Copy openmrs conf
+  template:
+    src=openmrs.conf.j2
+    dest={{ openmrs_install_dir }}/etc/openmrs.conf
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
 
-# - name: Copy openmrs-runtime properties
-#  template:
-#    src=openmrs-runtime.properties.j2
-#    dest={{ openmrs_install_dir }}/etc/openmrs-runtime.properties
-#    mode=644
-#    owner={{ bahmni_user }}
-#    group={{ bahmni_group }}
-
+- name: Copy openmrs-runtime properties
+  template:
+    src=openmrs-runtime.properties.j2
+    dest={{ openmrs_install_dir }}/etc/openmrs-runtime.properties
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
 
 - name: Get IpTable rules
-  shell: iptables -L
+  shell: iptables -nL INPUT
   register: iptablesrules
 
-- name: Allow bdshr port through firewall
-  command: /sbin/iptables -I INPUT 1 -p tcp --dport {{ openmrs_port }} -j ACCEPT -m comment --comment "OPENMRS"
-  when: iptablesrules.stdout.find("OPENMRS") == -1
+- name: Allow openmrs port through firewall
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ openmrs_port }} -j ACCEPT -m comment --comment "OPENMRS"
+  when: iptablesrules.stdout.find("{{openmrs_port}}") == -1
 
 - name: save iptables
   command: service iptables save
