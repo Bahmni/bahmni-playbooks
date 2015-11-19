@@ -10,17 +10,18 @@ bahmni_ntp_timezone: Asia/Kolkata
 
 openmrs_install_dir: /opt/openmrs
 openmrs_log_dir: /var/log/openmrs
-openmrs_port: 8081
+openmrs_port: 8080
 openmrs_modules_dir: /home/bahmni/.OpenMRS/modules
 openmrs_run_dir: /var/run/openmrs
 openmrs_context_path: openmrs
 openmrs_server_options: "-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m"
 
-openmrs_auto_update_database: true
+openmrs_auto_update_database: false
 openmrs_db_username: openmrs-user
 openmrs_db_password: password
 openmrs_snapshots_tmp_dir: /tmp/openmrs-snapshots
 openmrs_application_data_directory: /opt/openmrs
 openmrs_module_allow_web_admin: true
+emr_version: 0.78-5177
 
 

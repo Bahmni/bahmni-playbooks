@@ -18,6 +18,7 @@
   sudo: yes
   roles:
     - { role: bahmni-emr }
+    - { role: bahmni-web }
   tags:
     - bahmni-emr
 
