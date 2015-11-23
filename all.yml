@@ -22,3 +22,10 @@
   tags:
     - bahmni-emr
 
+- hosts: bahmni-erp
+  sudo: yes
+  roles:
+    - { role: bahmni-erp }
+  tags:
+    - bahmni-erp
+
