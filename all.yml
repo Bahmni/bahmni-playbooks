@@ -19,7 +19,7 @@
   roles:
     - { role: bahmni-emr }
     - { role: bahmni-web }
-    - { role: implementation-config }
+    - { role: implementation-config, tags: "config"}
   tags:
     - bahmni-emr
 

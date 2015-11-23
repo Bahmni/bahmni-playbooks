@@ -29,5 +29,8 @@ openmrs_version: 1.11.4
 openelis_db_username: clinlims
 openelis_db_password: password
 
+openerp_db_username: openerp
+openerp_db_password: password
+
 openmrs_lab_user_id: admin
 openmrs_lab_user_password : test

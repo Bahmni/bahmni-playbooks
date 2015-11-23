@@ -3,3 +3,5 @@ openmrs_db_password: password
 implementation_name: endtb
 openelis_db_username: clinlims
 openelis_db_password: password
+openerp_db_username: openerp
+openerp_db_password: password

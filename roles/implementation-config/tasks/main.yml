@@ -39,9 +39,8 @@
   script: run-implementation-openelis-liquibase.sh
   when: "{{ groups['bahmni-lab'] | default([]) | length }} > 0"
 
-#- name: Run openerp liquibase migrations
-#  script: run-implementation-openelis-liquibase.sh
-#  when: "{{ groups['bahmni-erp'] | default([]) | length }}"
-#  tags: "elis-config"
+- name: Run openerp liquibase migrations
+  script: run-implementation-openelis-liquibase.sh
+  when: "{{ groups['bahmni-erp'] | default([]) | length }} > 0"
 
 #    ln -s /opt/bahmni-web/etc/bahmni_config /opt/openmrs/bahmni_config #TODO: Why is this required?
