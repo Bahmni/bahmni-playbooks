@@ -1,4 +1,0 @@
-export OPENMRS_DB_USERNAME={{ openmrs_db_username }}
-export OPENMRS_DB_PASSWORD={{ openmrs_db_password }}
-export OPENMRS_DB_SERVER={{ groups['bahmni-emr-db'][0] | default('localhost', true)}}
-export CREDS="--url=jdbc:mysql://$OPENMRS_DB_SERVER:3306/openmrs --username=$OPENMRS_DB_USERNAME --password=$OPENMRS_DB_PASSWORD "

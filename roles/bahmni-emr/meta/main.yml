@@ -3,3 +3,4 @@ dependencies:
   - { role: bahmni-base }
   - { role: bahmni-user }
   - { role: oracle-java }
+  - { role: bahmni-conf }

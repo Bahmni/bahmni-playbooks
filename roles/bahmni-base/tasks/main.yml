@@ -34,15 +34,3 @@
 
 - name: add bahmni yum repo
   template: src=bahmni.repo.j2 dest=/etc/yum.repos.d/bahmni.repo
-
-- name: create /etc/bahmni-installer directory
-  file: path=/etc/bahmni-installer state=directory mode=0755 owner={{ bahmni_user }} group={{ bahmni_group }}
-
-- name: add bahmni configuration file
-  template:
-      src=bahmni.conf.j2
-      dest=/etc/bahmni-installer/bahmni.conf
-      mode=644
-      owner={{ bahmni_user }}
-      group={{ bahmni_group }}
-

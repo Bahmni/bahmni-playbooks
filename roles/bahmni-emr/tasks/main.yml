@@ -4,6 +4,9 @@
     dest=/etc/yum.repos.d/mysql.repo
 
 - name: Install openmrs from bahmni-repo
+  yum: name="openmrs-{{ openmrs_version }}" state=present
+
+- name: Install bahmni-emr from bahmni-repo
   yum: name="bahmni-emr-{{ emr_version }}" state=present
 
 - name: Update and grant privileges to openmrs user
