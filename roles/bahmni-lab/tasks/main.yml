@@ -1,0 +1,70 @@
+- name: Install postgresql yum repository
+  yum: name="{{ postgres_yum_repo }}" state=present
+
+- name: Install postgresql
+  yum: name="postgresql92-server" state=present
+
+- name: Install postgresql-contrib
+  yum: name="postgresql92-contrib" state=present
+
+- name: Initiate database
+  command: service postgresql-9.2 initdb creates=/var/lib/pgsql/data/postgresql.conf
+
+- name: Start PostgreSQL and enable at boot
+  service:
+    name=postgresql-9.2
+    enabled=yes
+    state=started
+
+- name: Create bahmni-lab user
+  postgresql_user: name=clinlims role_attr_flags=CREATEDB,NOCREATEROLE,NOSUPERUSER
+  sudo_user: postgres
+
+- name: Install python-gdata
+  yum: name="{{ python_gdata_rpm_location }}" state=present
+  
+- name: Install bahmni-lab from bahmni-repo
+  yum: name="bahmni-lab-{{ bahmni_lab_version }}" state=present
+
+- name: Copy bahmni-lab config
+  template:
+    src=bahmni-lab.conf.j2
+    dest=/etc/bahmni-lab/bahmni-lab.conf
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+- name: Copy hibernate config
+  template:
+    src=hibernate.cfg.xml.j2
+    dest=/opt/bahmni-lab/bahmni-lab/WEB-INF/classes/us/mn/state/health/lims/hibernate/hibernate.cfg.xml
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+- name: Copy log4j config
+  template:
+    src=log4j.xml.j2
+    dest=/opt/bahmni-lab/bahmni-lab/WEB-INF/classes/
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+- name: Copy atomfeed properties
+  template:
+    src=atomfeed.properties.j2
+    dest=/opt/bahmni-lab/bahmni-lab/WEB-INF/classes/atomfeed.properties
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+
+- name: Install bahmni-lab-connect from bahmni-repo
+  yum: name="bahmni-lab-connect-{{ bahmni_lab_connect_version }}" state=present
+
+- name: Start bahmni-lab and enable at boot
+  service:
+    name=bahmni-lab
+    enabled=yes
+    state=started
+

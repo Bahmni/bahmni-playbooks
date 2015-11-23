@@ -9,6 +9,11 @@
 [bahmni-erp]
 192.168.33.11
 
+[bahmni-lab]
+192.168.33.11
+
 [local:children]
 bahmni-emr
 bahmni-emr-db
+bahmni-lab
+bahmni-erp

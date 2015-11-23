@@ -30,3 +30,10 @@
   tags:
     - bahmni-erp
 
+- hosts: bahmni-lab
+  sudo: yes
+  roles:
+    - { role: bahmni-lab }
+  tags:
+    - bahmni-lab
+

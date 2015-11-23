@@ -1,0 +1,8 @@
+postgres_yum_repo: http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/pgdg-centos92-9.2-6.noarch.rpm
+python_gdata_rpm_location: https://bahmni-repo.twhosted.com/packages/bahmni/python-gdata-2.0.11-1.el6.noarch.rpm
+bahmni_lab_version: 0.78-788
+bahmni_lab_connect_version: 0.78-5217
+
+openmrs_lab_user_id: admin
+openmrs_lab_user_password: test
+bahmni_lab_port: 8081
