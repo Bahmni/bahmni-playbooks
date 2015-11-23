@@ -19,9 +19,15 @@
   roles:
     - { role: bahmni-emr }
     - { role: bahmni-web }
-    - { role: implementation-config, tags: "config"}
   tags:
     - bahmni-emr
+
+- hosts: bahmni-emr
+  sudo: yes
+  roles:
+    - { role: implementation-config}
+  tags:
+    - config
 
 - hosts: bahmni-erp
   sudo: yes
