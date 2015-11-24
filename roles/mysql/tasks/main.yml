@@ -53,12 +53,33 @@
 - name: save iptables
   command: service iptables save
   
-- name: Update and grant privileges to openmrs user
+- name: Update and grant privileges to openmrs user on localhost
   sudo: yes
   mysql_user:
     name: "{{ openmrs_db_username }}"
     password: "{{ openmrs_db_password }}"
     login_user: root
     login_password: "{{ mysql_root_password }}"
-    host: "{{ groups['bahmni-emr-db'][0] | default('localhost', true)}}"
+    host: "localhost"
     priv: "openmrs.*:ALL,GRANT"
+
+- name: Update and grant privileges to openmrs user from app server
+  sudo: yes
+  mysql_user:
+    name: "{{ openmrs_db_username }}"
+    password: "{{ openmrs_db_password }}"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    host: "{{ groups['bahmni-emr'][0] }}"
+    priv: "openmrs.*:ALL,GRANT"
+
+
+- name: Update and grant privileges to root user from app server
+  sudo: yes
+  mysql_user:
+    name: "root"
+    password: "password"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    host: "{{ groups['bahmni-emr'][0] }}"
+    priv: "*.*:ALL,GRANT"
