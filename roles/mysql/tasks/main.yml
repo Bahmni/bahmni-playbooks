@@ -52,3 +52,13 @@
 
 - name: save iptables
   command: service iptables save
+  
+- name: Update and grant privileges to openmrs user
+  sudo: yes
+  mysql_user:
+    name: "{{ openmrs_db_username }}"
+    password: "{{ openmrs_db_password }}"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    host: "{{ groups['bahmni-emr-db'][0] | default('localhost', true)}}"
+    priv: "openmrs.*:ALL,GRANT"

@@ -1,0 +1,3 @@
+openmrs_db_username: openmrs-user
+openmrs_db_password: password
+mysql_root_password: password
