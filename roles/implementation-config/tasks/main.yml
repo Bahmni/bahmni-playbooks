@@ -32,6 +32,16 @@
 - name: Link patient match algorithms in openmrs application data directory
   file: src=/var/www/bahmni_config/openmrs/patientMatchingAlgorithm  dest=/opt/openmrs/patientMatchingAlgorithm state=link owner={{ bahmni_user }} group={{ bahmni_group }}
 
+#TODO: Below 3 tasks to be removed after removing its dependencies from bahmni-core
+- name: remove /opt/openmr/bahmni_config
+  file: path=/opt/openmr/bahmni_config state=absent
+
+- name: create /var/www/bahmni_config
+  file: path=/opt/openmr/bahmni_config state=directory owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
+
+- name: Link entire bahmni_config in openmrs application data directory
+  file: src=/var/www/bahmni_config dest=/opt/openmrs/bahmni_config state=link owner={{ bahmni_user }} group={{ bahmni_group }}
+
 - name: Run openmrs liquibase migrations
   script: run-implementation-openmrs-liquibase.sh
 
@@ -42,5 +52,3 @@
 - name: Run openerp liquibase migrations
   script: run-implementation-openelis-liquibase.sh
   when: "{{ groups['bahmni-erp'] | default([]) | length }} > 0"
-
-#    ln -s /opt/bahmni-web/etc/bahmni_config /opt/openmrs/bahmni_config #TODO: Why is this required?
