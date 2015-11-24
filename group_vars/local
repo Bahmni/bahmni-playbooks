@@ -24,7 +24,7 @@ openmrs_snapshots_tmp_dir: /tmp/openmrs-snapshots
 openmrs_application_data_directory: /opt/openmrs
 openmrs_module_allow_web_admin: "true"
 emr_version: 0.78-5226
-openmrs_version: 1.12.0.SNAPSHOT-5226
+openmrs_version: 1.12.0
 
 openelis_db_username: clinlims
 openelis_db_password: password
