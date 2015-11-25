@@ -8,3 +8,5 @@ OPENELIS_DB_SERVER={{ groups['bahmni-lab'][0] | default('localhost', true)}}
 OPENERP_DB_USERNAME={{ openerp_db_username }}
 OPENERP_DB_PASSWORD={{ openerp_db_password }}
 OPENERP_DB_SERVER={{ groups['bahmni-erp'][0] | default('localhost', true)}}
+MYSQL_ROOT_USER={{mysql_user}}
+MYSQL_ROOT_PASSWORD={{mysql_root_password}}
