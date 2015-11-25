@@ -7,13 +7,12 @@
 - name: Install postgresql
   yum: name="postgresql92-server" state=present
 
-- name: Initiate database
-  command: service postgresql-9.2 initdb creates=/var/lib/pgsql/data/postgresql.conf
 
 - name: Stop PostgreSQL
   service:
     name=postgresql-9.2
     state=stopped
+  ignore_errors: true
 
 - name: Copy postgresql conf
   template:
@@ -30,6 +29,9 @@
     owner=postgres
     group=postgres
     mode=644
+
+- name: Initiate database
+  command: service postgresql-9.2 initdb creates=/var/lib/pgsql/data/postgresql.conf
                                         
 - name: Start PostgreSQL and enable at boot
   service:

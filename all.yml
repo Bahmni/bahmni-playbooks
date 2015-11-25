@@ -31,7 +31,7 @@
   tags:
     - config
 
-- hosts: bahmni-erp-db
+- hosts: bahmni-erp-db:bahmni-erp-db-slave
   sudo: yes
   roles:
     - { role: postgres, postgres_user: openerp }
@@ -46,7 +46,7 @@
   tags:
     - bahmni-erp
 
-- hosts: bahmni-lab-db
+- hosts: bahmni-lab-db:bahmni-lab-db-slave
   sudo: yes
   roles:
     - { role: postgres, postgres_user: clinlims }
