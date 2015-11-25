@@ -6,7 +6,13 @@
 [bahmni-emr]
 192.168.33.11
 
+[bahmni-erp-db]
+192.168.33.11
+
 [bahmni-erp]
+192.168.33.11
+
+[bahmni-lab-db]
 192.168.33.11
 
 [bahmni-lab]
@@ -16,4 +22,6 @@
 bahmni-emr
 bahmni-emr-db
 bahmni-lab
+bahmni-lab-db
 bahmni-erp
+bahmni-erp-db

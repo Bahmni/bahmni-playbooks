@@ -14,6 +14,7 @@
     - { role: mysql }
   tags:
     - bahmni-emr-db
+    - bahmni-emr
 
 - hosts: bahmni-emr
   sudo: yes
@@ -30,12 +31,28 @@
   tags:
     - config
 
+- hosts: bahmni-erp-db
+  sudo: yes
+  roles:
+    - { role: postgres, postgres_user: openerp }
+  tags:
+    - bahmni-erp-db
+    - bahmni-erp
+
 - hosts: bahmni-erp
   sudo: yes
   roles:
     - { role: bahmni-erp }
   tags:
     - bahmni-erp
+
+- hosts: bahmni-lab-db
+  sudo: yes
+  roles:
+    - { role: postgres, postgres_user: clinlims }
+  tags:
+    - bahmni-lab-db
+    - bahmni-lab
 
 - hosts: bahmni-lab
   sudo: yes

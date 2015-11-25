@@ -1,0 +1,42 @@
+- name: Install python-psycopg2
+  yum: name=python-psycopg2 state=present
+
+- name: Install postgresql yum repository
+  yum: name="{{ postgres_yum_repo }}" state=present
+
+- name: Install postgresql
+  yum: name="postgresql92-server" state=present
+
+- name: Initiate database
+  command: service postgresql-9.2 initdb creates=/var/lib/pgsql/data/postgresql.conf
+
+- name: Stop PostgreSQL
+  service:
+    name=postgresql-9.2
+    state=stopped
+
+- name: Copy postgresql conf
+  template:
+    src=postgresql.conf.j2
+    dest=/var/lib/pgsql/9.2/data/postgresql.conf
+    owner=postgres
+    group=postgres
+    mode=644
+
+- name: Copy pg_hba conf
+  template:
+    src=pg_hba.conf.j2
+    dest=/var/lib/pgsql/9.2/data/pg_hba.conf
+    owner=postgres
+    group=postgres
+    mode=644
+                                        
+- name: Start PostgreSQL and enable at boot
+  service:
+    name=postgresql-9.2
+    enabled=yes
+    state=started
+
+- name: Create postgres user
+  postgresql_user: name={{ postgres_user }} role_attr_flags=CREATEDB,NOCREATEROLE,NOSUPERUSER
+  sudo_user: postgres

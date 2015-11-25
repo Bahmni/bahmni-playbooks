@@ -1,25 +1,3 @@
-- name: Install python-psycopg2
-  yum: name=python-psycopg2 state=present
-
-- name: Install postgresql yum repository
-  yum: name="{{ postgres_yum_repo }}" state=present
-
-- name: Install postgresql
-  yum: name="postgresql92-server" state=present
-
-- name: Initiate database
-  command: service postgresql-9.2 initdb creates=/var/lib/pgsql/data/postgresql.conf
-
-- name: Start PostgreSQL and enable at boot
-  service:
-    name=postgresql-9.2
-    enabled=yes
-    state=started
-
-- name: Create openerp user
-  postgresql_user: name=openerp role_attr_flags=CREATEDB,NOCREATEROLE,NOSUPERUSER
-  sudo_user: postgres
-
 - name: Install python-gdata
   yum: name="{{ python_gdata_rpm_location }}" state=present
   
