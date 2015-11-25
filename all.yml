@@ -3,6 +3,7 @@
   roles:
     - { role: bahmni-base }
     - { role: bahmni-user }
+    - { role: bahmni-support-user }
     - { role: selinux, selinux_state: permissive, selinux_policy: targeted }
   tags:
     - setup

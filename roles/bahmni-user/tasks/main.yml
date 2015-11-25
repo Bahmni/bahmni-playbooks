@@ -5,5 +5,5 @@
   sudo: yes
 
 - name: Create user
-  user: name={{ bahmni_user }} group={{ bahmni_group }} generate_ssh_key=yes ssh_key_bits=2048 state=present
+  user: name={{ bahmni_user }} group={{ bahmni_group }}  state=present
   sudo: yes

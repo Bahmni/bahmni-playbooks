@@ -1,0 +1,32 @@
+- name: Create bahmni_support group
+  user:
+    name={{ bahmni_support_group }}
+    state=present
+  sudo: yes
+
+- name: Create bahmni_support user
+  user:
+   name={{ bahmni_support_user }}
+   group={{ bahmni_support_group }}
+   generate_ssh_key=yes
+   ssh_key_bits=2048
+   password={{bahmni_password_hash}}
+   state=present
+  sudo: yes
+
+- name: configure sudoers
+  lineinfile: "dest=/etc/sudoers state=present backup=yes regexp='^bahmni_support' insertafter='^# %bahmni_support' line='bahmni_support ALL=(ALL) NOPASSWD: ALL' validate='visudo -cf %s'"
+  sudo: yes
+
+- name: allow bahmni_support ssh access
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    backrefs=yes
+    backup=yes
+    regexp='(^AllowGroups+\s)([\w\- ]+)(?<![bahmni_support])'
+    line='\1\2 bahmni_support'
+  tags:
+    - sshd
+
+- name: reload sshd
+  service: name=sshd state=reloaded
