@@ -1,6 +1,5 @@
 python_gdata_rpm_location: https://bahmni-repo.twhosted.com/packages/bahmni/python-gdata-2.0.11-1.el6.noarch.rpm
-erp_connect_version: 0.78-5134
-erp_version: 0.78-5134
+erp_version: 0.78-846
 
 openerp_db_username: openerp
 openerp_db_password: openerp

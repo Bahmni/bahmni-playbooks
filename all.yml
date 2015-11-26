@@ -46,6 +46,13 @@
   tags:
     - bahmni-erp
 
+- hosts: bahmni-emr
+  sudo: yes
+  roles:
+    - { role: bahmni-erp-connect }
+  tags:
+    - bahmni-erp-connect
+
 - hosts: bahmni-lab-db:bahmni-lab-db-slave
   sudo: yes
   roles:
@@ -60,4 +67,12 @@
     - { role: bahmni-lab }
   tags:
     - bahmni-lab
+
+
+- hosts: bahmni-emr
+  sudo: yes
+  roles:
+    - { role: bahmni-lab-connect }
+  tags:
+    - bahmni-lab-connect
 

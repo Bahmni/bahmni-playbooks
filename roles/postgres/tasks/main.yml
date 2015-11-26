@@ -7,6 +7,8 @@
 - name: Install postgresql
   yum: name="postgresql92-server" state=present
 
+- name: Install postgresql-contrib
+  yum: name="postgresql92-contrib" state=present
 
 - name: Stop PostgreSQL
   service:
@@ -14,6 +16,9 @@
     state=stopped
   ignore_errors: true
 
+- name: Initiate database
+  command: service postgresql-9.2 initdb creates=/var/lib/pgsql/data/postgresql.conf
+                       
 - name: Copy postgresql conf
   template:
     src=postgresql.conf.j2
@@ -29,10 +34,19 @@
     owner=postgres
     group=postgres
     mode=644
+                 
+- name: Get IpTable rules
+  shell: iptables -nL INPUT
+  register: iptablesrules
 
-- name: Initiate database
-  command: service postgresql-9.2 initdb creates=/var/lib/pgsql/data/postgresql.conf
-                                        
+- name: Allow postgres port through firewall
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport  5432 -j ACCEPT -m comment --comment "POSTGRES"
+  when: iptablesrules.stdout.find("POSTGRES") == -1
+
+- name: save iptables
+  command: service iptables save
+
+
 - name: Start PostgreSQL and enable at boot
   service:
     name=postgresql-9.2
@@ -40,5 +54,5 @@
     state=started
 
 - name: Create postgres user
-  postgresql_user: name={{ postgres_user }} role_attr_flags=CREATEDB,NOCREATEROLE,NOSUPERUSER,REPLICATION
+  postgresql_user: name={{ postgres_user }} role_attr_flags=CREATEDB,NOCREATEROLE,SUPERUSER,REPLICATION
   sudo_user: postgres

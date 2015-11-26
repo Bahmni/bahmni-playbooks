@@ -1,0 +1,11 @@
+- name: Stop openmrs and bahmni-emr
+  service: name=openmrs state=stopped
+
+- name: Install bahmni-lab-connect from bahmni-repo
+  yum: name="bahmni-lab-connect-{{ bahmni_lab_connect_version }}" state=present
+
+- name: change modules owner
+  command: chown -Rh bahmni:bahmni /home/bahmni/.OpenMRS/modules
+
+- name: Start openmrs and bahmni-emr
+  service: name=openmrs state=started
