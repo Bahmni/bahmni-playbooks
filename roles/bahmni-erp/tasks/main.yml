@@ -4,12 +4,26 @@
 - name: Install openerp-connect from bahmni-repo
   yum: name="bahmni-erp-connect-{{ erp_connect_version }}" state=present
 
+- name: Copy bahmni-erp-connect configuration
+  template:
+    src=bahmni-erp-connect.conf.j2
+    dest=/opt/bahmni-erp-connect/etc/bahmni-erp-connect.conf
+    owner=bahmni
+    group=bahmni
+    mode=0644
+
 - name: Install openerp from bahmni-repo
   yum: name="bahmni-erp-{{ erp_version }}" state=present
 
 - name: Start Openerp and enable at boot
   service:
     name=openerp
+    enabled=yes
+    state=started
+
+- name: Start bahmni-openerp-connect and enable at boot
+  service:
+    name=bahmni-erp-connect
     enabled=yes
     state=started
 

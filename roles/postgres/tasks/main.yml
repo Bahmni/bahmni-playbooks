@@ -40,5 +40,5 @@
     state=started
 
 - name: Create postgres user
-  postgresql_user: name={{ postgres_user }} role_attr_flags=CREATEDB,NOCREATEROLE,NOSUPERUSER
+  postgresql_user: name={{ postgres_user }} role_attr_flags=CREATEDB,NOCREATEROLE,NOSUPERUSER,REPLICATION
   sudo_user: postgres

@@ -82,13 +82,13 @@ local   all             all                                     	trust
 host    all             all             127.0.0.1/32            	trust
 
 {% for host in groups['bahmni-erp'] %}
-host    openerp             openerp             {{ host not in [False, 'localhost', '127.0.0.1'] and hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
+host     all            openerp             {{ host not in [False, 'localhost', '127.0.0.1'] and hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
 {% endfor %}
 {% for host in groups['bahmni-erp-db'] %}
-host    openerp             openerp             {{ host not in [False, 'localhost', '127.0.0.1'] and hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
+host    all             openerp             {{ host not in [False, 'localhost', '127.0.0.1'] and hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
 {% endfor %}
 {% for host in groups['bahmni-erp-db-slave'] %}
-host    openerp             openerp             {{ host not in [False, 'localhost', '127.0.0.1'] and hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
+host    all             openerp             {{ host not in [False, 'localhost', '127.0.0.1'] and hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
 {% endfor %}
 {% for host in groups['bahmni-lab'] %}
 host    clinlims             clinlims             {{ host not in [False, 'localhost', '127.0.0.1'] and hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
