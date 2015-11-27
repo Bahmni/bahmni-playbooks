@@ -1,0 +1,37 @@
+- name: Install bahmni-reports from bahmni-repo
+  yum: name="bahmni-reports-{{ bahmni_reports_version }}" state=present
+
+- name: Copy bahmni-reports config
+  template:
+    src=bahmni-reports.conf.j2
+    dest=/opt/bahmni-reports/etc/bahmni-reports.conf
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+- name: Copy bahmni-reports properties
+  template:
+    src=bahmni-reports.properties.j2
+    dest=/opt/bahmni-reports/etc/bahmni-reports.properties
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+- name: Get IpTable rules
+  shell: iptables -nL INPUT
+  register: iptablesrules
+
+- name: Allow bahmni-lab port through firewall
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ bahmni_reports_port }} -j ACCEPT -m comment --comment "BAHMNIREPORTS"
+  when: iptablesrules.stdout.find("BAHMNIREPORTS") == -1
+
+- name: save iptables
+  command: service iptables save
+
+
+- name: Start bahmni-reports and enable at boot
+  service:
+    name=bahmni-reports
+    enabled=yes
+    state=started
+

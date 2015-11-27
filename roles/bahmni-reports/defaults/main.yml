@@ -1,0 +1,4 @@
+bahmni_reports_port: 8083
+bahmni_reports_version: 0.78-481
+openmrs_db_server: localhost
+openelis_db_server: localhost

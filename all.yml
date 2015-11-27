@@ -76,3 +76,10 @@
   tags:
     - bahmni-lab-connect
 
+- hosts: bahmni-reports
+  sudo: yes
+  roles:
+    - { role: bahmni-reports }
+  tags:
+    - bahmni-reports
+
