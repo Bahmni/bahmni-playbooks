@@ -38,3 +38,14 @@ openmrs_lab_user_id: admin
 openmrs_lab_user_password : test
 
 bahmni_reports_port: 8083
+
+master_server_id: 1
+slave_server_id: 2
+max_binlog_size: 100M
+expire_logs_days: 90
+log_bin_file_name: mysql-bin
+log_bin_index_file_name: mysql-bin.index
+innodb_flush_log_at_trx_commit: 1
+sync_binlog: 1
+relay_log_file_name: relay-bin
+relay_log_index_file_name: relay-bin.index

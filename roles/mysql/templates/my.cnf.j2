@@ -18,17 +18,17 @@ collation-server=utf8_general_ci
 # For replication
 {% if (inventory_hostname == groups['bahmni-emr-db'][0]) %}
 server-id = {{ master_server_id }}
-log_bin = mysql-bin
-log-bin-index = mysql-bin.index
-expire_logs_days = 90
-max_binlog_size = 100M
-innodb_flush_log_at_trx_commit = 1
-sync_binlog = 1
+log_bin = {{ log_bin_file_name }}
+log-bin-index = {{log_bin_index_file_name}}
+expire_logs_days = {{ expire_logs_days }}
+max_binlog_size = {{max_binlog_size}}
+innodb_flush_log_at_trx_commit = {{ innodb_flush_log_at_trx_commit}}
+sync_binlog = {{ sync_binlog }}
 {% endif %}
 
 {% if (groups['bahmni-emr-db-slave'] | default([]) | length  > 0 and inventory_hostname == groups['bahmni-emr-db-slave'][0]) %}
 server-id = {{ slave_server_id }}
 read_only
-relay-log = relay-bin
-relay-log-index = relay-bin.index
+relay-log = {{relay_log_file_name}}
+relay-log-index = {{relay_log_index_file_name}}
 {% endif %}
