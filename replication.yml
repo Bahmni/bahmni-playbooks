@@ -1,0 +1,13 @@
+- hosts: bahmni-emr-db
+  sudo: yes
+  roles:
+    - { role: mysql-replication }
+  tags:
+    - repl
+
+- hosts: bahmni-emr-db-slave
+  sudo: yes
+  roles:
+    - { role: mysql-replication }
+  tags:
+    - repl

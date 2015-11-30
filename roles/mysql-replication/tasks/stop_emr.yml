@@ -1,0 +1,27 @@
+#- name: Install pip
+#  yum: name=python-pip
+#  sudo: yes
+#
+#- name: Install httplib2
+#  pip: name=httplib2
+
+#- name: Check if openmrs is up
+#  uri: url=https://{{ groups['bahmni-emr'][0] }}/openmrs method=HEAD return_content=yes validate_certs=no timeout=30
+#  register: result
+#  until: "{{result['status'] == 200}}"
+#  retries: 3
+#  delay: 10
+#  tags: check_url
+
+- name: Stop openmrs server
+  service:
+    name: openmrs
+    state: stopped
+  delegate_to: "{{ groups['bahmni-emr'][0] }}"
+
+- name: Stop bahmni-reports service
+  service:
+    name: bahmni-reports
+    state: stopped
+  ignore_errors: true
+  delegate_to: "{{ groups['bahmni-emr'][0] }}"

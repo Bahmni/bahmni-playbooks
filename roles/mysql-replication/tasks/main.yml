@@ -1,0 +1,22 @@
+- name: Create /opt/mysql-replication directory
+  file:
+    path=/opt/mysql-replication
+    group={{bahmni_group}}
+    owner={{bahmni_user}}
+    mode=0755
+    state=directory
+    recurse=yes
+
+- include: stop_emr.yml
+  when: inventory_hostname == groups['bahmni-emr-db'][0]
+
+- include: master.yml
+  when: inventory_hostname == groups['bahmni-emr-db'][0]
+  tags: master
+
+- include: slave.yml
+  when: inventory_hostname == groups['bahmni-emr-db-slave'][0]
+  tags: slave
+
+- include: start_emr.yml
+  when: inventory_hostname == groups['bahmni-emr-db'][0]

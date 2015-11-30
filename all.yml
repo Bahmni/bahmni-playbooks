@@ -8,7 +8,7 @@
   tags:
     - setup
 
-- hosts: bahmni-emr-db
+- hosts: bahmni-emr-db:bahmni-emr-db-slave
   sudo: yes
   roles:
     - { role: mysql }

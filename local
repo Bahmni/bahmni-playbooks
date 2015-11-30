@@ -1,5 +1,7 @@
 192.168.33.11 ansible_ssh_user=vagrant  ansible_ssh_port=22 ansible_ssh_pass=vagrant
 
+[bahmni-emr-db-slave]
+
 [bahmni-emr-db]
 192.168.33.11
 
@@ -29,6 +31,7 @@
 [local:children]
 bahmni-emr
 bahmni-emr-db
+bahmni-emr-db-slave
 bahmni-lab
 bahmni-lab-db
 bahmni-lab-db-slave

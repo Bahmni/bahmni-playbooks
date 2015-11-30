@@ -1,3 +1,7 @@
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/lib/mysql/mysqld.pid
+
 [mysqld]
 datadir=/var/lib/mysql
 socket=/var/lib/mysql/mysql.sock
@@ -8,7 +12,23 @@ default-storage-engine=innodb
 character-set-server=utf8
 collation-server=utf8_general_ci
 pid-file=/var/lib/mysql/mysqld.pid
+character-set-server=utf8
+collation-server=utf8_general_ci
 
-[mysqld_safe]
-log-error=/var/log/mysqld.log
-pid-file=/var/lib/mysql/mysqld.pid
+# For replication
+{% if (inventory_hostname == groups['bahmni-emr-db'][0]) %}
+server-id = {{ master_server_id }}
+log_bin = mysql-bin
+log-bin-index = mysql-bin.index
+expire_logs_days = 90
+max_binlog_size = 100M
+innodb_flush_log_at_trx_commit = 1
+sync_binlog = 1
+{% endif %}
+
+{% if (groups['bahmni-emr-db-slave'] | default([]) | length  > 0 and inventory_hostname == groups['bahmni-emr-db-slave'][0]) %}
+server-id = {{ slave_server_id }}
+read_only
+relay-log = relay-bin
+relay-log-index = relay-bin.index
+{% endif %}
