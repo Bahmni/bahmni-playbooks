@@ -1,3 +1,12 @@
+- name: Copy mysql config
+  template:
+    src=common_templates/my.cnf.j2
+    dest=/etc/my.cnf
+    mode=755
+
+- name: Start Mysql Service
+  service: name=mysqld state=restarted enabled=true
+
 - name: Create /opt/mysql-replication directory
   file:
     path=/opt/mysql-replication
