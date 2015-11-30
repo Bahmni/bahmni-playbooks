@@ -1,5 +1,5 @@
 mysql_replication_username: replication-user
 mysql_replication_password: password
-mysql_user: root
+mysql_root_user: root
 mysql_root_password: password
 

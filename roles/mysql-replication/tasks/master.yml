@@ -4,12 +4,12 @@
     name: "{{ mysql_replication_username }}"
     password: "{{ mysql_replication_password }}"
     host: "{{ item }}"
-    login_user: "{{ mysql_user }}"
+    login_user: "{{ mysql_root_user }}"
     login_password: "{{ mysql_root_password }}"
     priv: "*.*:ALL,GRANT"
     state: present
   with_items: "{{ groups['bahmni-emr-db-slave'] }}"
 
 - name: Take mysql dump in /opt/mysql-replication directory of master server
-  command: mysqldump -u{{mysql_user}} -p{{mysql_root_password}} --routines --all-databases --result-file=/opt/mysql-replication/mysql_dump.sql
+  command: mysqldump -u{{mysql_root_user}} -p{{mysql_root_password}} --routines --all-databases --result-file=/opt/mysql-replication/mysql_dump.sql
   sudo: yes

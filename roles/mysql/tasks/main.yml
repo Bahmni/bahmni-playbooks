@@ -60,7 +60,7 @@
 - name: ensure anonymous users are not in the database
   mysql_user:
       name: ''
-      login_user: "{{mysql_user}}"
+      login_user: "{{mysql_root_user}}"
       login_password: "{{ mysql_root_password }}"
       state: absent
 

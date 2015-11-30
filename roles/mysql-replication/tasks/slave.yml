@@ -13,7 +13,7 @@
 - name: stop replication
   mysql_replication:
    mode: stopslave
-   login_user: "{{ mysql_user}}"
+   login_user: "{{ mysql_root_user}}"
    login_password: "{{ mysql_root_password }}"
   ignore_errors: true
 
@@ -23,7 +23,7 @@
 - name: get the current master server's replication status
   mysql_replication:
      mode: getmaster
-     login_user: "{{ mysql_user}}"
+     login_user: "{{ mysql_root_user}}"
      login_password: "{{ mysql_root_password }}"
   delegate_to: "{{ groups['bahmni-emr-db'][0] }}"
   register: repl_stat
@@ -34,7 +34,7 @@
     master_host: "{{ groups['bahmni-emr-db'][0] }}"
     master_user: "{{ mysql_replication_username }}"
     master_password: "{{ mysql_replication_password }}"
-    login_user: "{{ mysql_user }}"
+    login_user: "{{ mysql_root_user }}"
     login_password: "{{ mysql_root_password }}"
     master_log_file: "{{ repl_stat.File }}"
     master_log_pos: "{{ repl_stat.Position }}"
@@ -43,5 +43,5 @@
 - name: start replication
   mysql_replication:
    mode: startslave
-   login_user: "{{ mysql_user}}"
+   login_user: "{{ mysql_root_user}}"
    login_password: "{{ mysql_root_password }}"
