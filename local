@@ -25,7 +25,14 @@ localhost
 localhost
 
 [bahmni-reports]
-localhost
+
+192.168.33.11
+
+[bahmni-pacs]
+192.168.33.11
+
+[dcm4chee]
+192.168.33.11
 
 [local:children]
 bahmni-emr
@@ -38,3 +45,5 @@ bahmni-erp
 bahmni-erp-db
 bahmni-erp-db-slave
 bahmni-reports
+bahmni-pacs
+dcm4chee

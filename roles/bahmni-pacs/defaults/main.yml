@@ -1,0 +1,4 @@
+bahmni_pacs_port: 8084
+dchm4chee_port_conf: 11112
+oviyam2_port: 1025
+bahmni_pacs_version: 0.78-192

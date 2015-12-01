@@ -49,3 +49,7 @@ innodb_flush_log_at_trx_commit: 1
 sync_binlog: 1
 relay_log_file_name: relay-bin
 relay_log_index_file_name: relay-bin.index
+
+bahmni_pacs_port: 8084
+dchm4chee_port: 8001
+dchm4chee_port_conf: 11112

@@ -83,3 +83,17 @@
   tags:
     - bahmni-reports
 
+- hosts: bahmni-pacs
+  sudo: yes
+  roles:
+    - { role: bahmni-pacs }
+  tags:
+    - bahmni-pacs
+
+- hosts: dcm4chee
+  sudo: yes
+  roles:
+    - { role: dcm4chee }
+  tags:
+    - dcm4chee
+

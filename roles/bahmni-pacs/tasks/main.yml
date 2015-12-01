@@ -1,0 +1,41 @@
+- name: Install bahmni-pacs from bahmni-repo
+  yum: name="pacs-integration-{{ bahmni_pacs_version }}" state=present
+
+- name: Copy bahmni-pacs config
+  template:
+    src=bahmni-pacs.conf.j2
+    dest=/opt/bahmni-pacs/etc/bahmni-pacs.conf
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+- name: Copy oviyam2-1 config
+  template:
+    src=oviyam2-1-config.xml.j2
+    dest=/opt/bahmni-pacs/etc/oviyam2-1-config.xml
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+- name: Get IpTable rules
+  shell: iptables -nL INPUT
+  register: iptablesrules
+
+- name: Allow bahmni-pacs port through firewall
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ bahmni_pacs_port }} -j ACCEPT -m comment --comment "BAHMNIPACS"
+  when: iptablesrules.stdout.find("BAHMNIPACS") == -1
+
+- name: save iptables
+  command: service iptables save
+
+- name: Start bahmni-pacs and enable at boot
+  service:
+    name=bahmni-pacs
+    enabled=yes
+    state=started
+
+
+
+
+
+
