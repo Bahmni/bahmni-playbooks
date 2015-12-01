@@ -31,7 +31,7 @@
 
 - name: Copy mysql config
   template:
-    src=common_templates/my.cnf.j2
+    src=templates/my.cnf.j2
     dest=/etc/my.cnf
     mode=755
 

@@ -1,0 +1,1 @@
+ansible-playbook --syntax-check *.yml -i local

@@ -1,31 +1,33 @@
-localhost ansible_connection=local
+192.168.33.11 ansible_ssh_user=vagrant  ansible_ssh_port=22 ansible_ssh_pass=vagrant
+192.168.33.12 ansible_ssh_user=vagrant  ansible_ssh_port=22 ansible_ssh_pass=vagrant
 
 [bahmni-emr-db-slave]
+192.168.33.12
 
 [bahmni-emr-db]
-localhost
+192.168.33.11
 
 [bahmni-emr]
-localhost
+192.168.33.11
 
 [bahmni-erp-db]
-localhost
+192.168.33.11
 
 [bahmni-erp-db-slave]
 
 [bahmni-erp]
-localhost
+192.168.33.11
 
 [bahmni-lab-db]
-localhost
+192.168.33.11
 
 [bahmni-lab-db-slave]
 
 [bahmni-lab]
-localhost
+192.168.33.11
 
 [bahmni-reports]
-localhost
+192.168.33.11
 
 [local:children]
 bahmni-emr
