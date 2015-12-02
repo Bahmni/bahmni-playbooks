@@ -25,14 +25,13 @@ localhost
 localhost
 
 [bahmni-reports]
-
-192.168.33.11
+localhost
 
 [bahmni-pacs]
-192.168.33.11
+localhost
 
 [dcm4chee]
-192.168.33.11
+localhost
 
 [local:children]
 bahmni-emr
