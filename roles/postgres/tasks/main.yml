@@ -46,7 +46,6 @@
 - name: save iptables
   command: service iptables save
 
-
 - name: Start PostgreSQL and enable at boot
   service:
     name=postgresql-9.2

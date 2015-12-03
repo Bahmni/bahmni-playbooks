@@ -1,7 +1,10 @@
 ---
+- name: add bahmni yum repo
+  template: src=bahmni.repo.j2 dest=/etc/yum.repos.d/bahmni.repo
+
 - name: Install EPEL repo.
   yum:
-    name: "{{ epel_repo_url }}"
+    name: "epel-release"
     state: present
 
 - name: Import EPEL GPG key.
@@ -32,5 +35,3 @@
     - lsof
   tags: utils
 
-- name: add bahmni yum repo
-  template: src=bahmni.repo.j2 dest=/etc/yum.repos.d/bahmni.repo
