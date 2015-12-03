@@ -3,7 +3,7 @@
   
 
 - name: Install openerp from bahmni-repo
-  yum: name="bahmni-erp-{{ erp_version }}" state=present
+  yum: name="bahmni-erp-{{ bahmni_erp_version }}" state=present
 
 - name: Get IpTable rules
   shell: iptables -nL INPUT

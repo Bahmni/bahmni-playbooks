@@ -14,7 +14,7 @@
   command: service iptables save
 
 - name: Install bahmni-web from bahmni repo
-  yum: name="bahmni-web-{{ emr_version }}" state=present
+  yum: name="bahmni-web-{{ bahmni_emr_version }}" state=present
 
 - name: Start httpd
   service: name=httpd state=restarted enabled=yes

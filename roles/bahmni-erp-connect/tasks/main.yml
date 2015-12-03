@@ -1,5 +1,5 @@
 - name: Install openerp-connect from bahmni-repo
-  yum: name="bahmni-erp-connect-{{ erp_connect_version }}" state=present
+  yum: name="bahmni-erp-connect-{{ bahmni_erp_connect_version }}" state=present
 
 - name: Copy bahmni-erp-connect configuration
   template:

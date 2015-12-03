@@ -54,10 +54,10 @@ dchm4chee_port_conf: 11112
 
 bahmni_repo_url: https://bahmni-repo.twhosted.com/packages/bahmni/
 
-emr_version: 0.78
+bahmni_emr_version: 0.78
 openmrs_version: 1.12.0
-erp_version: 0.78-864
-erp_connect_version: 0.78-864
+bahmni_erp_version: 0.78-864
+bahmni_erp_connect_version: 0.78-864
 bahmni_lab_version: 0.78-815
 bahmni_lab_connect_version: 0.78-5301
 bahmni_pacs_version: 0.78-196

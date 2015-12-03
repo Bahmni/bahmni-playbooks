@@ -7,7 +7,7 @@
   yum: name="openmrs-{{ openmrs_version }}" state=present
 
 - name: Install bahmni-emr from bahmni-repo
-  yum: name="bahmni-emr-{{ emr_version }}" state=present
+  yum: name="bahmni-emr-{{ bahmni_emr_version }}" state=present
 
 - name: Copy openmrs conf
   template:
