@@ -24,8 +24,6 @@ openmrs_db_password: password
 openmrs_snapshots_tmp_dir: /tmp/openmrs-snapshots
 openmrs_application_data_directory: /opt/openmrs
 openmrs_module_allow_web_admin: "true"
-emr_version: 0.78
-openmrs_version: 1.12.0
 
 openelis_db_username: clinlims
 openelis_db_password: password
@@ -55,3 +53,14 @@ dchm4chee_port: 8001
 dchm4chee_port_conf: 11112
 
 bahmni_repo_url: https://bahmni-repo.twhosted.com/packages/bahmni/
+
+emr_version: 0.78
+openmrs_version: 1.12.0
+erp_version: 0.78-864
+erp_connect_version: 0.78-864
+bahmni_lab_version: 0.78-815
+bahmni_lab_connect_version: 0.78-5301
+bahmni_pacs_version: 0.78-196
+bahmni_reports_version: 0.78-498
+dcm4chee_version: 0.78-196
+
