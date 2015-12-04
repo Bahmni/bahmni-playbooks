@@ -57,19 +57,9 @@ dchm4chee_conf_port: 11112
 oviyam2_listener_port: 1025
 oviyam2_port: 8085
 
-bahmni_repo_url: https://bahmni-repo.twhosted.com/packages/bahmni-release/
-
-bahmni_emr_version: 0.78-5126
-openmrs_version: 1.11.4
-bahmni_erp_version: 0.78-5126
-bahmni_erp_connect_version: 0.78-5126
-bahmni_lab_version: 0.78-5126
-bahmni_lab_connect_version: 0.78-5126
-bahmni_pacs_version: 0.78-5126
-bahmni_reports_version: 0.78-5126
-dcm4chee_version: 0.78-5126
 
 go_server_port: 8153
 
 patient_document_max_age: 86400
 apps_max_age: 1
+bahmni_repo_url: https://bahmni-repo.twhosted.com/packages/bahmni-release/
