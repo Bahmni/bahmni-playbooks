@@ -15,6 +15,7 @@
 
 [bahmni-erp]
 192.168.33.11
+192.168.33.12
 
 [bahmni-lab-db]
 192.168.33.11
@@ -25,6 +26,12 @@
 192.168.33.11
 
 [bahmni-reports]
+192.168.33.11
+
+[bahmni-pacs]
+192.168.33.11
+
+[dcm4chee]
 192.168.33.11
 
 [local:children]
@@ -38,3 +45,5 @@ bahmni-erp
 bahmni-erp-db
 bahmni-erp-db-slave
 bahmni-reports
+bahmni-pacs
+dcm4chee

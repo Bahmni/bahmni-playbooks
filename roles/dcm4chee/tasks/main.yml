@@ -2,14 +2,16 @@
 - name: Install dcm4chee from bahmni-repo
   yum: name="dcm4chee-{{ dcm4chee_version }}" state=latest
 
-- name: Get IpTable rules
-  shell: iptables -nL INPUT
-  register: iptablesrules
+- name: Get matched IpTable rule
+  shell: iptables -nL --line-numbers | grep DCM4CHEE  -m 1 | cut -c 1-2
+  register: matchedRule
+
+- name: delete matching rule if exists
+  shell: iptables -D INPUT {{ matchedRule.stdout }}
+  when: matchedRule.stdout!=""
 
 - name: Allow dcm4chee port through firewall
-  command: /sbin/iptables -R INPUT 1 -p tcp --dport  {{ dchm4chee_port }} -j ACCEPT -m comment --comment "DCM4CHEE"
-  when: iptablesrules.stdout.find("DCM4CHEE") == -1
-
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ dchm4chee_port }} -j ACCEPT -m comment --comment "DCM4CHEE"
 
 - name: save iptables
   command: service iptables save

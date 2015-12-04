@@ -18,7 +18,7 @@
 
 - name: Initiate database
   command: service postgresql-9.2 initdb creates=/var/lib/pgsql/data/postgresql.conf
-                       
+
 - name: Copy postgresql conf
   template:
     src=postgresql.conf.j2
@@ -35,13 +35,16 @@
     group=postgres
     mode=644
                  
-- name: Get IpTable rules
-  shell: iptables -nL INPUT
-  register: iptablesrules
+- name: Get matched IpTable rule
+  shell: iptables -nL --line-numbers | grep POSTGRES  -m 1 | cut -c 1-2
+  register: matchedRule
+
+- name: delete matching rule if exists
+  shell: iptables -D INPUT {{ matchedRule.stdout }}
+  when: matchedRule.stdout!=""
 
 - name: Allow postgres port through firewall
   command: /sbin/iptables -I INPUT 1 -p tcp --dport  5432 -j ACCEPT -m comment --comment "POSTGRES"
-  when: iptablesrules.stdout.find("POSTGRES") == -1
 
 - name: save iptables
   command: service iptables save
