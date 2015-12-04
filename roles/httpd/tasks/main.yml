@@ -1,0 +1,13 @@
+
+- name: copy ssl conf file
+  template:
+      src=ssl.conf.j2
+      dest=/etc/httpd/conf.d/ssl.conf
+      mode=644
+      owner={{ bahmni_user }}
+      group={{ bahmni_group }}
+
+- name: Start httpd
+  service: name=httpd state=restarted enabled=yes
+  tags: run_bahmni_web
+

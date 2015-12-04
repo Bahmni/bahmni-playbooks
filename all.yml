@@ -22,6 +22,7 @@
   roles:
     - { role: bahmni-emr }
     - { role: bahmni-web }
+    - { role: httpd }
   tags:
     - bahmni-emr
 

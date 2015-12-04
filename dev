@@ -34,7 +34,10 @@
 [dcm4chee]
 192.168.33.11
 
-[local:children]
+[httpd]
+192.168.33.11
+
+[dev:children]
 bahmni-emr
 bahmni-emr-db
 bahmni-emr-db-slave
@@ -47,3 +50,4 @@ bahmni-erp-db-slave
 bahmni-reports
 bahmni-pacs
 dcm4chee
+httpd

@@ -38,7 +38,7 @@
             <logicalname>dcm4chee</logicalname>
             <aetitle>DCM4CHEE</aetitle>
             <hostname>localhost</hostname>
-            <port>{{ dchm4chee_port_conf }}</port>
+            <port>{{ dchm4chee_conf_port }}</port>
             <retrieve>C-GET</retrieve>
             <wadocontext></wadocontext>
             <wadoport></wadoport>
@@ -47,7 +47,7 @@
     </servers>
     <listener>
         <aetitle>OVIYAM2</aetitle>
-        <port>{{ oviyam2_port }}</port>
+        <port>{{ oviyam2_listener_port }}</port>
     </listener>
     <languages class="java.util.ArrayList">
         <language>

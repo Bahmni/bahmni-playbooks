@@ -33,6 +33,9 @@ localhost
 [dcm4chee]
 localhost
 
+[httpd]
+localhost
+
 [local:children]
 bahmni-emr
 bahmni-emr-db
@@ -46,3 +49,4 @@ bahmni-erp-db-slave
 bahmni-reports
 bahmni-pacs
 dcm4chee
+httpd
