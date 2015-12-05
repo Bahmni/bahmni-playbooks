@@ -1,5 +1,5 @@
 - name: Install bahmni-pacs from bahmni-repo
-  yum: name="pacs-integration-{{ bahmni_pacs_version }}" state=present
+  yum: name="pacs-integration-{{ pacs_integration_version }}" state=present
 
 - name: Copy bahmni-pacs config
   template:

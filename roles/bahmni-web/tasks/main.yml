@@ -27,4 +27,4 @@
   command: service iptables save
 
 - name: Install bahmni-web from bahmni repo
-  yum: name="bahmni-web-{{ bahmni_emr_version }}" state=present
+  yum: name="bahmni-web-{{ bahmni_web_version }}" state=present
