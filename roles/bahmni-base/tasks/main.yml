@@ -33,5 +33,6 @@
     - tree
     - htop
     - lsof
+    - wget
   tags: utils
 
