@@ -1,5 +1,3 @@
-bahmni_emr_version: 0.78-5226
-openmrs_version: 1.11.4
 openmrs_port: 8081
 openmrs_modules_dir: /home/bahmni/.OpenMRS/modules
 openmrs_context_path: openmrs
