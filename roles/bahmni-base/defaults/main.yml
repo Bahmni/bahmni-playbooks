@@ -9,4 +9,4 @@ epel_repo_url: "http://download.fedoraproject.org/pub/epel/{{ ansible_distributi
 epel_repo_gpg_key_url: "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
 
 bahmni_ntp_timezone: Asia/Kolkata
-bahmni_repo_url: https://bahmni-repo.twhosted.com/packages/bahmni-release/
+bahmni_repo_url: https://bahmni-repo.twhosted.com/rpm/bahmni-release/
