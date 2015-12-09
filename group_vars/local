@@ -32,8 +32,9 @@ openerp_db_username: openerp
 openerp_db_password: password
 openerp_port: 8069
 
-openmrs_lab_user_id: admin
-openmrs_lab_user_password : test
+openmrs_user_id: admin
+openmrs_user_password : test
+openmrs_dbname: openmrs
 bahmni_lab_port: 8081
 
 bahmni_reports_port: 8083

@@ -11,17 +11,17 @@ feed.maxFailedEvents=10000
 feed.failedEventMaxRetry=10
 
 #OpenElis specific properties
-openerp.labtest.feed.uri=http://localhost:8080/openerp-atomfeed-service/feed/product/recent
+openerp.labtest.feed.uri=http://localhost:{{ openmrs_port }}/openerp-atomfeed-service/feed/product/recent
 openerp.connectionTimeoutInMilliseconds=10000
 openerp.replyTimeoutInMilliseconds=20000
 
 #OpenMRS data specific properties
-openmrs.auth.uri=http://localhost:8080/openmrs/ws/rest/v1/session
-openmrs.patient.feed.uri=http://localhost:8080/openmrs/ws/atomfeed/patient/recent
-openmrs.encounter.feed.uri=http://localhost:8080/openmrs/ws/atomfeed/encounter/recent
-openmrs.lab.feed.uri=http://localhost:8080/openmrs/ws/atomfeed/lab/recent
-openmrs.user={{ openmrs_lab_user_id }}
-openmrs.password={{ openmrs_lab_user_password }}
+openmrs.auth.uri=http://localhost:{{ openmrs_port }}/openmrs/ws/rest/v1/session
+openmrs.patient.feed.uri=http://localhost:{{ openmrs_port }}/openmrs/ws/atomfeed/patient/recent
+openmrs.encounter.feed.uri=http://localhost:{{ openmrs_port }}/openmrs/ws/atomfeed/encounter/recent
+openmrs.lab.feed.uri=http://localhost:{{ openmrs_port }}/openmrs/ws/atomfeed/lab/recent
+openmrs.user={{ openmrs_user_id }}
+openmrs.password={{ openmrs_user_password }}
 openmrs.connectionTimeoutInMilliseconds=10000
 openmrs.replyTimeoutInMilliseconds=20000
 productType.labTest=Test
@@ -30,6 +30,6 @@ productType.panel=Panel
 
 #Reference data specific properties
 
-reference.data.feed.uri=http://localhost:8080/reference-data/ws/feed/recent
+reference.data.feed.uri=http://localhost:{{ openmrs_port }}/reference-data/ws/feed/recent
 reference.data.connectionTimeoutInMilliseconds=10000
 reference.data.replyTimeoutInMilliseconds=20000

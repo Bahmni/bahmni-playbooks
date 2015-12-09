@@ -17,6 +17,14 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
+- name: Copy atomfeed properties
+  template:
+    src=atomfeed.properties.j2
+    dest=/opt/bahmni-pacs/pacs-integration/WEB-INF/classes/atomfeed.properties
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep BAHMNIPACS  -m 1 | cut -c 1-2
   register: matchedRule

@@ -1,3 +1,5 @@
 bahmni_pacs_port: 8084
 dchm4chee_conf_port: 11112
-oviyam2_listener_portt: 1025
+oviyam2_listener_port: 1025
+openmrs_user_id: admin
+openmrs_user_password : test

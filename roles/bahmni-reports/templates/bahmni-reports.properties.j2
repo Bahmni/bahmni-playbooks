@@ -7,9 +7,9 @@ openmrs.username= {{ openmrs_db_username }}
 openmrs.password= {{ openmrs_db_password }}
 
 config.file.path=/var/www/bahmni_config/openmrs/apps/reports/reports.json
-openmrs.service.rootUrl=http://{{ openmrs_db_server }}:8080/openmrs/ws/rest/v1
-openmrs.service.user=admin
-openmrs.service.password=test
+openmrs.service.rootUrl=http://{{ openmrs_db_server }}:{{ openmrs_port }}/openmrs/ws/rest/v1
+openmrs.service.user={{ openmrs_user_id }}
+openmrs.service.password={{ openmrs_user_password }}
 openmrs.connectionTimeoutInMilliseconds=30000
 openmrs.replyTimeoutInMilliseconds=120000
 macrotemplates.temp.directory=/tmp/

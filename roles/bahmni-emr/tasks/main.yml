@@ -47,6 +47,27 @@
 - name: save iptables
   command: service iptables save
 
+- name: Retrieve salt from users
+  command: >
+    mysql --user={{ mysql_root_user }} --password={{ mysql_root_password }} {{ openmrs_dbname }}
+    --host=localhost --batch --skip-column-names
+    --execute="SELECT salt from users where username='{{ openmrs_user_id }}' or system_id='{{ openmrs_user_id }}';"
+  register: salt
+  always_run: True
+  changed_when: False
+
+- name: Encrypt password
+  command: python -c "import hashlib; print(hashlib.sha512(('{{ openmrs_user_password }}'+'{{ salt.stdout }}').encode()).hexdigest())"
+  register: hashedPassword
+
+- name: Update password in DB
+  command: >
+      mysql --user={{mysql_root_user}} --password={{mysql_root_password}} {{ openmrs_dbname }}
+      --host=localhost --batch --skip-column-names
+      --execute="UPDATE users set password='{{ hashedPassword.stdout }}' where username='{{ openmrs_user_id }}' or system_id='{{ openmrs_user_id }}';"
+  always_run: True
+  changed_when: False
+
 - name: Start openmrs
   service: name=openmrs state=restarted enabled=yes
   tags: run_openmrs
