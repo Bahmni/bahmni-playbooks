@@ -60,7 +60,7 @@ go_server_port: 8153
 
 patient_document_max_age: 86400
 apps_max_age: 1
-bahmni_repo_url: https://bahmni-repo.twhosted.com/rpm/bahmni-release/
 omods:
     - bacteriology.omod
     - test.omod
+bahmni_repo_url: https://bintray.com/bahmni/rpm
