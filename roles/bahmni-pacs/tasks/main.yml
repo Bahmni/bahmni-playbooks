@@ -39,11 +39,17 @@
 - name: save iptables
   command: service iptables save
 
+- name: Switch off chkconfig for bahmni-pacs on passive
+  service: name=bahmni-pacs state=stopped enabled=no
+  when: passive == 'yes'
+
 - name: Start bahmni-pacs and enable at boot
   service:
     name=bahmni-pacs
     enabled=yes
     state=started
+  when: passive != 'yes'
+
 
 
 

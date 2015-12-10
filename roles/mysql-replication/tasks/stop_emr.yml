@@ -17,11 +17,16 @@
   service:
     name: openmrs
     state: stopped
-  delegate_to: "{{ groups['bahmni-emr'][0] }}"
+    delegate_to: "{{ item }}"
+    with_items: "{{ groups['bahmni-emr'] }}"
+  when: item.passive != 'yes'
 
 - name: Stop bahmni-reports service
   service:
     name: bahmni-reports
     state: stopped
+    delegate_to: "{{ item }}"
+    with_items: "{{ groups['bahmni-reports'] }}"
+  when: item.passive != 'yes'
   ignore_errors: true
-  delegate_to: "{{ groups['bahmni-emr'][0] }}"
+

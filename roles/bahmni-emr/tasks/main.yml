@@ -68,6 +68,10 @@
   always_run: True
   changed_when: False
 
+- name: Switch off checkconfig for openmrs on passive
+  service: name=openmrs state=stopped enabled=no
+  when: passive == 'yes'
+
 - name: Start openmrs
   service: name=openmrs state=restarted enabled=yes
-  tags: run_openmrs
+  when: passive != 'yes'

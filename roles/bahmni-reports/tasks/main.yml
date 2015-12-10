@@ -31,9 +31,15 @@
 - name: save iptables
   command: service iptables save
 
+- name: Switch off chkconfig for bahmni-reports on passive
+  service: name=bahmni-reports state=stopped enabled=no
+  when: passive == 'yes'
+
 - name: Start bahmni-reports and enable at boot
   service:
     name=bahmni-reports
     enabled=yes
     state=started
+  when: passive != 'yes'
+
 

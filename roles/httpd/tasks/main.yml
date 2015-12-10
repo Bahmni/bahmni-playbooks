@@ -7,7 +7,13 @@
       owner={{ bahmni_user }}
       group={{ bahmni_group }}
 
+- name: Switch off chkconfig for httpd on passive
+  service: name=httpd state=stopped enabled=no
+  when: passive == 'yes'
+
 - name: Start httpd
   service: name=httpd state=restarted enabled=yes
   tags: run_bahmni_web
+  when: passive != 'yes'
+
 

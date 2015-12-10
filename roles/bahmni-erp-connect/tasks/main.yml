@@ -9,8 +9,13 @@
     group=bahmni
     mode=0644
 
+- name: Switch off chkconfig for bahmni-openerp-connect on passive
+  service: name=bahmni-erp-connect state=stopped enabled=no
+  when: passive == 'yes'
+
 - name: Start bahmni-openerp-connect and enable at boot
   service:
     name=bahmni-erp-connect
     enabled=yes
     state=started
+  when: passive != 'yes'

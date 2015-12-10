@@ -9,3 +9,4 @@
 
 - name: Start openmrs and bahmni-emr
   service: name=openmrs state=started
+  when: passive != 'yes'

@@ -18,10 +18,15 @@
 - name: save iptables
   command: service iptables save
 
+- name: Switch off chkconfig for Openerp on passive
+  service: name=openerp state=stopped enabled=no
+  when: passive == 'yes'
+
 - name: Start Openerp and enable at boot
   service:
     name=openerp
     enabled=yes
     state=started
+  when: passive != 'yes'
 
 

@@ -3,7 +3,9 @@
     name: openmrs
     state: started
   always_run: yes
-  delegate_to: "{{ groups['bahmni-emr'][0] }}"
+  delegate_to: "{{ item }}"
+  with_items: "{{ groups['bahmni-emr'] }}"
+  when: item.passive != 'yes'
 
 - name: Start bahmni-reports service
   service:
@@ -11,4 +13,6 @@
     state: started
   ignore_errors: true
   always_run: yes
-  delegate_to: "{{ groups['bahmni-emr'][0] }}"
+  delegate_to: "{{ item }}"
+  with_items: "{{ groups['bahmni-reports'] }}"
+  when: item.passive != 'yes'
