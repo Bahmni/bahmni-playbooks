@@ -49,7 +49,7 @@
 
 - name: Retrieve salt from users
   command: >
-    mysql --user={{ mysql_root_user }} --password={{ mysql_root_password }} {{ openmrs_dbname }}
+    mysql --user={{ mysql_root_user }} --password={{ mysql_root_password }} openmrs
     --host=localhost --batch --skip-column-names
     --execute="SELECT salt from users where username='{{ openmrs_user_id }}' or system_id='{{ openmrs_user_id }}';"
   register: salt
@@ -62,7 +62,7 @@
 
 - name: Update password in DB
   command: >
-      mysql --user={{mysql_root_user}} --password={{mysql_root_password}} {{ openmrs_dbname }}
+      mysql --user={{mysql_root_user}} --password={{mysql_root_password}} openmrs
       --host=localhost --batch --skip-column-names
       --execute="UPDATE users set password='{{ hashedPassword.stdout }}' where username='{{ openmrs_user_id }}' or system_id='{{ openmrs_user_id }}';"
   always_run: True

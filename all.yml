@@ -20,6 +20,7 @@
 - hosts: bahmni-emr
   sudo: yes
   roles:
+    - { role: download-omods }
     - { role: bahmni-emr }
     - { role: bahmni-web }
     - { role: httpd }
