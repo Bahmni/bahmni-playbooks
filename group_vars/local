@@ -63,4 +63,4 @@ apps_max_age: 1
 omods:
     - bacteriology.omod
     - test.omod
-bahmni_repo_url: https://bintray.com/bahmni/rpm
+bahmni_repo_url: https://dl.bintray.com/bahmni/rpm
