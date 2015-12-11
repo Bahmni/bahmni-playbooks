@@ -287,8 +287,6 @@ RequestHeader set "X-Forwarded-Proto" "https"
 	      ProxyPassReverse /bahmnireports http://localhost:{{ bahmni_reports_port }}/bahmnireports
 		      ProxyPass /reference-data http://localhost:{{ openmrs_port }}/reference-data
 	      ProxyPassReverse /reference-data http://localhost:{{ openmrs_port }}/reference-data
-		      ProxyPass /go http://localhost:{{ go_server_port }}/go
-	      ProxyPassReverse /go http://localhost:{{ go_server_port }}/go
 			ProxyPass /oviyam2 http://localhost:{{ oviyam2_port }}/oviyam2
 
 			Alias /bahmni /var/www/bahmniapps

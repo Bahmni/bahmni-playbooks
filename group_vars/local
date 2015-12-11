@@ -55,9 +55,6 @@ dchm4chee_conf_port: 11112
 oviyam2_listener_port: 1025
 oviyam2_port: 8085
 
-
-go_server_port: 8153
-
 patient_document_max_age: 86400
 apps_max_age: 1
 
