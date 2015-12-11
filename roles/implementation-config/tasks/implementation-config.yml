@@ -1,6 +1,6 @@
 - name: Copy implementation config to /tmp
   copy:
-    src=/opt/bahmni-installer/bahmni-playbooks/deployment-artifacts/{{ implementation_name }}_config.zip
+    src=/etc/bahmni-installer/deployment-artifacts/{{ implementation_name }}_config.zip
     dest=/tmp/{{ implementation_name }}_config.zip
     mode=755
     owner={{ bahmni_user }}
