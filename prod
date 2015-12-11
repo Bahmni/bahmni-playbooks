@@ -34,7 +34,7 @@ localhost
 [dcm4chee]
 localhost
 
-[local:children]
+[prod:children]
 bahmni-emr
 bahmni-emr-db
 bahmni-emr-db-slave
