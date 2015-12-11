@@ -1,21 +1,13 @@
-- name: Copy implementation config to /tmp
-  copy:
-    src=/etc/bahmni-installer/deployment-artifacts/{{ implementation_name }}_config.zip
-    dest=/tmp/{{ implementation_name }}_config.zip
-    mode=755
-    owner={{ bahmni_user }}
-    group={{ bahmni_group }}
-
 - name: remove /var/www/bahmni_config
   file: path=/var/www/bahmni_config state=absent
 
 - name: create /var/www/bahmni_config
   file: path=/var/www/bahmni_config state=directory owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
 
-- name: Extract implementation config to /var/www/implementation_config
-  unarchive:
-    src=/tmp/{{ implementation_name }}_config.zip
-    dest=/var/www/bahmni_config copy=no
+- name: Copy implementation config to /tmp
+  copy:
+    src=/etc/bahmni-installer/deployment-artifacts/{{ implementation_name }}_config/
+    dest=/var/www/bahmni_config
     mode=755
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
