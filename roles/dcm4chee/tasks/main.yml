@@ -18,14 +18,14 @@
 
 - name: Switch off chkconfig for dcm4chee on passive
   service: name=dcm4chee state=stopped enabled=no
-  when: passive == 'yes'
+  when: passive is defined and passive == 'yes'
 
 - name: Start dcm4chee and enable at boot
   service:
     name=dcm4chee
     enabled=yes
     state=started
-  when: passive != 'yes'
+  when: passive is not defined or passive != 'yes'
 
 
 

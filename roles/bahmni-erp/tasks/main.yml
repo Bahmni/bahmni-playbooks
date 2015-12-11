@@ -20,13 +20,13 @@
 
 - name: Switch off chkconfig for Openerp on passive
   service: name=openerp state=stopped enabled=no
-  when: passive == 'yes'
+  when: passive is defined and passive == 'yes'
 
 - name: Start Openerp and enable at boot
   service:
     name=openerp
     enabled=yes
     state=started
-  when: passive != 'yes'
+  when: passive is not defined or passive != 'yes'
 
 

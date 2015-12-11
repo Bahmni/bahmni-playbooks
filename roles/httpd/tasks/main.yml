@@ -9,11 +9,11 @@
 
 - name: Switch off chkconfig for httpd on passive
   service: name=httpd state=stopped enabled=no
-  when: passive == 'yes'
+  when: passive is defined and passive == 'yes'
 
 - name: Start httpd
   service: name=httpd state=restarted enabled=yes
   tags: run_bahmni_web
-  when: passive != 'yes'
+  when: passive is not defined or passive != 'yes'
 
 

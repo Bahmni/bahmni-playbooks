@@ -50,13 +50,13 @@
 
 - name: Switch off chkconfig for bahmni-lab on passive
   service: name=bahmni-lab state=stopped enabled=no
-  when: passive == 'yes'
+  when: passive is defined and passive == 'yes'
 
 - name: Start bahmni-lab and enable at boot
   service:
     name=bahmni-lab
     enabled=yes
     state=started
-  when: passive != 'yes'
+  when: passive is not defined or passive != 'yes'
 
 
