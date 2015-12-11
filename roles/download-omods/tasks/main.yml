@@ -1,3 +1,0 @@
-- name: download omod
-  get_url: url=https://bahmni-repo.twhosted.com/omod/{{ item }} dest=/opt/openmrs/modules owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
-  with_items: "{{ omods }}"

@@ -1,8 +1,17 @@
 - name: Install python-gdata
   yum: name="{{ python_gdata_rpm_location }}" state=present
 
+- name: install nonblockingloghandler
+  pip: name=nonblockingloghandler state=present
+
+- name: Install postgresql yum repository
+  yum: name="{{ postgres_yum_repo }}" state=present
+
 - name: Install openerp from bahmni-repo
   yum: name="bahmni-erp-{{ bahmni_erp_version }}" state=present
+
+- name: Copy openerp server template
+  template: src=openerp-server.conf.j2 dest=/etc/openerp/openerp-server.conf owner=openerp group=openerp mode=0655
 
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep BAHMNIERP  -m 1 | cut -c 1-2

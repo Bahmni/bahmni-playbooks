@@ -21,7 +21,7 @@
   sudo: yes
   roles:
     - { role: bahmni-emr }
-    - { role: download-omods }
+    - { role: bahmni-omods }
     - { role: bahmni-web }
     - { role: httpd }
   tags:
