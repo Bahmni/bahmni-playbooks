@@ -36,11 +36,3 @@
 
 - name: Run openmrs liquibase migrations
   script: run-implementation-openmrs-liquibase.sh
-
-- name: Run openelis liquibase migrations
-  script: run-implementation-openelis-liquibase.sh
-  when: "{{ groups['bahmni-lab'] | default([]) | length }} > 0"
-
-- name: Run openerp liquibase migrations
-  script: run-implementation-openelis-liquibase.sh
-  when: "{{ groups['bahmni-erp'] | default([]) | length }} > 0"

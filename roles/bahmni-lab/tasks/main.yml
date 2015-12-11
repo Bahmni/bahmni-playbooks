@@ -58,6 +58,9 @@
   when: passive is not defined or passive != 'yes'
   tags: stop_bahmni
 
+- name: Run openelis liquibase migrations of implementation config
+  script: run-implementation-openelis-liquibase.sh
+
 - name: Start bahmni-lab and enable at boot
   service:
     name=bahmni-lab
