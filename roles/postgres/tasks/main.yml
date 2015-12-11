@@ -1,8 +1,8 @@
-- name: Install python-psycopg2
-  yum: name=python-psycopg2 state=present
-
 - name: Install postgresql yum repository
   yum: name="{{ postgres_yum_repo }}" state=present
+
+- name: Install python-psycopg2
+  yum: name=python-psycopg2 state=present
 
 - name: Install postgresql
   yum: name="postgresql92-server" state=present
