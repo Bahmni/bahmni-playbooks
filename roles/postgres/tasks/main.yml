@@ -15,6 +15,7 @@
     name=postgresql-9.2
     state=stopped
   ignore_errors: true
+  tags: stop_bahmni
 
 - name: Initiate database
   command: service postgresql-9.2 initdb creates=/var/lib/pgsql/data/postgresql.conf
@@ -54,6 +55,7 @@
     name=postgresql-9.2
     enabled=yes
     state=started
+  tags: start_bahmni
 
 - name: Create postgres user
   postgresql_user: name={{ postgres_user }} role_attr_flags=CREATEDB,NOCREATEROLE,SUPERUSER,REPLICATION

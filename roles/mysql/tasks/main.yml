@@ -35,8 +35,13 @@
     dest=/etc/my.cnf
     mode=755
 
+- name: Stop Mysql Service
+  service: name=mysqld state=stopped
+  tags: stop_bahmni
+
 - name: Start Mysql Service
-  service: name=mysqld state=restarted enabled=true
+  service: name=mysqld state=started enabled=true
+  tags: start_bahmni
 
 - name: Update mysql root password
   command: /usr/bin/mysqladmin -uroot password {{ mysql_root_password }}

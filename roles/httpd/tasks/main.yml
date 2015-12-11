@@ -11,9 +11,18 @@
   service: name=httpd state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
+- name: Stop httpd
+  service: name=httpd state=stopped
+  tags: 
+      - run_bahmni_web
+      - stop_bahmni
+  when: passive is not defined or passive != 'yes'
+
 - name: Start httpd
-  service: name=httpd state=restarted enabled=yes
-  tags: run_bahmni_web
+  service: name=httpd state=started enabled=yes
+  tags:
+      - run_bahmni_web
+      - start_bahmni
   when: passive is not defined or passive != 'yes'
 
 

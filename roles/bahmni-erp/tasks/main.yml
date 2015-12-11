@@ -22,11 +22,19 @@
   service: name=openerp state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
+- name: Stop Openerp
+  service:
+    name=openerp
+    state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
+
 - name: Start Openerp and enable at boot
   service:
     name=openerp
     enabled=yes
     state=started
   when: passive is not defined or passive != 'yes'
+  tags: start_bahmni
 
 

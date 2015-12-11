@@ -47,10 +47,16 @@
 - name: save iptables
   command: service iptables save
 
-
 - name: Switch off chkconfig for bahmni-lab on passive
   service: name=bahmni-lab state=stopped enabled=no
   when: passive is defined and passive == 'yes'
+
+- name: Stop bahmni-lab
+  service:
+    name=bahmni-lab
+    state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
 
 - name: Start bahmni-lab and enable at boot
   service:
@@ -58,5 +64,6 @@
     enabled=yes
     state=started
   when: passive is not defined or passive != 'yes'
+  tags: start_bahmni
 
 
