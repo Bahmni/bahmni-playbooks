@@ -49,7 +49,7 @@
   tags:
     - bahmni-erp
 
-- hosts: bahmni-emr
+- hosts: bahmni-erp
   sudo: yes
   roles:
     - { role: bahmni-erp-connect }
