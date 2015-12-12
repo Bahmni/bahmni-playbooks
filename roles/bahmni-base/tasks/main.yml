@@ -34,5 +34,6 @@
     - htop
     - lsof
     - wget
+    - unzip
   tags: utils
 
