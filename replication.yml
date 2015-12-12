@@ -1,3 +1,19 @@
+- hosts: all
+  sudo: yes
+  roles:
+    - { role: bahmni-base }
+    - { role: bahmni-user }
+    - { role: installer-config }
+    - { role: bahmni-support-user }
+    - { role: selinux, selinux_state: permissive, selinux_policy: targeted }
+  tags:
+    - setup
+
+- hosts: bahmni-emr
+  tasks:
+   - include: roles/mysql-replication/tasks/stop_emr.yml
+     when: passive is not defined or passive != 'yes'
+
 - hosts: bahmni-emr-db
   sudo: yes
   roles:
@@ -11,3 +27,8 @@
     - { role: mysql-replication }
   tags:
     - repl
+
+- hosts: bahmni-emr
+  tasks:
+   - include: roles/mysql-replication/tasks/start_emr.yml
+     when: passive is not defined or passive != 'yes'

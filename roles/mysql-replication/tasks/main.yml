@@ -16,8 +16,6 @@
     state=directory
     recurse=yes
 
-- include: stop_emr.yml
-  when: inventory_hostname == groups['bahmni-emr-db'][0]
 
 - include: master.yml
   when: inventory_hostname == groups['bahmni-emr-db'][0]
@@ -26,6 +24,3 @@
 - include: slave.yml
   when: inventory_hostname == groups['bahmni-emr-db-slave'][0]
   tags: slave
-
-- include: start_emr.yml
-  when: inventory_hostname == groups['bahmni-emr-db'][0]

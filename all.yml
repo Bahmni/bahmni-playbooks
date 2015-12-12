@@ -34,6 +34,13 @@
   tags:
     - config
 
+- hosts: bahmni-reports
+  sudo: yes
+  roles:
+    - { role: bahmni-reports }
+  tags:
+    - bahmni-reports
+
 - hosts: bahmni-erp-db:bahmni-erp-db-slave
   sudo: yes
   roles:
@@ -71,20 +78,12 @@
   tags:
     - bahmni-lab
 
-
 - hosts: bahmni-emr
   sudo: yes
   roles:
     - { role: bahmni-lab-connect }
   tags:
     - bahmni-lab-connect
-
-- hosts: bahmni-reports
-  sudo: yes
-  roles:
-    - { role: bahmni-reports }
-  tags:
-    - bahmni-reports
 
 - hosts: bahmni-pacs
   sudo: yes
