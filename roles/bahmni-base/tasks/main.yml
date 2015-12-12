@@ -35,5 +35,6 @@
     - lsof
     - wget
     - unzip
+    - python-pip
   tags: utils
 
