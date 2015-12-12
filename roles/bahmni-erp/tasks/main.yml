@@ -1,4 +1,8 @@
 - name: Install python-gdata
+  yum: name="{{ python_gdata_rpm_location }}" state=removed
+  ignore_errors: true
+  
+- name: Install python-gdata
   yum: name="{{ python_gdata_rpm_location }}" state=present
 
 - name: install nonblockingloghandler
