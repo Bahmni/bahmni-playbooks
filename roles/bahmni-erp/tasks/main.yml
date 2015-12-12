@@ -41,9 +41,6 @@
   when: passive is not defined or passive != 'yes'
   tags: stop_bahmni
 
-- name: Run openerp liquibase migrations in implementation_config
-  script: run-implementation-openerp-liquibase.sh
-
 - name: Start Openerp and enable at boot
   service:
     name=openerp

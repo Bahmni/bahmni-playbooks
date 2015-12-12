@@ -1,4 +1,4 @@
-- name: Install postgresql yum repository
+- name: Remove postgresql yum repository
   yum: name="{{ postgres_yum_repo }}" state=removed
   ignore_errors: true
 
