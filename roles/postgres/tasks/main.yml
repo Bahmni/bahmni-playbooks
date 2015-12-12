@@ -1,5 +1,5 @@
 - name: Remove postgresql yum repository
-  yum: name="{{ postgres_yum_repo }}" state=removed
+  yum: name="pgdg-centos92" state=removed
   ignore_errors: true
 
 - name: Install postgresql yum repository

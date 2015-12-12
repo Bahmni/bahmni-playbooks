@@ -1,5 +1,5 @@
-- name: Install python-gdata
-  yum: name="{{ python_gdata_rpm_location }}" state=removed
+- name: Uninstall python-gdata
+  yum: name="python-gdata" state=removed
   ignore_errors: true
   
 - name: Install python-gdata
