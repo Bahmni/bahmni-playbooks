@@ -1,5 +1,12 @@
-python_gdata_rpm_location: https://bahmni-repo.twhosted.com/rpm/bahmni/python-gdata-2.0.11-1.el6.noarch.rpm
-postgres_yum_repo: http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/pgdg-centos92-9.2-6.noarch.rpm
+download_folder: /opt
+
+python_gdata_rpm_name: python-gdata-2.0.11-1.el6.noarch.rpm
+python_gdata_rpm_url: https://bahmni-repo.twhosted.com/rpm/bahmni/{{python_gdata_rpm_name}}
+python_gdata_rpm_location: "{{download_folder}}/{{ python_gdata_rpm_name}}"
+
+postgres_repo_rpm_name: pgdg-centos92-9.2-6.noarch.rpm
+postgres_repo_download_url: http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/{{postgres_repo_rpm_name}}
+postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
 
 openerp_db_username: openerp
 openerp_db_password: openerp
