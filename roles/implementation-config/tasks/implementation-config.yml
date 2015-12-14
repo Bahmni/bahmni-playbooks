@@ -25,11 +25,8 @@
   file: src=/var/www/bahmni_config/openmrs/patientMatchingAlgorithm  dest=/opt/openmrs/patientMatchingAlgorithm state=link owner={{ bahmni_user }} group={{ bahmni_group }}
 
 #TODO: Below 3 tasks to be removed after removing its dependencies from bahmni-core
-- name: remove /opt/openmr/bahmni_config
-  file: path=/opt/openmr/bahmni_config state=absent
-
-- name: create /var/www/bahmni_config
-  file: path=/opt/openmr/bahmni_config state=directory owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
+- name: remove /opt/openmrs/bahmni_config
+  file: path=/opt/openmrs/bahmni_config state=absent
 
 - name: Link entire bahmni_config in openmrs application data directory
   file: src=/var/www/bahmni_config dest=/opt/openmrs/bahmni_config state=link owner={{ bahmni_user }} group={{ bahmni_group }}
