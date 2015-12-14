@@ -89,8 +89,9 @@
     password: "{{ openmrs_db_password }}"
     login_user: root
     login_password: "{{ mysql_root_password }}"
-    host: "{{ groups['bahmni-emr'][0] }}"
+    host: "{{ item }}"
     priv: "openmrs.*:ALL,GRANT"
+  with_items: "{{ groups['bahmni-emr'] }}"
 
 - name: Create and grant privileges to root user from app server
   sudo: yes
@@ -99,5 +100,6 @@
     password: "password"
     login_user: root
     login_password: "{{ mysql_root_password }}"
-    host: "{{ groups['bahmni-emr'][0] }}"
+    host: "{{ item }}"
     priv: "*.*:ALL,GRANT"
+  with_items: "{{ groups['bahmni-emr'] }}"
