@@ -15,3 +15,7 @@ mysql_root_password: password
 openmrs_user_id: admin
 openmrs_user_password : test
 
+bahmni_group: bahmni
+bahmni_user: bahmni
+omods: []
+

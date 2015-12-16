@@ -85,3 +85,22 @@
       --execute="UPDATE users set password='{{ hashedPassword.stdout }}' where username='{{ openmrs_user_id }}' or system_id='{{ openmrs_user_id }}';"
   always_run: True
   changed_when: False
+
+- name: download omod
+  get_url: url=https://bahmni-repo.twhosted.com/omod/{{ item }} dest=/opt/openmrs/modules owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
+  with_items: "{{ omods }}"
+
+- name: Switch off checkconfig for openmrs on passive
+  service: name=openmrs state=stopped enabled=no
+  when: passive is defined and passive == 'yes'
+
+- name: Stop openmrs
+  service: name=openmrs state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
+
+- name: Start openmrs
+  service: name=openmrs state=started enabled=yes
+  when: passive is not defined or passive != 'yes'
+  tags: start_bahmni
+
