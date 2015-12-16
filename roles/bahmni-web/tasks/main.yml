@@ -26,5 +26,14 @@
 - name: save iptables
   command: service iptables save
 
+- name: Check if bahmni-web rpm needs an update
+  command: yum list installed bahmni-web
+  register: installed_bahmni_web
+  ignore_errors: true
+
+- name: Uninstall bahmni-web rpm
+  yum: name="bahmni-web" state=absent
+  when: installed_bahmni_web.stdout.find("{{ bahmni_web_version }}") == -1
+
 - name: Install bahmni-web from bahmni repo
   yum: name="bahmni-web-{{ bahmni_web_version }}" state=present

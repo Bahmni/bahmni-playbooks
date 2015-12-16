@@ -1,3 +1,12 @@
+- name: Check if bahmni-reports rpm needs an update
+  command: yum list installed bahmni-reports
+  register: installed_bahmni_reports
+  ignore_errors: true
+
+- name: Uninstall bahmni-reports rpm
+  yum: name="bahmni-reports" state=absent
+  when: installed_bahmni_reports.stdout.find("{{ bahmni_reports_version }}") == -1
+
 - name: Install bahmni-reports from bahmni-repo
   yum: name="bahmni-reports-{{ bahmni_reports_version }}" state=present
 

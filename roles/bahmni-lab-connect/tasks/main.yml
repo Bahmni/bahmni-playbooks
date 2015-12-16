@@ -1,3 +1,12 @@
+- name: Check if bahmni-lab-connect rpm needs an update
+  command: yum list installed bahmni-lab-connect
+  register: installed_bahmni_lab_connect
+  ignore_errors: true
+
+- name: Uninstall bahmni-lab-connect rpm
+  yum: name="bahmni-lab-connect" state=absent
+  when: installed_bahmni_lab_connect.stdout.find("{{ bahmni_lab_connect_version }}") == -1
+
 - name: Stop openmrs and bahmni-emr
   service: name=openmrs state=stopped
 

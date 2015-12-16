@@ -11,8 +11,26 @@
   script: restore_mysql_dump.sh
   when: mysql_dump_file.stat.exists == True
 
+- name: Check if openmrs rpm needs an update
+  command: yum list installed openmrs
+  register: installed_openmrs
+  ignore_errors: true
+
+- name: Uninstall openmrs rpm
+  yum: name="openmrs" state=absent
+  when: installed_openmrs.stdout.find("{{ openmrs_version }}") == -1
+
 - name: Install openmrs from bahmni-repo
   yum: name="openmrs-{{ openmrs_version }}" state=present
+
+- name: Check if bahmni-emr rpm needs an update
+  command: yum list installed bahmni-emr
+  register: installed_bahmni_emr
+  ignore_errors: true
+
+- name: Uninstall bahmni-emr rpm
+  yum: name="bahmni-emr" state=absent
+  when: installed_bahmni_emr.stdout.find("{{ bahmni_emr_version }}") == -1
 
 - name: Install bahmni-emr from bahmni-repo
   yum: name="bahmni-emr-{{ bahmni_emr_version }}" state=present

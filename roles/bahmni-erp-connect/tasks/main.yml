@@ -1,4 +1,13 @@
-- name: Install openerp-connect from bahmni-repo
+- name: Check if bahmni-erp-connect rpm needs an update
+  command: yum list installed bahmni-erp-connect
+  register: installed_bahmni_erp_connect
+  ignore_errors: true
+
+- name: Unintall bahmni-erp-connect rpm
+  yum: name="bahmni-erp-connect" state=absent
+  when: installed_bahmni_erp_connect.stdout.find("{{ bahmni_erp_connect_version }}") == -1
+
+- name: Install bahmni-erp-connect from bahmni-repo
   yum: name="bahmni-erp-connect-{{ bahmni_erp_connect_version }}" state=present
 
 - name: Copy bahmni-erp-connect configuration

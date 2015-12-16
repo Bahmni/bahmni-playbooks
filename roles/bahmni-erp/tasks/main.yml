@@ -26,7 +26,16 @@
 - name: Install python-psycopg2
   yum: name=python-psycopg2 state=present
 
-- name: Install openerp from bahmni-repo
+- name: Check if bahmni-erp rpm needs an update
+  command: yum list installed bahmni-erp
+  register: installed_bahmni_erp
+  ignore_errors: true
+
+- name: Uninstall bahmni-erp rpm
+  yum: name="bahmni-erp" state=absent
+  when: installed_bahmni_erp.stdout.find("{{ bahmni_erp_version }}") == -1
+
+- name: Install bahmni-erp from bahmni-repo
   yum: name="bahmni-erp-{{ bahmni_erp_version }}" state=present
 
 - name: Copy openerp server template

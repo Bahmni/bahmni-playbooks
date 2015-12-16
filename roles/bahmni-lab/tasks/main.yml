@@ -1,3 +1,12 @@
+- name: Check if bahmni-lab rpm needs an update
+  command: yum list installed bahmni-lab
+  register: installed_bahmni_lab
+  ignore_errors: true
+
+- name: Uninstall bahmni-lab rpm
+  yum: name="bahmni-lab" state=absent
+  when: installed_bahmni_lab.stdout.find("{{ bahmni_lab_version }}") == -1
+
 - name: Install bahmni-lab from bahmni-repo
   yum: name="bahmni-lab-{{ bahmni_lab_version }}" state=present
 

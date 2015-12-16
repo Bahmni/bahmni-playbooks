@@ -1,6 +1,14 @@
+- name: Check if dcm4chee rpm needs an update
+  command: yum list installed dcm4chee
+  register: installed_dcm4chee
+  ignore_errors: true
+
+- name: Uninstall dcm4chee rpm
+  yum: name="dcm4chee" state=absent
+  when: installed_dcm4chee.stdout.find("{{ dcm4chee_version }}") == -1
 
 - name: Install dcm4chee from bahmni-repo
-  yum: name="dcm4chee-{{ dcm4chee_version }}" state=latest
+  yum: name="dcm4chee-{{ dcm4chee_version }}" state=present
 
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep DCM4CHEE  -m 1 | cut -c 1-2
