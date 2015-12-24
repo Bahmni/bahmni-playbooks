@@ -1,4 +1,7 @@
 ---
+- name: Install libselinux-python
+  yum: name=libselinux-python state=present
+
 - name: add bahmni yum repo
   template: src=bahmni.repo.j2 dest=/etc/yum.repos.d/bahmni.repo
 
@@ -11,9 +14,6 @@
   rpm_key:
     key: "{{ epel_repo_gpg_key_url }}"
     state: present
-
-- name: Install libselinux-python
-  yum: name=libselinux-python state=present
 
 - name: Install ntp
   yum: name=ntp state=present
