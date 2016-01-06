@@ -68,3 +68,5 @@ python_gdata_rpm_location: "{{download_folder}}/{{ python_gdata_rpm_name}}"
 postgres_repo_rpm_name: pgdg-centos92-9.2-6.noarch.rpm
 postgres_repo_download_url: http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/{{postgres_repo_rpm_name}}
 postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
+
+bahmni_event_log_service_port: 9081

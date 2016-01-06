@@ -32,6 +32,9 @@
 [dcm4chee]
 192.168.33.10
 
+[bahmni-event-log-service]
+192.168.33.10
+
 [dev:children]
 bahmni-emr
 bahmni-emr-db
@@ -45,3 +48,4 @@ bahmni-erp-db-slave
 bahmni-reports
 bahmni-pacs
 dcm4chee
+bahmni-event-log-service

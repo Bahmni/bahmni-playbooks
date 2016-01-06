@@ -98,3 +98,9 @@
   tags:
     - dcm4chee
 
+- hosts: bahmni-event-log-service
+  sudo: yes
+  roles:
+    - { role: bahmni-event-log-service }
+  tags:
+    - event-log

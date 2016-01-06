@@ -1,0 +1,52 @@
+- name: Check if bahmni-event-log-service rpm needs an update
+  command: yum list installed bahmni_event_log_service
+  register: installed_bahmni_event_log_service
+  ignore_errors: true
+
+- name: Uninstall bahmni-event-log-service rpm
+  yum: name="bahmni-event-log-service" state=absent
+  when: installed_bahmni_event_log_service.stdout.find("{{ bahmni_event_log_service_version }}") == -1
+
+- name: Install bahmni-event-log-service from bahmni-repo
+  yum: name="bahmni-event-log-service-{{ bahmni_event_log_service_version }}" state=present
+
+- name: Copy bahmni-event-log-service config
+  template:
+    src=bahmni-event-log-service.conf.j2
+    dest=/opt/bahmni-event-log-service/etc/bahmni-event-log-service.conf
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+- name: Get matched IpTable rule
+  shell: iptables -nL --line-numbers | grep BAHMNIEVENTLOGSERVICE  -m 1 | cut -c 1-2
+  register: matchedRule
+
+- name: delete matching rule if exists
+  shell: iptables -D INPUT {{ matchedRule.stdout }}
+  when: matchedRule.stdout!=""
+
+- name: Allow bahmni-event-log-service port through firewall
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ bahmni_event_log_service_port }} -j ACCEPT -m comment --comment "BAHMNIEVENTLOGSERVICE"
+
+- name: save iptables
+  command: service iptables save
+
+- name: Switch off chkconfig for bahmni-event-log-service on passive
+  service: name=bahmni-event-log-service state=stopped enabled=no
+  when: passive is defined and passive == 'yes'
+
+- name: Stop bahmni-event-log-service
+  service:
+    name=bahmni-event-log-service
+    state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
+
+- name: Start bahmni-event-log-service and enable at boot
+  service:
+    name=bahmni-event-log-service
+    enabled=yes
+    state=started
+  when: passive is not defined or passive != 'yes'
+  tags: start_bahmni
