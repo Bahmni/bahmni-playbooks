@@ -1,3 +1,8 @@
+- name: Fail if implementation_config does not exist in /etc/bahmni-installer/deployment-artifacts
+  stat: path=/etc/bahmni-installer/deployment-artifacts/{{ implementation_name }}_config/
+  register: implementation_config
+  failed_when: implementation_config.stat.exists == False
+
 - name: remove /var/www/bahmni_config
   file: path=/var/www/bahmni_config state=absent
 
