@@ -23,9 +23,9 @@
     dest=/etc/ssh/sshd_config
     backrefs=yes
     backup=yes
-    regexp='(^AllowGroups+\s)([\w\- ]+)(?<![bahmni_support])'
+    regexp='(AllowGroups(?!.*\b{{ bahmni_support_group }}\b).*)'
     state=present
-    line='\1\2 bahmni_support'
+    line='\1 {{ bahmni_support_group }}'
   tags:
     - sshd
 

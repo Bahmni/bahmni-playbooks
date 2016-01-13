@@ -1,6 +1,7 @@
 bahmni_group: bahmni
 bahmni_user: bahmni
 bahmni_support_user: bahmni_support
+bahmni_support_group: bahmni_support
 bahmni_password_hash: $1$IW4OvlrH$Kui/55oif8W3VZIrnX6jL1
 
 mysql_root_user: root
