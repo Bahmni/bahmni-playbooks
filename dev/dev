@@ -11,15 +11,12 @@
 [bahmni-erp]
 
 [bahmni-erp-db]
-192.168.33.10
 
 [bahmni-erp-db-slave]
 
 [bahmni-lab]
-192.168.33.10
 
 [bahmni-lab-db]
-192.168.33.10
 
 [bahmni-lab-db-slave]
 
@@ -27,13 +24,10 @@
 192.168.33.10
 
 [bahmni-pacs]
-192.168.33.10
 
 [dcm4chee]
-192.168.33.10
 
 [bahmni-event-log-service]
-192.168.33.10
 
 [dev:children]
 bahmni-emr
