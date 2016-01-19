@@ -1,5 +1,5 @@
 - name: Create bahmni_support group
-  user:
+  group:
     name={{ bahmni_support_group }}
     state=present
   sudo: yes
