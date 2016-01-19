@@ -19,6 +19,7 @@ run_in_vagrant -c "sudo chown -h ${USER}:${USER} /opt/bahmni-installer/bahmni-pl
 run_in_vagrant -c "sudo mkdir -p /opt/bahmni-installer/bin/"
 
 run_in_vagrant -c "sudo rm -rf /opt/bahmni-installer/bin/bahmni"
+run_in_vagrant -c "sudo rm -rf /usr/bin/bahmni"
 run_in_vagrant -c "sudo ln -s /bahmni/bahmni-package/bahmni-installer/scripts/rpm/bahmni /usr/bin/bahmni"
 
 run_in_vagrant -c "sudo mkdir -p /etc/bahmni-installer/"
