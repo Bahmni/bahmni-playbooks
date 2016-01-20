@@ -4,7 +4,7 @@ bahmni_erp_connect_version: 0.79
 bahmni_event_log_service_version: 0.79
 bahmni_lab_version: 0.79
 bahmni_lab_connect_version: 0.79
-bahmni_reports_version: 0.7
+bahmni_reports_version: 0.79
 bahmni_web_version: 0.79
 dcm4chee_version: 0.79
 openmrs_version: 1.12.0

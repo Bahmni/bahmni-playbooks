@@ -28,5 +28,5 @@ run_in_vagrant -c "sudo ln -s /bahmni/bahmni-playbooks/dev/setup.yml /etc/bahmni
 
 run_in_vagrant -c "sudo rm -rf /etc/bahmni-installer/dev"
 run_in_vagrant -c "sudo ln -s /bahmni/bahmni-playbooks/dev/dev /etc/bahmni-installer/dev"
-run_in_vagrant -c "sudo rm -rf /etc/bahmni-installer/rpm_revisions.yml"
-run_in_vagrant -c "sudo ln -s /bahmni/bahmni-playbooks/dev/rpm_revisions.yml /etc/bahmni-installer/rpm_revisions.yml"
+run_in_vagrant -c "sudo rm -rf /etc/bahmni-installer/rpm_versions.yml"
+run_in_vagrant -c "sudo ln -s /bahmni/bahmni-playbooks/dev/rpm_versions.yml /etc/bahmni-installer/rpm_versions.yml"
