@@ -104,3 +104,10 @@
     - { role: bahmni-event-log-service }
   tags:
     - event-log
+
+- hosts: bahmni-emr
+  sudo: yes
+  roles:
+   - { role: bahmni-support-user }
+  tags:
+   - support-user
