@@ -25,4 +25,7 @@
       - start_bahmni
   when: passive is not defined or passive != 'yes'
 
-
+- name: Check httpd
+  command: service httpd status
+  tags: check_status
+  when: passive is not defined or passive != 'yes'

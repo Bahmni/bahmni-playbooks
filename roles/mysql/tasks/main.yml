@@ -43,6 +43,10 @@
   service: name=mysqld state=started enabled=true
   tags: start_bahmni
 
+- name: Check Mysql Service
+  command: service mysqld status
+  tags: check_status
+
 - name: Update mysql root password
   command: /usr/bin/mysqladmin -uroot password {{ mysql_root_password }}
   ignore_errors: yes

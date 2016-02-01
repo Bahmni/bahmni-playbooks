@@ -58,3 +58,8 @@
     state=started
   when: passive is not defined or passive != 'yes'
   tags: start_bahmni
+
+- name: Check bahmni-reports
+  command: service bahmni-reports status
+  when: passive is not defined or passive != 'yes'
+  tags: check_status

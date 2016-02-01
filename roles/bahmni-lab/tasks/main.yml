@@ -78,4 +78,7 @@
   when: passive is not defined or passive != 'yes'
   tags: start_bahmni
 
-
+- name: Check bahmni-lab
+  command: service bahmni-lab status
+  when: passive is not defined or passive != 'yes'
+  tags: check_status

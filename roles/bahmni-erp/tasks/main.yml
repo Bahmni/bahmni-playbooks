@@ -74,4 +74,8 @@
   when: passive is not defined or passive != 'yes'
   tags: start_bahmni
 
+- name: Check Openerp
+  command: service openerp status
+  when: passive is not defined or passive != 'yes'
+  tags: check_status
 

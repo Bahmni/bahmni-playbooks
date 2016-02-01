@@ -37,3 +37,7 @@
   when: passive is not defined or passive != 'yes'
   tags: start_bahmni
 
+- name: Check bahmni-openerp-connect
+  command: service bahmni-erp-connect status
+  when: passive is not defined or passive != 'yes'
+  tags: check_status

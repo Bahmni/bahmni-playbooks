@@ -65,6 +65,10 @@
     state=started
   tags: start_bahmni
 
+- name: Check PostgreSQL
+  command: service postgresql-9.2 status
+  tags: check_status
+
 - name: Create postgres user
   postgresql_user: name={{ postgres_user }} role_attr_flags=CREATEDB,NOCREATEROLE,SUPERUSER,REPLICATION
   sudo_user: postgres
