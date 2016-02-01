@@ -15,10 +15,10 @@
   sudo: yes
 
 - name: configure sudoers
-  lineinfile: "dest=/etc/sudoers state=present backup=yes regexp='^bahmni_support' insertafter='^# %wheel' line='bahmni_support ALL=(ALL) NOPASSWD: ALL' validate='visudo -cf %s'"
+  lineinfile: "dest=/etc/sudoers state=present backup=yes regexp='^{{bahmni_support_user}}' insertafter='^# %wheel' line='{{bahmni_support_user}} ALL=(ALL) NOPASSWD: ALL' validate='visudo -cf %s'"
   sudo: yes
 
-- name: allow bahmni_support ssh access
+- name: allow bahmni_support_group ssh access
   lineinfile:
     dest=/etc/ssh/sshd_config
     backrefs=yes
@@ -26,6 +26,17 @@
     regexp='(AllowGroups(?!.*\b{{ bahmni_support_group }}\b).*)'
     state=present
     line='\1 {{ bahmni_support_group }}'
+  tags:
+    - sshd
+
+- name: allow bahmni_support_user ssh access
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    backrefs=yes
+    backup=yes
+    regexp='(AllowUsers(?!.*\b{{ bahmni_support_user }}\b).*)'
+    state=present
+    line='\1 {{ bahmni_support_user }}'
   tags:
     - sshd
 
