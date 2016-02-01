@@ -5,6 +5,30 @@
 - name: add bahmni yum repo
   template: src=bahmni.repo.j2 dest=/etc/yum.repos.d/bahmni.repo
 
+- name: Add exclusions of bahmni and openmrs packages for yum update if no exclusions present
+  script: add_exclusions.sh
+  tags: exclude
+
+- name: Append bahmni package exclusion to existing exclusions of yum update if present
+  lineinfile:
+    dest=/etc/yum.conf
+    state=present
+    backrefs=yes
+    backup=yes
+    regexp='(exclude=(?!.*bahmni\*).*)'
+    line='\1 bahmni*'
+  tags: exclude
+
+- name: Append openmrs package exclusion to existing exclusions of yum update if present
+  lineinfile:
+    dest=/etc/yum.conf
+    state=present
+    backrefs=yes
+    backup=yes
+    regexp='(exclude=(?!.*openmrs\*).*)'
+    line='\1 openmrs*'
+  tags: exclude
+
 - name: Install EPEL repo.
   yum:
     name: "epel-release"
