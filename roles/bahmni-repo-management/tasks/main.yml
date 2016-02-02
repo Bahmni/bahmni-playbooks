@@ -1,0 +1,10 @@
+
+- name: Enable/disable bahmni repo
+  lineinfile:
+    dest=/etc/yum.repos.d/bahmni.repo
+    state=present
+    backup=yes
+    regexp='^enabled'
+    line='enabled={{enabled}}'
+  tags: always
+

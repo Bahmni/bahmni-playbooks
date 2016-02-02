@@ -2,6 +2,7 @@
   sudo: yes
   roles:
     - { role: bahmni-base }
+    - { role: bahmni-repo-management, enabled: 1 }
     - { role: bahmni-user }
     - { role: installer-config }
     - { role: bahmni-support-user, tags: support-user }
@@ -111,3 +112,9 @@
    - { role: bahmni-support-user }
   tags:
    - support-user
+
+- hosts: all
+  sudo: yes
+  roles:
+   - { role: bahmni-repo-management, enabled: 0 }
+
