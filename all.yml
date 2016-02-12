@@ -81,7 +81,7 @@
 - hosts: bahmni-emr
   sudo: yes
   roles:
-    - { role: bahmni-lab-connect }
+    - { role: bahmni-lab-connect, when: "{{ groups['bahmni-lab'] | length }} > 0" }
   tags:
     - bahmni-lab-connect
 
