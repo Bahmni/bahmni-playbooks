@@ -1,1 +1,2 @@
 bahmni_event_log_service_port: 9081
+java_home: /usr/java/jre1.7.0_79

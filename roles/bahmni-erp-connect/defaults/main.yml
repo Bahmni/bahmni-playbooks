@@ -2,3 +2,4 @@ bahmni_erp_connect_version: 0.78-846
 openerp_port: 8069
 openerp_db_username: openerp
 openerp_db_password: openerp
+java_home: /usr/java/jre1.7.0_79
