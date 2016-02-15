@@ -4,4 +4,3 @@ openmrs_db_server: localhost
 openelis_db_server: localhost
 openmrs_user_id: admin
 openmrs_user_password: test
-java_home: /usr/java/jre1.7.0_79

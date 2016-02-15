@@ -4,4 +4,3 @@ openmrs_user_id: admin
 openmrs_user_password: test
 bahmni_lab_port: 8081
 openmrs_port: 8080
-java_home: /usr/java/jre1.7.0_79

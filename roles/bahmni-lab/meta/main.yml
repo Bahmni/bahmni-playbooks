@@ -1,3 +1,4 @@
 ---
 dependencies:
   - { role: installer-config }
+  - { role: oracle-java }
