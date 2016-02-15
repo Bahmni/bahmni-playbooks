@@ -19,4 +19,3 @@ bahmni_group: bahmni
 bahmni_user: bahmni
 omods: []
 
-java_home: /usr/java/jre1.7.0_79

@@ -3,4 +3,3 @@ dchm4chee_conf_port: 11112
 oviyam2_listener_port: 1025
 openmrs_user_id: admin
 openmrs_user_password : test
-java_home: /usr/java/jre1.7.0_79

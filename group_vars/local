@@ -71,3 +71,4 @@ postgres_repo_download_url: http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/{
 postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
 
 bahmni_event_log_service_port: 9081
+java_home: "{{ java_home_location }}"
