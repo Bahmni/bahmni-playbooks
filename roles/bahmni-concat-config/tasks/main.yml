@@ -1,0 +1,10 @@
+- name: Copy concat config python script
+  copy: src=bahmni_concat_config.py dest=/tmp/.
+
+- name: Concat bahmni config
+  script: bahmni_concat_config.sh
+  sudo: yes
+
+- name: Delete concat config python script
+  file: path=/tmp/bahmni_concat_config.py state=absent
+
