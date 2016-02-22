@@ -39,6 +39,7 @@ bahmni_lab_port: 8081
 
 bahmni_reports_port: 8083
 openmrs_reporting_user: reports-user
+openmrs_reporting_password: Admin123
 
 master_server_id: 1
 slave_server_id: 2
