@@ -1,3 +1,14 @@
+- name: Check if postgres yum repo rpm is present
+  stat: path={{postgres_repo_rpm_location}}
+  register: postgresRepoRpm
+
+- name: Download postgres yum repo rpm if not present
+  command: "wget -q -O {{ postgres_repo_rpm_location }} {{postgres_repo_download_url}} creates={{ postgres_repo_rpm_location }}"
+  when: postgresRepoRpm.stat.exists == false
+
+- name: Install postgresql yum repository
+  yum: name={{postgres_repo_rpm_location}} state=present
+
 - name: Check if bahmni-lab rpm needs an update
   command: yum list installed bahmni-lab
   register: installed_bahmni_lab
