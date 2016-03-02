@@ -1,0 +1,11 @@
+- name: Check if bahmni-certs rpm needs an update
+  command: yum list installed bahmni-certs
+  register: installed_bahmni_certs
+  ignore_errors: true
+
+- name: Uninstall bahmni-certs rpm
+  yum: name="bahmni-certs" state=absent
+  when: installed_bahmni_certs.stdout.find("{{ bahmni_certs_version }}") == -1
+
+- name: Install bahmni-certs from bahmni-repo
+  yum: name="bahmni-certs-{{ bahmni_certs_version }}" state=present
