@@ -16,10 +16,18 @@ openerp.connectionTimeoutInMilliseconds=10000
 openerp.replyTimeoutInMilliseconds=20000
 
 #OpenMRS data specific properties
-openmrs.auth.uri=http://localhost:{{ openmrs_port }}/openmrs/ws/rest/v1/session
-openmrs.patient.feed.uri=http://localhost:{{ openmrs_port }}/openmrs/ws/atomfeed/patient/recent
-openmrs.encounter.feed.uri=http://localhost:{{ openmrs_port }}/openmrs/ws/atomfeed/encounter/recent
-openmrs.lab.feed.uri=http://localhost:{{ openmrs_port }}/openmrs/ws/atomfeed/lab/recent
+
+{% for host in groups['bahmni-emr'] %}
+{% if hostvars[host].get('passive') != 'yes' %}
+openmrs.auth.uri=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/rest/v1/session
+openmrs.patient.feed.uri=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/atomfeed/patient/recent
+openmrs.encounter.feed.uri=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/atomfeed/encounter/recent
+openmrs.lab.feed.uri=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/atomfeed/lab/recent
+reference.data.feed.uri=http://{{ host }}:{{ openmrs_port }}/reference-data/ws/feed/recent
+
+{% endif %}
+{% endfor %}
+
 openmrs.user={{ openmrs_user_id }}
 openmrs.password={{ openmrs_user_password }}
 openmrs.connectionTimeoutInMilliseconds=10000
@@ -28,8 +36,6 @@ productType.labTest=Test
 productType.panel=Panel
 
 
-#Reference data specific properties
 
-reference.data.feed.uri=http://localhost:{{ openmrs_port }}/reference-data/ws/feed/recent
 reference.data.connectionTimeoutInMilliseconds=10000
 reference.data.replyTimeoutInMilliseconds=20000

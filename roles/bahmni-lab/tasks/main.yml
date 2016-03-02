@@ -81,6 +81,17 @@
 - name: Run openelis liquibase migrations of implementation config
   script: run-implementation-openelis-liquibase.sh
 
+- name: Copy script to update localhost with remote IP in markers
+  template:
+      src=add_remote_ip_in_openelis_markers.sh.j2
+      dest=/opt/bahmni-lab/add_remote_ip_in_openelis_markers.sh
+      mode=755
+  tags: test
+
+- name: Update markers with remote IP
+  shell: /opt/bahmni-lab/add_remote_ip_in_openelis_markers.sh
+  tags: test
+
 - name: Start bahmni-lab and enable at boot
   service:
     name=bahmni-lab

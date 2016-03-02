@@ -1,0 +1,21 @@
+#!/bin/sh
+set -e -x
+. /etc/bahmni-installer/bahmni.conf
+
+
+{% for host in groups['bahmni-lab'] %}
+{% if hostvars[host].get('passive') != 'yes' %}
+
+mysql -u$MYSQL_ROOT_USER -h$OPENMRS_DB_SERVER -p$MYSQL_ROOT_PASSWORD openmrs -e "update markers set feed_uri_for_last_read_entry = concat('http://{{ host }}:{{ openelis_port }}/openelis/ws/feed/patient',
+    substring(feed_uri_for_last_read_entry, (LENGTH(feed_uri_for_last_read_entry) - LOCATE('/', REVERSE(feed_uri_for_last_read_entry)))+1) )
+    where feed_uri like '%openelis/ws/feed/patient/recent';"
+
+mysql -u$MYSQL_ROOT_USER -h$OPENMRS_DB_SERVER -p$MYSQL_ROOT_PASSWORD openmrs -e "update markers set feed_uri = 'http://{{ host }}:{{ openelis_port }}/openelis/ws/feed/patient/recent'
+    where feed_uri like '%openelis/ws/feed/patient/recent';"
+
+mysql -u$MYSQL_ROOT_USER -h$OPENMRS_DB_SERVER -p$MYSQL_ROOT_PASSWORD openmrs -e "update failed_events set feed_uri = 'http://{{ host }}:{{ openelis_port }}/openelis/ws/feed/patient/recent'
+    where feed_uri like '%openelis/ws/feed/patient/recent';"
+
+
+{% endif %}
+{% endfor %}

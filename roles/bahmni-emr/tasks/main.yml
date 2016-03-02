@@ -52,6 +52,14 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
+- name: Copy bahmnicore properties
+  template:
+    src=bahmnicore.properties.j2
+    dest={{ openmrs_install_dir }}/bahmnicore.properties
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
 - name: Copy openmrs-runtime properties
   template:
     src=openmrs-runtime.properties.j2
@@ -107,6 +115,17 @@
   service: name=openmrs state=stopped
   when: passive is not defined or passive != 'yes'
   tags: stop_bahmni
+
+- name: Copy script to update localhost with remote IP in markers
+  template:
+      src=add_remote_ip_in_openmrs_markers.sh.j2
+      dest=/opt/openmrs/add_remote_ip_in_openmrs_markers.sh
+      mode=755
+  tags: test
+
+- name: Update markers with remote IP
+  shell: /opt/openmrs/add_remote_ip_in_openmrs_markers.sh
+  tags: test
 
 - name: Start openmrs
   service: name=openmrs state=started enabled=yes
