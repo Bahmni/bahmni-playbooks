@@ -278,21 +278,50 @@ RequestHeader set "X-Forwarded-Proto" "https"
 
 #https rules for authentication
 
-	  RewriteCond %{HTTP_HOST} ^openerp\.(.*)
-    RewriteRule (.*) http://localhost:{{ openerp_port }}$1 [P]
+#For Bahmni-ERP
+{% for host in groups['bahmni-erp'] %}
+{% if hostvars[host].get('passive') != 'yes' %}
+  		RewriteCond %{HTTP_HOST} ^openerp\.(.*)
+    	RewriteRule (.*) http://{{ host }}:{{ openerp_port }}$1 [P]
+{% endif %}
+{% endfor %}
 
+#For Bahmni-EMR
+{% for host in groups['bahmni-emr'] %}
+{{hostvars[host].get('passive')}}
+{% if hostvars[host].get('passive') != 'yes' %}
+		  ProxyPass /openmrs http://{{ host }}:{{ openmrs_port }}/openmrs
+		  ProxyPassReverse /openmrs http://{{ host }}:{{ openmrs_port }}/openmrs
+		  ProxyPass /reference-data http://{{ host }}:{{ openmrs_port }}/reference-data
+          ProxyPassReverse /reference-data http://{{ host }}:{{ openmrs_port }}/reference-data
+		  ProxyPass /bahmnireports http://{{ host }}:{{ bahmni_reports_port }}/bahmnireports
+          ProxyPassReverse /bahmnireports http://{{ host }}:{{ bahmni_reports_port }}/bahmnireports
+{% endif %}
+{% endfor %}
 
-	      ProxyPass /openmrs http://localhost:{{ openmrs_port }}/openmrs
-	      ProxyPassReverse /openmrs http://localhost:{{ openmrs_port }}/openmrs
-			ProxyPass /openelis http://localhost:{{ bahmni_lab_port }}/openelis
-	      ProxyPassReverse /openelis http://localhost:{{ bahmni_lab_port }}/openelis
-		      ProxyPass /bahmnireports http://localhost:{{ bahmni_reports_port }}/bahmnireports
-	      ProxyPassReverse /bahmnireports http://localhost:{{ bahmni_reports_port }}/bahmnireports
-		      ProxyPass /reference-data http://localhost:{{ openmrs_port }}/reference-data
-	      ProxyPassReverse /reference-data http://localhost:{{ openmrs_port }}/reference-data
-			ProxyPass /oviyam2 http://localhost:{{ oviyam2_port }}/oviyam2
-		  ProxyPass /event-log-service http://localhost:{{ bahmni_event_log_service_port }}/event-log-service
-          ProxyPassReverse /event-log-service http://localhost:{{ bahmni_event_log_service_port }}/event-log-service
+#For Bahmni-LAB
+{% for host in groups['bahmni-lab'] %}
+{% if hostvars[host].get('passive') != 'yes' %}
+		  ProxyPass /openelis http://{{ host }}:{{ bahmni_lab_port }}/openelis
+          ProxyPassReverse /openelis http://{{ host }}:{{ bahmni_lab_port }}/openelis
+{% endif %}
+{% endfor %}
+
+#For Event log service
+{% for host in groups['bahmni-event-log-service'] %}
+{% if hostvars[host].get('passive') != 'yes' %}
+		  ProxyPass /event-log-service http://{{ host }}:{{ bahmni_event_log_service_port }}/event-log-service
+          ProxyPassReverse /event-log-service http://{{ host }}:{{ bahmni_event_log_service_port }}/event-log-service
+{% endif %}
+{% endfor %}
+
+#For Event log service
+{% for host in groups['dcm4chee'] %}
+{% if hostvars[host].get('passive') != 'yes' %}
+			ProxyPass /oviyam2 http://{[ host }}:{{ oviyam2_port }}/oviyam2
+{% endif %}
+{% endfor %}
+
 
 			Alias /bahmni /var/www/bahmniapps
 				Alias /patient_images /home/bahmni/patient_images

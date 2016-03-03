@@ -121,11 +121,9 @@
       src=add_remote_ip_in_openmrs_markers.sh.j2
       dest=/opt/openmrs/add_remote_ip_in_openmrs_markers.sh
       mode=755
-  tags: test
 
 - name: Update markers with remote IP
   shell: /opt/openmrs/add_remote_ip_in_openmrs_markers.sh
-  tags: test
 
 - name: Start openmrs
   service: name=openmrs state=started enabled=yes
