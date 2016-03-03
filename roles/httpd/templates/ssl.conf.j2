@@ -288,7 +288,6 @@ RequestHeader set "X-Forwarded-Proto" "https"
 
 #For Bahmni-EMR
 {% for host in groups['bahmni-emr'] %}
-{{hostvars[host].get('passive')}}
 {% if hostvars[host].get('passive') != 'yes' %}
 		  ProxyPass /openmrs http://{{ host }}:{{ openmrs_port }}/openmrs
 		  ProxyPassReverse /openmrs http://{{ host }}:{{ openmrs_port }}/openmrs
@@ -318,7 +317,7 @@ RequestHeader set "X-Forwarded-Proto" "https"
 #For Event log service
 {% for host in groups['dcm4chee'] %}
 {% if hostvars[host].get('passive') != 'yes' %}
-			ProxyPass /oviyam2 http://{[ host }}:{{ oviyam2_port }}/oviyam2
+			ProxyPass /oviyam2 http://{{ host }}:{{ oviyam2_port }}/oviyam2
 {% endif %}
 {% endfor %}
 
