@@ -49,7 +49,7 @@
   shell: iptables -D INPUT {{ matchedRule.stdout }}
   when: matchedRule.stdout!=""
 
-- name: Allow openmrs port through firewall
+- name: Allow openerp port through firewall
   command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ openerp_port }} -j ACCEPT -m comment --comment "BAHMNIERP"
 
 - name: save iptables

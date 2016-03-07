@@ -2,3 +2,9 @@ bahmni_erp_connect_version: 0.78-846
 openerp_port: 8069
 openerp_db_username: openerp
 openerp_db_password: openerp
+openmrs_port: 8080
+bahmni_lab_port: 8081
+openmrs_user_id: admin
+openmrs_user_password: test
+openerp_user: admin
+openerp_password: password

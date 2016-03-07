@@ -32,6 +32,8 @@ openelis_db_password: password
 openerp_db_username: openerp
 openerp_db_password: password
 openerp_port: 8069
+openerp_user: admin
+openerp_password: password
 
 openmrs_user_id: admin
 openmrs_user_password : test
@@ -74,3 +76,16 @@ postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
 
 bahmni_event_log_service_port: 9081
 java_home: "{{ java_home_location }}"
+
+bahmni_emr_version: 0.81
+bahmni_erp_version: 0.81
+bahmni_erp_connect_version: 0.81
+bahmni_event_log_service_version: 0.81
+bahmni_lab_version: 0.81
+bahmni_lab_connect_version: 0.81
+bahmni_reports_version: 0.81
+bahmni_web_version: 0.81
+dcm4chee_version: 0.81
+openmrs_version: 1.12.0
+pacs_integration_version: 0.81
+

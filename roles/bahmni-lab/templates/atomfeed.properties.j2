@@ -23,7 +23,6 @@ openmrs.auth.uri=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/rest/v1/session
 openmrs.patient.feed.uri=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/atomfeed/patient/recent
 openmrs.encounter.feed.uri=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/atomfeed/encounter/recent
 openmrs.lab.feed.uri=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/atomfeed/lab/recent
-reference.data.feed.uri=http://{{ host }}:{{ openmrs_port }}/reference-data/ws/feed/recent
 
 {% endif %}
 {% endfor %}
@@ -34,8 +33,3 @@ openmrs.connectionTimeoutInMilliseconds=10000
 openmrs.replyTimeoutInMilliseconds=20000
 productType.labTest=Test
 productType.panel=Panel
-
-
-
-reference.data.connectionTimeoutInMilliseconds=10000
-reference.data.replyTimeoutInMilliseconds=20000
