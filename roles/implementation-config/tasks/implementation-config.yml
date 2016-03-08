@@ -4,7 +4,7 @@
 - name: create /var/www/bahmni_config
   file: path=/var/www/bahmni_config state=directory owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
 
-- name: Copy implementation config to /tmp
+- name: Copy implementation config to /var/www/bahmni_config
   copy:
     src=/etc/bahmni-installer/deployment-artifacts/{{ implementation_name }}_config/
     dest=/var/www/bahmni_config
@@ -12,17 +12,37 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
+- name: check if obscalculator exists
+  stat: path=/var/www/bahmni_config/openmrs/obscalculator
+  register: obscalculator_dir
+
 - name: Link obscalculator in openmrs application data directory
   file: src=/var/www/bahmni_config/openmrs/obscalculator  dest=/opt/openmrs/obscalculator state=link owner={{ bahmni_user }} group={{ bahmni_group }}
+  when: obscalculator_dir.stat.exists == True
 
-- name: Link order templates in openmrs application data directory
+- name: check if ordertemplates exists
+  stat: path=/var/www/bahmni_config/openmrs/ordertemplates
+  register: ordertemplates_dir
+
+- name: Link order templates in openmrs application data directory if it exists
   file: src=/var/www/bahmni_config/openmrs/ordertemplates  dest=/opt/openmrs/ordertemplates state=link owner={{ bahmni_user }} group={{ bahmni_group }}
+  when: ordertemplates_dir.stat.exists == True
 
-- name: Link encounter modifiers in openmrs application data directory
+- name: check if encounterModifier exists
+  stat: path=/var/www/bahmni_config/openmrs/encounterModifier
+  register: encounterModifier_dir
+
+- name: Link encounter modifiers in openmrs application data directory if it exists
   file: src=/var/www/bahmni_config/openmrs/encounterModifier  dest=/opt/openmrs/encounterModifier state=link owner={{ bahmni_user}} group={{ bahmni_group }}
+  when: encounterModifier_dir.stat.exists == True
 
-- name: Link patient match algorithms in openmrs application data directory
+- name: check if patientMatchingAlgorithm exists
+  stat: path=/var/www/bahmni_config/openmrs/patientMatchingAlgorithm
+  register: patientMatchingAlgorithm_dir
+
+- name: Link patient match algorithms in openmrs application data directory if it exists
   file: src=/var/www/bahmni_config/openmrs/patientMatchingAlgorithm  dest=/opt/openmrs/patientMatchingAlgorithm state=link owner={{ bahmni_user }} group={{ bahmni_group }}
+  when: patientMatchingAlgorithm_dir.stat.exists == True
 
 #TODO: Below 3 tasks to be removed after removing its dependencies from bahmni-core
 - name: remove /opt/openmrs/bahmni_config
