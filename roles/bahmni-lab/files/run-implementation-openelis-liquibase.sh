@@ -10,5 +10,5 @@ CLASSPATH="/etc/bahmni-lab/openelis.war"
 
 if [  -f "$CHANGE_LOG_FILE" ]
 then
-java $CHANGE_LOG_TABLE -jar $LIQUIBASE_JAR --classpath=$CLASSPATH --driver=$DRIVER --changeLogFile=$CHANGE_LOG_FILE --defaultSchemaName=clinlims --url=jdbc:postgresql://$OPENELIS_DB_SERVER:5432/clinlims --username=$OPENELIS_DB_USERNAME --password=$OPENELIS_DB_PASSWORD update
+cd /var/www/bahmni_config/openelis/migrations/ && java $CHANGE_LOG_TABLE -jar $LIQUIBASE_JAR --classpath=$CLASSPATH --driver=$DRIVER --changeLogFile=$CHANGE_LOG_FILE --defaultSchemaName=clinlims --url=jdbc:postgresql://$OPENELIS_DB_SERVER:5432/clinlims --username=$OPENELIS_DB_USERNAME --password=$OPENELIS_DB_PASSWORD update
 fi

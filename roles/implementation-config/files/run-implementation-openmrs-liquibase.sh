@@ -10,6 +10,6 @@ CLASSPATH="/opt/openmrs/openmrs/WEB-INF/lib/mysql-connector-java-5.1.28.jar"
 CHANGE_LOG_FILE="/var/www/bahmni_config/openmrs/migrations/liquibase.xml"
 
 
-java $CHANGE_LOG_TABLE  -jar $LIQUIBASE_JAR --driver=$DRIVER --classpath=$CLASSPATH --changeLogFile=$CHANGE_LOG_FILE --url=jdbc:mysql://$OPENMRS_DB_SERVER:3306/openmrs --username=$OPENMRS_DB_USERNAME --password=$OPENMRS_DB_PASSWORD update
+cd /var/www/bahmni_config/openmrs/migrations && java $CHANGE_LOG_TABLE  -jar $LIQUIBASE_JAR --driver=$DRIVER --classpath=$CLASSPATH --changeLogFile=$CHANGE_LOG_FILE --url=jdbc:mysql://$OPENMRS_DB_SERVER:3306/openmrs --username=$OPENMRS_DB_USERNAME --password=$OPENMRS_DB_PASSWORD update
 
 
