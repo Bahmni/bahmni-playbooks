@@ -1,0 +1,8 @@
+- name: Removing recovery config file
+  file:
+    path=/var/lib/pgsql/9.2/data/recovery.conf
+    state=absent
+
+- name: Postgres replication setup in slave
+  include: slave.yml
+  when: inventory_hostname in groups['bahmni-lab-db-slave'] or inventory_hostname in groups['bahmni-erp-db-slave']

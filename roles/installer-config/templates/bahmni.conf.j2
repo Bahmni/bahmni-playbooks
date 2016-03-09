@@ -14,3 +14,6 @@ OPENERP_DB_SERVER={{ groups['bahmni-erp-db'][0] | default('localhost', true)}}
 {% endif %}
 MYSQL_ROOT_USER={{mysql_root_user}}
 MYSQL_ROOT_PASSWORD={{mysql_root_password}}
+{% if hostvars[inventory_hostname].get('passive') == 'yes' %}
+IS_PASSIVE=1
+{% endif %}

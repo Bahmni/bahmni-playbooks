@@ -1,0 +1,27 @@
+- name: Stop PostgreSQL
+  service:
+    name=postgresql-9.2
+    state=stopped
+  ignore_errors: true
+
+- name: Cleaning up old cluster directory
+  file:
+    path=/var/lib/pgsql/9.2/data
+    state=absent
+
+- name: Starting base backup as replication user
+  shell: sudo -u postgres pg_basebackup -h {{ master_db }} -D /var/lib/pgsql/9.2/data -U {{ replication_user }} -v -P --xlog-method=stream
+
+- name: copy recovery conf file
+  template:
+      src=recovery.conf.j2
+      dest=/var/lib/pgsql/9.2/data/recovery.conf
+      mode=644
+      owner=postgres
+      group=postgres
+
+- name: Start PostgreSQL
+  service:
+    name=postgresql-9.2
+    state=started
+  ignore_errors: true

@@ -43,7 +43,7 @@
     owner=postgres
     group=postgres
     mode=644
-                 
+
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep POSTGRES  -m 1 | cut -c 1-2
   register: matchedRule
@@ -68,3 +68,4 @@
 - name: Create postgres user
   postgresql_user: name={{ postgres_user }} role_attr_flags=CREATEDB,NOCREATEROLE,SUPERUSER,REPLICATION
   sudo_user: postgres
+  when: inventory_hostname in groups['bahmni-lab-db'] or inventory_hostname in groups['bahmni-erp-db']

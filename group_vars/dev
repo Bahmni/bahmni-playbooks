@@ -8,7 +8,6 @@ mysql_root_user: root
 mysql_old_root_password: password
 mysql_root_password: password
 
-implementation_name: default
 bahmni_ntp_timezone: Asia/Kolkata
 
 openmrs_install_dir: /opt/openmrs
@@ -86,6 +85,6 @@ bahmni_lab_connect_version: 0.81
 bahmni_reports_version: 0.81
 bahmni_web_version: 0.81
 dcm4chee_version: 0.81
-openmrs_version: 1.12.0
+openmrs_version: 1.12.0-57
 pacs_integration_version: 0.81
 

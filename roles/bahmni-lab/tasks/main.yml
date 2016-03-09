@@ -80,6 +80,7 @@
 
 - name: Run openelis liquibase migrations of implementation config
   script: run-implementation-openelis-liquibase.sh
+  when: passive is not defined or passive != 'yes'
 
 - name: Copy script to update localhost with remote IP in markers
   template:

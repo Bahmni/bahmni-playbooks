@@ -53,3 +53,5 @@
 
 - name: Run openmrs liquibase migrations
   script: run-implementation-openmrs-liquibase.sh
+  when: passive is not defined or passive != 'yes'
+
