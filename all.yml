@@ -41,33 +41,13 @@
   tags:
     - bahmni-reports
 
-- hosts: bahmni-erp-db:bahmni-erp-db-slave
-  sudo: yes
-  roles:
-    - { role: postgres, postgres_user: openerp }
-  tags:
-    - bahmni-erp-db
-    - bahmni-erp
-
-- hosts: bahmni-erp
-  sudo: yes
-  roles:
-    - { role: bahmni-erp }
-  tags:
-    - bahmni-erp
-
-- hosts: bahmni-erp
-  sudo: yes
-  roles:
-    - { role: bahmni-erp-connect }
-  tags:
-    - bahmni-erp-connect
-
 - hosts: bahmni-lab-db:bahmni-lab-db-slave
   sudo: yes
   roles:
     - { role: postgres, postgres_user: clinlims }
+    - { role: postgres-replication, replication_user: clinlims, master_db: "{{ groups['bahmni-lab-db'][0] }}" }
   tags:
+    - postgres-replication
     - bahmni-lab-db
     - bahmni-lab
 
@@ -84,6 +64,30 @@
     - { role: bahmni-lab-connect, when: "{{ groups['bahmni-lab'] | length }} > 0" }
   tags:
     - bahmni-lab-connect
+
+- hosts: bahmni-erp-db:bahmni-erp-db-slave
+  sudo: yes
+  roles:
+    - { role: postgres, postgres_user: openerp }
+    - { role: postgres-replication, replication_user: openerp, master_db: "{{ groups['bahmni-erp-db'][0] }}" }
+  tags:
+    - postgres-replication
+    - bahmni-erp-db
+    - bahmni-erp
+
+- hosts: bahmni-erp
+  sudo: yes
+  roles:
+    - { role: bahmni-erp }
+  tags:
+    - bahmni-erp
+
+- hosts: bahmni-erp
+  sudo: yes
+  roles:
+    - { role: bahmni-erp-connect }
+  tags:
+    - bahmni-erp-connect
 
 - hosts: bahmni-pacs
   sudo: yes
@@ -105,13 +109,6 @@
     - { role: bahmni-event-log-service }
   tags:
     - event-log
-
-- hosts: bahmni-emr
-  sudo: yes
-  roles:
-   - { role: bahmni-support-user }
-  tags:
-   - support-user
 
 - hosts: all
   sudo: yes
