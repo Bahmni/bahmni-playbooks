@@ -20,8 +20,3 @@
       owner=postgres
       group=postgres
 
-- name: Start PostgreSQL
-  service:
-    name=postgresql-9.2
-    state=started
-  ignore_errors: true

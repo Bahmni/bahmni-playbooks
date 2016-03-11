@@ -1,0 +1,60 @@
+- hosts: all
+  sudo: yes
+  roles:
+    - { role: bahmni-base }
+    - { role: bahmni-repo-management, enabled: 1 }
+    - { role: bahmni-user }
+    - { role: installer-config }
+    - { role: bahmni-support-user }
+    - { role: selinux, selinux_state: permissive, selinux_policy: targeted }
+  tags:
+    - setup
+
+- hosts: bahmni-erp
+  tasks:
+   - name: Stop openerp
+     service:
+       name: openerp
+       state: stopped
+     when: passive is not defined or passive != 'yes'
+
+- hosts: bahmni-lab
+  tasks:
+   - name: Stop bahmni-lab
+     service:
+       name: bahmni-lab
+       state: stopped
+     when: passive is not defined or passive != 'yes'
+
+- hosts: bahmni-erp-db:bahmni-erp-db-slave
+  sudo: yes
+  roles:
+    - { role: postgres, postgres_user: openerp }
+    - { role: postgres-replication, replication_user: openerp, master_db: "{{ groups['bahmni-erp-db'][0] }}" }
+
+- hosts: bahmni-lab-db:bahmni-lab-db-slave
+  sudo: yes
+  roles:
+    - { role: postgres, postgres_user: clinlims }
+    - { role: postgres-replication, replication_user: clinlims, master_db: "{{ groups['bahmni-lab-db'][0] }}" }
+
+- hosts: bahmni-erp
+  tasks:
+   - name: Start openerp
+     service:
+       name: openerp
+       state: started
+     when: passive is not defined or passive != 'yes'
+
+- hosts: bahmni-lab
+  tasks:
+   - name: Start bahmni-lab
+     service:
+       name: bahmni-lab
+       state: started
+     when: passive is not defined or passive != 'yes'
+
+- hosts: all
+  sudo: yes
+  roles:
+   - { role: bahmni-repo-management, enabled: 0 }

@@ -1,4 +1,3 @@
 ---
 dependencies:
-  - { role: installer-config }
   - { role: mysql }

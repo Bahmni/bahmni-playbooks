@@ -10,13 +10,6 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
-- name: stop replication
-  mysql_replication:
-   mode: stopslave
-   login_user: "{{ mysql_root_user}}"
-   login_password: "{{ mysql_root_password }}"
-  ignore_errors: true
-
 - name: Import mysql dump from master to slave db
   script: restore_mysql_dump.sh
 

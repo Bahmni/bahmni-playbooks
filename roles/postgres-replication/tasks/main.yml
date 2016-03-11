@@ -6,3 +6,9 @@
 - name: Postgres replication setup in slave
   include: slave.yml
   when: inventory_hostname in groups['bahmni-lab-db-slave'] or inventory_hostname in groups['bahmni-erp-db-slave']
+
+- name: Start PostgreSQL
+  service:
+    name=postgresql-9.2
+    state=restarted
+  ignore_errors: true

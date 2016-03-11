@@ -45,9 +45,7 @@
   sudo: yes
   roles:
     - { role: postgres, postgres_user: clinlims }
-    - { role: postgres-replication, replication_user: clinlims, master_db: "{{ groups['bahmni-lab-db'][0] }}" }
   tags:
-    - postgres-replication
     - bahmni-lab-db
     - bahmni-lab
 
@@ -69,9 +67,7 @@
   sudo: yes
   roles:
     - { role: postgres, postgres_user: openerp }
-    - { role: postgres-replication, replication_user: openerp, master_db: "{{ groups['bahmni-erp-db'][0] }}" }
   tags:
-    - postgres-replication
     - bahmni-erp-db
     - bahmni-erp
 

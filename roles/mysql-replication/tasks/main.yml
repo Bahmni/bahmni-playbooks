@@ -16,13 +16,20 @@
     state=directory
     recurse=yes
 
+- name: stop replication
+  mysql_replication:
+   mode: stopslave
+   login_user: "{{ mysql_root_user}}"
+   login_password: "{{ mysql_root_password }}"
+  ignore_errors: true
+
 
 - name: Replication setup in master
   include: master.yml
-  when: inventory_hostname == groups['bahmni-emr-db'][0]
+  when: inventory_hostname in groups['bahmni-emr-db']
   tags: master
 
 - name: Replication setup in slave
   include: slave.yml
-  when: inventory_hostname == groups['bahmni-emr-db-slave'][0]
+  when: inventory_hostname in groups['bahmni-emr-db-slave']
   tags: slave

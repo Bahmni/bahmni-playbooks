@@ -44,6 +44,12 @@
     group=postgres
     mode=644
 
+- name: Removing recovery config file from master db
+  file:
+      path=/var/lib/pgsql/9.2/data/recovery.conf
+      state=absent
+  when: inventory_hostname in groups['bahmni-lab-db'] or inventory_hostname in groups['bahmni-erp-db']
+
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep POSTGRES  -m 1 | cut -c 1-2
   register: matchedRule
