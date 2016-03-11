@@ -18,6 +18,14 @@
     - bahmni-emr-db
     - bahmni-emr
 
+- hosts: bahmni-emr-db
+  sudo: yes
+  roles:
+    - { role: mysql-users }
+  tags:
+    - bahmni-emr-db
+    - bahmni-emr
+
 - hosts: bahmni-emr
   sudo: yes
   roles:
