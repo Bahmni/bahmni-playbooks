@@ -1,13 +1,26 @@
 openelis.url=jdbc:postgresql://{{ openelis_db_server }}:5432/clinlims
 openelis.username={{ openelis_db_username }}
 openelis.password={{ openelis_db_password }}
-openmrs.url=jdbc:mysql://{{ openmrs_db_server }}:3306/openmrs?allowMultiQueries=true
-openmrs.test.url=jdbc:mysql://{{ openmrs_db_server }}:3306/reports_integration_tests?allowMultiQueries=true
+
+{% if groups['bahmni-emr-db-slave']|length > 0 %}
+openmrs.url=jdbc:mysql://{{ groups['bahmni-emr-db-slave'][0] }}:3306/openmrs?allowMultiQueries=true
+openmrs.test.url=jdbc:mysql://{{ groups['bahmni-emr-db-slave'][0] }}:3306/reports_integration_tests?allowMultiQueries=true
+{% else %}
+openmrs.url=jdbc:mysql://{{ groups['bahmni-emr-db'][0] }}:3306/openmrs?allowMultiQueries=true
+openmrs.test.url=jdbc:mysql://{{ groups['bahmni-emr-db'][0] }}:3306/reports_integration_tests?allowMultiQueries=true
+{% endif %}
+
 openmrs.username= {{ openmrs_db_username }}
 openmrs.password= {{ openmrs_db_password }}
 
 config.file.path=/var/www/bahmni_config/openmrs/apps/reports/reports.json
-openmrs.service.rootUrl=http://{{ openmrs_db_server }}:{{ openmrs_port }}/openmrs/ws/rest/v1
+
+{% for host in groups['bahmni-emr'] %}
+{% if hostvars[host].get('passive') != 'yes' %}
+openmrs.service.rootUrl=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/rest/v1
+{% endif %}
+{% endfor %}
+
 openmrs.service.user={{ openmrs_reporting_user }}
 openmrs.service.password={{ openmrs_reporting_password }}
 openmrs.connectionTimeoutInMilliseconds=30000

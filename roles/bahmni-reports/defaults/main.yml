@@ -1,6 +1,4 @@
 openmrs_port: 8080
 bahmni_reports_port: 8083
-openmrs_db_server: localhost
-openelis_db_server: localhost
 openmrs_user_id: admin
 openmrs_user_password: test

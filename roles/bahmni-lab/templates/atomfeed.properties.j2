@@ -10,11 +10,6 @@ feed.replyTimeoutInMilliseconds=20000
 feed.maxFailedEvents=10000
 feed.failedEventMaxRetry=10
 
-#OpenElis specific properties
-openerp.labtest.feed.uri=http://localhost:{{ openmrs_port }}/openerp-atomfeed-service/feed/product/recent
-openerp.connectionTimeoutInMilliseconds=10000
-openerp.replyTimeoutInMilliseconds=20000
-
 #OpenMRS data specific properties
 
 {% for host in groups['bahmni-emr'] %}
