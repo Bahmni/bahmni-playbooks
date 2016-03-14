@@ -33,7 +33,7 @@
   template:
     src=templates/my.cnf.j2
     dest=/etc/my.cnf
-    mode=755
+    mode=0644
 
 - name: Stop Mysql Service
   service: name=mysqld state=stopped
