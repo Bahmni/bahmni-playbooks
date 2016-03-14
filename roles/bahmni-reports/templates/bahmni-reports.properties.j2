@@ -1,4 +1,9 @@
-openelis.url=jdbc:postgresql://{{ openelis_db_server }}:5432/clinlims
+{% if groups['bahmni-lab-db-slave']|length > 0 %}
+openelis.url=jdbc:postgresql://{{ groups['bahmni-lab-db-slave'][0] }}:5432/clinlims
+{% else %}
+openelis.url=jdbc:postgresql://{{ groups['bahmni-lab-db'][0] }}:5432/clinlims
+{% endif %}
+
 openelis.username={{ openelis_db_username }}
 openelis.password={{ openelis_db_password }}
 
