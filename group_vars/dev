@@ -33,6 +33,7 @@ openerp_db_password: password
 openerp_port: 8069
 openerp_user: admin
 openerp_password: password
+copy_to_local_machine: no
 
 openmrs_user_id: admin
 openmrs_user_password : test
