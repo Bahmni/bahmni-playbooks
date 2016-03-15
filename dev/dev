@@ -3,9 +3,6 @@
 [bahmni-emr]
 192.168.33.10
 
-[bahmni-certs]
-192.168.33.10
-
 [bahmni-emr-db]
 192.168.33.10
 
@@ -46,4 +43,3 @@ bahmni-reports
 bahmni-pacs
 dcm4chee
 bahmni-event-log-service
-bahmni-certs

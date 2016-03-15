@@ -26,6 +26,12 @@
 - name: save iptables
   command: service iptables save
 
+- name: Uninstall bahmni-certs rpm
+  yum: name="bahmni-certs" state=absent
+
+- name: Install bahmni-certs from bahmni-repo
+  yum: name="bahmni-certs" state=present
+
 - name: copy ssl conf file
   template:
       src=ssl.conf.j2
