@@ -36,6 +36,9 @@ localhost
 [bahmni-event-log-service]
 localhost
 
+[bahmni-certs]
+localhost
+
 [local:children]
 bahmni-emr
 bahmni-emr-db
@@ -50,3 +53,4 @@ bahmni-reports
 bahmni-pacs
 dcm4chee
 bahmni-event-log-service
+bahmni-certs
