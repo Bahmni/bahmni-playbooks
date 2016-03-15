@@ -39,7 +39,7 @@
 
 - name: Copy script to update localhost with remote IP in markers
   template:
-      src=add_remore_ip_in_openerp_markers.sh.j2
+      src=add_remote_ip_in_openerp_markers.sh.j2
       dest=/opt/bahmni-erp-connect/add_remore_ip_in_openerp_markers.sh
       mode=755
 
