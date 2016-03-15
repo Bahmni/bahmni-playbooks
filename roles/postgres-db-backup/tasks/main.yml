@@ -7,14 +7,14 @@
   command: date +%Y%m%d-%H%M%S
   register: time
 
-- name: Take openmrs DB backup
-  shell: mysqldump -u{{mysql_root_user}} -p{{mysql_root_password}} --routines --databases openmrs | grep -v 'SQL SECURITY DEFINER' | gzip  > /db-backup/openmrs_dump_{{ time.stdout }}.sql.gz
+- name: Take {{db_name}} DB backup
+  shell: pg_dump -Upostgres  {{ db_name }} | gzip > /db-backup/{{ db_name }}_dump_{{ time.stdout }}.sql.gz
   sudo: yes
 
 - name: Create /db-backup directory in local machine
   local_action: file path=/db-backup state=directory mode=0777
   when: copy_to_local_machine == "yes"
 
-- name: Copy openmrs backup file to local machine
-  fetch: src="/db-backup/openmrs_dump_{{time.stdout}}.sql.gz" dest=/db-backup/ flat=yes
+- name: Copy {{db_name}} backup file to local machine
+  fetch: src=/db-backup/{{ db_name }}_dump_{{time.stdout}}.sql.gz dest=/db-backup/ flat=yes
   when: copy_to_local_machine == "yes"

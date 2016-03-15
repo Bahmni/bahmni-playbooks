@@ -1,4 +1,24 @@
 - hosts: bahmni-emr-db
-  sudo: yes
+  become: yes
   roles:
     - { role: mysql-db-backup }
+
+- hosts: bahmni-lab-db
+  become: yes
+  roles:
+    - { role: postgres-db-backup, db_name: clinlims }
+
+- hosts: bahmni-erp-db
+  become: yes
+  roles:
+    - { role: postgres-db-backup, db_name: openerp }
+
+- hosts: bahmni-pacs
+  become: yes
+  roles:
+    - { role: postgres-db-backup, db_name: bahmni_pacs }
+
+- hosts: dcmchee
+  become: yes
+  roles:
+    - { role: postgres-db-backup, db_name: pacsdb }
