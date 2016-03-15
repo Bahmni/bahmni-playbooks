@@ -291,8 +291,11 @@ RequestHeader set "X-Forwarded-Proto" "https"
 {% if hostvars[host].get('passive') != 'yes' %}
 		  ProxyPass /openmrs http://{{ host }}:{{ openmrs_port }}/openmrs
 		  ProxyPassReverse /openmrs http://{{ host }}:{{ openmrs_port }}/openmrs
-		  ProxyPass /reference-data http://{{ host }}:{{ openmrs_port }}/reference-data
-          ProxyPassReverse /reference-data http://{{ host }}:{{ openmrs_port }}/reference-data
+{% endif %}
+{% endfor %}
+#For Bahmni-Reports
+{% for host in groups['bahmni-reports'] %}
+{% if hostvars[host].get('passive') != 'yes' %}
 		  ProxyPass /bahmnireports http://{{ host }}:{{ bahmni_reports_port }}/bahmnireports
           ProxyPassReverse /bahmnireports http://{{ host }}:{{ bahmni_reports_port }}/bahmnireports
 {% endif %}
