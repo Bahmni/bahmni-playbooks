@@ -1,6 +1,6 @@
 {% if groups['bahmni-lab-db-slave']|length > 0 %}
 openelis.url=jdbc:postgresql://{{ groups['bahmni-lab-db-slave'][0] }}:5432/clinlims
-{% else %}
+{% elif groups['bahmni-lab-db']|length > 0 %}
 openelis.url=jdbc:postgresql://{{ groups['bahmni-lab-db'][0] }}:5432/clinlims
 {% endif %}
 
