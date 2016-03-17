@@ -1,0 +1,24 @@
+- hosts: bahmni-emr-db
+  become: yes
+  roles:
+    - { role: mysql-db-restore }
+
+- hosts: bahmni-lab-db
+  become: yes
+  roles:
+    - { role: postgres-db-restore, db_name: clinlims }
+
+- hosts: bahmni-erp-db
+  become: yes
+  roles:
+    - { role: postgres-db-restore, db_name: openerp }
+
+- hosts: bahmni-pacs
+  become: yes
+  roles:
+    - { role: postgres-db-restore, db_name: bahmni_pacs }
+
+- hosts: dcmchee
+  become: yes
+  roles:
+    - { role: postgres-db-restore, db_name: pacsdb }
