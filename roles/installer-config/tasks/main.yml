@@ -1,8 +1,8 @@
 - name: create /etc/bahmni-installer/ directory
-  file: path=/etc/bahmni-installer state=directory mode=0644 owner={{ bahmni_user }} group={{ bahmni_group }}
+  file: path=/etc/bahmni-installer state=directory mode=0755 owner={{ bahmni_user }} group={{ bahmni_group }}
 
 - name: create /etc/bahmni-installer/deployment-artifacts directory
-  file: path=/etc/bahmni-installer/deployment-artifacts state=directory mode=0644 owner={{ bahmni_user }} group={{ bahmni_group }}
+  file: path=/etc/bahmni-installer/deployment-artifacts state=directory mode=0755 owner={{ bahmni_user }} group={{ bahmni_group }}
 
 - name: add bahmni configuration file
   template:

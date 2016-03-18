@@ -2,7 +2,7 @@
   template:
     src=templates/my.cnf.j2
     dest=/etc/my.cnf
-    mode=0644
+    mode=755
 
 - name: Start Mysql Service
   service: name=mysqld state=restarted enabled=true
@@ -12,7 +12,7 @@
     path=/opt/mysql-replication
     group={{bahmni_group}}
     owner={{bahmni_user}}
-    mode=0644
+    mode=0755
     state=directory
     recurse=yes
 
