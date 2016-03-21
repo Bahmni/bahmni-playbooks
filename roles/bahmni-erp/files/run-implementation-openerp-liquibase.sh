@@ -5,7 +5,7 @@ set -e -x
 CHANGE_LOG_TABLE="-Dliquibase.databaseChangeLogTableName=databasechangelog -Dliquibase.databaseChangeLogLockTableName=databasechangeloglock"
 LIQUIBASE_JAR="/opt/bahmni-erp-connect/bahmni-erp-connect/WEB-INF/lib/liquibase-core-2.0.3.jar"
 DRIVER="org.postgresql.Driver"
-CHANGE_LOG_FILE="/var/www/bahmni_config/openerp/migrations/liquibase.xml"
+CHANGE_LOG_FILE="liquibase.xml"
 CLASSPATH="/etc/bahmni-erp-connect/openerp-atomfeed-service.war"
 
 if [  -f "$CHANGE_LOG_FILE" ]

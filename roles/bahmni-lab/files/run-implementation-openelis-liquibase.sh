@@ -5,7 +5,7 @@ set -e -x
 CHANGE_LOG_TABLE="-Dliquibase.databaseChangeLogTableName=databasechangelog -Dliquibase.databaseChangeLogLockTableName=databasechangeloglock"
 LIQUIBASE_JAR="/opt/bahmni-lab/migrations/liquibase/lib/liquibase-1.9.5.jar"
 DRIVER="org.postgresql.Driver"
-CHANGE_LOG_FILE="/var/www/bahmni_config/openelis/migrations/liquibase.xml"
+CHANGE_LOG_FILE="liquibase.xml"
 CLASSPATH="/etc/bahmni-lab/openelis.war"
 
 if [  -f "$CHANGE_LOG_FILE" ]
