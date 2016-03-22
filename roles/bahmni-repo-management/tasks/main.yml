@@ -5,5 +5,4 @@
     state=present
     regexp='^enabled'
     line='enabled={{enabled}}'
-  tags: always
 
