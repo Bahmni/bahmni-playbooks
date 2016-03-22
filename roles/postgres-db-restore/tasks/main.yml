@@ -20,6 +20,7 @@
     name={{ db_name }}
     state=absent
     login_user=postgres
+  when: pgsql_dump_file_path.matched > 0
 
 - name: Restore {{ db_name }} db
   shell: gunzip -c /db-restore/{{ db_name }}_dump.sql.gz | psql -U postgres

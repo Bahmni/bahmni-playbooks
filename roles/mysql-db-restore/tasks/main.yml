@@ -16,6 +16,7 @@
   when: mysql_dump_file_path.matched > 0
 
 - name: Drop openmrs database
+  when: mysql_dump_file_path.matched > 0
   mysql_db:
     name=openmrs
     login_user={{ mysql_root_user }}

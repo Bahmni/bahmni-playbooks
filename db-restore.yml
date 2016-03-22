@@ -1,3 +1,53 @@
+- hosts: bahmni-emr
+  tasks:
+   - name: Stop openmrs
+     service: name=openmrs state=stopped
+     when: passive is not defined or passive != 'yes'
+     become: yes
+
+- hosts: bahmni-reports
+  tasks:
+   - name: Stop bahmni-reports service
+     service: name=bahmni-reports state=stopped
+     when: passive is not defined or passive != 'yes'
+     become: yes
+
+- hosts: bahmni-lab
+  tasks:
+   - name: Stop bahmni-lab
+     service: name="bahmni-lab" state=stopped
+     when: passive is not defined or passive != 'yes'
+     become: yes
+
+- hosts: bahmni-erp
+  tasks:
+   - name: Stop bahmni-erp
+     service: name=openerp state=stopped
+     when: passive is not defined or passive != 'yes'
+     become: yes
+
+
+- hosts: bahmni-erp
+  tasks:
+   - name: Stop bahmni-erp-connect
+     service: name=bahmni-erp-connect state=stopped
+     when: passive is not defined or passive != 'yes'
+     become: yes
+
+- hosts: bahmni-pacs
+  tasks:
+   - name: Stop bahmni-pacs
+     service: name=bahmni-pacs state=stopped
+     when: passive is not defined or passive != 'yes'
+     become: yes
+
+- hosts: dcm4chee
+  tasks:
+   - name: Stop dcm4chee
+     service: name=dcm4chee state=stopped
+     when: passive is not defined or passive != 'yes'
+     become: yes
+
 - hosts: bahmni-emr-db
   become: yes
   roles:
@@ -22,3 +72,45 @@
   become: yes
   roles:
     - { role: postgres-db-restore, db_name: pacsdb }
+
+- hosts: bahmni-emr
+  tasks:
+   - name: Start openmrs
+     service: name=openmrs state=started
+     when: passive is not defined or passive != 'yes'
+     become: yes
+
+- hosts: bahmni-lab
+  tasks:
+   - name: Start bahmni-lab
+     service: name=bahmni-lab state=started
+     when: passive is not defined or passive != 'yes'
+     become: yes
+
+- hosts: bahmni-erp
+  tasks:
+   - name: Start openerp
+     service: name=openerp state=started
+     when: passive is not defined or passive != 'yes'
+     become: yes
+
+- hosts: bahmni-erp
+  tasks:
+   - name: Start bahmni-erp
+     service: name=bahmni-erp-connect state=started
+     when: passive is not defined or passive != 'yes'
+     become: yes
+
+- hosts: bahmni-pacs
+  tasks:
+   - name: Start bahmni-pacs
+     service: name=bahmni-pacs state=started
+     when: passive is not defined or passive != 'yes'
+     become: yes
+
+- hosts: dcm4chee
+  tasks:
+   - name: Start dcm4chee
+     service: name=dcm4chee state=started
+     when: passive is not defined or passive != 'yes'
+     become: yes
