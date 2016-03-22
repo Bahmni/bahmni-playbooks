@@ -1,17 +1,17 @@
 - name: Copy mysql dump from master machine to ansible host machine
-  fetch: src=/opt/mysql-replication/mysql_dump.sql dest=/tmp/ flat=yes fail_on_missing=yes
+  fetch: src=/opt/mysql-replication/mysql_dump.sql.gz dest=/tmp/ flat=yes fail_on_missing=yes
   delegate_to: "{{ groups['bahmni-emr-db'][0] }}"
 
 - name: Copy mysql dump from ansible host machine to slave machine
   copy:
-    src=/tmp/mysql_dump.sql
+    src=/tmp/mysql_dump.sql.gz
     dest=/opt/mysql-replication/
     mode=644
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
 - name: Import mysql dump from master to slave db
-  script: restore_mysql_dump.sh
+  shell: gunzip -c /opt/mysql-replication/mysql_dump.sql.gz | mysql -u{{ mysql_root_user }} -p{{ mysql_root_password }}
 
 - name: get the current master server's replication status
   mysql_replication:
