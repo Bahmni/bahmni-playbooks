@@ -11,6 +11,7 @@
     - setup
 
 - hosts: bahmni-emr
+  sudo: yes
   tasks:
    - include: roles/mysql-replication/tasks/stop_emr.yml
      when: passive is not defined or passive != 'yes'
@@ -30,6 +31,7 @@
     - repl
 
 - hosts: bahmni-emr
+  sudo: yes
   tasks:
    - include: roles/mysql-replication/tasks/start_emr.yml
      when: passive is not defined or passive != 'yes'
