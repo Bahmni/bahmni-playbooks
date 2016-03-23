@@ -11,6 +11,7 @@
     - setup
 
 - hosts: bahmni-erp
+  sudo: yes
   tasks:
    - name: Stop openerp
      service:
@@ -19,6 +20,7 @@
      when: passive is not defined or passive != 'yes'
 
 - hosts: bahmni-lab
+  sudo: yes
   tasks:
    - name: Stop bahmni-lab
      service:
@@ -39,6 +41,7 @@
     - { role: postgres-replication, replication_user: clinlims, master_db: "{{ groups['bahmni-lab-db'][0] }}" }
 
 - hosts: bahmni-erp
+  sudo: yes
   tasks:
    - name: Start openerp
      service:
@@ -47,6 +50,7 @@
      when: passive is not defined or passive != 'yes'
 
 - hosts: bahmni-lab
+  sudo: yes
   tasks:
    - name: Start bahmni-lab
      service:
