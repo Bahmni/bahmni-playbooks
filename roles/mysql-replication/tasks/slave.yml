@@ -1,5 +1,6 @@
-- name: Copy mysql dump from master machine to ansible host machine
+- name: Fetch mysql dump from master machine to ansible host machine
   fetch: src=/opt/mysql-replication/mysql_dump.sql.gz dest=/tmp/ flat=yes fail_on_missing=yes
+  sudo: no
   delegate_to: "{{ groups['bahmni-emr-db'][0] }}"
 
 - name: Copy mysql dump from ansible host machine to slave machine
