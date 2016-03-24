@@ -1,33 +1,30 @@
 - name: Get {{ db_name }} db file path
-  local_action: find paths="/db-backup" patterns="{{ db_name }}*.sql.gz"
+  stat: path={{ file_path }}
   register: pgsql_dump_file_path
+  failed_when: pgsql_dump_file_path.stat.exists == false
 
 - name: Create /db-restore
-  file:
+  file:=
     path=/db-restore
     state=directory
 
 - name: Copy {[ db_name }} backup to the machine
-  copy: src={{ pgsql_dump_file_path.files[0].path }}
+  copy: src={{ file_path }}
         dest=/db-restore/{{ db_name }}_dump.sql.gz
         mode=644
         owner={{ bahmni_user }}
         group={{ bahmni_group }}
-  when: pgsql_dump_file_path.matched > 0
 
 - name: Drop {{ db_name }} database
   postgresql_db:
     name={{ db_name }}
     state=absent
     login_user=postgres
-  when: pgsql_dump_file_path.matched > 0
 
 - name: Restore {{ db_name }} db
   shell: gunzip -c /db-restore/{{ db_name }}_dump.sql.gz | psql -U postgres
-  when: pgsql_dump_file_path.matched > 0
 
 - name: Delete restored file
   file:
     path=/db-restore/{{ db_name }}_dump.sql.gz
     state=absent
-  when: pgsql_dump_file_path.matched > 0

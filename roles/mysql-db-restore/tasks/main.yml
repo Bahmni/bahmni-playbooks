@@ -1,6 +1,7 @@
 - name: Get openmrs db file path
-  local_action: find paths="/db-backup" patterns="openmrs*.sql.gz"
+  stat: path={{ file_path }}
   register: mysql_dump_file_path
+  failed_when: mysql_dump_file_path.stat.exists == false
 
 - name: Create /db-restore
   file:
@@ -8,28 +9,23 @@
     state=directory
 
 - name: Copy database backup to the machine
-  copy: src={{ mysql_dump_file_path.files[0].path }}
+  copy: src={{ file_path }}
         dest=/db-restore/openmrs_dump.sql.gz
         mode=644
         owner={{ bahmni_user }}
         group={{ bahmni_group }}
-  when: mysql_dump_file_path.matched > 0
 
 - name: Drop openmrs database
-  when: mysql_dump_file_path.matched > 0
   mysql_db:
     name=openmrs
     login_user={{ mysql_root_user }}
     login_password={{ mysql_root_password }}
     state=absent
-  when: mysql_dump_file_path.matched > 0
 
 - name: Restore openmrs db
   shell: gunzip -c /db-restore/openmrs_dump.sql.gz | mysql -u{{ mysql_root_user }} -p{{ mysql_root_password }}
-  when: mysql_dump_file_path.matched > 0
 
 - name: Delete restored file
   file:
     path=/db-restore/openmrs_dump.sql.gz
     state=absent
-  when: mysql_dump_file_path.matched > 0

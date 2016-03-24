@@ -36,5 +36,6 @@
     - wget
     - unzip
     - python-pip
+    - rsync
   tags: utils
 
