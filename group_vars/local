@@ -77,3 +77,8 @@ postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
 
 bahmni_event_log_service_port: 9081
 java_home: "{{ java_home_location }}"
+
+patient_images_dir: /home/bahmni/patient_images
+document_images_dir: /home/bahmni/document_images
+uploaded_results_dir: /home/bahmni/uploaded_results
+uploaded_files_dir: /home/bahmni/uploaded-files

@@ -1,6 +1,6 @@
-bahmnicore.images.directory=/home/bahmni/patient_images
+bahmnicore.images.directory={{patient_images_dir}}
 bahmnicore.urls.patientimages=/patient_images
-bahmnicore.documents.baseDirectory=/home/bahmni/document_images
+bahmnicore.documents.baseDirectory={{document_images_dir}}
 
 {% for host in groups['bahmni-lab'] %}
 {% if hostvars[host].get('passive') != 'yes' %}

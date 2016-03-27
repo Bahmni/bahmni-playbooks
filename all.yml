@@ -38,6 +38,14 @@
 - hosts: bahmni-emr
   sudo: yes
   roles:
+    - { role: bahmni-backup-upload-directories }
+  tags:
+    - backup-upload-dir
+    - bahmni-emr
+
+- hosts: bahmni-emr
+  sudo: yes
+  roles:
     - { role: implementation-config}
   tags:
     - config

@@ -331,8 +331,8 @@ RequestHeader set "X-Forwarded-Proto" "https"
 				Alias /bahmni_config /var/www/bahmni_config
 				Alias /implementation_config /var/www/implementation_config
 				Alias /bahmni_revisions /var/www/bahmni_revisions
-				Alias /uploaded_results /home/bahmni/uploaded_results
-				Alias /uploaded-files /home/bahmni/uploaded-files
+				Alias /uploaded_results {{ uploaded_results_dir }}
+				Alias /uploaded-files {{ uploaded_files_dir }}
 
 			Redirect permanent /home /bahmni/home/
 	            WSGIDaemonProcess client_side_logging user=apache group=apache threads=1
