@@ -1,7 +1,7 @@
-export SERVER_PORT={{ bahmni_pacs_port }}
-export BASE_DIR=/var/run/bahmni-pacs
+export SERVER_PORT={{ pacs_integration_port }}
+export BASE_DIR=/var/run/pacs-integration
 export CONTEXT_PATH=/pacs-integration
-export WAR_DIRECTORY=/var/run/bahmni-pacs/pacs-integration
+export WAR_DIRECTORY=/var/run/pacs-integration/pacs-integration
 export SERVER_OPTS="-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m"
 export DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
 export POSTGRES_USER="postgres"

@@ -37,7 +37,7 @@
         <server>
             <logicalname>dcm4chee</logicalname>
             <aetitle>DCM4CHEE</aetitle>
-            <hostname>localhost</hostname>
+            <hostname>{{ groups['dcm4chee'][0] | default('localhost', true) }}</hostname>
             <port>{{ dchm4chee_conf_port }}</port>
             <retrieve>C-GET</retrieve>
             <wadocontext></wadocontext>

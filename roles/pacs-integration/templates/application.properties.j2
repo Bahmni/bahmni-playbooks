@@ -1,0 +1,14 @@
+spring.datasource.url=jdbc:postgresql://{{ groups['pacs-integration-db'][0] | default('localhost', true) }}/bahmni_pacs
+spring.datasource.username=pacs
+spring.datasource.password=password
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+spring.jpa.generate-ddl=false
+spring.jpa.database-platform=org.hibernate.dialect.ProgressDialect
+spring.jpa.show-sql=false
+spring.jpa.hibernate.ddl-auto=none
+server.port=9081
+
+liquibase.change-log=classpath:db/changelog/liquibase.xml
+
+enable.scheduling=true

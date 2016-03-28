@@ -10,10 +10,10 @@
 - name: Install pacs-integration from bahmni-repo
   yum: name="pacs-integration-{{ pacs_integration_version }}" state=present
 
-- name: Copy bahmni-pacs config
+- name: Copy pacs-integration config
   template:
-    src=bahmni-pacs.conf.j2
-    dest=/opt/bahmni-pacs/etc/bahmni-pacs.conf
+    src=pacs-integration.conf.j2
+    dest=/opt/pacs-integration/etc/pacs-integration.conf
     mode=644
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
@@ -21,7 +21,7 @@
 - name: Copy oviyam2-1 config
   template:
     src=oviyam2-1-config.xml.j2
-    dest=/opt/bahmni-pacs/etc/oviyam2-1-config.xml
+    dest=/opt/pacs-integration/etc/oviyam2-1-config.xml
     mode=644
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
@@ -29,8 +29,24 @@
 - name: Copy atomfeed properties
   template:
     src=atomfeed.properties.j2
-    dest=/opt/bahmni-pacs/pacs-integration/WEB-INF/classes/atomfeed.properties
+    dest=/opt/pacs-integration/pacs-integration/WEB-INF/classes/atomfeed.properties
     mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+- name: Copy application properties
+  template:
+    src=application.properties.j2
+    dest=/opt/pacs-integration/pacs-integration/WEB-INF/classes/application.properties
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+- name: Copy initDB shell script
+  template:
+    src=initDB.sh.j2
+    dest=/opt/pacs-integration/pacs-integration/datasetup/initDB.sh
+    mode=744
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
@@ -42,34 +58,27 @@
   shell: iptables -D INPUT {{ matchedRule.stdout }}
   when: matchedRule.stdout!=""
 
-- name: Allow bahmni-pacs port through firewall
-  command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ bahmni_pacs_port }} -j ACCEPT -m comment --comment "BAHMNIPACS"
+- name: Allow pacs-integration port through firewall
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ pacs_integration_port }} -j ACCEPT -m comment --comment "BAHMNIPACS"
 
 - name: save iptables
   command: service iptables save
 
-- name: Switch off chkconfig for bahmni-pacs on passive
-  service: name=bahmni-pacs state=stopped enabled=no
+- name: Switch off chkconfig for pacs-integration on passive
+  service: name=pacs-integration state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
-- name: Stop bahmni-pacs
+- name: Stop pacs-integration
   service:
-    name=bahmni-pacs
+    name=pacs-integration
     state=stopped
   when: passive is not defined or passive != 'yes'
   tags: stop_bahmni
 
-- name: Start bahmni-pacs and enable at boot
+- name: Start pacs-integration and enable at boot
   service:
-    name=bahmni-pacs
+    name=pacs-integration
     enabled=yes
     state=started
   when: passive is not defined or passive != 'yes'
   tags: start_bahmni
-
-
-
-
-
-
-

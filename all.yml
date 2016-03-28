@@ -101,12 +101,20 @@
   tags:
     - bahmni-erp-connect
 
-- hosts: bahmni-pacs
+- hosts: pacs-integration-db:pacs-integration-db-slave
   sudo: yes
   roles:
-    - { role: bahmni-pacs }
+    - { role: postgres, postgres_user: pacs }
   tags:
-    - bahmni-pacs
+    - pacs-integration-db
+    - pacs-integration
+
+- hosts: pacs-integration
+  sudo: yes
+  roles:
+    - { role: pacs-integration }
+  tags:
+    - pacs-integration
 
 - hosts: dcm4chee
   sudo: yes

@@ -87,7 +87,6 @@ host     all            postgres             {{ hostvars.get(host, {}).get('ansi
 {% endif %}
 {% endfor %}
 
-
 {% for host in groups['bahmni-lab'] %}
 {% if host not in [False, 'localhost', '127.0.0.1'] %}
 host     all            postgres             {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32    trust
@@ -99,29 +98,53 @@ host     all            postgres             {{ hostvars.get(host, {}).get('ansi
 host     all            openerp             {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
 {% endif %}
 {% endfor %}
+
+{% for host in groups['pacs-integration'] %}
+{% if host not in [False, 'localhost', '127.0.0.1'] %}
+host     all            postgres             {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32    trust
+host     all            pacs             {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32    trust
+{% endif %}
+{% endfor %}
+
 {% for host in groups['bahmni-erp-db'] %}
 {% if host not in [False, 'localhost', '127.0.0.1'] %}
 host    all             openerp             {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
 {% endif %}
 {% endfor %}
+
 {% for host in groups['bahmni-erp-db-slave'] %}
 {% if host not in [False, 'localhost', '127.0.0.1'] %}
 host    all             openerp             {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
 {% endif %}
 {% endfor %}
+
 {% for host in groups['bahmni-lab'] %}
 {% if host not in [False, 'localhost', '127.0.0.1'] %}
 host    clinlims          clinlims           {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
 {% endif %}
 {% endfor %}
+
 {% for host in groups['bahmni-lab-db'] %}
 {% if host not in [False, 'localhost', '127.0.0.1'] %}
 host    clinlims             clinlims         {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
 {% endif %}
 {% endfor %}
+
 {% for host in groups['bahmni-lab-db-slave'] %}
 {% if host not in [False, 'localhost', '127.0.0.1'] %}
 host    clinlims            clinlims          {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
+{% endif %}
+{% endfor %}
+
+{% for host in groups['pacs-integration-db'] %}
+{% if host not in [False, 'localhost', '127.0.0.1'] %}
+host    bahmni_pacs            pacs          {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
+{% endif %}
+{% endfor %}
+
+{% for host in groups['pacs-integration-db-slave'] %}
+{% if host not in [False, 'localhost', '127.0.0.1'] %}
+host    bahmni_pacs            pacs          {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
 {% endif %}
 {% endfor %}
 
