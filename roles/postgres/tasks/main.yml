@@ -74,4 +74,4 @@
 - name: Create postgres user
   postgresql_user: name={{ postgres_user }} role_attr_flags=CREATEDB,NOCREATEROLE,SUPERUSER,REPLICATION
   sudo_user: postgres
-  when: inventory_hostname in groups['bahmni-lab-db'] or inventory_hostname in groups['bahmni-erp-db']
+  when: inventory_hostname in groups['bahmni-lab-db'] or inventory_hostname in groups['bahmni-erp-db'] or inventory_hostname in groups['pacs-integration-db']

@@ -1,3 +1,14 @@
+- name: Check if postgres yum repo rpm is present
+  stat: path={{postgres_repo_rpm_location}}
+  register: postgresRepoRpm
+
+- name: Download postgres yum repo rpm if not present
+  command: "wget -q -O {{ postgres_repo_rpm_location }} {{postgres_repo_download_url}} creates={{ postgres_repo_rpm_location }}"
+  when: postgresRepoRpm.stat.exists == false
+
+- name: Install postgresql yum repository
+  yum: name={{postgres_repo_rpm_location}} state=present
+
 - name: Check if pacs-integration rpm needs an update
   command: yum list installed pacs-integration
   register: installed_pacs_integration
@@ -18,14 +29,6 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
-- name: Copy oviyam2-1 config
-  template:
-    src=oviyam2-1-config.xml.j2
-    dest=/opt/pacs-integration/etc/oviyam2-1-config.xml
-    mode=644
-    owner={{ bahmni_user }}
-    group={{ bahmni_group }}
-
 - name: Copy atomfeed properties
   template:
     src=atomfeed.properties.j2
@@ -39,14 +42,6 @@
     src=application.properties.j2
     dest=/opt/pacs-integration/pacs-integration/WEB-INF/classes/application.properties
     mode=644
-    owner={{ bahmni_user }}
-    group={{ bahmni_group }}
-
-- name: Copy initDB shell script
-  template:
-    src=initDB.sh.j2
-    dest=/opt/pacs-integration/pacs-integration/datasetup/initDB.sh
-    mode=744
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 

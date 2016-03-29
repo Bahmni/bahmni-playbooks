@@ -35,6 +35,22 @@
   when: passive is not defined or passive != 'yes'
   tags: stop_bahmni
 
+- name: Copy oviyam2-1 config
+  template:
+    src=oviyam2-1-config.xml.j2
+    dest=/opt/pacs-integration/etc/oviyam2-1-config.xml
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+- name: Copy dcm4chee conf
+  template:
+    src=dcm4chee.conf.j2
+    dest=/opt/dcm4chee/etc/dcm4chee.conf
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
 - name: Start dcm4chee and enable at boot
   service:
     name=dcm4chee
