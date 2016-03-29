@@ -12,7 +12,6 @@ bahmni_ntp_timezone: Asia/Kolkata
 
 openmrs_install_dir: /opt/openmrs
 openmrs_log_dir: /var/log/openmrs
-openmrs_port: 8080
 openmrs_modules_dir: /home/bahmni/.OpenMRS/modules
 openmrs_run_dir: /var/run/openmrs
 openmrs_context_path: openmrs
@@ -30,16 +29,13 @@ openelis_db_password: password
 
 openerp_db_username: openerp
 openerp_db_password: password
-openerp_port: 8069
 openerp_user: admin
 openerp_password: password
 copy_to_local_machine: no
 
 openmrs_user_id: admin
 openmrs_user_password : test
-bahmni_lab_port: 8081
 
-bahmni_reports_port: 8083
 openmrs_reporting_user: reports-user
 openmrs_reporting_password: Admin123
 
@@ -55,10 +51,14 @@ relay_log_file_name: relay-bin
 relay_log_index_file_name: relay-bin.index
 
 pacs_integration_port: 8084
-dchm4chee_port: 8001
+dchm4chee_port: 8085
 dchm4chee_conf_port: 11112
 oviyam2_listener_port: 1025
-oviyam2_port: 8085
+bahmni_event_log_service_port: 9081
+bahmni_reports_port: 8083
+bahmni_lab_port: 8081
+openerp_port: 8069
+openmrs_port: 8080
 
 patient_document_max_age: 86400
 apps_max_age: 1
@@ -74,7 +74,6 @@ postgres_repo_rpm_name: pgdg-centos92-9.2-6.noarch.rpm
 postgres_repo_download_url: http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/{{postgres_repo_rpm_name}}
 postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
 
-bahmni_event_log_service_port: 9081
 java_home: "{{ java_home_location }}"
 
 patient_images_dir: /home/bahmni/patient_images
