@@ -33,10 +33,10 @@
      when: db_name == 'openerp' and (passive is not defined or passive != 'yes')
      become: yes
 
-- hosts: bahmni-pacs
+- hosts: pacs-integration
   tasks:
-   - name: Stop bahmni-pacs
-     service: name=bahmni-pacs state=stopped
+   - name: Stop pacs-integration
+     service: name=pacs-integration state=stopped
      when: db_name == 'bahmni_pacs' and (passive is not defined or passive != 'yes')
      become: yes
 
@@ -64,7 +64,7 @@
   roles:
     - { role: postgres-db-restore, when: db_name == 'openerp' }
 
-- hosts: bahmni-pacs
+- hosts: pacs-integration-db
   become: yes
   roles:
     - { role: postgres-db-restore, when: db_name == 'bahmni_pacs' }
@@ -111,10 +111,10 @@
      when: db_name == 'openerp' and (passive is not defined or passive != 'yes')
      become: yes
 
-- hosts: bahmni-pacs
+- hosts: pacs-integration
   tasks:
-   - name: Start bahmni-pacs
-     service: name=bahmni-pacs state=started
+   - name: Start pacs-integration
+     service: name=pacs-integration state=started
      when: db_name == 'bahmni_pacs' and (passive is not defined or passive != 'yes')
      become: yes
 

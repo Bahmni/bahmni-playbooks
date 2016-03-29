@@ -81,7 +81,7 @@
       dest=/opt/pacs-integration/add_remote_ip_in_bahmni_pacs_markers.sh
       mode=755
 
-- name: Update bahmni-pacs markers with remote IP
+- name: Update pacs-integration markers with remote IP
   shell: /opt/pacs-integration/add_remote_ip_in_bahmni_pacs_markers.sh
 
 - name: Start pacs-integration and enable at boot

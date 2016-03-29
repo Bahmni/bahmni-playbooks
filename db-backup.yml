@@ -13,7 +13,7 @@
   roles:
     - { role: postgres-db-backup, db_name: openerp }
 
-- hosts: bahmni-pacs
+- hosts: pacs-integration-db
   become: yes
   roles:
     - { role: postgres-db-backup, db_name: bahmni_pacs }
