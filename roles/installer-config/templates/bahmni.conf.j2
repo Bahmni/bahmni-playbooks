@@ -17,3 +17,6 @@ MYSQL_ROOT_PASSWORD={{mysql_root_password}}
 {% if hostvars[inventory_hostname].get('passive') == 'yes' %}
 IS_PASSIVE=1
 {% endif %}
+{% if groups['pacs-integration-db']|length > 0  %}
+BAHMNI_PACS_DB_SERVER={{ groups['pacs-integration-db'][0] | default('localhost', true)}}
+{% endif %}
