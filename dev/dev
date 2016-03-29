@@ -1,40 +1,46 @@
-192.168.33.10 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+10.4.1.189 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+10.4.1.190 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
 
 [bahmni-emr]
-192.168.33.10
+10.4.1.189
 
 [bahmni-emr-db]
-192.168.33.10
+10.4.1.190
 
 [bahmni-emr-db-slave]
 
 [bahmni-erp]
+10.4.1.189
 
 [bahmni-erp-db]
+10.4.1.190
 
 [bahmni-erp-db-slave]
 
 [bahmni-lab]
+10.4.1.189
 
 [bahmni-lab-db]
+10.4.1.190
 
 [bahmni-lab-db-slave]
 
 [bahmni-reports]
-192.168.33.10
+10.4.1.189
 
 [pacs-integration]
-192.168.33.10
+10.4.1.189
 
 [pacs-integration-db]
-192.168.33.10
+10.4.1.190
 
 [pacs-integration-db-slave]
 
 [dcm4chee]
-192.168.33.10
+10.4.1.189
 
 [bahmni-event-log-service]
+10.4.1.189
 
 [dev:children]
 bahmni-emr

@@ -5,3 +5,17 @@
   selinux:
     policy={{ selinux_policy }}
     state={{ selinux_state }}
+
+- name: set httpd_can_network_relay for SELinux
+  seboolean:
+    name=httpd_can_network_relay
+    state=yes
+    persistent=yes
+  when: selinux_state == 'enforcing'
+
+- name: set httpd_read_user_content for SELinux
+  seboolean:
+    name=httpd_read_user_content
+    state=yes
+    persistent=yes
+  when: selinux_state == 'enforcing'
