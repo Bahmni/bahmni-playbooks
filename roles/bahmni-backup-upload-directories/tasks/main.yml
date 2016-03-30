@@ -32,6 +32,10 @@
   file: path=/home/bahmni/uploaded_results owner=bahmni group=bahmni mode=0755 state=directory
   when: passive is defined and passive == 'yes'
 
+- name: Install crontab
+  yum: name=crontabs state=present
+  when: passive is not defined or passive != 'yes'
+
 - name: create a cron tab to sync patient_images directories
   cron:
     name="sync_patient_image_cron"
@@ -67,3 +71,7 @@
     job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -p {{uploaded_results_dir}} -e ssh {{bahmni_support_user}}@{{item}}:{{uploaded_results_dir}}/../"
   when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
   with_items: "{{groups['bahmni-emr']}}"
+
+- name: Start cron service
+  service: name=crond state=started
+  when: passive is not defined or passive != 'yes'
