@@ -78,6 +78,7 @@
 
 - name: Update pacs-integration markers with remote IP
   shell: /opt/pacs-integration/add_remote_ip_in_bahmni_pacs_markers.sh
+  ignore_errors: true
 
 - name: Start pacs-integration and enable at boot
   service:
