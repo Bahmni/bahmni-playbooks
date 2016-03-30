@@ -1,5 +1,8 @@
 - name: install libselinux-python
   yum: name=libselinux-python state=present
+
+- name: install libsemanage-python
+  yum: name=libsemanage-python state=present
   
 - name: set selinux state and policy
   selinux:
