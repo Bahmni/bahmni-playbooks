@@ -4,10 +4,13 @@
     state=stopped
   ignore_errors: true
 
-- name: Cleaning up old cluster directory
+- name: Cleaning up old backup directory
   file:
-    path=/var/lib/pgsql/9.2/data
+    path=/var/lib/pgsql/9.2/data-backup
     state=absent
+
+- name: Taking backup of older data
+  command: mv -f /var/lib/pgsql/9.2/data /var/lib/pgsql/9.2/data-backup
 
 - name: Starting base backup as replication user
   shell: sudo -u postgres pg_basebackup -h {{ master_db }} -D /var/lib/pgsql/9.2/data -U {{ replication_user }} -v -P --xlog-method=stream
