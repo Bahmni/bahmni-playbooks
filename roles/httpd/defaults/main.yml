@@ -6,6 +6,7 @@ dchm4chee_port: 8085
 #dchm4chee_wed_service_port: 8086 // Used by web-service
 patient_document_max_age: 86400
 apps_max_age: 1
+concepts_max_age: 600
 SSLCertificateFilePath: /opt/bahmni-certs/certs/cert1.pem
 SSLCertificateKeyFilePath: /opt/bahmni-certs/certs/privkey1.pem
 SSLCertificateChainFilePath: /opt/bahmni-certs/certs/chain1.pem
