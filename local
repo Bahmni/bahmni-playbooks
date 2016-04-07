@@ -28,16 +28,12 @@ localhost
 localhost
 
 [pacs-integration]
-localhost
 
 [pacs-integration-db]
-localhost
 
 [pacs-integration-db-slave]
-localhost
 
 [dcm4chee]
-localhost
 
 [bahmni-event-log-service]
 localhost
