@@ -1,2 +1,2 @@
 dchm4chee_port: 8085
-#dchm4chee_wed_service_port: 8086 // Used by web-service
+#dchm4chee_wed_service_port: 8087 // Used by dcm4chee-web-service
