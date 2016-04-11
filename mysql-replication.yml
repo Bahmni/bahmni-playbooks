@@ -3,7 +3,6 @@
   roles:
     - { role: selinux, selinux_state: permissive, selinux_policy: targeted }
     - { role: bahmni-base }
-    - { role: bahmni-repo-management, enabled: 1 }
     - { role: bahmni-user }
     - { role: installer-config }
     - { role: bahmni-support-user }
@@ -35,8 +34,3 @@
   tasks:
    - include: roles/mysql-replication/tasks/start_emr.yml
      when: passive is not defined or passive != 'yes'
-
-- hosts: all
-  sudo: yes
-  roles:
-   - { role: bahmni-repo-management, enabled: 0 }

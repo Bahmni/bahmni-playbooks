@@ -1,60 +1,60 @@
-10.4.1.189 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
-10.4.1.190 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+    192.168.33.11 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+    192.168.33.12 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
 
-[bahmni-emr]
-10.4.1.189
+    [bahmni-emr]
+    192.168.33.11
 
-[bahmni-emr-db]
-10.4.1.190
+    [bahmni-emr-db]
+    192.168.33.12
 
-[bahmni-emr-db-slave]
+    [bahmni-emr-db-slave]
 
-[bahmni-erp]
-10.4.1.189
+    [bahmni-erp]
+    192.168.33.11
 
-[bahmni-erp-db]
-10.4.1.190
+    [bahmni-erp-db]
+    192.168.33.12
 
-[bahmni-erp-db-slave]
+    [bahmni-erp-db-slave]
 
-[bahmni-lab]
-10.4.1.189
+    [bahmni-lab]
+    192.168.33.11
 
-[bahmni-lab-db]
-10.4.1.190
+    [bahmni-lab-db]
+    192.168.33.12
 
-[bahmni-lab-db-slave]
+    [bahmni-lab-db-slave]
 
-[bahmni-reports]
-10.4.1.189
+    [bahmni-reports]
+    192.168.33.11
 
-[pacs-integration]
-10.4.1.189
+    [pacs-integration]
+    192.168.33.11
 
-[pacs-integration-db]
-10.4.1.190
+    [pacs-integration-db]
+    192.168.33.12
 
-[pacs-integration-db-slave]
+    [pacs-integration-db-slave]
 
-[dcm4chee]
-10.4.1.189
+    [dcm4chee]
+    192.168.33.11
 
-[bahmni-event-log-service]
-10.4.1.189
+    [bahmni-event-log-service]
+    192.168.33.11
 
-[dev:children]
-bahmni-emr
-bahmni-emr-db
-bahmni-emr-db-slave
-bahmni-lab
-bahmni-lab-db
-bahmni-lab-db-slave
-bahmni-erp
-bahmni-erp-db
-bahmni-erp-db-slave
-bahmni-reports
-pacs-integration
-pacs-integration-db
-pacs-integration-db-slave
-dcm4chee
-bahmni-event-log-service
+    [dev:children]
+    bahmni-emr
+    bahmni-emr-db
+    bahmni-emr-db-slave
+    bahmni-lab
+    bahmni-lab-db
+    bahmni-lab-db-slave
+    bahmni-erp
+    bahmni-erp-db
+    bahmni-erp-db-slave
+    bahmni-reports
+    pacs-integration
+    pacs-integration-db
+    pacs-integration-db-slave
+    dcm4chee
+    bahmni-event-log-service
