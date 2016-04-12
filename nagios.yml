@@ -1,0 +1,18 @@
+- hosts: all
+  sudo: yes
+  roles:
+    - { role: nagios-agent }
+  vars_files:
+    - vars/nrpe.yml
+  tags:
+    - nrpe
+
+- hosts: nagios-server
+  sudo: yes
+  roles:
+    - { role: selinux, selinux_state: permissive, selinux_policy: targeted }
+    - { role: nagios}
+  vars_files:
+    - vars/nagios.yml
+  tags:
+    - nagios-server

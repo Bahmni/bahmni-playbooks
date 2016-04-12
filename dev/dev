@@ -1,6 +1,8 @@
 192.168.33.11 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
 192.168.33.12 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
 
+[nagios-server]
+
 [bahmni-emr]
 192.168.33.11
 
@@ -43,6 +45,7 @@
 192.168.33.11
 
 [dev:children]
+nagios-server
 bahmni-emr
 bahmni-emr-db
 bahmni-emr-db-slave

@@ -1,0 +1,373 @@
+nagios_users:
+    - name: nagios
+      password: nagios
+
+
+#variables for cgi.cfg
+main_config_file_location: "/etc/nagios/nagios.cfg"
+physical_html_path: "/usr/share/nagios/html"
+url_html_path: "/nagios"
+show_context_help: "no"
+use_pending_states: "yes"
+use_authentication: "yes"
+use_ssl_authentication: "no"
+default_user_name: ""
+authorized_for_read_only: "user1,user2"
+default_statusmap_layout: "5"
+default_statuswrl_layout: "4"
+ping_syntax: "/bin/ping -n -U -c 5 $HOSTADDRESS$"
+refresh_rate: "60"
+result_limit: "100"
+escape_html_tags: "yes"
+lock_author_names: "yes"
+
+#variables for commands.cfg
+#Add your own commands here!
+nagios_commands:
+    - name: check_host_no_ping
+      line: $USER1$/check_dummy 0
+    - name: check_nrpe
+      line: $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
+    - name: check_mysql_replication
+      line: $USER1$/check_mysql -H $ARG3$ -u$ARG1$ -p$ARG2$  -S -w30 -c60
+    - name: check_apache_httpd
+      line: $USER1$/check_http -H $HOSTADDRESS$ --ssl -u /bahmni/registration/ -e "HTTP/1.1 200"
+    - name: check_openmrs_access_to_db
+      line: $USER1$/check_http -H $HOSTADDRESS$ -u /openmrs/ws/rest/v1/patient?q=GAN200000 --ssl -a$ARG1$:$ARG2$
+    - name: check_failed_events_in_mysql
+      line: $USER1$/check_mysql_query --username=$ARG1$ --password=$ARG2$ --database=$ARG3$ --critical=$ARG4$ --query="SELECT COUNT(*) as result from failed_events"
+    - name: check_openmrs_scheduled_task
+      line: $USER1$/check_scheduled_tasks.py -H $HOSTADDRESS$ -p 8080 -u /openmrs/ws/rest/v1/bahmnicore/scheduledTasks -a$ARG1$:$ARG2$ $ARG3$
+#variables for contacts.cfg
+#Add your own contacts here!
+
+nagios_contacts:
+    - name: bahmni
+      use: generic-contact
+      alias: bahmni
+      email: bahmni-tw@thoughtworks.com
+
+nagios_contactgroups:
+  - name: admins
+    alias: Nagios Administrators
+    members: bahmni
+
+#variables for localhost.cfg
+# bahmni variables
+nagios_all_roles: &nagios_all_roles
+  - bahmni-emr
+  - bahmni-emr-db
+  - bahmni-emr-db-slave
+  - bahmni-lab
+  - bahmni-lab-db
+  - bahmni-lab-db-slave
+  - bahmni-erp
+  - bahmni-erp-db
+  - bahmni-erp-db-slave
+  - bahmni-reports
+  - pacs-integration
+  - pacs-integration-db
+  - pacs-integration-db-slave
+  - dcm4chee
+  - bahmni-event-log-service
+
+nagios_services:
+    - use: bahmni-service
+      hostgroup_name: *nagios_all_roles
+      service_description: disk_space
+      check_command:  check_nrpe!check_disk
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name: *nagios_all_roles
+      service_description: tmp_disk_space
+      check_command:  check_nrpe!check_disk_tmp
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name: *nagios_all_roles
+      service_description: current_users
+      check_command:  check_nrpe!check_users
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name: *nagios_all_roles
+      service_description: total_processes
+      check_command:  check_nrpe!check_total_procs
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name: *nagios_all_roles
+      service_description: current_load
+      check_command:  check_nrpe!check_load
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name: *nagios_all_roles
+      service_description: swap_usage
+      check_command:  check_nrpe!check_swap
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name: *nagios_all_roles
+      service_description: ntpd_status
+      check_command:  check_nrpe!check_ntpd
+      notifications_enabled: 1
+
+
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-emr
+      check_command: check_nrpe!check_emr_svc
+      user: nagios
+      group: nagios
+      service_description: bahmni_emr_svc
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-emr
+      check_command: check_nrpe!check_emr_http
+      service_description: bahmni_emr_http
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-emr
+      service_description: Bahmni openmrs access to db
+      check_command: check_nrpe!check_openmrs_access_to_db
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-emr
+      service_description: Bahmni openmrs scheduled task
+      check_command: check_nrpe!check_openmrs_scheduled_task
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-emr
+      service_description: Bahmni Apache
+      check_command: check_nrpe!check_apache_httpd
+      notifications_enabled: 1
+
+
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-emr-db
+      service_description: Bahmni access to mysql
+      check_command: check_nrpe!check_mysql
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-emr-db
+      service_description: Bahmni failed events
+      check_command: check_nrpe!check_failed_events_in_mysql
+      notifications_enabled: 1
+
+
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-emr-db-slave
+      service_description: Bahmni access to mysql
+      check_command: check_nrpe!check_mysql
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-emr-db-slave
+      service_description: Bahmni mysql replication
+      check_command: check_nrpe!check_mysql_replication
+      notifications_enabled: 1
+
+
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-lab
+      check_command: check_nrpe!check_lab_svc
+      service_description: bahmni_lab_svc
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-lab
+      check_command: check_nrpe!check_lab_http
+      service_description: bahmni_lab_http
+      notifications_enabled: 1
+
+
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-lab-db
+      service_description: Bahmni lab access to db
+      check_command: check_nrpe!check_bahmni_lab_access_to_db
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-lab-db
+      service_description: Bahmni lab failed events
+      check_command: check_nrpe!check_failed_events_in_bahmni_lab
+      notifications_enabled: 1
+
+
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-erp
+      check_command: check_nrpe!check_erp_svc
+      service_description: bahmni_erp_svc
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-erp
+      check_command: check_nrpe!check_erp_http
+      service_description: bahmni_erp_http
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-erp
+      check_command: check_nrpe!check_erp_connect_svc
+      service_description: bahmni_erp_connect_svc
+      notifications_enabled: 1
+
+
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-erp-db
+      service_description: Bahmni openerp access to db
+      check_command: check_nrpe!check_openerp_access_to_db
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-erp-db
+      service_description: Bahmni openerp failed events
+      check_command: check_nrpe!check_failed_events_in_openerp
+      notifications_enabled: 1
+
+
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-reports
+      check_command: check_nrpe!check_reports_svc
+      service_description: bahmni_reports_svc
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-reports
+      check_command: check_nrpe!check_reports_http
+      service_description: bahmni_reports_http
+      notifications_enabled: 1
+
+
+    - use: bahmni-service
+      hostgroup_name:
+        - pacs-integration
+      check_command: check_nrpe!check_pacs_svc
+      service_description: pacs_integration_svc
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - pacs-integration
+      check_command: check_nrpe!check_pacs_http
+      service_description: pacs_integration_http
+      notifications_enabled: 1
+
+
+    - use: bahmni-service
+      hostgroup_name:
+        - pacs-integration-db
+      service_description: Bahmni pacs access to db
+      check_command: check_nrpe!check_bahmni_pacs_access_to_db
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - pacs-integration-db
+      service_description: Bahmni lab failed events
+      check_command: check_nrpe!check_failed_events_in_bahmni_pacs
+      notifications_enabled: 1
+
+
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-event-log-service
+      check_command: check_nrpe!check_event_log_svc
+      service_description: bahmni_event_log_svc
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-event-log-service
+      check_command: check_nrpe!check_event_log_http
+      service_description: bahmni_event_log_http
+      notifications_enabled: 1
+
+
+#variables for nagios.cfg
+#Don't forget to put the definitions for the other hosts out of comment, otherwise nagios won't recognize this.
+#These are the most needed and changeable commands, if you are an experienced user, go check out the real nagios.cfg for additional changes.
+log_file_location: "/var/log/nagios/nagios.log"
+object_cache_file:  "/var/log/nagios/objects.cache"
+precached_object_file: "/var/log/nagios/objects.precache"
+resource_file: "/etc/nagios/private/resource.cfg"
+status_file: "/var/log/nagios/status.dat"
+status_update_interval: "10"
+
+# This determines the effective user that Nagios should run as.
+# You can either supply a username or a UID.
+nagios_user: "nagios"
+
+nagios_group: "nagios"
+check_external_commands: "yes"
+command_check_interval: "-1"
+use_syslog: "1"
+log_notifications: "1"
+log_service_retries : "1"
+log_host_retries: "1"
+log_event_handlers: "1"
+log_initial_states : "0"
+log_external_commands: "1"
+log_passive_checks: "1"
+
+admin_email: "sharedhealthgroup@gmail.com"
+admin_pager: "pagebshr@localhost"
+
+#variables for printer.cfg
+#add your printers here!
+
+nagios_printers:
+    - use:
+      name:
+      alias:
+      address:
+      hostgroup:
+
+nagios_printerservices:
+    - use:
+      name:
+      service_description:
+      check_command:
+      normal_check_interval:
+      retry_check_interval:
+
+#variables for switch.cfg
+
+nagios_switchs:
+    - use:
+      name:
+      alias:
+      address:
+      hostgroup:
+
+nagios_routerservices:
+    - use:
+      name:
+      service_description:
+      check_command:
+
+#variables for windows.cfg
+
+nagios_windows:
+    - use:
+      name:
+      alias:
+      address:
+
+nagios_windowsservices:
+    - use:
+      name:
+      service_description:
+      check_command:
+
+
+dbname: nagios
+dbuser: nagios
+dbpasswd: nagios
+
+ssmtp_mailhub: smtp.gmail.com:587

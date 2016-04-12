@@ -55,6 +55,7 @@ bahmni_reports_port: 8051
 bahmni_lab_port: 8052
 bahmni_erp_connect_port: 8053
 pacs_integration_port: 8054
+pacs_integration_db_username: bahmni_pacs
 openerp_port: 8069
 oviyam2_listener_port: 1025
 dchm4chee_port: 8055
@@ -95,4 +96,11 @@ bahmni_web_version: 0.81
 dcm4chee_version: 0.81
 openmrs_version: 1.12.0-71
 pacs_integration_version: 0.81
+
+oviyam2_port: 8085
+
+nagios_openmrs_user: admin
+nagios_openmrs_user_password: test
+nagios_bahmni_db_user: root
+nagios_bahmni_db_password: password
 

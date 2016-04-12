@@ -1,0 +1,146 @@
+- name: Install Apache
+  yum: pkg={{item}} state=installed
+  with_items:
+    - httpd
+    - php
+    - php-xml
+    - php-mysql
+
+    
+- name: Install nagios
+  yum: pkg={{item}} state=installed
+  with_items:
+    - nagios
+    - nagios-common
+    - nagios-devel
+    - nagios-plugins-all
+    - libselinux-python
+    - python-passlib
+    - check_nrpe
+
+- name: Find iptable rules
+  shell: iptables -L
+  register: iptablesrules
+  tags: iptables
+
+- name: Allow apache http port through firewall
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport 80 -j ACCEPT -m comment --comment "ApacheHttp"
+  when: iptablesrules.stdout.find("ApacheHttp") == -1
+  tags: iptables
+
+- name: save iptables
+  shell: iptables-save > /etc/sysconfig/iptables
+  tags: iptables
+  
+- name: Add cgi.cfg
+  template:
+    src=cgi.cfg
+    dest=/etc/nagios/cgi.cfg
+    owner=root
+    group=nagios
+    mode=0664
+  notify: Restart Apache
+
+- name: Add nagios.cfg
+  template:
+     src=nagios.cfg
+     dest=/etc/nagios/nagios.cfg
+     owner=root
+     group=nagios
+     mode=0664
+  notify: Restart Apache
+
+- name: Add commands.cfg
+  template:
+     src=commands.cfg
+     dest=/etc/nagios/objects/commands.cfg
+     owner=root
+     group=nagios
+     mode=0664
+  notify: Restart Apache
+
+- name: Add templates.cfg
+  template:
+     src=templates.cfg
+     dest=/etc/nagios/objects/templates.cfg
+     owner=root
+     group=nagios
+     mode=0664
+  notify: Restart Apache
+
+- name: Add contacts.cfg
+  template:
+     src=contacts.cfg
+     dest=/etc/nagios/objects/contacts.cfg
+     owner=root
+     group=nagios
+     mode=0664
+  notify: Restart Apache
+
+- name: Add localhost.cfg
+  template:
+     src=localhost.cfg
+     dest=/etc/nagios/objects/localhost.cfg
+     owner=root
+     group=nagios
+     mode=0664
+  notify: Restart Apache
+
+
+- name: Add hosts.cfg
+  template:
+     src=hosts.cfg
+     dest=/etc/nagios/objects/hosts.cfg
+     owner=root
+     group=nagios
+     mode=0664
+  notify: Restart Apache
+  tags: hosts
+  
+- name: Add hostgroups.cfg
+  template:
+     src=hostgroups.cfg
+     dest=/etc/nagios/objects/hostgroups.cfg
+     owner=root
+     group=nagios
+     mode=0664
+  notify: Restart Apache
+  tags: hosts
+  
+- name: Add services.cfg
+  template:
+     src=services.cfg
+     dest=/etc/nagios/objects/services.cfg
+     owner=root
+     group=nagios
+     mode=0664
+  notify: Restart Apache
+  tags: hosts
+  
+- name: Add timeperiods.cfg
+  template:
+     src=timeperiods.cfg
+     dest=/etc/nagios/objects/timeperiods.cfg
+     owner=root
+     group=nagios
+     mode=0664
+  notify: Restart Apache
+
+- name: Set Nagios admin password
+  htpasswd:
+     create=yes
+     name={{ item.name }}
+     password={{ item.password }}
+     path=/etc/nagios/passwd
+     owner=root
+     group=nagios
+     mode=0644
+  with_items: nagios_users
+  notify: Restart Apache
+
+
+- name: Start Nagios service
+  service: name=nagios state=restarted enabled=yes
+
+- name: Start httpd service
+  service: name=httpd state=started enabled=yes

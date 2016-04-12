@@ -1,0 +1,6 @@
+- include: db.yml
+  tags: create-db
+
+- include: nagios.yml
+  tags: install-nagios
+#- include: email.yml tags=configure-email

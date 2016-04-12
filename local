@@ -1,5 +1,7 @@
 localhost ansible_connection=local
 
+[nagios-server]
+
 [bahmni-emr-db-slave]
 
 [bahmni-emr-db]
@@ -39,6 +41,7 @@ localhost
 localhost
 
 [local:children]
+nagios-server
 bahmni-emr
 bahmni-emr-db
 bahmni-emr-db-slave

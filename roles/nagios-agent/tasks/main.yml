@@ -1,0 +1,45 @@
+- name: Install nrpe and nagios plugins
+  yum: pkg={{item}} state=installed
+  with_items:
+    - nrpe
+    - nagios-plugins-all
+    - check_nrpe
+
+- name: copy nrpe.cfg
+  template:
+    src=nrpe.cfg
+    dest=/etc/nagios/nrpe.cfg
+    owner=root
+    group=root
+    mode=0644
+  notify: restart nagios-nrpe-server 
+
+- name: copy custom nrpe check commands
+  copy:
+    src={{ item }}
+    dest=/usr/lib64/nagios/plugins/{{ item }}
+    mode=0755
+    owner=root
+    group=root
+  with_items:
+    - check_exit_status.pl
+    - check_postgres.pl
+    - check_scheduled_tasks.py
+
+- name: Ensure NRPE server is running
+  service: name="nrpe" state=restarted enabled=yes
+
+- name: Read iptable rules
+  shell: iptables -L
+  register: iptablesrules
+  tags: iptables
+
+- name: Allow nagios nrpe port through firewall
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport 5666 -j ACCEPT -m comment --comment "NagiosNRPE"
+  when: iptablesrules.stdout.find("NagiosNRPE") == -1
+  tags: iptables
+
+- name: save iptables
+  shell: iptables-save > /etc/sysconfig/iptables
+  sudo: yes
+  tags: iptables

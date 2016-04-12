@@ -1,0 +1,30 @@
+- name: Install smtp
+  yum: pkg={{item}} state=installed
+  with_items:
+    - ssmtp
+    - sendmail
+
+- name: Set up ssmtp.conf
+  template:
+    src=ssmtp.conf
+    dest=/etc/ssmtp/ssmtp.conf
+    owner=root
+    group=nagios
+    mode=0664
+  notify: Restart ssmtp
+
+
+- name: Set up revaliases
+  template:
+    src=revaliases
+    dest=/etc/ssmtp/revaliases
+    owner=root
+    group=nagios
+    mode=0664
+  notify: Restart ssmtp
+
+- name: add user nagios to mailers
+  user:
+    name=nagios
+    groups=mail
+    append=yes 

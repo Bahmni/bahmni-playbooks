@@ -62,7 +62,7 @@ dchm4chee_port: 8055
 dchm4chee_connector_port: 8056
 dchm4chee_conf_port: 11112
 bahmni_event_log_service_port: 8057
-
+pacs_integration_db_username: bahmni_pacs
 
 patient_document_max_age: 86400
 apps_max_age: 1
@@ -84,3 +84,10 @@ patient_images_dir: /home/bahmni/patient_images
 document_images_dir: /home/bahmni/document_images
 uploaded_results_dir: /home/bahmni/uploaded_results
 uploaded_files_dir: /home/bahmni/uploaded-files
+
+oviyam2_port: 8085
+
+nagios_openmrs_user: admin
+nagios_openmrs_user_password: test
+nagios_bahmni_db_user: root
+nagios_bahmni_db_password: password

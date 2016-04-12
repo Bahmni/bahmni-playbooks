@@ -1,0 +1,11 @@
+---
+
+- name: Restart Apache
+  service: name=httpd state=reloaded
+
+- name: Restart Nagios
+  service: name=nagios state=reloaded
+
+- name: Restart ssmtp
+  service: name=sendmail state=reloaded
+
