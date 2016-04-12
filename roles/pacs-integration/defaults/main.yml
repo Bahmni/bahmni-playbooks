@@ -1,6 +1,6 @@
-pacs_integration_port: 8084
+pacs_integration_port: 8054
 dchm4chee_conf_port: 11112
 oviyam2_listener_port: 1025
 openmrs_user_id: admin
 openmrs_user_password : test
-openmrs_port: 8080
+openmrs_port: 8050

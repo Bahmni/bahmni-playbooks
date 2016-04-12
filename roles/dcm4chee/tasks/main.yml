@@ -38,7 +38,15 @@
 - name: Copy oviyam2-1 config
   template:
     src=oviyam2-1-config.xml.j2
-    dest=/opt/pacs-integration/etc/oviyam2-1-config.xml
+    dest=/opt/dcm4chee/etc/oviyam2-1-config.xml
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+- name: Copy dcm4chee server config
+  template:
+    src=server.xml.j2
+    dest=/opt/dcm4chee/etc/server.xml
     mode=644
     owner={{ bahmni_user }}
     group={{ bahmni_group }}

@@ -1,4 +1,4 @@
-openmrs_port: 8080
-bahmni_reports_port: 8083
+openmrs_port: 8050
+bahmni_reports_port: 8051
 openmrs_user_id: admin
 openmrs_user_password: test
