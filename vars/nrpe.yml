@@ -1,6 +1,6 @@
 nrpe_server_pid: /var/run/nrpe/nrpe.pid
-nrpe_server_user: bahmni
-nrpe_server_group: bahmni
+nrpe_server_user: "{{ bahmni_support_user }}"
+nrpe_server_group: "{{ bahmni_support_group }}"
 nrpe_server_plugins_dir: /usr/lib64/nagios/plugins
 nrpe_server_bind_address: 127.0.0.1
 nrpe_server_port: 5666
