@@ -119,7 +119,6 @@
 - name: Backup openmrs markers, failed_events tables
   script: dump_openmrs_atomfeed_tables.sh
   delegate_to: "{{ groups['bahmni-emr-db'][0] }}"
-  tags: test
 
 - name: Copy script to update localhost with remote IP in markers
   template:
@@ -130,7 +129,6 @@
 
 - name: Update markers with remote IP
   shell: /opt/openmrs/add_remote_ip_in_openmrs_markers.sh
-  tags: test
 
 - name: Start openmrs
   service: name=openmrs state=started enabled=yes
