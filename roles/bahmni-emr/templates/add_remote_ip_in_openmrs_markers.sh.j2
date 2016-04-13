@@ -16,9 +16,6 @@ mysql -u$MYSQL_ROOT_USER -h$OPENMRS_DB_SERVER -p$MYSQL_ROOT_PASSWORD openmrs -e 
 mysql -u$MYSQL_ROOT_USER -h$OPENMRS_DB_SERVER -p$MYSQL_ROOT_PASSWORD openmrs -e "update failed_events set feed_uri = 'http://{{ host }}:{{ bahmni_lab_port }}/openelis/ws/feed/patient/recent'
     where feed_uri like '%openelis/ws/feed/patient/recent';"
 
-mysql -u$MYSQL_ROOT_USER -h$OPENMRS_DB_SERVER -p$MYSQL_ROOT_PASSWORD openmrs -e "update failed_event_retry_log set feed_uri = 'http://{{ host }}:{{ bahmni_lab_port }}/openelis/ws/feed/patient/recent'
-    where feed_uri like '%openelis/ws/feed/patient/recent';"
-
 
 {% endif %}
 {% endfor %}

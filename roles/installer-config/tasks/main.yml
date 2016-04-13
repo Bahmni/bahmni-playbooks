@@ -4,8 +4,9 @@
 - name: create /etc/bahmni-installer/deployment-artifacts directory
   file: path=/etc/bahmni-installer/deployment-artifacts state=directory mode=0755 owner={{ bahmni_user }} group={{ bahmni_group }}
 
-- name: create /etc/bahmni-installer/backup directory
-  file: path=/etc/bahmni-installer/backup state=directory mode=0755 owner={{ bahmni_user }} group={{ bahmni_group }}
+- name: create /etc/bahmni-installer/atomfeed-backup directory
+  file: path=/etc/bahmni-installer/atomfeed-backup state=directory mode=0755 owner={{ bahmni_user }} group={{ bahmni_group }}
+  tags: test
 
 - name: add bahmni configuration file
   template:

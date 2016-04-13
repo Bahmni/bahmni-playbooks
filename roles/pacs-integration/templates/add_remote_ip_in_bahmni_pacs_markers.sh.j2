@@ -15,5 +15,13 @@ psql -U pacs bahmni_pacs -h $BAHMNI_PACS_DB_SERVER  -c "UPDATE
        feed_uri, 'http://.*/openmrs', 'http://{{ host }}:{{ openmrs_port }}/openmrs'
    ) where feed_uri ~ 'openmrs';"
 
+psql -U pacs bahmni_pacs -h $BAHMNI_PACS_DB_SERVER  -c " UPDATE
+     failed_events
+    SET
+     feed_uri = regexp_replace(
+         feed_uri, 'http://.*/openmrs', 'http://{{ host }}:{{ openmrs_port }}/openmrs'
+     )
+    where feed_uri ~'openmrs';"
+
 {% endif %}
 {% endfor %}

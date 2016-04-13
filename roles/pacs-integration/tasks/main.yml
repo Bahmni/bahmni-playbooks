@@ -70,15 +70,23 @@
   when: passive is not defined or passive != 'yes'
   tags: stop_bahmni
 
+- name: Backup pacs_integration markers, failed_events tables
+  script: dump_pacs_integration_atomfeed_tables.sh
+  delegate_to: "{{ groups['pacs-integration-db'][0] }}"
+  ignore_errors: true
+  tags: test
+
 - name: Copy script to update localhost with remote IP in markers
   template:
       src=add_remote_ip_in_bahmni_pacs_markers.sh.j2
       dest=/opt/pacs-integration/add_remote_ip_in_bahmni_pacs_markers.sh
       mode=755
+  tags: test
 
 - name: Update pacs-integration markers with remote IP
   shell: /opt/pacs-integration/add_remote_ip_in_bahmni_pacs_markers.sh
   ignore_errors: true
+  tags: test
 
 - name: Start pacs-integration and enable at boot
   service:

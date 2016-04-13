@@ -82,14 +82,21 @@
   script: run-implementation-openelis-liquibase.sh
   when: passive is not defined or passive != 'yes'
 
+- name: Backup openelis markers, failed_events tables
+  script: dump_openelis_atomfeed_tables.sh
+  delegate_to: "{{ groups['bahmni-lab-db'][0] }}"
+  tags: test
+
 - name: Copy script to update localhost with remote IP in markers
   template:
       src=add_remote_ip_in_openelis_markers.sh.j2
       dest=/opt/bahmni-lab/add_remote_ip_in_openelis_markers.sh
       mode=755
+  tags: test
 
 - name: Update markers with remote IP
   shell: /opt/bahmni-lab/add_remote_ip_in_openelis_markers.sh
+  tags: test
 
 - name: Start bahmni-lab and enable at boot
   service:
