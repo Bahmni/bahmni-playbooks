@@ -32,6 +32,14 @@
   file: path=/home/bahmni/uploaded_results owner=bahmni group=bahmni mode=0755 state=directory
   when: passive is defined and passive == 'yes'
 
+- name: Remove crontab jobs for upload directories
+  cron: name="{{item}}" state=absent
+  with_items:
+   - sync_patient_image_cron
+   - sync_document_image_cron
+   - sync_uploaded_files_cron
+   - sync_uploaded_results_cron
+
 - name: Install crontab
   yum: name=crontabs state=present
   when: passive is not defined or passive != 'yes'
@@ -41,7 +49,7 @@
     name="sync_patient_image_cron"
     minute="*/1"
     user=root
-    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -p {{patient_images_dir}} -e ssh {{bahmni_support_user}}@{{item}}:{{patient_images_dir}}/../"
+    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -p {{patient_images_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{patient_images_dir}}/../"
   when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
   with_items: "{{groups['bahmni-emr']}}"
 
@@ -50,7 +58,7 @@
     name="sync_document_image_cron"
     minute="*/1"
     user=root
-    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -p {{document_images_dir}} -e ssh {{bahmni_support_user}}@{{item}}:{{document_images_dir}}/../"
+    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -p {{document_images_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{document_images_dir}}/../"
   when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
   with_items: "{{groups['bahmni-emr']}}"
 
@@ -59,7 +67,7 @@
     name="sync_uploaded_files_cron"
     minute="*/1"
     user=root
-    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -p {{uploaded_files_dir}} -e ssh {{bahmni_support_user}}@{{item}}:{{uploaded_files_dir}}/../"
+    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -p {{uploaded_files_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{uploaded_files_dir}}/../"
   when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
   with_items: "{{groups['bahmni-emr']}}"
 
@@ -68,7 +76,7 @@
     name="sync_uploaded_results_cron"
     minute="*/1"
     user=root
-    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -p {{uploaded_results_dir}} -e ssh {{bahmni_support_user}}@{{item}}:{{uploaded_results_dir}}/../"
+    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -p {{uploaded_results_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{uploaded_results_dir}}/../"
   when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
   with_items: "{{groups['bahmni-emr']}}"
 
