@@ -85,8 +85,6 @@ document_images_dir: /home/bahmni/document_images
 uploaded_results_dir: /home/bahmni/uploaded_results
 uploaded_files_dir: /home/bahmni/uploaded-files
 
-oviyam2_port: 8085
-
 nagios_openmrs_user: admin
 nagios_openmrs_user_password: test
 nagios_bahmni_db_user: root

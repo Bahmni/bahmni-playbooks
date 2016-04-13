@@ -116,6 +116,10 @@
   when: passive is not defined or passive != 'yes'
   tags: stop_bahmni
 
+- name: Backup openmrs markers, failed_events tables
+  script: dump_openmrs_atomfeed_tables.sql
+  delegate_to: "{{ groups['bahmni-emr-db'][0] }}"
+
 - name: Copy script to update localhost with remote IP in markers
   template:
       src=add_remote_ip_in_openmrs_markers.sh.j2

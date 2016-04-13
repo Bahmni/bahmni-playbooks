@@ -5,8 +5,8 @@ bahmnicore.documents.baseDirectory={{document_images_dir}}
 {% for host in groups['bahmni-lab'] %}
 {% if hostvars[host].get('passive') != 'yes' %}
 
-openelis.uri=http://{{ host }}:{{ openelis_port }}/
-patient.feed.uri=http://{{ host }}:{{ openelis_port }}/openelis/ws/feed/patient/recent
+openelis.uri=http://{{ host }}:{{ bahmni_lab_port }}/
+patient.feed.uri=http://{{ host }}:{{ bahmni_lab_port }}/openelis/ws/feed/patient/recent
 
 {% endif %}
 {% endfor %}
