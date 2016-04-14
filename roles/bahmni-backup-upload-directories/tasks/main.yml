@@ -32,6 +32,9 @@
   file: path=/home/bahmni/uploaded_results owner=bahmni group=bahmni mode=0755 state=directory
   when: passive is defined and passive == 'yes'
 
+- name: Install crontab
+  yum: name=crontabs state=present
+
 - name: Remove crontab jobs for upload directories
   cron: name="{{item}}" state=absent
   with_items:
@@ -39,10 +42,6 @@
    - sync_document_image_cron
    - sync_uploaded_files_cron
    - sync_uploaded_results_cron
-
-- name: Install crontab
-  yum: name=crontabs state=present
-  when: passive is not defined or passive != 'yes'
 
 - name: create a cron tab to sync patient_images directories
   cron:
