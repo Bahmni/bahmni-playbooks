@@ -46,9 +46,11 @@
       src=add_remote_ip_in_openerp_markers.sh.j2
       dest=/opt/bahmni-erp-connect/add_remote_ip_in_openerp_markers.sh
       mode=755
+  when: passive is not defined or passive != 'yes'
 
 - name: Update markers with remote IP
   shell: /opt/bahmni-erp-connect/add_remote_ip_in_openerp_markers.sh
+  when: passive is not defined or passive != 'yes'
 
 - name: Start bahmni-openerp-connect and enable at boot
   service:

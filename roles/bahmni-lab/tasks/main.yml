@@ -91,9 +91,11 @@
       src=add_remote_ip_in_openelis_markers.sh.j2
       dest=/opt/bahmni-lab/add_remote_ip_in_openelis_markers.sh
       mode=755
+  when: passive is not defined or passive != 'yes'
 
 - name: Update markers with remote IP
   shell: /opt/bahmni-lab/add_remote_ip_in_openelis_markers.sh
+  when: passive is not defined or passive != 'yes'
 
 - name: Start bahmni-lab and enable at boot
   service:

@@ -80,10 +80,12 @@
       src=add_remote_ip_in_bahmni_pacs_markers.sh.j2
       dest=/opt/pacs-integration/add_remote_ip_in_bahmni_pacs_markers.sh
       mode=755
+  when: passive is not defined or passive != 'yes'
 
 - name: Update pacs-integration markers with remote IP
   shell: /opt/pacs-integration/add_remote_ip_in_bahmni_pacs_markers.sh
   ignore_errors: true
+  when: passive is not defined or passive != 'yes'
 
 - name: Start pacs-integration and enable at boot
   service:
