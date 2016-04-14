@@ -11,6 +11,9 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
+- name: Remove mysql_dump.sql.gz in ansible host machine
+  local_action: file path=/tmp/mysql_dump.sql.gz state=absent
+
 - name: Import mysql dump from master to slave db
   shell: gunzip -c /opt/mysql-replication/mysql_dump.sql.gz | mysql -u{{ mysql_root_user }} -p{{ mysql_root_password }}
 
