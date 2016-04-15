@@ -10,7 +10,7 @@
 - hosts: nagios-server
   sudo: yes
   roles:
-    - { role: selinux, selinux_state: permissive, selinux_policy: targeted }
+    - { role: selinux, selinux_state: enforcing, selinux_policy: targeted }
     - { role: nagios}
   vars_files:
     - vars/nagios.yml
