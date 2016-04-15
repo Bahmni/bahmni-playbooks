@@ -49,13 +49,11 @@
   tags: 
       - run_bahmni_web
       - stop_bahmni
-  when: passive is not defined or passive != 'yes'
 
 - name: Start httpd
   service: name=httpd state=started enabled=yes
   tags:
       - run_bahmni_web
       - start_bahmni
-  when: passive is not defined or passive != 'yes'
 
 
