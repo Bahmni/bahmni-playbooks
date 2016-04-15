@@ -3,11 +3,18 @@
 
 - name: install libsemanage-python
   yum: name=libsemanage-python state=present
-  
+
+- name: Get selinux status
+  command: sestatus
+  register: selinux_status
+
 - name: set selinux state and policy
   selinux:
     policy={{ selinux_policy }}
     state={{ selinux_state }}
+
+- fail: msg="You will have to reboot machine to have selinux enabled. Reboot and trigger installation again"
+  when: selinux_status.stdout.find("disabled") != -1
 
 - name: set httpd_can_network_relay for SELinux
   seboolean:

@@ -44,6 +44,14 @@
   file: src=/var/www/bahmni_config/openmrs/patientMatchingAlgorithm  dest=/opt/openmrs/patientMatchingAlgorithm state=link owner={{ bahmni_user }} group={{ bahmni_group }}
   when: patientMatchingAlgorithm_dir.stat.exists == True
 
+- name: check if elisFeedInterceptor exists
+  stat: path=/var/www/bahmni_config/openmrs/elisFeedInterceptor
+  register: elisFeedInterceptor_dir
+
+- name: Link elis feed interceptors in openmrs application data directory if it exists
+  file: src=/var/www/bahmni_config/openmrs/elisFeedInterceptor  dest=/opt/openmrs/elisFeedInterceptor state=link owner={{ bahmni_user }} group={{ bahmni_group }}
+  when: elisFeedInterceptor_dir.stat.exists == True
+
 #TODO: Below 3 tasks to be removed after removing its dependencies from bahmni-core
 - name: remove /opt/openmrs/bahmni_config
   file: path=/opt/openmrs/bahmni_config state=absent
