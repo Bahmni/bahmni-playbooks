@@ -9,7 +9,6 @@ mysql_old_root_password: password
 mysql_root_password: password
 
 implementation_name: default
-bahmni_ntp_timezone: Asia/Kolkata
 
 openmrs_install_dir: /opt/openmrs
 openmrs_log_dir: /var/log/openmrs

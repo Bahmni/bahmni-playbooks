@@ -18,9 +18,13 @@
 - name: Install ntp
   yum: name=ntp state=present
   tags: ntp
-  
+
+- name: Fail if timezone is not provided
+  fail: msg="Please specify timezone to be set to the server in /etc/bahmni-installer/setup.yml"
+  when: timezone is not defined
+
 - name: Set the correct timezone.
-  file: src=/usr/share/zoneinfo/{{ bahmni_ntp_timezone }}  dest=/etc/localtime state=link force=yes
+  file: src=/usr/share/zoneinfo/{{ timezone }}  dest=/etc/localtime state=link force=yes
   tags: ntp
 
 - name: start and enable ntpd
