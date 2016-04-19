@@ -20,8 +20,19 @@
   tags: ntp
 
 - name: Fail if timezone is not provided
-  fail: msg="Please specify timezone to be set to the server in /etc/bahmni-installer/setup.yml"
+  fail: msg="Please specify timezone to be set to the server in /etc/bahmni-installer/setup.yml. Example, timezone: Asia/Kolkata. Take a look at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for available time zones "
   when: timezone is not defined
+  tags: ntp
+
+- name: Check if timezone exists
+  stat: path=/usr/share/zoneinfo/{{ timezone }}
+  register: timezone_exists
+  tags: ntp
+
+- name: Fail if timezone does not exist
+  fail: msg="Timezone specified in /etc/bahmni-installer/setup.yml is incorrect. Example, timezone: Asia/Kolkata. Take a look at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for available time zones"
+  when: timezone_exists.stat.exists == False
+  tags: ntp
 
 - name: Set the correct timezone.
   file: src=/usr/share/zoneinfo/{{ timezone }}  dest=/etc/localtime state=link force=yes
