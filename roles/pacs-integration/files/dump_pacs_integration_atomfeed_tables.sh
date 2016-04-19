@@ -4,4 +4,4 @@ set -e -x
 
 TIME=`date +%Y%m%d_%H%M%S`
 
-pg_dump -U pacs -h $BAHMNI_PACS_DB_SERVER -a -t markers -t failed_events bahmni_pacs > /etc/bahmni-installer/atomfeed-backup/pacs_integration_atomfeed_backup_$TIME.sql
+pg_dump -U pacs -a -t markers -t failed_events bahmni_pacs > /etc/bahmni-installer/atomfeed-backup/pacs_integration_atomfeed_backup_$TIME.sql
