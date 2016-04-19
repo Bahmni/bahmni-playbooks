@@ -27,6 +27,24 @@
        state: stopped
      when: passive is not defined or passive != 'yes'
 
+- hosts: pacs-integration
+  sudo: yes
+  tasks:
+   - name: Stop pacs-integration
+     service:
+       name: pacs-integration
+       state: stopped
+     when: passive is not defined or passive != 'yes'
+
+- hosts: dcm4chee
+  sudo: yes
+  tasks:
+   - name: Stop dcm4chee
+     service:
+       name: dcm4chee
+       state: stopped
+     when: passive is not defined or passive != 'yes'
+
 - hosts: bahmni-erp-db:bahmni-erp-db-slave
   sudo: yes
   roles:
@@ -36,8 +54,27 @@
 - hosts: bahmni-lab-db:bahmni-lab-db-slave
   sudo: yes
   roles:
-    - { role: postgres, postgres_user: clinlims }
-    - { role: postgres-replication, replication_user: clinlims, master_db: "{{ groups['bahmni-lab-db'][0] }}" }
+    - { role: postgres, postgres_user: clinlims}
+    - { role: postgres-replication, replication_user: clinlims, master_db: "{{ groups['bahmni-lab-db'][0] }}",
+        when: "{{inventory_hostname not in groups['bahmni-erp-db-slave'] }}" }
+
+- hosts: pacs-integration-db:pacs-integration-db-slave
+  sudo: yes
+  roles:
+    - { role: postgres, postgres_user: pacs}
+    - { role: postgres-replication, replication_user: pacs, master_db: "{{ groups['pacs-integration-db'][0] }}",
+        when: "{{inventory_hostname not in groups['bahmni-erp-db-slave']
+        and inventory_hostname not in groups['bahmni-lab-db-slave'] }}" }
+
+- hosts: dcm4chee:dcm4chee-db-slave
+  sudo: yes
+  roles:
+    - { role: postgres }
+    - { role: postgres-replication, replication_user: postgres, master_db: "{{ groups['dcm4chee'][0] }}",
+            when: "{{inventory_hostname not in groups['bahmni-erp-db-slave']
+            and inventory_hostname not in groups['bahmni-lab-db-slave']
+            and inventory_hostname not in groups['pacs-integration-db-slave']}}" }
+  tags: dcm4chee
 
 - hosts: bahmni-erp
   sudo: yes
@@ -56,3 +93,22 @@
        name: bahmni-lab
        state: started
      when: passive is not defined or passive != 'yes'
+
+- hosts: pacs-integration
+  sudo: yes
+  tasks:
+   - name: Start pacs-integration
+     service:
+       name: pacs-integration
+       state: started
+     when: passive is not defined or passive != 'yes'
+
+- hosts: dcm4chee
+  sudo: yes
+  tasks:
+   - name: Start dcm4chee
+     service:
+       name: dcm4chee
+       state: started
+     when: passive is not defined or passive != 'yes'
+

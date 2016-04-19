@@ -4,7 +4,7 @@
     dest=/etc/my.cnf
     mode=755
 
-- name: Start Mysql Service
+- name: Restart Mysql Service
   service: name=mysqld state=restarted enabled=true
 
 - name: Create /opt/mysql-replication directory

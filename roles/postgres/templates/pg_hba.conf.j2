@@ -157,3 +157,13 @@ host    replication             openerp             {{ hostvars.get(host, {}).ge
 host    replication             clinlims             {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
 {% endif %}
 {% endfor %}
+{% for host in groups['pacs-integration-db-slave'] %}
+{% if host not in [False, 'localhost', '127.0.0.1'] %}
+host    replication             pacs             {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
+{% endif %}
+{% endfor %}
+{% for host in groups['dcm4chee-db-slave'] %}
+{% if host not in [False, 'localhost', '127.0.0.1'] %}
+host    replication             postgres             {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
+{% endif %}
+{% endfor %}

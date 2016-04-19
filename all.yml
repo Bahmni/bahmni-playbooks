@@ -118,6 +118,7 @@
 - hosts: dcm4chee
   sudo: yes
   roles:
+    - { role: postgres } #currently there is no app and db seperation for dcm4chee
     - { role: dcm4chee }
   tags:
     - dcm4chee
