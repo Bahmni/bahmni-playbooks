@@ -37,9 +37,14 @@
 192.168.33.12
 
 [pacs-integration-db-slave]
+192.168.33.11
 
 [dcm4chee]
-192.168.33.11
+192.168.33.12
+192.168.33.13 passive=yes
+
+[dcm4chee-db-slave]
+192.168.33.13
 
 [bahmni-event-log-service]
 192.168.33.11
@@ -60,4 +65,5 @@ pacs-integration
 pacs-integration-db
 pacs-integration-db-slave
 dcm4chee
+dcm4chee-db-slave
 bahmni-event-log-service

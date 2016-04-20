@@ -37,6 +37,8 @@ localhost
 
 [dcm4chee]
 
+[dcm4chee-db-slave]
+
 [bahmni-event-log-service]
 localhost
 
@@ -56,4 +58,5 @@ pacs-integration
 pacs-integration-db
 pacs-integration-db-slave
 dcm4chee
+dcm4chee-db-slave
 bahmni-event-log-service
