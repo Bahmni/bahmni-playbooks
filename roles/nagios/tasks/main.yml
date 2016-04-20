@@ -1,3 +1,5 @@
 - include: nagios.yml
   tags: install-nagios
-#- include: email.yml tags=configure-email
+
+- include: email.yml
+  tags=configure-email
