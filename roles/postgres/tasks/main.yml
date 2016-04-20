@@ -48,7 +48,7 @@
   file:
       path=/var/lib/pgsql/9.2/data/recovery.conf
       state=absent
-  when: inventory_hostname in groups['bahmni-lab-db'] or inventory_hostname in groups['bahmni-erp-db'] or inventory_hostname in groups['pacs-integration-db'] or or inventory_hostname in groups['dcm4chee']
+  when: inventory_hostname in groups['bahmni-lab-db'] or inventory_hostname in groups['bahmni-erp-db'] or inventory_hostname in groups['pacs-integration-db'] or inventory_hostname in groups['dcm4chee']
 
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep POSTGRES  -m 1 | cut -c 1-2
