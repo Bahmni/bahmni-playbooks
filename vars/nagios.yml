@@ -45,7 +45,7 @@ nagios_contacts:
     - name: bahmni
       use: generic-contact
       alias: bahmni
-      email: bahmni-tw@thoughtworks.com
+      email: {{ email }}
 
 nagios_contactgroups:
   - name: admins
@@ -315,7 +315,7 @@ log_initial_states : "0"
 log_external_commands: "1"
 log_passive_checks: "1"
 
-admin_email: "sharedhealthgroup@gmail.com"
+admin_email: "vrocks63@gmail.com"
 admin_pager: "pagebshr@localhost"
 
 #variables for printer.cfg
