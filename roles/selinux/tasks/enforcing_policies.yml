@@ -1,0 +1,36 @@
+- name: set httpd_can_network_relay for SELinux
+  seboolean:
+    name=httpd_can_network_relay
+    state=yes
+    persistent=yes
+
+- name: set httpd_read_user_content for SELinux
+  seboolean:
+    name=httpd_read_user_content
+    state=yes
+    persistent=yes
+
+- name: set httpd_can_network_connect for SELinux
+  seboolean:
+    name=httpd_can_network_connect
+    state=yes
+    persistent=yes
+
+- name: Copy bahmni_http_home_dir selinux policy
+  copy: src=bahmni_httpd_home_dir.te dest=/tmp/bahmni_httpd_home_dir.te
+
+- name: Compile module
+  command: checkmodule -M -m -o /tmp/bahmni_httpd_home_dir.mod /tmp/bahmni_httpd_home_dir.te
+
+- name: Package selinux policy
+  command: semodule_package -o /tmp/bahmni_httpd_home_dir.pp -m /tmp/bahmni_httpd_home_dir.mod
+
+- name: Install bahmni_http_home_dir selinux policy
+  command: semodule -i /tmp/bahmni_httpd_home_dir.pp
+
+- name: Clean up policy files created in /tmp
+  file: path="{{item}}" state=absent
+  with_items:
+   - /tmp/bahmni_httpd_home_dir.te
+   - /tmp/bahmni_httpd_home_dir.mod
+   - /tmp/bahmni_httpd_home_dir.pp
