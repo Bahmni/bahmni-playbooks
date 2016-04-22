@@ -1,2 +1,6 @@
 dchm4chee_port: 8055
 dchm4chee_connector_port: 8056
+bahmni_user: bahmni
+bahmni_group: bahmni
+bahmni_support_user: bahmni_support
+dcm4chee_archive_dir: /var/lib/bahmni/dcm4chee-2.18.1-psql/server/default/archive

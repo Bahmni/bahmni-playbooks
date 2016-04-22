@@ -59,6 +59,32 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
+- name: Make sure archive directory for dcm4chee exists in passive machine
+  file:
+    path={{ dcm4chee_archive_dir }}
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+    mode=0755
+    state=directory
+  when: passive is defined and passive == 'yes'
+
+- name: Install crontab
+  yum: name=crontabs state=present
+
+- name: Remove crontab jobs for dcm4chee archive directory
+  cron: name="{{item}}" state=absent
+  with_items:
+   - sync_dcm4chee_archive_dir
+
+- name: create a cron tab to sync dcm4chee archive directory
+  cron:
+    name="sync_dcm4chee_archive_dir"
+    minute="*/1"
+    user=root
+    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -p {{dcm4chee_archive_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{dcm4chee_archive_dir}}/../"
+  when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
+  with_items: "{{groups['dcm4chee']}}"
+
 - name: Start dcm4chee and enable at boot
   service:
     name=dcm4chee
