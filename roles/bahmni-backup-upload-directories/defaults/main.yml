@@ -3,3 +3,7 @@ document_images_dir: /home/bahmni/document_images
 uploaded_results_dir: /home/bahmni/uploaded_results
 uploaded_files_dir: /home/bahmni/uploaded-files
 bahmni_support_user: bahmni_support
+bahmni_user: bahmni
+bahmni_group: bahmni
+bahmni_support_user: bahmni_support
+

@@ -8,7 +8,7 @@
 
 - block:
    - name: Add authorized key to passive machine
-     authorized_key: user=bahmni_support key="{{ lookup('file', '/tmp/id_rsa.pub') }}"
+     authorized_key: user={{ bahmni_support_user }} key="{{ lookup('file', '/tmp/id_rsa.pub') }}"
      when: passive is defined and passive == 'yes'
 
 - always:
@@ -17,19 +17,19 @@
      ignore_errors: true
 
 - name: Make sure patient_images directory exists in passive machine
-  file: path=/home/bahmni/patient_images owner=bahmni group=bahmni mode=0755 state=directory
+  file: path=/home/bahmni/patient_images owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
   when: passive is defined and passive == 'yes'
 
 - name: Make sure document_images directory exists in passive machine
-  file: path=/home/bahmni/document_images owner=bahmni group=bahmni mode=0755 state=directory
+  file: path=/home/bahmni/document_images owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
   when: passive is defined and passive == 'yes'
 
 - name: Make sure uploaded-files directory exists in passive machine
-  file: path=/home/bahmni/uploaded-files owner=bahmni group=bahmni mode=0755 state=directory
+  file: path=/home/bahmni/uploaded-files owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
   when: passive is defined and passive == 'yes'
 
 - name: Make sure uploaded_results directory exists in passive machine
-  file: path=/home/bahmni/uploaded_results owner=bahmni group=bahmni mode=0755 state=directory
+  file: path=/home/bahmni/uploaded_results owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
   when: passive is defined and passive == 'yes'
 
 - name: Install crontab
