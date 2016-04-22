@@ -18,6 +18,14 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
+- name: Copy bahmni-event-log-service application properties
+  template:
+    src=bahmni-event-log-service-application.properties.j2
+    dest=/opt/bahmni-event-log-service/bahmni-event-log-service/WEB-INF/classes/application.properties
+    mode=755
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep BAHMNIEVENTLOGSERVICE  -m 1 | cut -c 1-2
   register: matchedRule

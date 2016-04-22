@@ -1,0 +1,18 @@
+spring.datasource.url=jdbc:mysql://{{ groups['bahmni-emr-db'][0] | default('localhost', true) }}:3306/openmrs
+spring.datasource.username=openmrs-user
+spring.datasource.password=password
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+
+# Keep the connection alive if idle for a long time
+spring.datasource.testWhileIdle=true
+spring.datasource.validationQuery=SELECT 1
+
+spring.jpa.generate-ddl=false
+spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
+spring.jpa.show-sql=false
+spring.jpa.hibernate.ddl-auto=none
+server.port={{ bahmni_event_log_service_port }}
+
+liquibase.change-log=classpath:db/changelog/liquibase.xml
+
+enable.scheduling=true
