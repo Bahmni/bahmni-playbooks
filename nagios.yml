@@ -1,7 +1,7 @@
 - hosts: all
   sudo: yes
   roles:
-    - { role: nagios-agent }
+    - { role: nagios-agent, when: "{{ groups['nagios-server'] | length }} > 0" }
   vars_files:
     - vars/nrpe.yml
   tags:
@@ -10,8 +10,7 @@
 - hosts: nagios-server
   sudo: yes
   roles:
-    - { role: selinux, selinux_state: enforcing, selinux_policy: targeted }
-    - { role: nagios}
+    - { role: nagios, when: "{{ groups['nagios-server'] | length }} > 0"}
   vars_files:
     - vars/nagios.yml
   tags:

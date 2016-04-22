@@ -129,3 +129,6 @@
     - { role: bahmni-event-log-service }
   tags:
     - event-log
+
+- include: nagios.yml
+  tags: nagios
