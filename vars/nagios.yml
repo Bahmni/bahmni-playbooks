@@ -197,6 +197,12 @@ nagios_services:
       service_description: Bahmni lab failed events
       check_command: check_nrpe!check_failed_events_in_bahmni_lab
       notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-lab-db
+      service_description: Bahmni lab autovacuum
+      check_command: check_nrpe!check_autovacuum_in_bahmni_lab
+      notifications_enabled: 1
 
 
     - use: bahmni-service
@@ -230,6 +236,12 @@ nagios_services:
         - bahmni-erp-db
       service_description: Bahmni openerp failed events
       check_command: check_nrpe!check_failed_events_in_openerp
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - bahmni-erp-db
+      service_description: Bahmni openerp autovacuum
+      check_command: check_nrpe!check_autovacuum_in_emr_db
       notifications_enabled: 1
 
 
@@ -270,8 +282,14 @@ nagios_services:
     - use: bahmni-service
       hostgroup_name:
         - pacs-integration-db
-      service_description: Bahmni lab failed events
+      service_description: Bahmni pacs failed events
       check_command: check_nrpe!check_failed_events_in_bahmni_pacs
+      notifications_enabled: 1
+    - use: bahmni-service
+      hostgroup_name:
+        - pacs-integration-db
+      service_description: Bahmni pacs autovacuum
+      check_command: check_nrpe!check_autovacuum_in_bahmni_pacs
       notifications_enabled: 1
 
 
@@ -315,7 +333,7 @@ log_initial_states : "0"
 log_external_commands: "1"
 log_passive_checks: "1"
 
-admin_email: "sharedhealthgroup@gmail.com"
+admin_email: "{{ ssmtp_auth_user }}"
 admin_pager: "pagebshr@localhost"
 
 #variables for printer.cfg
