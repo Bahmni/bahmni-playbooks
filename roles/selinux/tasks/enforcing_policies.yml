@@ -16,13 +16,6 @@
     state=yes
     persistent=yes
 
-- name: set nagios_run_sudo for SELinux
-  seboolean:
-    name=nagios_run_sudo
-    state=yes
-    persistent=yes
-
-
 - name: Copy bahmni_http_home_dir selinux policy
   copy: src=bahmni_httpd_home_dir.te dest=/tmp/bahmni_httpd_home_dir.te
 
