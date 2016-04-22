@@ -2,6 +2,8 @@
   file:
     path=/var/lib/pgsql/9.2/data/recovery.conf
     state=absent
+  when: "{{ inventory_hostname in groups['bahmni-lab-db'] or inventory_hostname in groups['bahmni-erp-db']
+  or inventory_hostname in groups['pacs-integration-db'] or inventory_hostname in groups['dcm4chee'] }}"
 
 - name: Postgres replication setup in slave
   include: slave.yml
