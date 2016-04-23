@@ -103,6 +103,14 @@
   always_run: True
   changed_when: False
 
+- name: Update scheduler password in openmrs global property
+  command: >
+      mysql --user={{mysql_root_user}} --password={{mysql_root_password}} openmrs
+      --host={{ groups['bahmni-emr-db'][0] }} --batch --skip-column-names
+      --execute="UPDATE global_property set property_value='{{ openmrs_user_password }}' where property='scheduler.password' ;"
+  always_run: True
+  changed_when: False
+
 - name: download omod
   get_url: url=https://bahmni-repo.twhosted.com/omod/{{ item }} dest=/opt/openmrs/modules owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
   with_items: "{{ omods }}"

@@ -5,5 +5,4 @@ uploaded_files_dir: /home/bahmni/uploaded-files
 bahmni_support_user: bahmni_support
 bahmni_user: bahmni
 bahmni_group: bahmni
-bahmni_support_user: bahmni_support
 
