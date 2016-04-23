@@ -20,7 +20,9 @@
   tags: ntp
 
 - name: Fail if timezone is not provided
-  fail: msg="Please specify timezone to be set to the server in /etc/bahmni-installer/setup.yml. Example- Asia/Kolkata. Take a look at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for available time zones "
+  fail:
+   msg: "Please specify timezone to be set to the server by adding value for key 'timezone' in /etc/bahmni-installer/setup.yml.
+      Example, timezone: Asia/Kolkata. Take a look at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for available timezones "
   when: timezone is not defined
   tags: ntp
 

@@ -45,7 +45,7 @@ nagios_contacts:
     - name: bahmni
       use: generic-contact
       alias: bahmni
-      email: "{{ email }}"
+      email: "{{ nagios_contact_email }}"
 
 nagios_contactgroups:
   - name: admins

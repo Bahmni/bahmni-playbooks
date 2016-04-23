@@ -1,6 +1,8 @@
 - name: Fail if email is not provided
-  fail: msg="Please specify email to be set to the server for setting up nagios in /etc/bahmni-installer/setup.yml"
-  when: email is not defined
+  fail:
+    msg: "Please specify email id to which nagios mail notifications should be sent by adding value for key 'nagios_contact_email' in /etc/bahmni-installer/setup.yml.
+    Example, nagios_contact_email: abc@gmail.com"
+  when: nagios_contact_email is not defined
 
 - include: nagios.yml
   tags: install-nagios

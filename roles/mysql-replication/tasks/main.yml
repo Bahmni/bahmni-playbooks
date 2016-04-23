@@ -2,6 +2,7 @@
   template:
     src=templates/my.cnf.j2
     dest=/etc/my.cnf
+    backup=yes
     mode=755
 
 - name: Restart Mysql Service
