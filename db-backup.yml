@@ -18,7 +18,7 @@
   roles:
     - { role: postgres-db-backup, db_name: bahmni_pacs }
 
-- hosts: dcmchee
+- hosts: dcm4chee
   become: yes
   roles:
     - { role: postgres-db-backup, db_name: pacsdb }
