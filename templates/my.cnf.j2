@@ -18,7 +18,7 @@ collation-server=utf8_general_ci
 # For replication
 {% if (groups['bahmni-emr-db-slave'] | default([]) | length  > 0 and inventory_hostname in groups['bahmni-emr-db']) %}
 server-id = {{ master_server_id }}
-log_bin = {{ log_bin_file_name }}
+log-bin = {{ log_bin_file_name }}
 log-bin-index = {{log_bin_index_file_name}}
 expire_logs_days = {{ expire_logs_days }}
 max_binlog_size = {{max_binlog_size}}
