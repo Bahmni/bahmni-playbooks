@@ -30,7 +30,7 @@
   sudo: yes
   mysql_user:
     name: "root"
-    password: "password"
+    password: "{{ mysql_root_password }}"
     login_user: root
     login_password: "{{ mysql_root_password }}"
     host: "{{ item }}"
