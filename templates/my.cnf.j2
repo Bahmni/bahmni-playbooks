@@ -29,6 +29,4 @@ sync_binlog = {{ sync_binlog }}
 {% if (groups['bahmni-emr-db-slave'] | default([]) | length  > 0 and inventory_hostname in groups['bahmni-emr-db-slave']) %}
 server-id = {{ slave_server_id }}
 read_only
-relay-log = {{relay_log_file_name}}
-relay-log-index = {{relay_log_index_file_name}}
 {% endif %}
