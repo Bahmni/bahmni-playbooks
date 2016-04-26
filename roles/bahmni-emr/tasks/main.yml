@@ -44,6 +44,11 @@
 - name: Install bahmni-emr from bahmni-repo
   yum: name="bahmni-emr-{{ bahmni_emr_version }}" state=present
 
+- name: Stop openmrs
+  service: name=openmrs state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
+
 - name: Copy openmrs conf
   template:
     src=openmrs.conf.j2
@@ -59,6 +64,21 @@
     mode=644
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
+
+- name: Backup openmrs markers, failed_events tables
+  script: dump_openmrs_atomfeed_tables.sh
+  delegate_to: "{{ groups['bahmni-emr-db'][0] }}"
+
+- name: Copy script to update localhost with remote IP in markers
+  template:
+      src=add_remote_ip_in_openmrs_markers.sh.j2
+      dest=/opt/openmrs/add_remote_ip_in_openmrs_markers.sh
+      mode=755
+  when: passive is not defined or passive != 'yes'
+
+- name: Update markers with remote IP
+  shell: /opt/openmrs/add_remote_ip_in_openmrs_markers.sh
+  when: passive is not defined or passive != 'yes'
 
 - name: Copy openmrs-runtime properties
   template:
@@ -118,26 +138,6 @@
 - name: Switch off checkconfig for openmrs on passive
   service: name=openmrs state=stopped enabled=no
   when: passive is defined and passive == 'yes'
-
-- name: Stop openmrs
-  service: name=openmrs state=stopped
-  when: passive is not defined or passive != 'yes'
-  tags: stop_bahmni
-
-- name: Backup openmrs markers, failed_events tables
-  script: dump_openmrs_atomfeed_tables.sh
-  delegate_to: "{{ groups['bahmni-emr-db'][0] }}"
-
-- name: Copy script to update localhost with remote IP in markers
-  template:
-      src=add_remote_ip_in_openmrs_markers.sh.j2
-      dest=/opt/openmrs/add_remote_ip_in_openmrs_markers.sh
-      mode=755
-  when: passive is not defined or passive != 'yes'
-
-- name: Update markers with remote IP
-  shell: /opt/openmrs/add_remote_ip_in_openmrs_markers.sh
-  when: passive is not defined or passive != 'yes'
 
 - name: Start openmrs
   service: name=openmrs state=started enabled=yes
