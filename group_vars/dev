@@ -64,7 +64,7 @@ bahmni_event_log_service_port: 8057
 patient_document_max_age: 86400
 apps_max_age: 1
 
-bahmni_repo_url: https://bahmni-repo.twhosted.com/rpm/bahmni/
+bahmni_repo_url: http://172.18.2.14/rpm/bahmni/
 omods: []
 
 python_gdata_rpm_name: python-gdata-2.0.11-1.el6.noarch.rpm
@@ -92,9 +92,12 @@ bahmni_lab_connect_version: 0.81
 bahmni_reports_version: 0.81
 bahmni_web_version: 0.81
 dcm4chee_version: 0.81
-openmrs_version: 1.12.0-71
+openmrs_version: 1.12.0-331
 pacs_integration_version: 0.81
 
 
 dcm4chee_archive_dir: /var/lib/bahmni/dcm4chee-2.18.1-psql/server/default/archive
 
+#These varaibles should be there only in dev
+selinux_state: permissive
+timezone: Asia/Kolkata
