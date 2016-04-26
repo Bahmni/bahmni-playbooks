@@ -21,6 +21,13 @@
 - name: Install bahmni-lab from bahmni-repo
   yum: name="bahmni-lab-{{ bahmni_lab_version }}" state=present
 
+- name: Stop bahmni-lab
+  service:
+    name=bahmni-lab
+    state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
+
 - name: Copy bahmni-lab config
   template:
     src=bahmni-lab.conf.j2
@@ -70,13 +77,6 @@
 - name: Switch off chkconfig for bahmni-lab on passive
   service: name=bahmni-lab state=stopped enabled=no
   when: passive is defined and passive == 'yes'
-
-- name: Stop bahmni-lab
-  service:
-    name=bahmni-lab
-    state=stopped
-  when: passive is not defined or passive != 'yes'
-  tags: stop_bahmni
 
 - name: Run openelis liquibase migrations of implementation config
   script: run-implementation-openelis-liquibase.sh

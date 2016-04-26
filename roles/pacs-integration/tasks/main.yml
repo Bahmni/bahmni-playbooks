@@ -21,6 +21,13 @@
 - name: Install pacs-integration from bahmni-repo
   yum: name="pacs-integration-{{ pacs_integration_version }}" state=present
 
+- name: Stop pacs-integration
+  service:
+    name=pacs-integration
+    state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
+
 - name: Copy pacs-integration config
   template:
     src=pacs-integration.conf.j2
@@ -62,13 +69,6 @@
 - name: Switch off chkconfig for pacs-integration on passive
   service: name=pacs-integration state=stopped enabled=no
   when: passive is defined and passive == 'yes'
-
-- name: Stop pacs-integration
-  service:
-    name=pacs-integration
-    state=stopped
-  when: passive is not defined or passive != 'yes'
-  tags: stop_bahmni
 
 - name: Backup pacs_integration markers, failed_events tables
   script: dump_pacs_integration_atomfeed_tables.sh
