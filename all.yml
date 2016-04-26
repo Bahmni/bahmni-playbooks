@@ -134,8 +134,6 @@
   sudo: yes
   roles:
     - { role: nagios-agent, when: "{{ groups['nagios-server'] | length }} > 0" }
-  vars_files:
-    - vars/nrpe.yml
   tags:
     - nrpe
     - nagios
@@ -144,8 +142,6 @@
   sudo: yes
   roles:
     - { role: nagios, when: "{{ groups['nagios-server'] | length }} > 0"}
-  vars_files:
-    - vars/nagios.yml
   tags:
     - nagios-server
     - nagios
