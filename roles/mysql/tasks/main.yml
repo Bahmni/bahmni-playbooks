@@ -46,7 +46,12 @@
   service: name=mysqld state=started enabled=true
 
 - name: Update mysql root password
-  command: /usr/bin/mysqladmin -uroot -p{{mysql_old_root_password}} password {{ mysql_root_password }}
+  mysql_user: name=root
+              password="{{ mysql_root_password }}"
+              check_implicit_admin=yes
+              login_user=root
+              login_password="{{ mysql_old_root_password }}"
+              state=present
   ignore_errors: yes
 
 - name: Get matched IpTable rule
