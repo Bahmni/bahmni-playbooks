@@ -131,9 +131,12 @@
   always_run: True
   changed_when: False
 
-- name: download omod
-  get_url: url=https://bahmni-repo.twhosted.com/omod/{{ item }} dest=/opt/openmrs/modules owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
-  with_items: "{{ omods }}"
+- name: Download omods
+  get_url: url={{ item.0.url }}/{{ item.1 }} dest=/opt/openmrs/modules owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
+  with_subelements:
+    - "{{ omods }}"
+    - modules
+  tags: test
 
 - name: Switch off checkconfig for openmrs on passive
   service: name=openmrs state=stopped enabled=no
