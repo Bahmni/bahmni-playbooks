@@ -5,7 +5,6 @@ openerp_port: 8069
 dchm4chee_port: 8055
 patient_document_max_age: 86400
 apps_max_age: 1
-concepts_max_age: 600
 SSLCertificateFilePath: /opt/bahmni-certs/certs/cert1.pem
 SSLCertificateKeyFilePath: /opt/bahmni-certs/certs/privkey1.pem
 SSLCertificateChainFilePath: /opt/bahmni-certs/certs/chain1.pem

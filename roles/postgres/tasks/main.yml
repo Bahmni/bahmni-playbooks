@@ -60,12 +60,17 @@
 - name: save iptables
   command: service iptables save
 
-- name: Retart PostgreSQL and enable at boot
+- name: Stop PostgreSQL
+  service:
+    name=postgresql-9.2
+    state=stopped
+  when: pghba_conf.changed == true or postgres_conf.changed==true or (recovery_conf is defined and recovery_conf.changed==true)
+
+- name: Start PostgreSQL and enable at boot
   service:
     name=postgresql-9.2
     enabled=yes
-    state=restarted
-  when: pghba_conf.changed == true or postgres_conf.changed==true or (recovery_conf is defined and recovery_conf.changed==true)
+    state=started
 
 - name: Create postgres user
   postgresql_user: name={{ postgres_user }} role_attr_flags=CREATEDB,NOCREATEROLE,SUPERUSER,REPLICATION

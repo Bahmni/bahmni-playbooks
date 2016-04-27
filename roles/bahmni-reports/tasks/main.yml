@@ -10,6 +10,13 @@
 - name: Install bahmni-reports from bahmni-repo
   yum: name="bahmni-reports-{{ bahmni_reports_version }}" state=present
 
+- name: Stop bahmni-reports
+  service:
+    name=bahmni-reports
+    state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
+
 - name: Copy bahmni-reports config
   template:
     src=bahmni-reports.conf.j2
@@ -43,13 +50,6 @@
 - name: Switch off chkconfig for bahmni-reports on passive
   service: name=bahmni-reports state=stopped enabled=no
   when: passive is defined and passive == 'yes'
-
-- name: Stop bahmni-reports
-  service:
-    name=bahmni-reports
-    state=stopped
-  when: passive is not defined or passive != 'yes'
-  tags: stop_bahmni
 
 - name: Start bahmni-reports and enable at boot
   service:
