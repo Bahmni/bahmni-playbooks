@@ -10,6 +10,13 @@
 - name: Install bahmni-erp-connect from bahmni-repo
   yum: name="bahmni-erp-connect-{{ bahmni_erp_connect_version }}" state=present
 
+- name: Stop bahmni-openerp-connect
+  service:
+    name=bahmni-erp-connect
+    state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
+
 - name: Copy bahmni-erp-connect configuration
   template:
     src=bahmni-erp-connect.conf.j2
@@ -21,13 +28,6 @@
 - name: Switch off chkconfig for bahmni-openerp-connect on passive
   service: name=bahmni-erp-connect state=stopped enabled=no
   when: passive is defined and passive == 'yes'
-
-- name: Stop bahmni-openerp-connect
-  service:
-    name=bahmni-erp-connect
-    state=stopped
-  when: passive is not defined or passive != 'yes'
-  tags: stop_bahmni
 
 - name: Copy atomfeed properties
   template:

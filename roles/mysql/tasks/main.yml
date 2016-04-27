@@ -38,9 +38,11 @@
     dest=/etc/my.cnf
     backup=yes
     mode=755
+  register: my_cnf
 
 - name: Stop Mysql Service
   service: name=mysqld state=stopped
+  when: my_cnf.changed == true
 
 - name: Start Mysql Service
   service: name=mysqld state=started enabled=true
