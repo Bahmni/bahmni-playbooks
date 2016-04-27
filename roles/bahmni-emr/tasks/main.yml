@@ -136,7 +136,6 @@
   with_subelements:
     - "{{ omods }}"
     - modules
-  tags: test
 
 - name: Switch off checkconfig for openmrs on passive
   service: name=openmrs state=stopped enabled=no

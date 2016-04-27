@@ -2,12 +2,15 @@ localhost ansible_connection=local
 
 [nagios-server]
 
-[bahmni-emr-db-slave]
+[bahmni-emr]
+localhost
 
 [bahmni-emr-db]
 localhost
 
-[bahmni-emr]
+[bahmni-emr-db-slave]
+
+[bahmni-erp]
 localhost
 
 [bahmni-erp-db]
@@ -15,16 +18,13 @@ localhost
 
 [bahmni-erp-db-slave]
 
-[bahmni-erp]
+[bahmni-lab]
 localhost
 
 [bahmni-lab-db]
 localhost
 
 [bahmni-lab-db-slave]
-
-[bahmni-lab]
-localhost
 
 [bahmni-reports]
 localhost
