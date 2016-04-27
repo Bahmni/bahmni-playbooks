@@ -17,26 +17,19 @@
      ignore_errors: true
 
 - name: Make sure patient_images directory exists in passive machine
-  file: path=/home/bahmni/patient_images owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
-  when: passive is defined and passive == 'yes'
-
-- name: Make sure document_images directory exists in passive machine
-  file: path=/home/bahmni/document_images owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
-  when: passive is defined and passive == 'yes'
-
-- name: Make sure uploaded-files directory exists in passive machine
-  file: path=/home/bahmni/uploaded-files owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
-  when: passive is defined and passive == 'yes'
-
-- name: Make sure uploaded_results directory exists in passive machine
-  file: path=/home/bahmni/uploaded_results owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
+  file: path={{item}} owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
+  with_items:
+    - "{{patient_images_dir}}"
+    - "{{document_images_dir}}"
+    - "{{uploaded_files_dir}}"
+    - "{{uploaded_results_dir}}"
   when: passive is defined and passive == 'yes'
 
 - name: Install crontab
   yum: name=crontabs state=present
 
 - name: Remove crontab jobs for upload directories
-  cron: name="{{item}}" state=absent
+  cron: name="{{item}}" user=root state=absent
   with_items:
    - sync_patient_image_cron
    - sync_document_image_cron
