@@ -8,8 +8,6 @@ mysql_root_user: root
 mysql_old_root_password: password
 mysql_root_password: password
 
-implementation_name: default
-
 openmrs_install_dir: /opt/openmrs
 openmrs_log_dir: /var/log/openmrs
 openmrs_modules_dir: /home/bahmni/.OpenMRS/modules

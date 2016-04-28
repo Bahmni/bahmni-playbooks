@@ -1,6 +1,5 @@
 openmrs_db_username: openmrs-user
 openmrs_db_password: password
-implementation_name: default
 openelis_db_username: clinlims
 openelis_db_password: password
 openerp_db_username: openerp
