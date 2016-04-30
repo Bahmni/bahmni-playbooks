@@ -40,7 +40,6 @@ localhost
 [dcm4chee-db-slave]
 
 [bahmni-event-log-service]
-localhost
 
 [local:children]
 nagios-server
