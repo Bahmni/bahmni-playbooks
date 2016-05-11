@@ -1,3 +1,8 @@
+- hosts: bahmni-emr
+  sudo: yes
+  roles:
+    - { role: httpd-maintenance, maintenance_status: start }
+
 - hosts: all
   sudo: yes
   roles:
@@ -145,3 +150,8 @@
   tags:
     - nagios-server
     - nagios
+
+- hosts: bahmni-emr
+  sudo: yes
+  roles:
+    - { role: httpd-maintenance, maintenance_status: end }

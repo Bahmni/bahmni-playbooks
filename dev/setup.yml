@@ -1,2 +1,4 @@
 bahmni_repo_url: https://bahmni-repo.twhosted.com/rpm/bahmni/
-implementation_name: endtb
+implementation_name: default
+timezone: Asis/Kolkata
+selinux_state: permissive
