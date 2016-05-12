@@ -6,10 +6,8 @@
     - maintenance.html
     - maintenance.enable
     - src.jpg
-    - favicon.png
     - bahmni-logo.png
   ignore_errors: true
-  tags: test
 
 - name: Remove maintenace enable page from /var/www/html
   command: rm -rf /var/www/html/maintenance.enable
