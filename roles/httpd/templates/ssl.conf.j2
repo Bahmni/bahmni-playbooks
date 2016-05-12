@@ -278,6 +278,7 @@ RewriteCond %{DOCUMENT_ROOT}/maintenance.enable -f
 RewriteCond %{SCRIPT_FILENAME} !maintenance.html
 RewriteCond %{SCRIPT_FILENAME} !src.jpg
 RewriteCond %{SCRIPT_FILENAME} !favicon.png
+RewriteCond %{SCRIPT_FILENAME} !bahmni-logo.png
 RewriteRule ^.*$ /maintenance.html [R=503,L]
 ErrorDocument 503 /maintenance.html
 Header Set Cache-Control "max-age=0, no-store"
