@@ -1,13 +1,5 @@
-- name: Check if python gdata rpm is present
-  stat: path={{python_gdata_rpm_location}}
-  register: pythonGdataRpm
-
-- name: Download python-gdata
-  command: "wget -q -O {{ python_gdata_rpm_location }} {{python_gdata_rpm_url}} creates={{ python_gdata_rpm_location }}"
-  when: pythonGdataRpm.stat.exists == false
-
 - name: Install python-gdata
-  yum: name="{{ python_gdata_rpm_location }}" state=present
+  yum: name=python-gdata-2.0.11-1.el6.noarch state=present
 
 - name: install nonblockingloghandler
   pip: name=nonblockingloghandler state=present
