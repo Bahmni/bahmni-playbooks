@@ -6,7 +6,7 @@
     - maintenance.html
     - maintenance.enable
     - src.jpg
-    - bahmni-logo.png
+    - favicon.png
   ignore_errors: true
   when: maintenance_status == 'start'
 
