@@ -267,22 +267,6 @@ SetEnvIf User-Agent ".*MSIE.*" \
 CustomLog logs/ssl_request_log \
           "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
 
-#
-#   Maintenance RewriteEngine : start
-#
-
-RewriteEngine On
-RewriteCond %{REMOTE_ADDR} !^123\.456\.789\.000
-RewriteCond %{DOCUMENT_ROOT}/maintenance.html -f
-RewriteCond %{DOCUMENT_ROOT}/maintenance.enable -f
-RewriteCond %{SCRIPT_FILENAME} !maintenance.html
-RewriteRule ^.*$ /maintenance.html [R=503,L]
-ErrorDocument 503 /maintenance.html
-Header Set Cache-Control "max-age=0, no-store"
-
-#
-#   Maintenance RewriteEngine : end
-#
 SSLProxyEngine on
 
 	RewriteEngine on

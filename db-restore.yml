@@ -1,9 +1,4 @@
 - hosts: bahmni-emr
-  sudo: yes
-  roles:
-    - { role: httpd-maintenance, maintenance_status: start }
-
-- hosts: bahmni-emr
   tasks:
    - name: Stop openmrs
      service: name=openmrs state=stopped
@@ -129,8 +124,3 @@
      service: name=dcm4chee state=started
      when: db_name == 'pacsdb' and (passive is not defined or passive != 'yes')
      become: yes
-
-- hosts: bahmni-emr
-  sudo: yes
-  roles:
-    - { role: httpd-maintenance, maintenance_status: end }
