@@ -1,12 +1,14 @@
-- name: Add maintenace page to /var/www/html
-  copy:
-    src={{ item }}
-    dest=/var/www/html/.
-  with_items:
-    - maintenance.html
-    - maintenance.enable
-    - src.jpg
-    - favicon.png
+- name: Add maintenace html page to /var/www/html
+  template:
+    src=maintenance.html
+    dest=/var/www/html/maintenance.html
+  ignore_errors: true
+  when: maintenance_status == 'start'
+
+- name: Add maintenace enable page to /var/www/html
+  template:
+    src=maintenance.enable
+    dest=/var/www/html/maintenance.enable
   ignore_errors: true
   when: maintenance_status == 'start'
 
