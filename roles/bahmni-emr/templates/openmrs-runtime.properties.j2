@@ -1,7 +1,7 @@
 auto_update_database={{ openmrs_auto_update_database }}
 connection.username={{ openmrs_db_username }}
 connection.password={{ openmrs_db_password }}
-connection.url=jdbc:mysql://{{ groups['bahmni-emr-db'][0] | default('localhost', true)}}:3306/openmrs?autoReconnect=true&sessionVariables=storage_engine=InnoDB&useUnicode=true&characterEncoding=UTF-8
+connection.url=jdbc:mysql://{{ groups['bahmni-emr-db'][0] | default('localhost', true)}}:3306/openmrs?autoReconnect=true&sessionVariables=storage_engine=InnoDB&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
 application_data_directory={{ openmrs_application_data_directory }}
 module.allow_web_admin={{ openmrs_module_allow_web_admin }}
 
