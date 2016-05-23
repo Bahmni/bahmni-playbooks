@@ -33,7 +33,7 @@ openmrs.replyTimeoutInMilliseconds=120000
 macrotemplates.temp.directory=/tmp/
 bahmni.login.url=/bahmni/home/#/login?showLoginMessage
 
-{% groups['bahmni-erp-db']|length > 0 %}
+{% if groups['bahmni-erp-db']|length > 0 %}
 openerp.url=jdbc:postgresql://{{ groups['bahmni-erp-db'][0] }}:5432/openerp
 openerp.username= {{ openerp_db_username }}
 openerp.password= {{ openerp_db_password }}
