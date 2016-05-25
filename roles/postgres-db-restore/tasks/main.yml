@@ -4,7 +4,7 @@
   failed_when: pgsql_dump_file_path.stat.exists == false
 
 - name: Create /db-restore
-  file:=
+  file:
     path=/db-restore
     state=directory
 
