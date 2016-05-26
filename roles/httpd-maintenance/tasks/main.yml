@@ -11,5 +11,7 @@
   when: maintenance_status == 'start'
 
 - name: Remove maintenace enable page from /var/www/html
-  command: rm -rf /var/www/html/maintenance.enable
+  file:
+   path=/var/www/html/maintenance.enable
+   state=absent
   when: maintenance_status == 'end'
