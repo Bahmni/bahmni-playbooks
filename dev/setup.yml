@@ -1,4 +1,4 @@
 bahmni_repo_url: https://bahmni-repo.twhosted.com/rpm/bahmni/
 implementation_name: default
-timezone: Asis/Kolkata
+timezone: Asia/Kolkata
 selinux_state: permissive

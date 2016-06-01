@@ -20,3 +20,6 @@ IS_PASSIVE=1
 {% if groups['pacs-integration-db']|length > 0  %}
 BAHMNI_PACS_DB_SERVER={{ groups['pacs-integration-db'][0] | default('localhost', true)}}
 {% endif %}
+{% if groups['dcm4chee-db']|length > 0  %}
+DCM4CHEE_DB_SERVER={{ groups['dcm4chee-db'][0] | default('localhost', true)}}
+{% endif %}

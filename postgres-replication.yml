@@ -66,11 +66,11 @@
         when: "{{inventory_hostname not in groups['bahmni-erp-db-slave']
         and inventory_hostname not in groups['bahmni-lab-db-slave'] }}" }
 
-- hosts: dcm4chee:dcm4chee-db-slave
+- hosts: dcm4chee-db:dcm4chee-db-slave
   sudo: yes
   roles:
     - { role: postgres }
-    - { role: postgres-replication, replication_user: postgres, master_db: "{{ groups['dcm4chee'][0] }}",
+    - { role: postgres-replication, replication_user: postgres, master_db: "{{ groups['dcm4chee-db'][0] }}",
             when: "{{inventory_hostname not in groups['bahmni-erp-db-slave']
             and inventory_hostname not in groups['bahmni-lab-db-slave']
             and inventory_hostname not in groups['pacs-integration-db-slave']}}" }

@@ -59,6 +59,14 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
+- name: Copy pacs-postgres-ds
+  template:
+    src=pacs-postgres-ds.xml.j2
+    dest=/opt/dcm4chee/etc/pacs-postgres-ds.xml
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
 - name: Make sure archive directory for dcm4chee exists in passive machine
   file:
     path={{ dcm4chee_archive_dir }}

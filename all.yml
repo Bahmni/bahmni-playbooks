@@ -14,7 +14,7 @@
   tags:
     - setup
 
-- hosts: bahmni-emr-db:bahmni-emr-db-slave
+- hosts: bahmni-emr-db,bahmni-emr-db-slave
   sudo: yes
   roles:
     - { role: mysql }
@@ -61,7 +61,7 @@
   tags:
     - bahmni-reports
 
-- hosts: bahmni-lab-db:bahmni-lab-db-slave
+- hosts: bahmni-lab-db,bahmni-lab-db-slave
   sudo: yes
   roles:
     - { role: postgres, postgres_user: clinlims }
@@ -120,10 +120,17 @@
   tags:
     - pacs-integration
 
+- hosts: dcm4chee-db,dcm4chee-db-slave
+  sudo: yes
+  roles:
+    - { role: postgres }
+  tags:
+    - dcm4chee-db
+    - dcm4chee
+
 - hosts: dcm4chee
   sudo: yes
   roles:
-    - { role: postgres } #currently there is no app and db seperation for dcm4chee
     - { role: dcm4chee }
   tags:
     - dcm4chee

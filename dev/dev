@@ -1,44 +1,39 @@
-192.168.33.12 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+192.168.33.10 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+192.168.33.11 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
 
 [nagios-server]
 
 [bahmni-emr]
-192.168.33.12
+192.168.33.10
 
 [bahmni-emr-db]
-192.168.33.12
+192.168.33.10
 
 [bahmni-emr-db-slave]
 
 [bahmni-erp]
-192.168.33.12
 
 [bahmni-erp-db]
-192.168.33.12
 
 [bahmni-erp-db-slave]
 
 [bahmni-lab]
-192.168.33.12
 
 [bahmni-lab-db]
-192.168.33.12
 
 [bahmni-lab-db-slave]
 
 [bahmni-reports]
-192.168.33.12
 
 [pacs-integration]
-192.168.33.12
 
 [pacs-integration-db]
-192.168.33.12
 
 [pacs-integration-db-slave]
 
 [dcm4chee]
-192.168.33.12
+
+[dcm4chee-db]
 
 [dcm4chee-db-slave]
 
@@ -60,5 +55,6 @@ pacs-integration
 pacs-integration-db
 pacs-integration-db-slave
 dcm4chee
+dcm4chee-db
 dcm4chee-db-slave
 bahmni-event-log-service
