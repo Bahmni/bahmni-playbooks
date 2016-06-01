@@ -57,4 +57,39 @@
       - run_bahmni_web
       - start_bahmni
 
+- name: Copy landing page html file
+  copy:
+    src=index.html
+    dest=/var/www/html/.
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
 
+- name: Create /var/www/bahmni_revisions
+  file: path=/var/www/bahmni_revisions state=directory owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
+
+- name: Copy openmrs revision file
+  copy:
+    src=bahmni_openmrs_revision.json
+    dest=/var/www/bahmni_revisions/.
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+- name: Copy openerp revision file
+  copy:
+    src=bahmni_openerp_revision.json
+    dest=/var/www/bahmni_revisions/.
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+  when: "{{ groups['bahmni-erp'] | length }} > 0"
+
+- name: Copy openelis revision file
+  copy:
+    src=bahmni_openelis_revision.json
+    dest=/var/www/bahmni_revisions/.
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+  when: "{{ groups['bahmni-lab'] | length }} > 0"
