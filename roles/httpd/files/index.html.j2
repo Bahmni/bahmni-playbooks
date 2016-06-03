@@ -162,6 +162,7 @@
             </div>
         </div>
     </div>
+    {% if groups['bahmni-lab']|length > 0  %}
     <div class="section">
         <div class="launch">
             <a id="elis-app-link" target="_blank">
@@ -175,6 +176,8 @@
             </div>
         </div>
     </div>
+    {% endif %}
+    {% if groups['bahmni-erp']|length > 0  %}
     <div class="section">
         <div class="launch">
             <a id="erp-app-link" target="_blank">
@@ -188,6 +191,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 </div>
 </body>
 </html>

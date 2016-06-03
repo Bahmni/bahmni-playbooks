@@ -57,10 +57,10 @@
       - run_bahmni_web
       - start_bahmni
 
-- name: Copy landing page html file
-  copy:
-    src=index.html
-    dest=/var/www/html/.
+- name: Add landing page html file
+  template:
+    src=index.html.j2
+    dest=/var/www/html/index.html
     mode=644
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
