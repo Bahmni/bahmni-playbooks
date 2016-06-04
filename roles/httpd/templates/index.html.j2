@@ -95,8 +95,12 @@
         }
         function initLinks() {
             var hostName = window.location.hostname;
-            document.getElementById("erp-app-link").href = "http://" + hostName + ":8069";
-            document.getElementById("elis-app-link").href = "https://" + hostName + "/openelis";
+            var erpElement = document.getElementById("erp-app-link")
+            if (erpElement)
+                erpElement.href = "http://" + hostName + ":8069";
+            var elisElement = document.getElementById("elis-app-link")
+            if (elisElement)
+                elisElement.href = "https://" + hostName + "/openelis";
         }
         function load(url, elementClass) {
             callAjax(url, function (data) {
