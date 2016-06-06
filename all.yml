@@ -13,6 +13,7 @@
     - { role: bahmni-support-user, tags: support-user }
   tags:
     - setup
+    - installer
 
 - hosts: bahmni-emr-db,bahmni-emr-db-slave
   sudo: yes

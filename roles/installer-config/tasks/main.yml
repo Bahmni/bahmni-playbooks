@@ -21,3 +21,13 @@
       owner={{ bahmni_user }}
       group={{ bahmni_group }}
 
+- name: Check Bahmni-installer version on command box
+  local_action: command rpm -q bahmni-installer --qf "%{VERSION}-%{RELEASE}\n"
+  register: version
+  tags: installer
+
+- name : Yum install Bahmni-installer
+  yum : name="bahmni-installer-{{version.stdout}}" state=present
+  tags: installer
+
+
