@@ -1,0 +1,29 @@
+---
+# tasks file for iptables
+
+- name: Allow Input ACCEPT
+  command: /sbin/iptables -P INPUT ACCEPT
+
+- name: Flush all current rules
+  command: /sbin/iptables -F
+
+- name: Allow localhost interface
+  command: /sbin/iptables -A INPUT -i lo -j ACCEPT
+
+- name:  Allow Established
+  command: /sbin/iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+- name: Allow SSH
+  command: /sbin/iptables -A INPUT -p tcp --dport 22 -j ACCEPT -m comment --comment "SSH"
+
+- name: DROP ALL Incoming connections except those which are marked as ACCEPT
+  command: /sbin/iptables -P INPUT DROP
+
+- name: DROP all Forwards
+  command: /sbin/iptables -P FORWARD DROP
+
+- name: Allow all output
+  command: /sbin/iptables -P OUTPUT ACCEPT
+
+- name: Save the changes
+  command: service iptables save
