@@ -96,8 +96,13 @@
         function initLinks() {
             var hostName = window.location.hostname;
             var erpElement = document.getElementById("erp-app-link")
-            if (erpElement)
-                erpElement.href = "http://" + hostName + ":8069";
+            if (erpElement) {
+                {% for host in groups['bahmni-erp'] %}
+                {% if hostvars[host].get('passive') != 'yes' %}
+                erpElement.href = "http://{{ host }}:{{ openerp_port }}";
+                {% endif %}
+                {% endfor %}
+            }
             var elisElement = document.getElementById("elis-app-link")
             if (elisElement)
                 elisElement.href = "https://" + hostName + "/openelis";
