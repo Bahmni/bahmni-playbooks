@@ -1,0 +1,163 @@
+- hosts: bahmni-emr
+
+  roles:
+    - { role: httpd-maintenance, maintenance_status: start }
+
+- hosts: all
+
+  roles:
+    - { role: bahmni-base }
+    - { role: bahmni-user }
+    - { role: installer-config }
+    - { role: bahmni-support-user, tags: support-user }
+  tags:
+    - setup
+
+- hosts: bahmni-emr-db,bahmni-emr-db-slave
+
+  roles:
+    - { role: mysql }
+  tags:
+    - bahmni-emr-db
+    - bahmni-emr
+
+- hosts: bahmni-emr-db
+
+  roles:
+    - { role: mysql-users }
+  tags:
+    - bahmni-emr-db
+    - bahmni-emr
+
+- hosts: bahmni-emr
+
+  roles:
+    - { role: bahmni-emr }
+    - { role: bahmni-web }
+    - { role: httpd }
+  tags:
+    - bahmni-emr
+
+- hosts: bahmni-emr
+
+  roles:
+    - { role: bahmni-backup-upload-directories }
+  tags:
+    - backup-upload-dir
+    - bahmni-emr
+
+- hosts: bahmni-emr
+
+  roles:
+    - { role: implementation-config}
+  tags:
+    - config
+
+- hosts: bahmni-reports
+
+  roles:
+    - { role: bahmni-reports }
+  tags:
+    - bahmni-reports
+
+- hosts: bahmni-lab-db,bahmni-lab-db-slave
+
+  roles:
+    - { role: postgres, postgres_user: clinlims }
+  tags:
+    - bahmni-lab-db
+    - bahmni-lab
+
+- hosts: bahmni-lab
+
+  roles:
+    - { role: bahmni-lab }
+  tags:
+    - bahmni-lab
+
+- hosts: bahmni-emr
+
+  roles:
+    - { role: bahmni-lab-connect, when: "{{ groups['bahmni-lab'] | length }} > 0" }
+  tags:
+    - bahmni-lab-connect
+
+- hosts: bahmni-erp-db:bahmni-erp-db-slave
+
+  roles:
+    - { role: postgres, postgres_user: openerp }
+  tags:
+    - bahmni-erp-db
+    - bahmni-erp
+
+- hosts: bahmni-erp
+
+  roles:
+    - { role: bahmni-erp }
+  tags:
+    - bahmni-erp
+
+- hosts: bahmni-erp
+
+  roles:
+    - { role: bahmni-erp-connect }
+  tags:
+    - bahmni-erp-connect
+
+- hosts: pacs-integration-db:pacs-integration-db-slave
+
+  roles:
+    - { role: postgres, postgres_user: pacs }
+  tags:
+    - pacs-integration-db
+    - pacs-integration
+
+- hosts: pacs-integration
+
+  roles:
+    - { role: pacs-integration }
+  tags:
+    - pacs-integration
+
+- hosts: dcm4chee-db,dcm4chee-db-slave
+
+  roles:
+    - { role: postgres }
+  tags:
+    - dcm4chee-db
+    - dcm4chee
+
+- hosts: dcm4chee
+
+  roles:
+    - { role: dcm4chee }
+  tags:
+    - dcm4chee
+
+- hosts: bahmni-event-log-service
+
+  roles:
+    - { role: bahmni-event-log-service }
+  tags:
+    - event-log
+
+- hosts: all
+
+  roles:
+    - { role: nagios-agent, when: "{{ groups['nagios-server'] | length }} > 0" }
+  tags:
+    - nrpe
+    - nagios
+
+- hosts: nagios-server
+
+  roles:
+    - { role: nagios, when: "{{ groups['nagios-server'] | length }} > 0"}
+  tags:
+    - nagios-server
+    - nagios
+
+- hosts: bahmni-emr
+
+  roles:
+    - { role: httpd-maintenance, maintenance_status: end }

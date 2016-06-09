@@ -15,6 +15,12 @@
     key: "{{ epel_repo_gpg_key_url }}"
     state: present
 
+- name: Install sshd
+  yum: name=openssh-server state=present
+
+- name: Install tar
+  yum: name=tar state=present
+
 - name: Install ntp
   yum: name=ntp state=present
   tags: ntp

@@ -9,7 +9,7 @@
 
 - name: Take {{db_name}} DB backup
   shell: pg_dump -Upostgres --create  {{ db_name }} | gzip > /db-backup/{{ db_name }}_dump_{{ time.stdout }}.sql.gz
-  sudo: yes
+
 
 - name: Create /db-backup directory in local machine
   local_action: file path=/db-backup state=directory mode=0777

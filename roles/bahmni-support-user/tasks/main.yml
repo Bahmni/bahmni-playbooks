@@ -2,7 +2,7 @@
   group:
     name={{ bahmni_support_group }}
     state=present
-  sudo: yes
+
 
 - name: Create bahmni_support user
   user:
@@ -12,11 +12,12 @@
    ssh_key_bits=2048
    password={{bahmni_password_hash}}
    state=present
-  sudo: yes
+
 
 - name: configure sudoers
   lineinfile: "dest=/etc/sudoers state=present backup=yes regexp='^{{bahmni_support_user}}' insertafter='^# %wheel' line='{{bahmni_support_user}} ALL=(ALL) NOPASSWD: ALL' validate='visudo -cf %s'"
-  sudo: yes
+  ignore_errors: true
+
 
 - name: allow bahmni_support_group ssh access
   lineinfile:

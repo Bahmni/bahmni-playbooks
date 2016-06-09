@@ -1,5 +1,5 @@
 - hosts: all
-  sudo: yes
+
   roles:
     - { role: selinux, selinux_state: enforcing, selinux_policy: targeted }
     - { role: bahmni-base }
@@ -10,7 +10,7 @@
     - setup
 
 - hosts: bahmni-erp
-  sudo: yes
+
   tasks:
    - name: Stop openerp
      service:
@@ -19,7 +19,7 @@
      when: passive is not defined or passive != 'yes'
 
 - hosts: bahmni-lab
-  sudo: yes
+
   tasks:
    - name: Stop bahmni-lab
      service:
@@ -28,7 +28,7 @@
      when: passive is not defined or passive != 'yes'
 
 - hosts: pacs-integration
-  sudo: yes
+
   tasks:
    - name: Stop pacs-integration
      service:
@@ -37,7 +37,7 @@
      when: passive is not defined or passive != 'yes'
 
 - hosts: dcm4chee
-  sudo: yes
+
   tasks:
    - name: Stop dcm4chee
      service:
@@ -46,20 +46,20 @@
      when: passive is not defined or passive != 'yes'
 
 - hosts: bahmni-erp-db:bahmni-erp-db-slave
-  sudo: yes
+
   roles:
     - { role: postgres, postgres_user: openerp }
     - { role: postgres-replication, replication_user: openerp, master_db: "{{ groups['bahmni-erp-db'][0] }}" }
 
 - hosts: bahmni-lab-db:bahmni-lab-db-slave
-  sudo: yes
+
   roles:
     - { role: postgres, postgres_user: clinlims}
     - { role: postgres-replication, replication_user: clinlims, master_db: "{{ groups['bahmni-lab-db'][0] }}",
         when: "{{inventory_hostname not in groups['bahmni-erp-db-slave'] }}" }
 
 - hosts: pacs-integration-db:pacs-integration-db-slave
-  sudo: yes
+
   roles:
     - { role: postgres, postgres_user: pacs}
     - { role: postgres-replication, replication_user: pacs, master_db: "{{ groups['pacs-integration-db'][0] }}",
@@ -67,7 +67,7 @@
         and inventory_hostname not in groups['bahmni-lab-db-slave'] }}" }
 
 - hosts: dcm4chee-db:dcm4chee-db-slave
-  sudo: yes
+
   roles:
     - { role: postgres }
     - { role: postgres-replication, replication_user: postgres, master_db: "{{ groups['dcm4chee-db'][0] }}",
@@ -77,7 +77,7 @@
   tags: dcm4chee
 
 - hosts: bahmni-erp
-  sudo: yes
+
   tasks:
    - name: Start openerp
      service:
@@ -86,7 +86,7 @@
      when: passive is not defined or passive != 'yes'
 
 - hosts: bahmni-lab
-  sudo: yes
+
   tasks:
    - name: Start bahmni-lab
      service:
@@ -95,7 +95,7 @@
      when: passive is not defined or passive != 'yes'
 
 - hosts: pacs-integration
-  sudo: yes
+
   tasks:
    - name: Start pacs-integration
      service:
@@ -104,7 +104,7 @@
      when: passive is not defined or passive != 'yes'
 
 - hosts: dcm4chee
-  sudo: yes
+
   tasks:
    - name: Start dcm4chee
      service:

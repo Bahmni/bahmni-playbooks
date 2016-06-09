@@ -1,5 +1,5 @@
 - hosts: bahmni-emr
-  sudo: yes
+
   roles:
     - { role: bahmni-concat-config }
 

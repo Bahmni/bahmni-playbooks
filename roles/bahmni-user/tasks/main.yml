@@ -2,8 +2,8 @@
   group:
     name={{ bahmni_group }}
     state=present
-  sudo: yes
+
 
 - name: Create bahmni user
   user: name={{ bahmni_user }} group={{ bahmni_group }}  state=present
-  sudo: yes
+

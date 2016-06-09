@@ -1,0 +1,11 @@
+bahmni_emr_version: 0.82-223
+bahmni_erp_version: 0.82-47
+bahmni_erp_connect_version: 0.82-47
+bahmni_event_log_service_version: 0.82-29
+bahmni_lab_version: 0.82-35
+bahmni_lab_connect_version: 0.82-223
+bahmni_openmrs_version: 0.82-14
+bahmni_reports_version: 0.82-35
+bahmni_web_version: 0.82-223
+dcm4chee_version: 0.82-18
+pacs_integration_version: 0.82-18

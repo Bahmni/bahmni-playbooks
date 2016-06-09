@@ -9,7 +9,7 @@
 
 - name: Take openmrs DB backup
   shell: mysqldump -u{{mysql_root_user}} -p{{mysql_root_password}} --routines --databases openmrs | grep -v 'SQL SECURITY DEFINER' | gzip  > /db-backup/openmrs_dump_{{ time.stdout }}.sql.gz
-  sudo: yes
+
 
 - name: Create /db-backup directory in local machine
   local_action: file path=/db-backup state=directory mode=0777

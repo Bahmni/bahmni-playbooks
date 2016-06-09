@@ -41,7 +41,7 @@
 
 - name: save iptables
   shell: iptables-save > /etc/sysconfig/iptables
-  sudo: yes
+
   tags: iptables
 
 - name: set nagios_run_sudo for SELinux

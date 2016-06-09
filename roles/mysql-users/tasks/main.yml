@@ -6,7 +6,7 @@
       state: absent
 
 - name: Create and grant privileges to openmrs user on localhost
-  sudo: yes
+
   mysql_user:
     name: "{{ openmrs_db_username }}"
     password: "{{ openmrs_db_password }}"
@@ -16,23 +16,26 @@
     priv: "openmrs.*:ALL,GRANT"
 
 - name: Create and grant privileges to openmrs user from app server
-  sudo: yes
+
   mysql_user:
     name: "{{ openmrs_db_username }}"
     password: "{{ openmrs_db_password }}"
     login_user: root
     login_password: "{{ mysql_root_password }}"
-    host: "{{ item }}"
+    host: "{{ item }}.bahmni"
     priv: "openmrs.*:ALL,GRANT"
   with_items: "{{ groups['bahmni-emr'] }}"
 
 - name: Create and grant privileges to root user from app server
-  sudo: yes
+
   mysql_user:
     name: "root"
     password: "{{ mysql_root_password }}"
     login_user: root
     login_password: "{{ mysql_root_password }}"
-    host: "{{ item }}"
+    host: "{{ item }}.bahmni"
     priv: "*.*:ALL,GRANT"
   with_items: "{{ groups['bahmni-emr'] }}"
+
+- name: Flush host cache
+  shell: mysql -u{{mysql_root_user}} -p{{mysql_root_password}} -e "FLUSH HOSTS"

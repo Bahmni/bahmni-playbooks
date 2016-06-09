@@ -1,5 +1,5 @@
 - hosts: bahmni-emr
-  sudo: yes
+
   roles:
     - { role: httpd-maintenance, maintenance_status: start }
 
@@ -131,6 +131,6 @@
      become: yes
 
 - hosts: bahmni-emr
-  sudo: yes
+
   roles:
     - { role: httpd-maintenance, maintenance_status: end }
