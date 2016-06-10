@@ -7,3 +7,7 @@
 - name: Create bahmni user
   user: name={{ bahmni_user }} group={{ bahmni_group }}  state=present
   sudo: yes
+
+- name: Remove shell access and set nologin for user
+  command: usermod -s /sbin/nologin {{bahmni_user}}
+
