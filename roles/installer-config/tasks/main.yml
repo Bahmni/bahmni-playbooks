@@ -29,5 +29,5 @@
   yum : name="bahmni-installer-{{version.stdout}}" state=present
 
 - name: Creating Module directory
-  file: path=/etc/bahmni-installer/deployment-artifacts/modules state=directory owner=bahmni group=bahmni mode=0755 recurse=yes
+  file: path=/etc/bahmni-installer/deployment-artifacts/modules state=directory owner={{ bahmni_group }} group={{ bahmni_group }} mode=0755 recurse=yes
 
