@@ -1,20 +1,25 @@
 ---
 # tasks file for iptables
 
+- name: get iptables rules
+  shell: iptables -L
+  register: iptablesrules
+  always_run: yes
+
 - name: Allow Input ACCEPT
   command: /sbin/iptables -P INPUT ACCEPT
 
-- name: Flush all current rules
-  command: /sbin/iptables -F
-
 - name: Allow localhost interface
-  command: /sbin/iptables -A INPUT -i lo -j ACCEPT
+  command: /sbin/iptables -A INPUT -i lo -j ACCEPT -m comment --comment "lo"
+  when: iptablesrules.stdout.find("lo") == -1
 
 - name:  Allow Established
-  command: /sbin/iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+  command: /sbin/iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT --state "ESTABLISHED"
+  when: iptablesrules.stdout.find("ESTABLISHED") == -1
 
 - name: Allow SSH
   command: /sbin/iptables -A INPUT -p tcp --dport 22 -j ACCEPT -m comment --comment "SSH"
+  when: iptablesrules.stdout.find("SSH") == -1
 
 - name: DROP ALL Incoming connections except those which are marked as ACCEPT
   command: /sbin/iptables -P INPUT DROP

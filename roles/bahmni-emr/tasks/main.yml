@@ -144,6 +144,9 @@
   service: name=openmrs state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
+- name: Copying Modules
+  copy: src=/etc/bahmni-installer/deployment-artifacts/modules/ dest=/opt/openmrs/modules/ owner=bahmni group=bahmni mode=0644
+
 - name: Start openmrs
   service: name=openmrs state=started enabled=yes
   when: passive is not defined or passive != 'yes'
