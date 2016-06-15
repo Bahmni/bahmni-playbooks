@@ -135,9 +135,9 @@
   changed_when: False
 
 - name: Download omods
-  get_url: url={{ item.0.url }} dest=/opt/openmrs/modules/ owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
-  with_subelements:
-    - "{{ omods }}"
+  get_url: url={{ item }} dest=/opt/openmrs/modules/ owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
+  with_items: "{{ omods }}"
+
 - name: Switch off checkconfig for openmrs on passive
   service: name=openmrs state=stopped enabled=no
   when: passive is defined and passive == 'yes'
