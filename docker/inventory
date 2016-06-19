@@ -1,10 +1,13 @@
-centos ansible_connection=docker
+bahmni-emr ansible_connection=docker
+bahmni-erp ansible_connection=docker
+bahmni-lab ansible_connection=docker
 mysql ansible_connection=docker
+pgsql ansible_connection=docker
 
 [nagios-server]
 
 [bahmni-emr]
-centos
+bahmni-emr
 
 [bahmni-emr-db]
 mysql
@@ -12,19 +15,23 @@ mysql
 [bahmni-emr-db-slave]
 
 [bahmni-erp]
+bahmni-erp
 
 [bahmni-erp-db]
+pgsql
 
 [bahmni-erp-db-slave]
 
 [bahmni-lab]
+bahmni-lab
 
 [bahmni-lab-db]
+pgsql
 
 [bahmni-lab-db-slave]
 
 [bahmni-reports]
-centos
+bahmni-emr
 
 [pacs-integration]
 

@@ -18,6 +18,9 @@
 - name: Install sshd
   yum: name=openssh-server state=present
 
+- name: Install sudo
+  yum: name=sudo state=present
+
 - name: Install tar
   yum: name=tar state=present
 
