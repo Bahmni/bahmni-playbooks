@@ -3,12 +3,8 @@ sudo: required
 services: docker
 
 script:
-  ./docker/init.sh setup-containers
-script:
-  docker ps -a
-script:
-  ./docker/init.sh install
-script:
-  ./docker/init.sh create-images
-script:
-  docker images
+  - ./docker/init.sh setup-containers
+  - docker ps -a
+  - ./docker/init.sh install
+  - ./docker/init.sh create-images
+  - docker images
