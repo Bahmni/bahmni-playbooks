@@ -1,0 +1,10 @@
+sudo: required
+
+services: docker
+
+script:
+  ./docker/init.sh setup-containers
+  docker ps
+  ./docker/init.sh install
+  ./docker/init.sh create-images
+  docker images

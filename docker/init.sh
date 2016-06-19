@@ -18,7 +18,7 @@ case $@ in
         docker commit mysql bahmni/mysql
         docker commit pgsql bahmni/pgsql
         ;;
-        
+
     delete-containers)
         docker rm -f bahmni-emr
         docker rm -f bahmni-erp
@@ -32,6 +32,6 @@ case $@ in
         ;;
     *)
         echo "Invalid option";
-        echo "Available options : setup-containers, delete-containers, install";
+        echo "Available options : setup-containers, delete-containers, install, create-images";
         ;;
 esac
