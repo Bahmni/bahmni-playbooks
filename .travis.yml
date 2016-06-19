@@ -4,7 +4,11 @@ services: docker
 
 script:
   ./docker/init.sh setup-containers
+script:
   docker ps -a
+script:
   ./docker/init.sh install
+script:
   ./docker/init.sh create-images
+script:
   docker images
