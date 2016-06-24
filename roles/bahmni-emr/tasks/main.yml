@@ -143,7 +143,10 @@
   when: passive is defined and passive == 'yes'
 
 - name: Copying Modules
-  copy: src=/etc/bahmni-installer/deployment-artifacts/modules/ dest=/opt/openmrs/modules/ owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
+  copy: src=/etc/bahmni-installer/deployment-artifacts/modules/ dest=/etc/bahmni-installer/deployment-artifacts/modules/ owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
+
+- name: Running script to select right version of Omod
+  script: external_omod.sh
 
 - name: Start openmrs
   service: name=openmrs state=started enabled=yes

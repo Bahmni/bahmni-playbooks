@@ -11,7 +11,7 @@
     - { role: bahmni-user }
     - { role: installer-config }
     - { role: bahmni-support-user, tags: support-user }
-    - { role: iptables }
+    - { role: iptables, tags: iptables }
   tags:
     - setup
 
