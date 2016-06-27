@@ -3,37 +3,19 @@
     src=mysql.repo.j2
     dest=/etc/yum.repos.d/mysql.repo
 
-- name: Check if openmrs database dump is provided in /etc/bahmni-installer/deployment-artifacts
-  local_action: stat path=/etc/bahmni-installer/deployment-artifacts/mysql_dump.sql
-  register: mysql_dump_file
-
-- name: Copy file to remote location if it is available
-  copy: src=/etc/bahmni-installer/deployment-artifacts/mysql_dump.sql
-        dest=/etc/bahmni-installer/deployment-artifacts/mysql_dump.sql
-        mode=644
-        owner={{ bahmni_user }}
-        group={{ bahmni_group }}
-  when: mysql_dump_file.stat.exists == True
-
-- name: Install openmrs database dump if provided and database does not exist
-  script: restore_mysql_dump.sh
-  sudo: yes
-  when: mysql_dump_file.stat.exists == True
+- name: Stop openmrs
+  service: name=openmrs state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
 
 - name: Check if bahmni-openmrs rpm needs an update
   command: yum list installed bahmni-openmrs
   register: installed_openmrs
   ignore_errors: true
 
-- name: Uninstall openmrs rpm
-  yum: name="openmrs" state=absent
-
 - name: Uninstall bahmni-openmrs rpm
   yum: name="bahmni-openmrs" state=absent
   when: installed_openmrs.stdout.find("{{ bahmni_openmrs_version }}") == -1
-
-- name: Install bahmni-openmrs from bahmni-repo
-  yum: name="bahmni-openmrs-{{ bahmni_openmrs_version }}" state=present
 
 - name: Check if bahmni-emr rpm needs an update
   command: yum list installed bahmni-emr
@@ -44,13 +26,28 @@
   yum: name="bahmni-emr" state=absent
   when: installed_bahmni_emr.stdout.find("{{ bahmni_emr_version }}") == -1
 
+- name: Check if openmrs database dump is provided in /etc/bahmni-installer/deployment-artifacts
+  local_action: stat path=/etc/bahmni-installer/deployment-artifacts/openmrs_backup.sql
+  register: openmrs_backup_file
+
+- name: Copy file to remote location if it is available
+  copy: src=/etc/bahmni-installer/deployment-artifacts/openmrs_backup.sql
+        dest=/etc/bahmni-installer/deployment-artifacts/openmrs_backup.sql
+        mode=644
+        owner={{ bahmni_user }}
+        group={{ bahmni_group }}
+  when: openmrs_backup_file.stat.exists == True
+
+- name: Install openmrs database dump if provided and database does not exist
+  script: restore_openmrs_dump.sh
+  sudo: yes
+  when: openmrs_backup_file.stat.exists == True
+
+- name: Install bahmni-openmrs from bahmni-repo
+  yum: name="bahmni-openmrs-{{ bahmni_openmrs_version }}" state=present
+
 - name: Install bahmni-emr from bahmni-repo
   yum: name="bahmni-emr-{{ bahmni_emr_version }}" state=present
-
-- name: Stop openmrs
-  service: name=openmrs state=stopped
-  when: passive is not defined or passive != 'yes'
-  tags: stop_bahmni
 
 - name: Copy openmrs conf
   template:
@@ -143,7 +140,12 @@
   when: passive is defined and passive == 'yes'
 
 - name: Copying Modules
-  copy: src=/etc/bahmni-installer/deployment-artifacts/modules/ dest=/etc/bahmni-installer/deployment-artifacts/modules/ owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
+  copy:
+    src=/etc/bahmni-installer/deployment-artifacts/modules/
+    dest=/etc/bahmni-installer/deployment-artifacts/modules/
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+    mode=755
 
 - name: Running script to select right version of Omod
   script: external_omod.sh

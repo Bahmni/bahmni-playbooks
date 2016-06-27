@@ -23,9 +23,33 @@
   register: installed_bahmni_erp
   ignore_errors: true
 
+- name: Stop Openerp
+  service:
+    name=openerp
+    state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
+
 - name: Uninstall bahmni-erp rpm
   yum: name="bahmni-erp" state=absent
   when: installed_bahmni_erp.stdout.find("{{ bahmni_erp_version }}") == -1
+
+- name: Check if openerp database dump is provided in /etc/bahmni-installer/deployment-artifacts
+  local_action: stat path=/etc/bahmni-installer/deployment-artifacts/openerp_backup.sql
+  register: openerp_backup_file
+
+- name: Copy file to remote location if it is available
+  copy: src=/etc/bahmni-installer/deployment-artifacts/openerp_backup.sql
+        dest=/etc/bahmni-installer/deployment-artifacts/openerp_backup.sql
+        mode=644
+        owner={{ bahmni_user }}
+        group={{ bahmni_group }}
+  when: openerp_backup_file.stat.exists == True
+
+- name: Install openerp database dump if provided and database does not exist
+  script: restore_openerp_dump.sh
+  sudo: yes
+  when: openerp_backup_file.stat.exists == True
 
 - name: Install bahmni-erp from bahmni-repo
   yum: name="bahmni-erp-{{ bahmni_erp_version }}" state=present
@@ -50,13 +74,6 @@
 - name: Switch off chkconfig for Openerp on passive
   service: name=openerp state=stopped enabled=no
   when: passive is defined and passive == 'yes'
-
-- name: Stop Openerp
-  service:
-    name=openerp
-    state=stopped
-  when: passive is not defined or passive != 'yes'
-  tags: stop_bahmni
 
 - name: Start Openerp and enable at boot
   service:

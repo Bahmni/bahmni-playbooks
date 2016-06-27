@@ -9,6 +9,13 @@
 - name: Install postgresql yum repository
   yum: name={{postgres_repo_rpm_location}} state=present
 
+- name: Stop bahmni-lab
+  service:
+    name=bahmni-lab
+    state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
+
 - name: Check if bahmni-lab rpm needs an update
   command: yum list installed bahmni-lab
   register: installed_bahmni_lab
@@ -18,15 +25,25 @@
   yum: name="bahmni-lab" state=absent
   when: installed_bahmni_lab.stdout.find("{{ bahmni_lab_version }}") == -1
 
+- name: Check if openelis database dump is provided in /etc/bahmni-installer/deployment-artifacts
+  local_action: stat path=/etc/bahmni-installer/deployment-artifacts/openelis_backup.sql
+  register: openelis_backup_file
+
+- name: Copy file to remote location if it is available
+  copy: src=/etc/bahmni-installer/deployment-artifacts/openelis_backup.sql
+        dest=/etc/bahmni-installer/deployment-artifacts/openelis_backup.sql
+        mode=644
+        owner={{ bahmni_user }}
+        group={{ bahmni_group }}
+  when: openelis_backup_file.stat.exists == True
+
+- name: Install openelis database dump if provided and database does not exist
+  script: restore_openelis_dump.sh
+  sudo: yes
+  when: openelis_backup_file.stat.exists == True
+
 - name: Install bahmni-lab from bahmni-repo
   yum: name="bahmni-lab-{{ bahmni_lab_version }}" state=present
-
-- name: Stop bahmni-lab
-  service:
-    name=bahmni-lab
-    state=stopped
-  when: passive is not defined or passive != 'yes'
-  tags: stop_bahmni
 
 - name: Copy bahmni-lab config
   template:
