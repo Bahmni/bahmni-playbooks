@@ -9,13 +9,6 @@
 - name: Install postgresql yum repository
   yum: name={{postgres_repo_rpm_location}} state=present
 
-- name: Stop bahmni-lab
-  service:
-    name=bahmni-lab
-    state=stopped
-  when: passive is not defined or passive != 'yes'
-  tags: stop_bahmni
-
 - name: Check if bahmni-lab rpm needs an update
   command: yum list installed bahmni-lab
   register: installed_bahmni_lab
@@ -44,6 +37,13 @@
 
 - name: Install bahmni-lab from bahmni-repo
   yum: name="bahmni-lab-{{ bahmni_lab_version }}" state=present
+
+- name: Stop bahmni-lab
+  service:
+    name=bahmni-lab
+    state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
 
 - name: Copy bahmni-lab config
   template:

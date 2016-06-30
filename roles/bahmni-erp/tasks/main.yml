@@ -23,13 +23,6 @@
   register: installed_bahmni_erp
   ignore_errors: true
 
-- name: Stop Openerp
-  service:
-    name=openerp
-    state=stopped
-  when: passive is not defined or passive != 'yes'
-  tags: stop_bahmni
-
 - name: Uninstall bahmni-erp rpm
   yum: name="bahmni-erp" state=absent
   when: installed_bahmni_erp.stdout.find("{{ bahmni_erp_version }}") == -1
@@ -53,6 +46,13 @@
 
 - name: Install bahmni-erp from bahmni-repo
   yum: name="bahmni-erp-{{ bahmni_erp_version }}" state=present
+
+- name: Stop Openerp
+  service:
+    name=openerp
+    state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
 
 - name: Copy openerp server template
   template: src=openerp-server.conf.j2 dest=/etc/openerp/openerp-server.conf owner=openerp group=openerp mode=0655

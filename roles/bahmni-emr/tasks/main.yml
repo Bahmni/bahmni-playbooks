@@ -3,11 +3,6 @@
     src=mysql.repo.j2
     dest=/etc/yum.repos.d/mysql.repo
 
-- name: Stop openmrs
-  service: name=openmrs state=stopped
-  when: passive is not defined or passive != 'yes'
-  tags: stop_bahmni
-
 - name: Check if bahmni-openmrs rpm needs an update
   command: yum list installed bahmni-openmrs
   register: installed_openmrs
@@ -48,6 +43,11 @@
 
 - name: Install bahmni-emr from bahmni-repo
   yum: name="bahmni-emr-{{ bahmni_emr_version }}" state=present
+
+- name: Stop openmrs
+  service: name=openmrs state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
 
 - name: Copy openmrs conf
   template:
