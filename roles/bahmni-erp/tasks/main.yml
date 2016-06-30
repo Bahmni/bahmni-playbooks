@@ -30,6 +30,13 @@
 - name: Install bahmni-erp from bahmni-repo
   yum: name="bahmni-erp-{{ bahmni_erp_version }}" state=present
 
+- name: Stop Openerp
+  service:
+    name=openerp
+    state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
+
 - name: Copy openerp server template
   template: src=openerp-server.conf.j2 dest=/etc/openerp/openerp-server.conf owner=openerp group=openerp mode=0655
 
