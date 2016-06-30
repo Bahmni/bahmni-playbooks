@@ -3,6 +3,23 @@
     src=mysql.repo.j2
     dest=/etc/yum.repos.d/mysql.repo
 
+- name: Check if openmrs database dump is provided in /etc/bahmni-installer/deployment-artifacts
+  local_action: stat path=/etc/bahmni-installer/deployment-artifacts/mysql_dump.sql
+  register: mysql_dump_file
+
+- name: Copy file to remote location if it is available
+  copy: src=/etc/bahmni-installer/deployment-artifacts/mysql_dump.sql
+        dest=/etc/bahmni-installer/deployment-artifacts/mysql_dump.sql
+        mode=644
+        owner={{ bahmni_user }}
+        group={{ bahmni_group }}
+  when: mysql_dump_file.stat.exists == True
+
+- name: Install openmrs database dump if provided and database does not exist
+  script: restore_mysql_dump.sh
+  sudo: yes
+  when: mysql_dump_file.stat.exists == True
+
 - name: Check if bahmni-openmrs rpm needs an update
   command: yum list installed bahmni-openmrs
   register: installed_openmrs
