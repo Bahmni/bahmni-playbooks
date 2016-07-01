@@ -82,5 +82,6 @@ document_images_dir: /home/bahmni/document_images
 uploaded_results_dir: /home/bahmni/uploaded_results
 uploaded_files_dir: /home/bahmni/uploaded-files
 
-
 dcm4chee_archive_dir: /var/lib/bahmni/dcm4chee-2.18.1-psql/server/default/archive
+
+two_factor_auth: disabled

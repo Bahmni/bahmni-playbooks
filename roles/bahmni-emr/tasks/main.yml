@@ -95,7 +95,7 @@
 - name: delete matching rule if exists
   shell: iptables -D INPUT {{ matchedRule.stdout }}
   when: matchedRule.stdout!=""
- 
+
 - name: Allow openmrs port through firewall
   command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ openmrs_port }} -j ACCEPT -m comment --comment "OPENMRS"
 
@@ -150,8 +150,30 @@
 - name: Running script to select right version of Omod
   script: external_omod.sh
 
+- name: Installing two factor authentication rpm if enabled.
+  yum:  name="bahmni-two-factor-auth" state=present
+  when: two_factor_auth == 'enabled'
+
+- name: Stop bahmni-two-factor-auth
+  service: name=bahmni-two-factor-auth state=stopped
+  when: (passive is not defined or passive != 'yes') and two_factor_auth == 'enabled'
+  tags: stop_bahmni
+
+- name: Copy bahmni-two-factor-auth application properties
+  template:
+    src=bahmni-two-factor-auth.properties.j2
+    dest=/opt/bahmni-two-factor-auth/etc/application.properties
+    mode=755
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+  when: two_factor_auth == 'enabled'
+
+- name: Start bahmni-two-factor-auth
+  service: name=bahmni-two-factor-auth state=started enabled=yes
+  when: (passive is not defined or passive != 'yes') and two_factor_auth == 'enabled'
+  tags: start_bahmni
+
 - name: Start openmrs
   service: name=openmrs state=started enabled=yes
   when: passive is not defined or passive != 'yes'
   tags: start_bahmni
-

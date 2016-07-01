@@ -1,0 +1,7 @@
+spring.datasource.url=jdbc:mysql://{{ groups['bahmni-emr-db'][0] | default('localhost', true) }}:3306/openmrs
+spring.datasource.username={{ openmrs_db_username }}
+spring.datasource.password={{ openmrs_db_password }}
+spring.datasource.driverClassName=com.mysql.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
+OTP_EXPIRES_AFTER=15
+OTP_LENGTH=6
