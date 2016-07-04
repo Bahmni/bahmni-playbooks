@@ -150,6 +150,10 @@
 - name: Running script to select right version of Omod
   script: external_omod.sh
 
+- name: Uninstalling two factor authentication rpm if disabled.
+  yum:  name="bahmni-two-factor-auth" state=absent
+  when: (two_factor_auth is not defined or two_factor_auth != 'enabled')
+
 - name: Installing two factor authentication rpm if enabled.
   yum:  name="bahmni-two-factor-auth" state=present
   when: two_factor_auth == 'enabled'
