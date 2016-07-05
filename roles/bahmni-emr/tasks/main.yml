@@ -171,7 +171,7 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
   when: two_factor_auth == 'enabled'
-  
+
 - name: Copy bahmni-two-factor-auth application properties
   template:
     src=bahmni-two-factor-auth.properties.j2
@@ -185,6 +185,14 @@
   service: name=bahmni-two-factor-auth state=started enabled=yes
   when: (passive is not defined or passive != 'yes') and two_factor_auth == 'enabled'
   tags: start_bahmni
+
+- name: Copying getversion script
+  copy: src=getversion.py
+        dest=/var/www/cgi-bin/
+        mode=755
+        owner={{ bahmni_user }}
+        group={{ bahmni_group }}
+  tags: version
 
 - name: Start openmrs
   service: name=openmrs state=started enabled=yes

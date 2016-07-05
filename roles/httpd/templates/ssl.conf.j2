@@ -282,7 +282,6 @@ RewriteCond %{SCRIPT_FILENAME} !bahmni-logo.png
 RewriteRule ^.*$ /maintenance.html [R=503,L]
 ErrorDocument 503 /maintenance.html
 Header Set Cache-Control "max-age=0, no-store"
-
 #
 #   Maintenance RewriteEngine : end
 #

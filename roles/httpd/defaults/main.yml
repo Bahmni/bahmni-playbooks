@@ -11,3 +11,4 @@ SSLCertificateChainFilePath: /opt/bahmni-certs/certs/chain1.pem
 uploaded_results_dir: /home/bahmni/uploaded_results
 uploaded_files_dir: /home/bahmni/uploaded-files
 
+
