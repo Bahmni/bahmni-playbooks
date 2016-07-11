@@ -5,6 +5,7 @@
 
 - name: Uninstall openmrs rpm
   yum: name="openmrs" state=absent
+  ignore_errors: true
 
 - name: Check if bahmni-openmrs rpm needs an update
   command: yum list installed bahmni-openmrs
