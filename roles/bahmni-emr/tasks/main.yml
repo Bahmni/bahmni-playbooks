@@ -3,6 +3,9 @@
     src=mysql.repo.j2
     dest=/etc/yum.repos.d/mysql.repo
 
+- name: Uninstall openmrs rpm
+  yum: name="openmrs" state=absent
+
 - name: Check if bahmni-openmrs rpm needs an update
   command: yum list installed bahmni-openmrs
   register: installed_openmrs
