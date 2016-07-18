@@ -1,3 +1,7 @@
+- name: Check if /var/www/html folder exists
+  stat: path=/var/www/html
+  register: httpd_html_dir
+
 - name: Add maintenace page to /var/www/html
   copy:
     src={{ item }}
@@ -8,7 +12,7 @@
     - src.jpg
     - bahmni-logo.png
   ignore_errors: true
-  when: maintenance_status == 'start'
+  when: httpd_html_dir.stat.exists == True and maintenance_status == 'start'
 
 - name: Remove maintenace enable page from /var/www/html
   file:
