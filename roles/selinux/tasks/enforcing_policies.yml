@@ -20,6 +20,12 @@
     state=yes
     persistent=yes
 
+- name: set httpd_enable_cgi for SELinux
+  seboolean:
+    name=httpd_enable_cgi
+    state=yes
+    persistent=yes
+
 - name: Copy bahmni_http_home_dir selinux policy
   copy: src=bahmni_httpd_home_dir.te dest=/tmp/bahmni_httpd_home_dir.te
 
@@ -31,6 +37,9 @@
 
 - name: Install bahmni_http_home_dir selinux policy
   command: semodule -i /tmp/bahmni_httpd_home_dir.pp
+
+- name: Setpermissive for httpd_t
+  command: semanage permissive -a httpd_t
 
 - name: Clean up policy files created in /tmp
   file: path="{{item}}" state=absent
