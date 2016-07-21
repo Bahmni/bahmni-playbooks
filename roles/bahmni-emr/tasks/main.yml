@@ -159,7 +159,7 @@
   when: (two_factor_auth is not defined or two_factor_auth != 'enabled')
 
 - name: Installing two factor authentication rpm if enabled.
-  yum:  name="bahmni-two-factor-auth" state=latest
+  yum:  name="bahmni-two-factor-auth" state=latest update_cache=yes
   when: two_factor_auth == 'enabled'
 
 - name: Stop bahmni-two-factor-auth
