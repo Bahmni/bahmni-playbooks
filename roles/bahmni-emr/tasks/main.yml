@@ -12,6 +12,9 @@
   register: installed_openmrs
   ignore_errors: true
 
+- name: Uninstalling two factor authentication rpm if disabled.
+  yum:  name="bahmni-two-factor-auth" state=absent
+
 - name: Uninstall bahmni-openmrs rpm
   yum: name="bahmni-openmrs" state=absent
   when: installed_openmrs.stdout.find("{{ bahmni_openmrs_version }}") == -1
@@ -52,6 +55,10 @@
   service: name=openmrs state=stopped
   when: passive is not defined or passive != 'yes'
   tags: stop_bahmni
+
+- name: Installing two factor authentication rpm if enabled.
+  yum:  name="bahmni-two-factor-auth" state=latest update_cache=yes
+  when: two_factor_auth is defined and two_factor_auth == 'enabled'
 
 - name: Copy openmrs conf
   template:
@@ -154,17 +161,9 @@
 - name: Running script to select right version of Omod
   script: external_omod.sh
 
-- name: Uninstalling two factor authentication rpm if disabled.
-  yum:  name="bahmni-two-factor-auth" state=absent
-  when: (two_factor_auth is not defined or two_factor_auth != 'enabled')
-
-- name: Installing two factor authentication rpm if enabled.
-  yum:  name="bahmni-two-factor-auth" state=latest update_cache=yes
-  when: two_factor_auth == 'enabled'
-
 - name: Stop bahmni-two-factor-auth
   service: name=bahmni-two-factor-auth state=stopped
-  when: (passive is not defined or passive != 'yes') and two_factor_auth == 'enabled'
+  when: (passive is not defined or passive != 'yes') and two_factor_auth is defined and two_factor_auth == 'enabled'
   tags: stop_bahmni
 
 - name: Copy bahmni-two-factor-auth conf
@@ -174,7 +173,7 @@
     mode=644
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
-  when: two_factor_auth == 'enabled'
+  when: two_factor_auth is defined and two_factor_auth == 'enabled'
 
 - name: Copy bahmni-two-factor-auth application properties
   template:
@@ -183,11 +182,11 @@
     mode=755
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
-  when: two_factor_auth == 'enabled'
+  when: two_factor_auth is defined and two_factor_auth == 'enabled'
 
 - name: Start bahmni-two-factor-auth
   service: name=bahmni-two-factor-auth state=started enabled=yes
-  when: (passive is not defined or passive != 'yes') and two_factor_auth == 'enabled'
+  when: (passive is not defined or passive != 'yes') and two_factor_auth is defined and two_factor_auth == 'enabled'
   tags: start_bahmni
 
 - name: Copying getversion script
