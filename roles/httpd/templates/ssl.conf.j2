@@ -378,6 +378,10 @@ RequestHeader set "X-Forwarded-Proto" "https"
 				Alias /uploaded_results {{ uploaded_results_dir }}
 				Alias /uploaded-files {{ uploaded_files_dir }}
 
+{% if implementer_interface is defined and implementer_interface == 'enabled'%}
+			Alias /implementer-interface /var/www/implementer_interface
+{% endif %}
+
 			Redirect permanent /home /bahmni/home/
 	            WSGIDaemonProcess client_side_logging user=apache group=apache threads=1
             WSGIScriptAlias /log /var/www/client_side_logging/client_side_logging.wsgi

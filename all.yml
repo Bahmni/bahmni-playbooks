@@ -37,6 +37,7 @@
     - { role: bahmni-emr }
     - { role: bahmni-web }
     - { role: httpd }
+    - { role: bahmni-implementer-interface }
   tags:
     - bahmni-emr
 
