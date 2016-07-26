@@ -1,0 +1,4 @@
+---
+-
+  playbook: all.yml
+  inventory: local

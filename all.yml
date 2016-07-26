@@ -1,3 +1,10 @@
+- name: bahmni-emr-TDD
+  hosts: server
+  sudo: yes
+  roles:
+    - bahmni-emr
+
+
 - hosts: bahmni-emr
   sudo: yes
   roles:
