@@ -3,6 +3,7 @@
   sudo: yes
   roles:
     - bahmni-emr
+    - bahmni-base
 
 
 - hosts: bahmni-emr
