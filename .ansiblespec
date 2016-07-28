@@ -1,4 +1,4 @@
 ---
 -
-  playbook: all.yml
-  inventory: local
+  playbook: ansible-tests.yml
+  inventory: /etc/bahmni-installer/inventory
