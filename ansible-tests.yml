@@ -1,0 +1,5 @@
+- name: bahmni-emr-tests
+  hosts: bahmni-emr
+  sudo: yes
+  roles:
+    - bahmni-emr

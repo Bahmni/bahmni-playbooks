@@ -1,11 +1,3 @@
-- name: bahmni-emr-TDD
-  hosts: server
-  sudo: yes
-  roles:
-    - bahmni-emr
-    - bahmni-base
-    - bahmni-erp
-    - bahmni-erp-connect
 
 - hosts: bahmni-emr
   sudo: yes
