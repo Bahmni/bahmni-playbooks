@@ -4,7 +4,8 @@
   roles:
     - bahmni-emr
     - bahmni-base
-
+    - bahmni-erp
+    - bahmni-erp-connect
 
 - hosts: bahmni-emr
   sudo: yes
