@@ -6,6 +6,7 @@
     - bahmni-base
     - bahmni-erp
     - bahmni-erp-connect
+    - bahmni-event-log-service
 
 - hosts: bahmni-emr
   sudo: yes
