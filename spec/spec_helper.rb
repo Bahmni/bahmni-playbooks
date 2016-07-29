@@ -16,7 +16,7 @@ vars = AnsibleSpec.get_variables(host, group_idx,hosts)
 set_property vars
 
 connection = ENV['TARGET_CONNECTION']
-
+set :request_pty, true
 if connection != 'winrm'
 #
 # OS type: UN*X
