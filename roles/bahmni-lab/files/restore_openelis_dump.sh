@@ -11,6 +11,6 @@ if [ "$RESULT_USER" == "0" ]; then
 fi
 
 if [ "$RESULT_DB" == "0" ]; then
-    createdb -Uclinlims -h$OPENELIS_DB_SERVER clinlims;
+    createdb -Upostgres -h$OPENELIS_DB_SERVER clinlims;
     psql -Uclinlims -h$OPENELIS_DB_SERVER clinlims < '/etc/bahmni-installer/deployment-artifacts/openelis_backup.sql'
 fi
