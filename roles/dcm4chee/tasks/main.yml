@@ -67,6 +67,15 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
+- name: Copy dcm4chee orm2dcm_bahmni.xsl
+  template:
+    src=orm2dcm_bahmni.xsl.j2
+    dest=/opt/dcm4chee/etc/orm2dcm_bahmni.xsl
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+  tags: orm
+
 - name: Make sure archive directory for dcm4chee exists in passive machine
   file:
     path={{ dcm4chee_archive_dir }}
@@ -100,6 +109,8 @@
     state=started
   when: passive is not defined or passive != 'yes'
   tags: start_bahmni
+
+
 
 
 
