@@ -54,6 +54,5 @@
     - unzip
     - python-pip
     - rsync
-    - policycoreutils-python
   tags: utils
 
