@@ -1,0 +1,24 @@
+- hosts: bahmni-emr-db
+  become: yes
+  tasks:
+    - name: Run Implementation Config Openmrs Migrations
+      script: roles/implementation-config/files/run-implementation-openmrs-liquibase.sh
+  tags: run-migration-openmrs
+
+- hosts: bahmni-lab-db
+  become: yes
+  tasks:
+    - name: Run Implementation Config Openelis Migrations
+      script: roles/bahmni-lab/files/run-implementation-openelis-liquibase.sh
+    - name: Run Bahmni-Lab-Connect Migrations
+      script: /opt/bahmni-lab-connect/run-liquibase.sh
+  tags: run-migration-openelis
+
+- hosts: bahmni-erp-db
+  become: yes
+  tasks:
+    - name: Run Implementation Config Openerp Migrations
+      script: roles/bahmni-erp/files/run-implementation-openerp-liquibase.sh
+    - name: Run Bahmni-ERP-Connect Migrations
+      script: /opt/bahmni-erp-connect/etc/run-liquibase.sh
+  tags: run-migration-openerp
