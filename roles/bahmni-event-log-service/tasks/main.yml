@@ -58,3 +58,13 @@
     state=started
   when: passive is not defined or passive != 'yes'
   tags: start_bahmni
+
+- name: copy bahmni_eventlog_ssl conf file
+  template:
+      src=bahmni_eventlog_ssl.conf.j2
+      dest=/etc/httpd/conf.d/bahmni_eventlog_ssl.conf
+      mode=644
+      owner={{ bahmni_user }}
+      group={{ bahmni_group }}
+  delegate_to: "{{ groups['bahmni-emr'][0] }}"
+

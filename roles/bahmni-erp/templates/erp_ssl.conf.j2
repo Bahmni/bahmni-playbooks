@@ -1,0 +1,11 @@
+#For Bahmni-ERP
+{% for host in groups['bahmni-erp'] %}
+{% if host == inventory_hostname and hostvars[host].get('passive', 'no') == 'yes'%}
+  		RewriteCond %{HTTP_HOST} ^openerp\.(.*)
+    	RewriteRule (.*) http://{{ host }}:{{ openerp_port }}$1 [P]
+{% endif %}
+{% if host == inventory_hostname and hostvars[host].get('passive', 'no') == 'no'%}
+  		RewriteCond %{HTTP_HOST} ^openerp\.(.*)
+    	RewriteRule (.*) http://{{ host }}:{{ openerp_port }}$1 [P]
+{% endif %}
+{% endfor %}

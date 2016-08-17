@@ -1,0 +1,11 @@
+#For Bahmni-Reports
+{% for host in groups['bahmni-reports'] %}
+{% if host == inventory_hostname and hostvars[host].get('passive', 'no') == 'yes'%}
+		  ProxyPass /bahmnireports http://{{ host }}:{{ bahmni_reports_port }}/bahmnireports
+          ProxyPassReverse /bahmnireports http://{{ host }}:{{ bahmni_reports_port }}/bahmnireports
+{% endif %}
+{% if host == inventory_hostname and hostvars[host].get('passive', 'no') == 'no'%}
+		  ProxyPass /bahmnireports http://{{ host }}:{{ bahmni_reports_port }}/bahmnireports
+          ProxyPassReverse /bahmnireports http://{{ host }}:{{ bahmni_reports_port }}/bahmnireports
+{% endif %}
+{% endfor %}

@@ -94,7 +94,7 @@ bahmni_web_version: 0.81
 dcm4chee_version: 0.81
 bahmni_openmrs_version: 0.82-9
 pacs_integration_version: 0.81
-
+suid-prefix: 1.2.4.0.13.1.4.2252868.
 
 dcm4chee_archive_dir: /var/lib/bahmni/dcm4chee-2.18.1-psql/server/default/archive
 

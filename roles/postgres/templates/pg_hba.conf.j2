@@ -80,7 +80,7 @@
 local   all             all                                     	trust
 # IPv4 local connections:
 host    all             all             127.0.0.1/32            	trust
-
+#erp
 {% for host in groups['bahmni-erp'] %}
 {% if host not in [False, 'localhost', '127.0.0.1'] %}
 host     all            postgres             {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32    trust

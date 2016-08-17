@@ -75,6 +75,15 @@
   service: name=openerp state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
+- name: copy erp_ssl conf file
+  template:
+      src=erp_ssl.conf.j2
+      dest=/etc/httpd/conf.d/erp_ssl.conf
+      mode=644
+      owner={{ bahmni_user }}
+      group={{ bahmni_group }}
+  delegate_to: "{{ groups['bahmni-emr'][0] }}"
+
 - name: Start Openerp and enable at boot
   service:
     name=openerp
@@ -82,5 +91,6 @@
     state=started
   when: passive is not defined or passive != 'yes'
   tags: start_bahmni
+
 
 

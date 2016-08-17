@@ -1,0 +1,11 @@
+#For Bahmni-LAB
+{% for host in groups['bahmni-lab'] %}
+{% if host == inventory_hostname and hostvars[host].get('passive', 'no') == 'yes'%}
+        ProxyPass /openelis http://{{ host }}:{{ bahmni_lab_port }}/openelis
+        ProxyPassReverse /openelis http://{{ host }}:{{ bahmni_lab_port }}/openelis
+{% endif %}
+{% if host == inventory_hostname and hostvars[host].get('passive', 'no') == 'no'%}
+        ProxyPass /openelis http://{{ host }}:{{ bahmni_lab_port }}/openelis
+        ProxyPassReverse /openelis http://{{ host }}:{{ bahmni_lab_port }}/openelis
+{% endif %}
+{% endfor %}
