@@ -10,6 +10,40 @@
 - name: Install dcm4chee from bahmni-repo
   yum: name="dcm4chee-{{ dcm4chee_version }}" state=present
 
+- name: insert/update postgres config after dcm4chee_db_postgres line
+  blockinfile:
+    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK dcm4chee_db_postgres -->"
+    insertafter: "#dcm4chee_db_postgres"
+    state: present
+    block: |
+      {% for host in groups['dcm4chee-db'] %}
+      {% if host not in [False, 'localhost', '127.0.0.1'] %}
+      #dcm4chee_db_postgres
+      host all postgres {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32 trust
+      {% endif %}
+      {% endfor %}
+
+
+- name: insert/update postgres config after dcm4chee_db_slave_ipv6 line
+  blockinfile:
+    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK dcm4chee_db_slave_ipv6 -->"
+    insertafter: "#dcm4chee_db_slave_ipv6"
+    state: present
+    block: |
+      {% for host in groups['dcm4chee-db-slave'] %}
+      {% if host not in [False, 'localhost', '127.0.0.1'] %}
+      #dcm4chee_db_slave_ipv6
+      host replication postgres {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
+      {% endif %}
+      {% endfor %}
+
+- name: Start PostgreSQL and enable at boot
+  service:
+    name=postgresql-9.2
+    state=restarted
+
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep DCM4CHEE  -m 1 | cut -c 1-2
   register: matchedRule
@@ -114,7 +148,7 @@
 - name: copy dcm4chee_ssl conf file
   template:
       src=dcm4chee_ssl.conf.j2
-      dest=/etc/httpd/conf.d/dcm4chee_ssl.conf
+      dest=/opt/bahmni-web/etc/dcm4chee_ssl.conf
       mode=644
       owner={{ bahmni_user }}
       group={{ bahmni_group }}

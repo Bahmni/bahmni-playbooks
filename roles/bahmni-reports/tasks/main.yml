@@ -62,7 +62,7 @@
 - name: copy bahmni_reports_ssl conf file
   template:
       src=bahmni_reports_ssl.conf.j2
-      dest=/etc/httpd/conf.d/bahmni_reports_ssl.conf
+      dest=/opt/bahmni-web/etc/bahmni_reports_ssl.conf
       mode=644
       owner={{ bahmni_user }}
       group={{ bahmni_group }}

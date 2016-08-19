@@ -207,7 +207,7 @@
 - name: copy emr_ssl conf file
   template:
       src=emr_ssl.conf.j2
-      dest=/etc/httpd/conf.d/emr_ssl.conf
+      dest=/opt/bahmni-web/etc/emr_ssl.conf
       mode=644
       owner={{ bahmni_user }}
       group={{ bahmni_group }}
