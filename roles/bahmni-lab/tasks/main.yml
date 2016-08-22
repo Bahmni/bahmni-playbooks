@@ -11,7 +11,7 @@
 
 - name: insert/update postgres config after lab_postgres line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK lab_postgres -->"
     insertafter: "#lab_postgres"
     state: present
@@ -26,7 +26,7 @@
 
 - name: insert/update postgres config after lab_clinlims line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK lab_clinlims  -->"
     insertafter: "#lab_clinlims"
     state: present
@@ -41,7 +41,7 @@
 
 - name: insert/update postgres config after lab_db_clinlims line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK lab_db_clinlims  -->"
     insertafter: "#lab_db_clinlims"
     state: present
@@ -57,7 +57,7 @@
 
 - name: insert/update postgres config after lab_db_slave_clinlims line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK lab_db_slave_clinlims  -->"
     insertafter: "#lab_db_slave_clinlims"
     state: present
@@ -72,7 +72,7 @@
 
 - name: insert/update postgres config after lab_db_slave_ipv6 line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK lab_db_slave_ipv6  -->"
     insertafter: "#lab_db_slave_ipv6"
     state: present
@@ -87,7 +87,7 @@
 
 - name: Start PostgreSQL and enable at boot
   service:
-    name=postgresql-9.2
+    name=postgresql-{{ postgres_version }}
     state=restarted
 
 - name: Check if bahmni-lab rpm needs an update

@@ -74,7 +74,7 @@ python_gdata_rpm_location: "{{download_folder}}/{{ python_gdata_rpm_name}}"
 postgres_repo_rpm_name: pgdg-centos92-9.2-6.noarch.rpm
 postgres_repo_download_url: http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/{{postgres_repo_rpm_name}}
 postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
-
+postgres_version: 9.2
 java_home: "{{ java_home_location }}"
 
 patient_images_dir: /home/bahmni/patient_images
@@ -94,7 +94,8 @@ bahmni_web_version: 0.81
 dcm4chee_version: 0.81
 bahmni_openmrs_version: 0.82-9
 pacs_integration_version: 0.81
-suid-prefix: 1.2.4.0.13.1.4.2252868.
+dcm4chee_study_uid: 1.2.4.0.13.1.4.2252867.
+
 
 dcm4chee_archive_dir: /var/lib/bahmni/dcm4chee-2.18.1-psql/server/default/archive
 

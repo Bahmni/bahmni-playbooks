@@ -11,7 +11,7 @@
 
 - name: insert/update postgres config after pacs_integration_postgres line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK pacs_integration_postgres -->"
     insertafter: "#pacs_integration_postgres"
     state: present
@@ -26,7 +26,7 @@
 
 - name: insert/update postgres config after pacs_integration_pacs line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK pacs_integration_pacs -->"
     insertafter: "#pacs_integration_pacs"
     state: present
@@ -41,7 +41,7 @@
 
 - name: insert/update postgres config after pacs_integration_db_pacs line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK pacs_integration_db_pacs -->"
     insertafter: "#pacs_integration_db_pacs"
     state: present
@@ -56,7 +56,7 @@
 
 - name: insert/update postgres config after pacs_integration_db_slave_pacs line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK pacs_integration_db_slave_pacs -->"
     insertafter: "#pacs_integration_db_slave_pacs"
     state: present
@@ -71,7 +71,7 @@
 
 - name: insert/update postgres config after pacs_integration_db_slave_ipv6 line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK pacs_integration_db_slave_ipv6 -->"
     insertafter: "#pacs_integration_db_slave_ipv6"
     state: present
@@ -86,7 +86,7 @@
 
 - name: Start PostgreSQL and enable at boot
   service:
-    name=postgresql-9.2
+    name=postgresql-{{ postgres_version }}
     state=restarted
 
 - name: Check if pacs-integration rpm needs an update

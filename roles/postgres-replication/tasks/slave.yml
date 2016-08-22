@@ -1,24 +1,24 @@
 - name: Stop PostgreSQL
   service:
-    name=postgresql-9.2
+    name=postgresql-{{ postgres_version }}
     state=stopped
   ignore_errors: true
 
 - name: Cleaning up old backup directory
   file:
-    path=/var/lib/pgsql/9.2/data-backup
+    path=/var/lib/pgsql/{{ postgres_version }}/data-backup
     state=absent
 
 - name: Taking backup of older data
-  command: mv -f /var/lib/pgsql/9.2/data /var/lib/pgsql/9.2/data-backup
+  command: mv -f /var/lib/pgsql/{{ postgres_version }}/data /var/lib/pgsql/{{ postgres_version }}/data-backup
 
 - name: Starting base backup as replication user
-  shell: sudo -u postgres pg_basebackup -h {{ master_db }} -D /var/lib/pgsql/9.2/data -U {{ replication_user }} -v -P --xlog-method=stream
+  shell: sudo -u postgres pg_basebackup -h {{ master_db }} -D /var/lib/pgsql/{{ postgres_version }}/data -U {{ replication_user }} -v -P --xlog-method=stream
 
 - name: copy recovery conf file
   template:
       src=recovery.conf.j2
-      dest=/var/lib/pgsql/9.2/data/recovery.conf
+      dest=/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf
       mode=644
       owner=postgres
       group=postgres

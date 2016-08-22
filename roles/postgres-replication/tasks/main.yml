@@ -1,6 +1,6 @@
 - name: Removing recovery config file
   file:
-    path=/var/lib/pgsql/9.2/data/recovery.conf
+    path=/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf
     state=absent
   when: "{{ inventory_hostname in groups['bahmni-lab-db'] or inventory_hostname in groups['bahmni-erp-db']
   or inventory_hostname in groups['pacs-integration-db'] or inventory_hostname in groups['dcm4chee-db'] }}"
@@ -12,6 +12,6 @@
 
 - name: Restart PostgreSQL
   service:
-    name=postgresql-9.2
+    name=postgresql-{{ postgres_version }}
     state=restarted
   ignore_errors: true

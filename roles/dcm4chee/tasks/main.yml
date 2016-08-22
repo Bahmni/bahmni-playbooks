@@ -12,7 +12,7 @@
 
 - name: insert/update postgres config after dcm4chee_db_postgres line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK dcm4chee_db_postgres -->"
     insertafter: "#dcm4chee_db_postgres"
     state: present
@@ -27,7 +27,7 @@
 
 - name: insert/update postgres config after dcm4chee_db_slave_ipv6 line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK dcm4chee_db_slave_ipv6 -->"
     insertafter: "#dcm4chee_db_slave_ipv6"
     state: present
@@ -41,7 +41,7 @@
 
 - name: Start PostgreSQL and enable at boot
   service:
-    name=postgresql-9.2
+    name=postgresql-{{ postgres_version }}
     state=restarted
 
 - name: Get matched IpTable rule

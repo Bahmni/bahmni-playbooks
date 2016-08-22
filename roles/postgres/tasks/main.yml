@@ -19,12 +19,12 @@
   yum: name="postgresql92-contrib" state=present
 
 - name: Initiate database
-  command: service postgresql-9.2 initdb creates=/var/lib/pgsql/data/postgresql.conf
+  command: service postgresql-{{ postgres_version }} initdb creates=/var/lib/pgsql/data/postgresql.conf
 
 - name: Copy postgresql conf
   template:
     src=postgresql.conf.j2
-    dest=/var/lib/pgsql/9.2/data/postgresql.conf
+    dest=/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
     owner=postgres
     group=postgres
     mode=644
@@ -33,7 +33,7 @@
 - name: Copy pg_hba conf
   template:
     src=pg_hba.conf.j2
-    dest=/var/lib/pgsql/9.2/data/pg_hba.conf
+    dest=/var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     force=no
     owner=postgres
     group=postgres
@@ -42,7 +42,7 @@
 
 - name: Removing recovery config file from master db
   file:
-      path=/var/lib/pgsql/9.2/data/recovery.conf
+      path=/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf
       state=absent
   when: inventory_hostname in groups['bahmni-lab-db'] or inventory_hostname in groups['bahmni-erp-db'] or inventory_hostname in groups['pacs-integration-db'] or inventory_hostname in groups['dcm4chee-db']
   register: recovery_conf
@@ -63,13 +63,13 @@
 
 - name: Stop PostgreSQL
   service:
-    name=postgresql-9.2
+    name=postgresql-{{ postgres_version }}
     state=stopped
   when: postgres_conf.changed==true or (recovery_conf is defined and recovery_conf.changed==true)
 
 - name: Start PostgreSQL and enable at boot
   service:
-    name=postgresql-9.2
+    name=postgresql-{{ postgres_version }}
     enabled=yes
     state=started
 

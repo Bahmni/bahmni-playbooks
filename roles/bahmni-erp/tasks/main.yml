@@ -17,7 +17,7 @@
 
 - name: insert/update postgres config after erp_postgres line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK erp_postgres -->"
     insertafter: "#erp_postgres"
     state: present
@@ -32,7 +32,7 @@
 
 - name: insert/update postgres config after erp_openerp line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK erp_openerp -->"
     insertafter: "#erp_openerp"
     state: present
@@ -47,7 +47,7 @@
 
 - name: insert/update postgres config after erp_db_openerp line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK erp_db_openerp -->"
     insertafter: "#erp_db_openerp"
     state: present
@@ -62,7 +62,7 @@
 
 - name: insert/update postgres config after erp_db_slave_openerp line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK erp_db_slave_openerp -->"
     insertafter: "#erp_db_slave_openerp"
     state: present
@@ -76,7 +76,7 @@
 
 - name: insert/update postgres config after erp_db_slave_openerp_ipv6 line
   blockinfile:
-    dest: /var/lib/pgsql/9.2/data/pg_hba.conf
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK erp_db_slave_openerp_ipv6 -->"
     insertafter: "#erp_db_slave_openerp_ipv6"
     state: present
@@ -90,7 +90,7 @@
 
 - name: Start PostgreSQL and enable at boot
   service:
-    name=postgresql-9.2
+    name=postgresql-{{ postgres_version }}
     state=restarted
 
 - name: Install python-psycopg2
