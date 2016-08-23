@@ -156,7 +156,7 @@
 - name: copy erp_ssl conf file
   template:
       src=erp_ssl.conf.j2
-      dest=/opt/bahmni-web/etc/erp_ssl.conf
+      dest=/etc/httpd/conf.d/erp_ssl.conf
       mode=644
       owner={{ bahmni_user }}
       group={{ bahmni_group }}
