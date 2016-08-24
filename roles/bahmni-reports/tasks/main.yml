@@ -64,6 +64,8 @@
       src=bahmni_reports_ssl.conf.j2
       dest=/etc/httpd/conf.d/bahmni_reports_ssl.conf
       mode=644
+      force=yes
       owner={{ bahmni_user }}
       group={{ bahmni_group }}
-  delegate_to: "{{ groups['bahmni-emr'][0] }}"
+  delegate_to: "{{ item }}"
+  with_items: "{{groups['bahmni-emr']}}"

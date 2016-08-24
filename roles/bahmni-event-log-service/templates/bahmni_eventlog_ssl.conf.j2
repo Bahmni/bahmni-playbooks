@@ -1,11 +1,7 @@
 #For Event log service
-{% for host in groups['bahmni-event-log-service'] %}
-{% if host == inventory_hostname and hostvars[host].get('passive', 'no') == 'yes'%}
-		  ProxyPass /event-log-service http://{{ host }}:{{ bahmni_event_log_service_port }}/event-log-service
-          ProxyPassReverse /event-log-service http://{{ host }}:{{ bahmni_event_log_service_port }}/event-log-service
-{% endif %}
-{% if host == inventory_hostname and hostvars[host].get('passive', 'no') == 'no'%}
-		  ProxyPass /event-log-service http://{{ host }}:{{ bahmni_event_log_service_port }}/event-log-service
-          ProxyPassReverse /event-log-service http://{{ host }}:{{ bahmni_event_log_service_port }}/event-log-service
+{% for eventlog_host in groups['bahmni-event-log-service'] %}
+{% if hostvars[eventlog_host].get('passive', 'no') == hostvars[item].get('passive', 'no') %}
+		  ProxyPass /event-log-service http://{{ eventlog_host }}:{{ bahmni_event_log_service_port }}/event-log-service
+          ProxyPassReverse /event-log-service http://{{ eventlog_host }}:{{ bahmni_event_log_service_port }}/event-log-service
 {% endif %}
 {% endfor %}

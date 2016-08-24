@@ -1,9 +1,6 @@
-#For dchm4chee service
-{% for host in groups['dcm4chee'] %}
-{% if host == inventory_hostname and hostvars[host].get('passive', 'no') == 'yes'%}
-		ProxyPass /oviyam2 http://{{ host }}:{{ dchm4chee_port }}/oviyam2
-{% endif %}
-{% if host == inventory_hostname and hostvars[host].get('passive', 'no') == 'no'%}
-		ProxyPass /oviyam2 http://{{ host }}:{{ dchm4chee_port }}/oviyam2
+#For dcm4chee service
+{% for dcm4chee_host in groups['dcm4chee'] %}
+{% if hostvars[dcm4chee_host].get('passive', 'no') == hostvars[item].get('passive', 'no') %}
+		ProxyPass /oviyam2 http://{{ dcm4chee_host }}:{{ dchm4chee_port }}/oviyam2
 {% endif %}
 {% endfor %}

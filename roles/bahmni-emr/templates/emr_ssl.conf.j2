@@ -1,11 +1,9 @@
 #For Bahmni-EMR
-{% for host in groups['bahmni-emr'] %}
-{% if host == inventory_hostname and hostvars[host].get('passive', 'no') == 'yes'%}
-		  ProxyPass /openmrs http://{{ host }}:{{ openmrs_port }}/openmrs
-		  ProxyPassReverse /openmrs http://{{ host }}:{{ openmrs_port }}/openmrs
-{% endif %}
-{% if host == inventory_hostname and hostvars[host].get('passive', 'no') == 'no'%}
-		  ProxyPass /openmrs http://{{ host }}:{{ openmrs_port }}/openmrs
-		  ProxyPassReverse /openmrs http://{{ host }}:{{ openmrs_port }}/openmrs
+{% for emr_host in groups['bahmni-emr'] %}
+{% if hostvars[emr_host].get('passive', 'no') == hostvars[item].get('passive', 'no') %}
+		  ProxyPass /openmrs http://{{ emr_host }}:{{ openmrs_port }}/openmrs
+		  ProxyPassReverse /openmrs http://{{ emr_host }}:{{ openmrs_port }}/openmrs
 {% endif %}
 {% endfor %}
+
+

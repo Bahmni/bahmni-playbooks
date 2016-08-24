@@ -206,10 +206,14 @@
 - name: copy bahmnilab_ssl conf file
   template:
       src=bahmnilab_ssl.conf.j2
-      dest=/etc/httpd/conf.d/bahmnilab_ssl.conf
+      dest=/opt/bahmni-lab/etc/bahmnilab_ssl.conf
       mode=644
       owner={{ bahmni_user }}
       group={{ bahmni_group }}
-  delegate_to: "{{ groups['bahmni-emr'][0] }}"
+  delegate_to: "{{ item }}"
+  with_items: "{{groups['bahmni-emr']}}"
+
+
+
 
 

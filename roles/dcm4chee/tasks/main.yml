@@ -144,15 +144,16 @@
   when: passive is not defined or passive != 'yes'
   tags: start_bahmni
 
-
 - name: copy dcm4chee_ssl conf file
   template:
       src=dcm4chee_ssl.conf.j2
       dest=/etc/httpd/conf.d/dcm4chee_ssl.conf
+      force=yes
       mode=644
       owner={{ bahmni_user }}
       group={{ bahmni_group }}
-  delegate_to: "{{ groups['bahmni-emr'][0] }}"
+  delegate_to: "{{ item }}"
+  with_items: "{{groups['bahmni-emr']}}"
 
 
 
