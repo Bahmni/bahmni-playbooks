@@ -213,6 +213,12 @@
   delegate_to: "{{ item }}"
   with_items: "{{groups['bahmni-emr']}}"
 
+- name: restart_httpd_service
+  service: name=httpd state=restarted enabled=true
+  delegate_to: "{{ item }}"
+  with_items: "{{groups['bahmni-emr']}}"
+
+
 
 
 
