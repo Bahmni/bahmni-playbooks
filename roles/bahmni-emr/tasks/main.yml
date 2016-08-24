@@ -78,6 +78,14 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
+- name: Copy rulesengine properties
+  template:
+    src=rulesengine-concept.properties.j2
+    dest={{ openmrs_install_dir }}/rulesengine-concept.properties
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
 - name: Backup openmrs markers, failed_events tables
   script: dump_openmrs_atomfeed_tables.sh
   delegate_to: "{{ groups['bahmni-emr-db'][0] }}"
