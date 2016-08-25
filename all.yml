@@ -106,16 +106,8 @@
 - hosts: bahmni-erp
   sudo: yes
   roles:
-    - { role: bahmni-erp }
-  tags:
-    - bahmni-erp
-
-- hosts: bahmni-erp
-  sudo: yes
-  roles:
-    - { role: bahmni-erp-connect }
-  tags:
-    - bahmni-erp-connect
+    - { role: bahmni-erp, tags: bahmni-erp }
+    - { role: bahmni-erp-connect, tags: bahmni-erp-connect }
 
 - hosts: pacs-integration-db:pacs-integration-db-slave
   sudo: yes

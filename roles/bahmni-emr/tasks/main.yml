@@ -1,3 +1,11 @@
+- name: add bahmni configuration file
+  template:
+      src=bahmni-emr-installer.conf.j2
+      dest=/etc/bahmni-installer/bahmni-emr-installer.conf
+      mode=644
+      owner={{ bahmni_user }}
+      group={{ bahmni_group }}
+
 - name: add mysql 5.6 yum repo
   template:
     src=mysql.repo.j2

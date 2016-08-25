@@ -1,0 +1,5 @@
+IMPLEMENTATION_NAME={{ implementation_name }}
+{% if hostvars[inventory_hostname].get('passive') == 'yes' %}
+IS_PASSIVE=1
+{% endif %}
+DCM4CHEE_DB_SERVER={{ groups['dcm4chee-db'][0] | default('localhost', true)}}

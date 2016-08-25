@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e -x
-. /etc/bahmni-installer/bahmni.conf
+. /etc/bahmni-installer/bahmni-erp-installer.conf
 
 CHANGE_LOG_TABLE="-Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock"
 LIQUIBASE_JAR="/opt/bahmni-erp-connect/bahmni-erp-connect/WEB-INF/lib/liquibase-core-2.0.3.jar"

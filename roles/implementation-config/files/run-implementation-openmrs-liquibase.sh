@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e -x
 
-. /etc/bahmni-installer/bahmni.conf
+. /etc/bahmni-installer/bahmni-emr-installer.conf
 
 CHANGE_LOG_TABLE="-Dliquibase.databaseChangeLogTableName=liquibasechangelog -Dliquibase.databaseChangeLogLockTableName=liquibasechangeloglock -DschemaName=openmrs"
 LIQUIBASE_JAR="/opt/openmrs/openmrs/WEB-INF/lib/liquibase-core-2.0.5.jar"

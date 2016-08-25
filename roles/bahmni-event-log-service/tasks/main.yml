@@ -1,3 +1,11 @@
+- name: add bahmni-event-log-installer configuration file
+  template:
+      src=bahmni-event-log-installer.conf.j2
+      dest=/etc/bahmni-installer/bahmni-event-log-installer.conf
+      mode=644
+      owner={{ bahmni_user }}
+      group={{ bahmni_group }}
+
 - name: Check if bahmni-event-log-service rpm needs an update
   command: yum list installed bahmni_event_log_service
   register: installed_bahmni_event_log_service

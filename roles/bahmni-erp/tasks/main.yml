@@ -1,3 +1,12 @@
+- name: add bahmni-erp-installer configuration file
+  template:
+      src=bahmni-erp-installer.conf.j2
+      dest=/etc/bahmni-installer/bahmni-erp-installer.conf
+      mode=644
+      owner={{ bahmni_user }}
+      group={{ bahmni_group }}
+
+
 - name: Install python-gdata
   yum: name=python-gdata-2.0.11-1.el6.noarch state=present
 

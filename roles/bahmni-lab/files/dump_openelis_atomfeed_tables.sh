@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e -x
-. /etc/bahmni-installer/bahmni.conf
+. /etc/bahmni-installer/bahmni-lab-installer.conf
 
 TIME=`date +%Y%m%d_%H%M%S`
 

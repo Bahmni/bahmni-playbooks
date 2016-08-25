@@ -1,3 +1,11 @@
+- name: add bahmni-lab-installer configuration file
+  template:
+      src=bahmni-lab-installer.conf.j2
+      dest=/etc/bahmni-installer/bahmni-lab-installer.conf
+      mode=644
+      owner={{ bahmni_user }}
+      group={{ bahmni_group }}
+
 - name: Check if postgres yum repo rpm is present
   stat: path={{postgres_repo_rpm_location}}
   register: postgresRepoRpm
@@ -217,9 +225,5 @@
   service: name=httpd state=restarted enabled=true
   delegate_to: "{{ item }}"
   with_items: "{{groups['bahmni-emr']}}"
-
-
-
-
 
 

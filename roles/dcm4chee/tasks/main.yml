@@ -1,3 +1,12 @@
+- name: add dcm4chee installer configuration file
+  template:
+      src=dcm4chee-installer.conf.j2
+      dest=/etc/bahmni-installer/dcm4chee-installer.conf
+      mode=644
+      owner={{ bahmni_user }}
+      group={{ bahmni_group }}
+
+
 - name: Check if dcm4chee rpm needs an update
   command: yum list installed dcm4chee
   register: installed_dcm4chee

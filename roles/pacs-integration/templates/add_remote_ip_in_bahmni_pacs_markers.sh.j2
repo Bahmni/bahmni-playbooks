@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e -x
-. /etc/bahmni-installer/bahmni.conf
+. /etc/bahmni-installer/pacs-integration-installer.conf
 
 {% for host in groups['pacs-integration'] %}
 {% if hostvars[host].get('passive') != 'yes' %}
