@@ -1,0 +1,2 @@
+- name: Install bahmni-offline from bahmni-repo
+  yum: name="bahmni-offline-{{ bahmni_offline_version }}" state=present
