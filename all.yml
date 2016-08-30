@@ -44,8 +44,8 @@
 - hosts: bahmni-emr
   sudo: yes
   roles:
-    - { role: bahmni-emr }
     - { role: bahmni-web }
+    - { role: bahmni-emr }
     - { role: httpd }
     - { role: bahmni-implementer-interface }
   tags:
