@@ -43,6 +43,8 @@ localhost
 
 [bahmni-event-log-service]
 
+[bahmni-offline]
+
 [local:children]
 nagios-server
 bahmni-emr
@@ -62,3 +64,4 @@ dcm4chee
 dcm4chee-db
 dcm4chee-db-slave
 bahmni-event-log-service
+bahmni-offline
