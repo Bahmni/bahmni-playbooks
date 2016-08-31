@@ -1,5 +1,9 @@
 - name: Install Apache server from yum repository
-  yum: name=httpd state=present
+  yum: name={{item}} state=present
+  with_items:
+   - httpd
+   - mod_ssl
+   - mod_wsgi
 
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep "WEB SERVER"  -m 1 | cut -c 1-2
