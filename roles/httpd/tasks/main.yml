@@ -1,3 +1,6 @@
+- name: Install Apache server from yum repository
+  yum: name=httpd state=present
+
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep "WEB SERVER"  -m 1 | cut -c 1-2
   register: matchedRule
