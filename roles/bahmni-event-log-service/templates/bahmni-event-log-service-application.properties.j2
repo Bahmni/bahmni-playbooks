@@ -17,10 +17,14 @@ liquibase.change-log=classpath:db/changelog/liquibase.xml
 
 enable.scheduling=true
 
-bahmni.filter.uri=http://localhost:8050/openmrs/ws/rest/v1/eventlog/filter/
-openmrs.user=admin
-openmrs.password=test
-openmrs.auth.uri=http://localhost:8050/openmrs/ws/rest/v1/session
+{% for host in groups['bahmni-emr'] %}
+{% if hostvars[host].get('passive') != 'yes' %}
+bahmni.filter.uri=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/rest/v1/eventlog/filter/
+openmrs.auth.uri=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/rest/v1/session
+{% endif %}
+{% endfor %}
+
+openmrs.user={{ openmrs_user_id }}
+openmrs.password={{ openmrs_user_password }}
 openmrs.connectionTimeoutInMilliseconds=500000
 openmrs.replyTimeoutInMilliseconds=20000
-
