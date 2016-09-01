@@ -166,3 +166,8 @@
   sudo: yes
   roles:
     - { role: httpd-maintenance, maintenance_status: end }
+
+- hosts: bahmni-emr
+  sudo: yes
+  roles:
+    - { role: bahmni-offline, when: "{{ groups['bahmni-offline'] | length }} > 0"}
