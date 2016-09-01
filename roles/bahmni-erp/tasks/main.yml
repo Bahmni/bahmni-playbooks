@@ -97,10 +97,10 @@
       {% endif %}
       {% endfor %}
 
-- name: Start PostgreSQL and enable at boot
+- name: Reload postgresql
   service:
     name=postgresql-{{ postgres_version }}
-    state=restarted
+    state=reloaded
 
 - name: Install python-psycopg2
   yum: name=python-psycopg2 state=present

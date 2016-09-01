@@ -93,10 +93,10 @@
       {% endfor %}
 
 
-- name: Start PostgreSQL and enable at boot
+- name: Reload postgresql
   service:
     name=postgresql-{{ postgres_version }}
-    state=restarted
+    state=reloaded
 
 - name: Check if pacs-integration rpm needs an update
   command: yum list installed pacs-integration
