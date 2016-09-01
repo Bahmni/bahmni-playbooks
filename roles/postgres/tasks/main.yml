@@ -30,14 +30,29 @@
     mode=644
   register: postgres_conf
 
-- name: Copy pg_hba conf
-  template:
-    src=pg_hba.conf.j2
-    dest=/var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
-    force=no
-    owner=postgres
-    group=postgres
-    mode=644
+- name: insert/update postgres config after "local" is for Unix domain socket connections only line
+  lineinfile:
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
+    regexp: '^local\s+all\s+all\s+peer'
+    state: present
+    backrefs: yes
+    line: local  all    all   trust
+
+- name: insert/update postgres config after IPv4 local connections line
+  lineinfile:
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
+    regexp: '^host\s+all\s+all\s+127.0.0.1/32\s+ident'
+    state: present
+    backrefs: yes
+    line: host  all    all   127.0.0.1/32 trust
+
+- name: insert/update postgres config after IPv6 local connections line
+  lineinfile:
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
+    regexp: '^host\s+all\s+all\s+::1/128\s+ident'
+    state: present
+    backrefs: yes
+    line: host  all    all   ::1/128 trust
 
 
 - name: Removing recovery config file from master db
