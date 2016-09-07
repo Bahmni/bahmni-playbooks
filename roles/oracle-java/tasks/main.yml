@@ -22,3 +22,8 @@
 
 - name: Set the JAVA_HOME variable
   set_fact: java_home = "{{ java_home_location }}"
+
+- name: echo java home
+  debug: var=java_home_location
+  tags: test
+
