@@ -3,7 +3,7 @@
 {% if hostvars[lab_host].get('passive', 'no') == hostvars[item].get('passive', 'no') %}
         ProxyPass /openelis http://{{ lab_host }}:{{ bahmni_lab_port }}/openelis
         ProxyPassReverse /openelis http://{{ lab_host }}:{{ bahmni_lab_port }}/openelis
-{% endif %}]
+{% endif %}
 {% endfor %}
 
 
