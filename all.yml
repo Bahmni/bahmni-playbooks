@@ -48,23 +48,10 @@
     - { role: bahmni-emr }
     - { role: bahmni-web }
     - { role: bahmni-implementer-interface }
+    - { role: bahmni-backup-upload-directories, tags: backup-upload-dir }
+    - { role: implementation-config, tags: config}
   tags:
     - bahmni-emr
-
-- hosts: bahmni-emr
-  sudo: yes
-  roles:
-    - { role: bahmni-backup-upload-directories }
-  tags:
-    - backup-upload-dir
-    - bahmni-emr
-
-- hosts: bahmni-emr
-  sudo: yes
-  roles:
-    - { role: implementation-config}
-  tags:
-    - config
 
 - hosts: bahmni-reports
   sudo: yes
