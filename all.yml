@@ -50,6 +50,7 @@
     - { role: bahmni-implementer-interface }
     - { role: bahmni-backup-upload-directories, tags: backup-upload-dir }
     - { role: implementation-config, tags: config}
+    - { role: bahmni-offline, when: "{{ groups['bahmni-offline'] | length }} > 0"}
   tags:
     - bahmni-emr
 
@@ -153,8 +154,3 @@
   sudo: yes
   roles:
     - { role: httpd-maintenance, maintenance_status: end }
-
-- hosts: bahmni-emr
-  sudo: yes
-  roles:
-    - { role: bahmni-offline, when: "{{ groups['bahmni-offline'] | length }} > 0"}
