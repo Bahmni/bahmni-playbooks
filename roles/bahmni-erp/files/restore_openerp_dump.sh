@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. /etc/bahmni-installer/bahmni-erp-installer.conf
+. /etc/bahmni-installer/bahmni.conf
 
 RESULT_USER=`psql -U postgres -h$OPENERP_DB_SERVER -tAc "SELECT count(*) FROM pg_roles WHERE rolname='openerp';"`
 RESULT_DB=`psql -U postgres -h$OPENERP_DB_SERVER -tAc "SELECT count(*) from pg_catalog.pg_database where datname='openerp';"`

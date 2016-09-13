@@ -1,12 +1,3 @@
-- name: add pacs integration configuration file
-  template:
-      src=pacs-integration-installer.conf.j2
-      dest=/etc/bahmni-installer/pacs-integration-installer.conf
-      mode=644
-      owner={{ bahmni_user }}
-      group={{ bahmni_group }}
-
-
 - name: Check if postgres yum repo rpm is present
   stat: path={{postgres_repo_rpm_location}}
   register: postgresRepoRpm

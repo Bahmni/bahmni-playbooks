@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e -x
-. /etc/bahmni-installer/pacs-integration-installer.conf
+. /etc/bahmni-installer/bahmni.conf
 
 TIME=`date +%Y%m%d_%H%M%S`
 

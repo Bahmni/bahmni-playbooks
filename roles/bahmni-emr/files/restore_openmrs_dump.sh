@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e -x
-. /etc/bahmni-installer/bahmni-emr-installer.conf
+. /etc/bahmni-installer/bahmni.conf
 
 RESULT=`mysql -h $OPENMRS_DB_SERVER -u$MYSQL_ROOT_USER -p$MYSQL_ROOT_PASSWORD --skip-column-names -e "SHOW DATABASES LIKE 'openmrs'"`
 if [ "$RESULT" != "openmrs" ] ; then

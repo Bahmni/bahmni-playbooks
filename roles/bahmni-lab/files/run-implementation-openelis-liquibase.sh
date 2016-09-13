@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e -x
-. /etc/bahmni-installer/bahmni-lab-installer.conf
+. /etc/bahmni-installer/bahmni.conf
 
 CHANGE_LOG_TABLE="-Dliquibase.databaseChangeLogTableName=databasechangelog -Dliquibase.databaseChangeLogLockTableName=databasechangeloglock"
 LIQUIBASE_JAR="/opt/bahmni-lab/migrations/liquibase/lib/liquibase-1.9.5.jar"
