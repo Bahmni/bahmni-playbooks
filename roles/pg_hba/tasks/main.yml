@@ -1,0 +1,32 @@
+- name: insert/update postgres config after lab_postgres line
+  blockinfile:
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
+    marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK {{app_server_group}} -->"
+    insertafter: "{{ app_server_group }}"
+    state: present
+    block: |
+      {% for host in groups[app_server_group] %}
+      {% if host not in [False, 'localhost', '127.0.0.1'] %}
+      #{{app_server_group}}
+      host all postgres {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32 trust
+      host {{ db_name }} {{ db_user }} {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32 trust #access to app server
+      {% endif %}
+      {% endfor %}
+
+      {% for host in groups[master_db_group] %}
+      {% if host not in [False, 'localhost', '127.0.0.1'] and host != inventory_hostname %}
+      host {{ db_name }} {{ db_user }} {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32 trust # access to master db
+      {% endif %}
+      {% endfor %}
+
+      {% for host in groups[slave_db_group] %}
+      {% if host not in [False, 'localhost', '127.0.0.1'] and host != inventory_hostname %}
+      host {{ db_name }} {{ db_user }} {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32 trust #access to slave db
+      host replication clinlims {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust #access to slave db ipv6
+      {% endif %}
+      {% endfor %}
+
+- name: Reload postgresql
+  service:
+    name=postgresql-{{ postgres_version }}
+    state=reloaded

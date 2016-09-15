@@ -10,35 +10,6 @@
 - name: Install dcm4chee from bahmni-repo
   yum: name="dcm4chee-{{ dcm4chee_version }}" state=present
 
-- name: insert/update postgres config after dcm4chee_db_postgres line
-  blockinfile:
-    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
-    marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK dcm4chee_db_postgres -->"
-    insertafter: "#dcm4chee_db_postgres"
-    state: present
-    block: |
-      {% for host in groups['dcm4chee-db'] %}
-      {% if host not in [False, 'localhost', '127.0.0.1'] %}
-      #dcm4chee_db_postgres
-      host all postgres {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32 trust
-      {% endif %}
-      {% endfor %}
-
-
-- name: insert/update postgres config after dcm4chee_db_slave_ipv6 line
-  blockinfile:
-    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
-    marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK dcm4chee_db_slave_ipv6 -->"
-    insertafter: "#dcm4chee_db_slave_ipv6"
-    state: present
-    block: |
-      {% for host in groups['dcm4chee-db-slave'] %}
-      {% if host not in [False, 'localhost', '127.0.0.1'] %}
-      #dcm4chee_db_slave_ipv6
-      host replication postgres {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust
-      {% endif %}
-      {% endfor %}
-
 - name: Reload postgresql
   service:
     name=postgresql-{{ postgres_version }}

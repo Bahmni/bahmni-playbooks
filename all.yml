@@ -11,7 +11,7 @@
 - hosts: bahmni-emr
   sudo: yes
   roles:
-    - { role: httpd-maintenance, maintenance_status: start }
+    - { role: httpd-maintenance, maintenance_status: start , tags: always}
 
 - hosts: all
   sudo: yes
@@ -65,6 +65,8 @@
   sudo: yes
   roles:
     - { role: postgres, postgres_user: clinlims }
+    - { role: pg_hba, db_user: "{{openelis_db_username}}", db_name: clinlims, app_server_group: bahmni-lab,
+                      master_db_group: bahmni-lab-db, slave_db_group: bahmni-lab-db-slave}
   tags:
     - bahmni-lab-db
     - bahmni-lab
@@ -87,6 +89,9 @@
   sudo: yes
   roles:
     - { role: postgres, postgres_user: openerp }
+    - { role: pg_hba, db_user: "{{openerp_db_username}}", db_name: openerp, app_server_group: bahmni-erp,
+                      master_db_group: bahmni-erp-db, slave_db_group: bahmni-erp-db-slave}
+
   tags:
     - bahmni-erp-db
     - bahmni-erp
@@ -109,6 +114,8 @@
   sudo: yes
   roles:
     - { role: postgres, postgres_user: pacs }
+    - { role: pg_hba, db_user: "{{pacs_integration_db_username}}", db_name: bahmni_pacs, app_server_group: pacs-integration,
+                      master_db_group: pacs-integration-db, slave_db_group: pacs-integration-db-slave}
   tags:
     - pacs-integration-db
     - pacs-integration
@@ -124,6 +131,8 @@
   sudo: yes
   roles:
     - { role: postgres }
+    - { role: pg_hba, db_user: postgres, db_name: pacsdb, app_server_group: dcm4chee,
+                      master_db_group: dcm4chee-db, slave_db_group: dcm4chee-db-slave}
   tags:
     - dcm4chee-db
     - dcm4chee
@@ -161,4 +170,4 @@
 - hosts: bahmni-emr
   sudo: yes
   roles:
-    - { role: httpd-maintenance, maintenance_status: end }
+    - { role: httpd-maintenance, maintenance_status: end , tags: always}
