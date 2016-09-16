@@ -38,3 +38,9 @@ openerp.url=jdbc:postgresql://{{ groups['bahmni-erp-db'][0] }}:5432/openerp
 openerp.username= {{ openerp_db_username }}
 openerp.password= {{ openerp_db_password }}
 {% endif %}
+
+{% if groups['bahmni-emr-db']|length > 0 %}
+bahmnireports.db.url=jdbc:mysql://{{ groups['bahmni-emr-db'][0] }}:3306/bahmni_reports?allowMultiQueries=true
+{% endif %}
+
+reports.save.directory={{ reports_save_dir }}
