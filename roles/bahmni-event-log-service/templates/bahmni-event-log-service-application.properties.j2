@@ -19,7 +19,7 @@ enable.scheduling=true
 
 {% for host in groups['bahmni-emr'] %}
 {% if hostvars[host].get('passive') != 'yes' %}
-bahmni.filter.uri=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/rest/v1/eventlog/filter/
+bahmni.eventlog.uri=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/rest/v1/eventlog/filter/
 openmrs.auth.uri=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/rest/v1/session
 {% endif %}
 {% endfor %}
