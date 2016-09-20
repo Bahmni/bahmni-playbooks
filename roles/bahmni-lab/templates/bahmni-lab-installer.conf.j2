@@ -1,7 +1,0 @@
-IMPLEMENTATION_NAME={{ implementation_name }}
-OPENELIS_DB_USERNAME={{ openelis_db_username }}
-OPENELIS_DB_PASSWORD={{ openelis_db_password }}
-OPENELIS_DB_SERVER={{ groups['bahmni-lab-db'][0] | default('localhost', true)}}
-{% if hostvars[inventory_hostname].get('passive') == 'yes' %}
-IS_PASSIVE=1
-{% endif %}

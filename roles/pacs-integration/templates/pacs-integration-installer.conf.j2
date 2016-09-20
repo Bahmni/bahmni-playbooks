@@ -1,5 +1,0 @@
-IMPLEMENTATION_NAME={{ implementation_name }}
-{% if hostvars[inventory_hostname].get('passive') == 'yes' %}
-IS_PASSIVE=1
-{% endif %}
-BAHMNI_PACS_DB_SERVER={{ groups['pacs-integration-db'][0] | default('localhost', true)}}

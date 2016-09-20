@@ -1,4 +1,5 @@
 **/*.DS_Store
+roles/httpd/files/*_revision.json
 *.log
 *.iml
 .project

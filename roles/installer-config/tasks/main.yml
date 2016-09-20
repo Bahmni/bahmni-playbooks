@@ -13,6 +13,14 @@
 - name: create /etc/bahmni-installer/atomfeed-backup directory
   file: path=/etc/bahmni-installer/atomfeed-backup state=directory mode=0755 owner={{ bahmni_user }} group={{ bahmni_group }}
 
+- name: add bahmni configuration file
+  template:
+      src=bahmni.conf.j2
+      dest=/etc/bahmni-installer/bahmni.conf
+      mode=644
+      owner={{ bahmni_user }}
+      group={{ bahmni_group }}
+
 - name: Creating Module directory
   file: path=/etc/bahmni-installer/deployment-artifacts/modules state=directory owner=bahmni group=bahmni mode=0755 recurse=yes
 

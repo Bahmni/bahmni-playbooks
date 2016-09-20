@@ -1,11 +1,3 @@
-- name: add bahmni configuration file
-  template:
-      src=bahmni-emr-installer.conf.j2
-      dest=/etc/bahmni-installer/bahmni-emr-installer.conf
-      mode=644
-      owner={{ bahmni_user }}
-      group={{ bahmni_group }}
-
 - name: Check if bahmni-lab-connect rpm needs an update
   command: yum list installed bahmni-lab-connect
   register: installed_bahmni_lab_connect
