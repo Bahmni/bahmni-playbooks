@@ -4,3 +4,4 @@ bahmni_user: bahmni
 bahmni_group: bahmni
 bahmni_support_user: bahmni_support
 dcm4chee_archive_dir: /var/lib/bahmni/dcm4chee-2.18.1-psql/server/default/archive
+dcm4chee_imagestorage_port: 11112
