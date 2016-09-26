@@ -29,6 +29,20 @@
   tags:
     - repl
 
+- hosts: bahmni-reports-db
+  sudo: yes
+  roles:
+    - { role: mysql-replication }
+  tags:
+    - repl
+
+- hosts: bahmni-reports-db-slave
+  sudo: yes
+  roles:
+    - { role: mysql-replication }
+  tags:
+    - repl
+
 - hosts: bahmni-emr
   sudo: yes
   tasks:

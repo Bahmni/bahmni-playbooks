@@ -10,6 +10,11 @@ localhost
 
 [bahmni-emr-db-slave]
 
+[bahmni-reports-db]
+localhost
+
+[bahmni-reports-db-slave]
+
 [bahmni-erp]
 localhost
 
@@ -50,6 +55,8 @@ nagios-server
 bahmni-emr
 bahmni-emr-db
 bahmni-emr-db-slave
+bahmni-reports-db
+bahmni-reports-db-slave
 bahmni-lab
 bahmni-lab-db
 bahmni-lab-db-slave
