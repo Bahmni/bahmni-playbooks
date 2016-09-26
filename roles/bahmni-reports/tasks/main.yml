@@ -33,6 +33,9 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
+- name: Make sure patient_images directory exists in passive machine
+  file: path={{reports_save_dir}} owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
+
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep BAHMNIREPORTS  -m 1 | cut -c 1-2
   register: matchedRule
@@ -69,3 +72,12 @@
       group={{ bahmni_group }}
   delegate_to: "{{ item }}"
   with_items: "{{groups['bahmni-emr']}}"
+
+- name: create a cron tab to sync reports directory
+  cron:
+    name="sync_reports_cron"
+    minute="*/1"
+    user=root
+    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -p {{reports_save_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{reports_save_dir}}/../"
+  when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
+  with_items: "{{groups['bahmni-reports']}}"
