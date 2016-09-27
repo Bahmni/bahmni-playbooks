@@ -37,7 +37,6 @@
   file: path={{item}} owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
   with_items:
     - "{{reports_save_dir}}"
-  when: passive is not defined and passive != 'yes'
 
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep BAHMNIREPORTS  -m 1 | cut -c 1-2
