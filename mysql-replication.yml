@@ -32,15 +32,15 @@
 - hosts: bahmni-reports-db
   sudo: yes
   roles:
-    - { role: mysql-replication }
-  when: "{{inventory_hostname not in groups['bahmni-emr-db'] }}" }
+    - { role: mysql-replication ,
+       when: "{{inventory_hostname not in groups['bahmni-emr-db'] }}" }
   tags:
     - repl
 
 - hosts: bahmni-reports-db-slave
   sudo: yes
   roles:
-    - { role: mysql-replication }
+    - { role: mysql-replication ,
   when: "{{inventory_hostname not in groups['bahmni-emr-db-slave'] }}" }
   tags:
     - repl
