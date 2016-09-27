@@ -33,6 +33,7 @@
   sudo: yes
   roles:
     - { role: mysql-replication }
+  when: "{{inventory_hostname not in groups['bahmni-emr-db'] }}" }
   tags:
     - repl
 
@@ -40,6 +41,7 @@
   sudo: yes
   roles:
     - { role: mysql-replication }
+  when: "{{inventory_hostname not in groups['bahmni-emr-db-slave'] }}" }
   tags:
     - repl
 
