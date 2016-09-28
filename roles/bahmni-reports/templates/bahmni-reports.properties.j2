@@ -18,6 +18,9 @@ openmrs.test.url=jdbc:mysql://{{ groups['bahmni-emr-db'][0] }}:3306/reports_inte
 openmrs.username= {{ openmrs_db_username }}
 openmrs.password= {{ openmrs_db_password }}
 
+reports.username= {{ reports_db_username }}
+reports.password= {{ reports_db_password }}
+
 config.file.path=/var/www/bahmni_config/openmrs/apps/reports/reports.json
 
 {% for host in groups['bahmni-emr'] %}
