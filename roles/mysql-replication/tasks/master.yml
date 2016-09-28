@@ -9,7 +9,7 @@
     priv: "*.*:ALL,GRANT"
     state: present
   with_items:
-    - "{{ groups['bahmni-emr-db-slave']}"
+    - "{{ groups['bahmni-emr-db-slave'] }}"
     - "{{ groups['bahmni-reports-db-slave'] }}"
 
 - name: Take mysql dump in /opt/mysql-replication directory of master server
