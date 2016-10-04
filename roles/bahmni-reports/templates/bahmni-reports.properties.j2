@@ -18,11 +18,18 @@ openmrs.test.url=jdbc:mysql://{{ groups['bahmni-emr-db'][0] }}:3306/reports_inte
 openmrs.username= {{ openmrs_db_username }}
 openmrs.password= {{ openmrs_db_password }}
 
-config.file.path=/var/www/bahmni_config/openmrs/apps/reports/reports.json
+reports.username= {{ reports_db_username }}
+reports.password= {{ reports_db_password }}
 
 {% for host in groups['bahmni-emr'] %}
 {% if hostvars[host].get('passive') != 'yes' %}
 openmrs.service.rootUrl=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/rest/v1
+{% endif %}
+{% endfor %}
+
+{% for host in groups['bahmni-reports'] %}
+{% if hostvars[host].get('passive') != 'yes' %}
+reports.config.url=https://{{ host }}/bahmni_config/openmrs/apps/reports/reports.json
 {% endif %}
 {% endfor %}
 
@@ -39,8 +46,8 @@ openerp.username= {{ openerp_db_username }}
 openerp.password= {{ openerp_db_password }}
 {% endif %}
 
-{% if groups['bahmni-emr-db']|length > 0 %}
-bahmnireports.db.url=jdbc:mysql://{{ groups['bahmni-emr-db'][0] }}:3306/bahmni_reports?allowMultiQueries=true
+{% if groups['bahmni-reports-db']|length > 0 %}
+bahmnireports.db.url=jdbc:mysql://{{ groups['bahmni-reports-db'][0] }}:3306/bahmni_reports?allowMultiQueries=true
 {% endif %}
 
 reports.save.directory={{ reports_save_dir }}

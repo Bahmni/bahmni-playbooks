@@ -8,7 +8,9 @@
     login_password: "{{ mysql_root_password }}"
     priv: "*.*:ALL,GRANT"
     state: present
-  with_items: "{{ groups['bahmni-emr-db-slave'] }}"
+  with_items:
+    - "{{ groups['bahmni-emr-db-slave'] }}"
+    - "{{ groups['bahmni-reports-db-slave'] }}"
 
 - name: Take mysql dump in /opt/mysql-replication directory of master server
   shell: mysqldump -u{{mysql_root_user}} -p{{mysql_root_password}} --routines --all-databases | grep -v 'SQL SECURITY DEFINER' | gzip  > /opt/mysql-replication/mysql_dump.sql.gz
