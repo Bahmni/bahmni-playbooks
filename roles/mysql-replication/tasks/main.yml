@@ -24,13 +24,12 @@
    login_password: "{{ mysql_root_password }}"
   ignore_errors: true
 
-
 - name: Replication setup in master
   include: master.yml
-  when: inventory_hostname in groups['bahmni-emr-db']
+  when: inventory_hostname in groups['bahmni-emr-db'] or inventory_hostname in groups['bahmni-reports-db']
   tags: master
 
 - name: Replication setup in slave
   include: slave.yml
-  when: inventory_hostname in groups['bahmni-emr-db-slave']
+  when: inventory_hostname in groups['bahmni-emr-db-slave'] or inventory_hostname in groups['bahmni-reports-db-slave']
   tags: slave

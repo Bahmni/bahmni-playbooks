@@ -33,8 +33,10 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
-- name: Make sure patient_images directory exists in passive machine
-  file: path={{reports_save_dir}} owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
+- name: Make sure reports save directory exists
+  file: path={{item}} owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
+  with_items:
+    - "{{reports_save_dir}}"
 
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep BAHMNIREPORTS  -m 1 | cut -c 1-2
