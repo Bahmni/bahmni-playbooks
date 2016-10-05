@@ -3,6 +3,6 @@ openmrs_user_password: test
 bahmni_lab_port: 8052
 openmrs_port: 8050
 download_folder: /opt
-postgres_repo_rpm_name: pgdg-centos92-9.2-6.noarch.rpm
+postgres_repo_rpm_name: pgdg-centos92-9.2-7.noarch.rpm
 postgres_repo_download_url: http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/{{postgres_repo_rpm_name}}
 postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
