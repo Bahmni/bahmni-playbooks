@@ -94,18 +94,18 @@
             load("/bahmni_revisions/bahmni_openerp_revision.json", 'erp');
         }
         function initLinks() {
-            var hostName = window.location.hostname;
-            var erpElement = document.getElementById("erp-app-link")
+            var erpElement = document.getElementById("erp-app-link");
             if (erpElement) {
-                {% for host in groups['bahmni-erp'] %}
-                {% if hostvars[host].get('passive') != 'yes' %}
-                erpElement.href = "http://{{ host }}:{{ openerp_port }}";
+                {% if openerp_url is defined %}
+                    erpElement.href = "{{ openerp_url }}";
+                {% else %}
+                    {% for host in groups['bahmni-erp'] %}
+                    {% if hostvars[host].get('passive') != 'yes' %}
+                    erpElement.href = "http://{{ hostvars[host]["ansible_default_ipv4"]["address"] or host}}:{{ openerp_port }}";
+                    {% endif %}
+                    {% endfor %}
                 {% endif %}
-                {% endfor %}
             }
-            var elisElement = document.getElementById("elis-app-link")
-            if (elisElement)
-                elisElement.href = "https://" + hostName + "/openelis";
         }
         function load(url, elementClass) {
             callAjax(url, function (data) {
@@ -174,7 +174,7 @@
     {% if groups['bahmni-lab']|length > 0  %}
     <div class="section">
         <div class="launch">
-            <a id="elis-app-link" target="_blank">
+            <a href="/openelis" target="_blank">
                 <image src="data:image/png;base64,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"></image>
                 <span>Open ELIS</span>
             </a>
