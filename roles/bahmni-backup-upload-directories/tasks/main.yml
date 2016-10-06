@@ -23,13 +23,6 @@
     - "{{document_images_dir}}"
     - "{{uploaded_files_dir}}"
     - "{{uploaded_results_dir}}"
-  when: passive is defined and passive == 'yes'
-
-- name: Make sure reports save directory exists in passive machine
-  file: path={{item}} owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
-  with_items:
-    - "{{reports_save_dir}}"
-  when: passive is defined and passive == 'yes'
 
 - name: Install crontab
   yum: name=crontabs state=present
