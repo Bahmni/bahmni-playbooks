@@ -87,7 +87,7 @@
     insertafter: "#erp-ssl"
     state: present
     block: |
-      {% if openerp_url is defined %}
+      {% if openerp_url is defined and openerp_url.startswith('https') %}
         {% for erp_host in groups['bahmni-erp'] %}
         {% if hostvars[erp_host].get('passive', 'no') == hostvars[item].get('passive', 'no') %}
             RewriteCond %{HTTP_HOST} ={{ openerp_url | regex_replace('(?:https?://)?([^/:]+)?.*', '\1')  }}
