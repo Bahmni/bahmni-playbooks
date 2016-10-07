@@ -25,6 +25,6 @@ DCM4CHEE_DB_SERVER={{ groups['dcm4chee-db'][0] | default('localhost', true)}}
 {% endif %}
 {% if groups['bahmni-reports-db']|length > 0  %}
 REPORTS_DB_SERVER={{ groups['bahmni-reports-db'][0] | default('localhost', true)}}
-REPORTS_DB_PASSWORD={{ openmrs_reporting_password }}
-REPORTS_DB_USERNAME={{ openmrs_reporting_user }}
+REPORTS_DB_PASSWORD={{ reports_db_password }}
+REPORTS_DB_USERNAME={{ reports_db_username }}
 {% endif %}
