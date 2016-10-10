@@ -105,7 +105,7 @@
     name="sync_dcm4chee_archive_dir"
     minute="*/1"
     user=root
-    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -p {{dcm4chee_archive_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{dcm4chee_archive_dir}}/../"
+    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -pog {{dcm4chee_archive_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{dcm4chee_archive_dir}}/../"
   when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
   with_items: "{{groups['dcm4chee']}}"
 
