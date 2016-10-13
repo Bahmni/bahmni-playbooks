@@ -33,6 +33,8 @@ openmrs.auth.uri=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/rest/v1/session
 
 {% for host in groups['bahmni-lab'] %}
 {% if hostvars[host].get('passive') != 'yes' %}
+openelis.user={{ openelis_username }}
+openelis.password={{ openelis_password }}
 openelis.saleorder.feed.generator.uri=http://{{ host }}:{{ bahmni_lab_port }}/openelis/ws/feed/patient/recent
 openelis.uri=http://{{ host }}:{{ bahmni_lab_port }}/openelis
 {% endif %}
