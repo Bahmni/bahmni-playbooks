@@ -7,6 +7,8 @@ bahmnicore.documents.baseDirectory={{document_images_dir}}
 {% if hostvars[host].get('passive') != 'yes' %}
 
 openelis.uri=http://{{ host }}:{{ bahmni_lab_port }}/
+openelis.user={{ openelis_username }}
+openelis.password={{ openelis_password }}
 patient.feed.uri=http://{{ host }}:{{ bahmni_lab_port }}/openelis/ws/feed/patient/recent
 
 {% endif %}

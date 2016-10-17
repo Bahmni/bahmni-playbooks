@@ -131,10 +131,12 @@
   register: salt
   always_run: True
   changed_when: False
+  when: passive is not defined or passive != 'yes'
 
 - name: Encrypt password
   command: python -c "import hashlib; print(hashlib.sha512(('{{ openmrs_user_password }}'+'{{ salt.stdout }}').encode()).hexdigest())"
   register: hashedPassword
+  when: passive is not defined or passive != 'yes'
 
 - name: Update password in DB
   command: >
@@ -143,6 +145,7 @@
       --execute="UPDATE users set password='{{ hashedPassword.stdout }}' where username='{{ openmrs_user_id }}' or system_id='{{ openmrs_user_id }}';"
   always_run: True
   changed_when: False
+  when: passive is not defined or passive != 'yes'
 
 - name: Update scheduler password in openmrs global property
   command: >
@@ -151,6 +154,7 @@
       --execute="UPDATE global_property set property_value='{{ openmrs_user_password }}' where property='scheduler.password' ;"
   always_run: True
   changed_when: False
+  when: passive is not defined or passive != 'yes'
 
 - name: Download omods
   get_url: url={{ item }} dest=/opt/openmrs/modules/ owner={{ bahmni_user }} group={{ bahmni_group }} mode=755

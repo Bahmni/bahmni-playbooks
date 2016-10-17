@@ -33,6 +33,11 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
+- name: Make sure reports save directory exists
+  file: path={{item}} owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
+  with_items:
+    - "{{reports_save_dir}}"
+
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep BAHMNIREPORTS  -m 1 | cut -c 1-2
   register: matchedRule
@@ -69,3 +74,18 @@
       group={{ bahmni_group }}
   delegate_to: "{{ item }}"
   with_items: "{{groups['bahmni-emr']}}"
+
+- name: Install crontab
+  yum: name=crontabs state=present
+
+- name: Remove crontab job for reports directory
+  cron: name="sync_reports_cron" user=root state=absent
+
+- name: create a cron tab to sync reports directory
+  cron:
+    name="sync_reports_cron"
+    minute="*/1"
+    user=root
+    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -pog {{reports_save_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{reports_save_dir}}/../"
+  when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
+  with_items: "{{groups['bahmni-reports']}}"
