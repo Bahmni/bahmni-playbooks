@@ -1,5 +1,4 @@
 ---
-allow_duplicates: no
 dependencies:
   - { role: bahmni-base }
   - { role: bahmni-user }
