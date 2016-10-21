@@ -1,0 +1,36 @@
+- name: Fail if implementation name is not provided
+  fail:
+    msg: "Please specify implementation name 'implementation_name' in /etc/bahmni-installer/setup.yml. Bahmni will pick the config from /etc/bahmni-installer/deployment-artifacts/.
+    Example, implementation_name: default"
+  when: implementation_name is not defined
+
+- name: create /etc/bahmni-installer/ directory
+  file: path=/etc/bahmni-installer state=directory mode=0755 owner={{ bahmni_user }} group={{ bahmni_group }}
+
+- name: create /etc/bahmni-installer/deployment-artifacts directory
+  file: path=/etc/bahmni-installer/deployment-artifacts state=directory mode=0755 owner={{ bahmni_user }} group={{ bahmni_group }}
+
+- name: create /etc/bahmni-installer/atomfeed-backup directory
+  file: path=/etc/bahmni-installer/atomfeed-backup state=directory mode=0755 owner={{ bahmni_user }} group={{ bahmni_group }}
+
+- name: add bahmni configuration file
+  template:
+      src=bahmni.conf.j2
+      dest=/etc/bahmni-installer/bahmni.conf
+      mode=644
+      owner={{ bahmni_user }}
+      group={{ bahmni_group }}
+
+- name: Creating Module directory
+  file: path=/etc/bahmni-installer/deployment-artifacts/modules state=directory owner=bahmni group=bahmni mode=0755 recurse=yes
+
+- name: Check Bahmni-installer version on command box
+  local_action: command rpm -q bahmni-installer --qf "%{VERSION}-%{RELEASE}\n"
+  register: version
+
+- name : Yum install Bahmni-installer
+  yum : name="bahmni-installer-{{version.stdout}}" state=present
+
+- name: set installer_config_role_ran fact
+  set_fact:
+    installer_config_role_ran: true
