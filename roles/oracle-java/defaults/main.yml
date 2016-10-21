@@ -4,5 +4,3 @@ java_rpm_name: "{{ java_runtime }}-7u79-linux-x64.rpm"
 java_download_url: "http://download.oracle.com/otn-pub/java/jdk/7u79-b15/{{ java_rpm_name }}"
 java_rpm_location: "{{download_folder}}/{{ java_rpm_name}}"
 java_home_location: "/usr/java/{{java_runtime}}1.7.0_79"
-md5_checksum_of_java: "28ecc42e74830bc4b69bf072e25377c2"
-force_new_java_download: false

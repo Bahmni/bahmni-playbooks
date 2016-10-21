@@ -98,6 +98,3 @@ bahmni_two_factor_auth_debug_args: "-agentlib:jdwp=transport=dt_socket,address=8
 
 implementer_interface: disabled
 dcm4chee_study_uid: 1.2.4.0.13.1.4.2252867.
-
-md5_checksum_of_java: "28ecc42e74830bc4b69bf072e25377c2"
-force_new_java_download: false

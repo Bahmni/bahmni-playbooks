@@ -2,17 +2,9 @@
   stat: path={{java_rpm_location}}
   register: downloaded_java
 
-- set_fact:
-    force_new_java_download: "{{ downloaded_java.stat.md5 != md5_checksum_of_java }}"
-  when: downloaded_java.stat.exists
-
-- name: Delete java rpm if checksum does not match
-  file: path={{ java_rpm_location }} state=absent
-  when: "{{ force_new_java_download == true }}"
-
 - name: Download Java
-  command: "wget -q -p -O {{ java_rpm_location }} --no-check-certificate --no-cookies --header 'Cookie:oraclelicense=accept-securebackup-cookie' {{java_download_url}} creates={{ java_rpm_location }}"
-  when: "{{ downloaded_java.stat.exists == false  }} or {{ force_new_java_download == true }}"
+  command: "wget -q -O {{ java_rpm_location }} --no-check-certificate --no-cookies --header 'Cookie:oraclelicense=accept-securebackup-cookie' {{java_download_url}} creates={{ java_rpm_location }}"
+  when: downloaded_java.stat.exists == false
 
 - name: install oracle java rpm
   yum: name={{ java_rpm_location }} state=present
