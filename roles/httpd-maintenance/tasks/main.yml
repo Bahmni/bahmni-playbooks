@@ -19,3 +19,9 @@
    path=/var/www/html/maintenance.enable
    state=absent
   when: maintenance_status == 'end'
+
+- name: reload_httpd_service
+  service: name=httpd state=restarted
+  delegate_to: "{{ item }}"
+  with_items: "{{groups['bahmni-emr']}}"
+  when:  maintenance_status == 'end'

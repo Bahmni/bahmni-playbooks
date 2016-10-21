@@ -131,14 +131,3 @@
       group={{ bahmni_group }}
   delegate_to: "{{ item }}"
   with_items: "{{groups['bahmni-emr']}}"
-
-- name: reload_httpd_service
-  service: name=httpd state=reloaded
-  delegate_to: "{{ item }}"
-  with_items: "{{groups['bahmni-emr']}}"
-
-
-
-
-
-
