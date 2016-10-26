@@ -1,0 +1,74 @@
+- hosts: localhost
+  become: yes
+  vars:
+    certs_dir: /etc/letsencrypt-certs
+    letsencrypt_prod_server: https://acme-v01.api.letsencrypt.org/directory
+  tasks:
+   - name: install openssl
+     yum: name=openssl state=present
+
+   - name: create certs directory
+     file: path={{ certs_dir }} state=directory
+
+   - name: check if letsencrypt account key is present
+     stat: path={{ certs_dir }}/account.key
+     register: account_key_exists
+
+   - name: generate letsencrypt account key
+     command: openssl genrsa -out {{ certs_dir }}/account.key 4096
+     when: account_key_exists.stat.exists == False
+
+   - name: check if domain key is present
+     stat: path={{ certs_dir }}/domain.key
+     register: domain_key_exists
+
+   - name: backup domain key
+     command: mv -f {{ certs_dir }}/domain.key {{ certs_dir }}/domain.key.bkp
+     when: domain_key_exists.stat.exists == True
+
+   - name: check if certificate is present
+     stat: path={{ certs_dir }}/cert.crt
+     register: certificate_exists
+
+   - name: backup certificate
+     command: mv -f {{ certs_dir }}/cert.crt {{ certs_dir }}/cert.crt.bkp
+     when: certificate_exists.stat.exists == True
+
+   - name: generate domain key
+     command: openssl genrsa -out {{ certs_dir }}/domain.key 4096
+
+   - name: generate certificate signing request
+     command: openssl req -new -key {{ certs_dir }}/domain.key -out {{ certs_dir }}/csr.csr -subj "/CN={{ commonName }}"
+
+   - name: send request to LetsEncrypt server to get dns-01 challege
+     letsencrypt:
+       acme_directory: "{{ letsencrypt_prod_server }}"
+       account_email: "{{ email }}"
+       account_key: "{{ certs_dir }}/account.key"
+       csr: "{{ certs_dir }}/csr.csr"
+       dest: "{{ certs_dir }}/cert.crt"
+       challenge: "dns-01"
+     register: letsencrypt_data
+
+   - name: prompt challeges to the user
+     pause: prompt="Add NAME = {{ letsencrypt_data['challenge_data'][item]["dns-01"]["resource"] }}.{{ item }} and VALUE = {{ letsencrypt_data['challenge_data'][item]["dns-01"]["resource_value"] }} as DNS TXT record. Wait for sometime to let the TXT records sync with other DNS servers. Press ENTER after you are done"
+     with_items: "{{ letsencrypt_data['challenge_data'] }}"
+
+   - name: receive signed certificate from LetsEncrypt
+     letsencrypt:
+       acme_directory: "{{ letsencrypt_prod_server }}"
+       account_email: "{{ email }}"
+       account_key: "{{ certs_dir }}/account.key"
+       csr: "{{ certs_dir }}/csr.csr"
+       dest: "{{ certs_dir }}/cert.crt"
+       challenge: "dns-01"
+       data: "{{ letsencrypt_data }}"
+
+   - name: link LetsEncrypt certificate
+     file: src={{ item.src }}  dest={{ item.dest }} state=link owner={{ bahmni_user }} group={{ bahmni_group }}
+     with_items:
+        - {src: "{{ certs_dir }}/cert.crt", dest: /etc/bahmni-certs/cert.crt}
+        - {src: "{{ certs_dir }}/domain.key", dest: /etc/bahmni-certs/domain.key}
+
+   - name: start httpd service
+     service: name=httpd state=restarted
