@@ -8,44 +8,23 @@
 - name: Create and grant privileges to openmrs user on localhost
   sudo: yes
   mysql_user:
-    name: "{{ openmrs_db_username }}"
-    password: "{{ openmrs_db_password }}"
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
     login_user: root
     login_password: "{{ mysql_root_password }}"
     host: "localhost"
-    priv: "openmrs.*:ALL,GRANT"
+    priv: "{{database}}.*:ALL,GRANT"
 
 - name: Create and grant privileges to openmrs user from app server
   sudo: yes
   mysql_user:
-    name: "{{ openmrs_db_username }}"
-    password: "{{ openmrs_db_password }}"
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
     login_user: root
     login_password: "{{ mysql_root_password }}"
     host: "{{ item }}"
-    priv: "openmrs.*:ALL,GRANT"
-  with_items: "{{ groups['bahmni-emr'] }}"
-
-- name: Create and grant privileges to reports user on localhost
-  sudo: yes
-  mysql_user:
-    name: "{{ reports_db_username }}"
-    password: "{{ reports_db_password }}"
-    login_user: root
-    login_password: "{{ mysql_root_password }}"
-    host: "localhost"
-    priv: "bahmni_reports.*:ALL,GRANT"
-
-- name: Create and grant privileges to reports user from app server
-  sudo: yes
-  mysql_user:
-    name: "{{ reports_db_username }}"
-    password: "{{ reports_db_password }}"
-    login_user: root
-    login_password: "{{ mysql_root_password }}"
-    host: "{{ item }}"
-    priv: "bahmni_reports.*:ALL,GRANT"
-  with_items: "{{ groups['bahmni-reports'] }}"
+    priv: "{{database}}.*:ALL,GRANT"
+  with_items: "{{ items }}"
 
 - name: Create and grant privileges to root user from app server
   sudo: yes
