@@ -27,7 +27,7 @@ openmrs.service.rootUrl=http://{{ host }}:{{ openmrs_port }}/openmrs/ws/rest/v1
 {% endif %}
 {% endfor %}
 
-{% for host in groups['bahmni-reports'] %}
+{% for host in groups['bahmni-emr'] %}
 {% if hostvars[host].get('passive') != 'yes' %}
 reports.config.url=https://{{ host }}/bahmni_config/openmrs/apps/reports/reports.json
 {% endif %}
