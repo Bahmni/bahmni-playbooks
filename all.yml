@@ -143,6 +143,11 @@
   tags:
     - pacs-integration
 
+- hosts: atomfeed-console
+  become: yes
+  roles:
+    - {role: atomfeed-console}
+
 - hosts: dcm4chee-db,dcm4chee-db-slave
   sudo: yes
   roles:

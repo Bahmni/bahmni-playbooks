@@ -31,6 +31,9 @@
 
 [bahmni-reports-db-slave]
 
+[atomfeed-console]
+192.168.33.10
+
 [pacs-integration]
 
 [pacs-integration-db]
