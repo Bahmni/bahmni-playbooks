@@ -1,0 +1,69 @@
+---
+- name: install atomfeed-console rpm
+  yum: name=atomfeed-console-{{ atomfeed_console_version }} state=latest
+
+- name: copy atomfeed-console config
+  template:
+    src=templates/atomfeed-console.yml.j2
+    dest=/etc/atomfeed-console/atomfeed-console.yml
+    mode=644
+    owner={{ atomfeed_console_user }}
+    group={{ atomfeed_console_group }}
+
+- name: restart atomfeed-console service
+  service: name=atomfeed-console state=restarted enabled=true
+
+- name: get matched iptable rule
+  shell: iptables -nL --line-numbers | grep ATOMFEED_CONSOLE  -m 1 | cut -c 1-2
+  register: matchedRule
+
+- name: delete matching rule if exists
+  shell: iptables -D INPUT {{ matchedRule.stdout }}
+  when: matchedRule.stdout!=""
+
+- name: allow atomfeed console port through firewall
+  command: /sbin/iptables -I INPUT 1 -p tcp --dport {{ atomfeed_console_port }} -j ACCEPT -m comment --comment "ATOMFEED_CONSOLE"
+
+- name: save iptables
+  command: service iptables save
+
+- name: allow atomfeed console application to access postgres databases
+  blockinfile:
+    dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
+    marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK atomfeed-console:{{ item.db }} -->"
+    state: present
+    block: |
+      {% if groups['atomfeed-console'][0] not in [False, 'localhost', '127.0.0.1'] %}
+      host {{ item.db }} {{ item.db_user }} {{ groups['atomfeed-console'][0] }}/32 trust
+      {% endif %}
+  delegate_to: "{{ item.group[0] }}"
+  when: "item.group | length > 0"
+  with_items:
+    - {group: "{{ groups['bahmni-lab-db'] }}", db_user: "{{openelis_db_username}}", db: clinlims}
+    - {group: "{{ groups['bahmni-erp-db'] }}", db_user: "{{ openerp_db_username }}", db: openerp}
+    - {group: "{{ groups['pacs-integration-db'] }}", db_user: pacs, db: bahmni_pacs}
+
+- name: reload postgresql
+  service:
+    name=postgresql-{{ postgres_version }}
+    state=reloaded
+
+- name: allow atomfeed console application to access openmrs database
+  mysql_user:
+    name: "{{ openmrs_db_username }}"
+    password: "{{ openmrs_db_password }}"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    host: "{{ groups['bahmni-emr-db'][0] }}"
+    priv: "openmrs.*:ALL"
+
+- name: add atomfeed-console ssl conf
+  template:
+    src=templates/atomfeed_console_ssl.conf.j2
+    dest=/etc/httpd/conf.d/atomfeed_console_ssl.conf
+    mode=644
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+
+- name: reload httpd
+  service: name=httpd state=reloaded

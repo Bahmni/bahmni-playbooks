@@ -1,0 +1,4 @@
+atomfeed_console_port: 8059
+atomfeed_console_version: 1.0
+atomfeed_console_user: atomfeed-console
+atomfeed_console_group: atomfeed-console
