@@ -2,7 +2,7 @@ export SERVER_PORT={{bahmni_erp_connect_port}}
 export BASE_DIR=/var/run/bahmni-erp-connect
 export CONTEXT_PATH=/bahmni-erp-connect
 export WAR_DIRECTORY=/var/run/bahmni-erp-connect/bahmni-erp-connect
-export SERVER_OPTS="-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m"
+export SERVER_OPTS="-Xms512m -Xmx1024m"
 export DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,address=8002,server=y,suspend=n"
 export OPENERP_DB_SERVER={{ groups['bahmni-erp-db'][0] | default('localhost', true) }}
 export OPENERP_DB_PASSWORD="{{ openerp_db_password }}"

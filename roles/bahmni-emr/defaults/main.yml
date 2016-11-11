@@ -1,7 +1,7 @@
 openmrs_port: 8050
 openmrs_modules_dir: /home/bahmni/.OpenMRS/modules
 openmrs_context_path: openmrs
-openmrs_server_args: "-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m"
+openmrs_server_args: "-Xms512m -Xmx1024m"
 openmrs_debug_args: "-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
 
 openmrs_auto_update_database: "true"
@@ -28,7 +28,7 @@ two_factor_auth: disabled
 bahmni_two_factor_auth_port: 8058
 bahmni_two_factor_auth_run_dir: /var/run/bahmni-two-factor-auth
 bahmni_two_factor_auth_context_path: /two-factor-auth
-bahmni_two_factor_auth_server_options: "-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m"
+bahmni_two_factor_auth_server_options: "-Xms512m -Xmx1024m"
 bahmni_two_factor_auth_debug_args: "-agentlib:jdwp=transport=dt_socket,address=8005,server=y,suspend=n"
 
 implementer_interface: disabled
