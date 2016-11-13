@@ -2,3 +2,5 @@ atomfeed_console_port: 8059
 atomfeed_console_version: 1.0
 atomfeed_console_user: atomfeed-console
 atomfeed_console_group: atomfeed-console
+atomfeed_console_db_username: atomfeed-console
+atomfeed_console_db_password: password

@@ -27,7 +27,46 @@
 - name: save iptables
   command: service iptables save
 
-- name: allow atomfeed console application to access postgres databases
+- name: Install python-psycopg2
+  yum: name=python-psycopg2 state=present
+
+- name: create atomfeed console application user in postgres databases
+  postgresql_user: name={{ atomfeed_console_db_username }} role_attr_flags=NOSUPERUSER
+  delegate_to: "{{ item }}"
+  when: "item is defined and item | length > 0"
+  with_items:
+    - "{{ groups['bahmni-lab-db'] }}"
+    - "{{ groups['bahmni-erp-db'] }}"
+    - "{{ groups['pacs-integration-db'] }}"
+
+- name: grant USAGE privilege on clinlims schema for atomfeed console application user
+  postgresql_privs:
+    db: clinlims
+    privs: USAGE
+    type: schema
+    objs: clinlims
+    roles: "{{ atomfeed_console_db_username }}"
+    state: present
+  delegate_to: "{{ groups['bahmni-lab-db'][0] }}"
+  when: "groups['bahmni-lab-db'] is defined and groups['bahmni-lab-db'] | length > 0"
+
+- name: add privileges to atomfeed console application db user in postgres databases
+  postgresql_privs:
+    db: "{{ item.db }}"
+    privs: SELECT,UPDATE
+    type: table
+    schema: "{{ item.schema }}"
+    objs: markers,failed_events,failed_event_retry_log
+    roles: "{{ atomfeed_console_db_username }}"
+    state: present
+  delegate_to: "{{ item.group[0] }}"
+  when: "item.group | length > 0"
+  with_items:
+    - { group: "{{ groups['bahmni-lab-db'] }}", db: clinlims, schema: clinlims}
+    - { group: "{{ groups['bahmni-erp-db'] }}", db: openerp, schema: public }
+    - { group: "{{ groups['pacs-integration-db'] }}", db: bahmni_pacs, schema: public }
+
+- name: allow atomfeed console application host to access postgres databases
   blockinfile:
     dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
     marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK atomfeed-console:{{ item.db }} -->"
@@ -39,23 +78,38 @@
   delegate_to: "{{ item.group[0] }}"
   when: "item.group | length > 0"
   with_items:
-    - {group: "{{ groups['bahmni-lab-db'] }}", db_user: "{{openelis_db_username}}", db: clinlims}
-    - {group: "{{ groups['bahmni-erp-db'] }}", db_user: "{{ openerp_db_username }}", db: openerp}
-    - {group: "{{ groups['pacs-integration-db'] }}", db_user: pacs, db: bahmni_pacs}
+    - {group: "{{ groups['bahmni-lab-db'] }}", db_user: "{{atomfeed_console_db_username}}", db: clinlims}
+    - {group: "{{ groups['bahmni-erp-db'] }}", db_user: "{{ atomfeed_console_db_username }}", db: openerp}
+    - {group: "{{ groups['pacs-integration-db'] }}", db_user: "{{ atomfeed_console_db_username }}", db: bahmni_pacs}
 
 - name: reload postgresql
   service:
     name=postgresql-{{ postgres_version }}
     state=reloaded
+  delegate_to: "{{ item }}"
+  when: "item is defined and item | length > 0"
+  with_items:
+    - "{{ groups['bahmni-lab-db'] }}"
+    - "{{ groups['bahmni-erp-db'] }}"
+    - "{{ groups['pacs-integration-db'] }}"
+
+- name: Install python mysql for ansible
+  yum: name=MySQL-python state=present
 
 - name: allow atomfeed console application to access openmrs database
   mysql_user:
-    name: "{{ openmrs_db_username }}"
-    password: "{{ openmrs_db_password }}"
+    name: "{{ atomfeed_console_db_username }}"
+    password: "{{ atomfeed_console_db_password }}"
     login_user: root
     login_password: "{{ mysql_root_password }}"
-    host: "{{ groups['bahmni-emr-db'][0] }}"
-    priv: "openmrs.*:ALL"
+    host: "{{ groups['atomfeed-console'][0] }}"
+    priv: "openmrs.{{ item }}:SELECT,UPDATE"
+    append_privs: true
+  delegate_to:  "{{ groups['bahmni-emr-db'][0] }}"
+  with_items:
+    - markers
+    - failed_events
+    - failed_event_retry_log
 
 - name: add atomfeed-console ssl conf
   template:
