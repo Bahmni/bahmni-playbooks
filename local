@@ -75,3 +75,4 @@ dcm4chee-db
 dcm4chee-db-slave
 bahmni-event-log-service
 bahmni-offline
+atomfeed-console
