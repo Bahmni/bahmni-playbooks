@@ -63,7 +63,7 @@ dchm4chee_port: 8055
 dchm4chee_connector_port: 8056
 dchm4chee_conf_port: 11112
 bahmni_event_log_service_port: 8057
-pacs_integration_db_username: bahmni_pacs
+pacs_integration_db_username: pacs
 
 patient_document_max_age: 86400
 apps_max_age: 1
