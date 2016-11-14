@@ -15,11 +15,6 @@
 - name: Install postgresql yum repository
   yum: name={{postgres_repo_rpm_location}} state=present
 
-- name: Reload postgresql
-  service:
-    name=postgresql-{{ postgres_version }}
-    state=reloaded
-
 - name: Install python-psycopg2
   yum: name=python-psycopg2 state=present
 

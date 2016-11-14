@@ -9,11 +9,6 @@
 - name: Install postgresql yum repository
   yum: name={{postgres_repo_rpm_location}} state=present
 
-- name: Reload postgresql
-  service:
-    name=postgresql-{{ postgres_version }}
-    state=reloaded
-
 - name: Check if pacs-integration rpm needs an update
   command: yum list installed pacs-integration
   register: installed_pacs_integration
