@@ -10,11 +10,6 @@
 - name: Install dcm4chee from bahmni-repo
   yum: name="dcm4chee-{{ dcm4chee_version }}" state=present
 
-- name: Reload postgresql
-  service:
-    name=postgresql-{{ postgres_version }}
-    state=reloaded
-
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep DCM4CHEE  -m 1 | cut -c 1-2
   register: matchedRule

@@ -54,13 +54,6 @@
   tags:
     - bahmni-emr
 
-- hosts: bahmni-reports
-  sudo: yes
-  roles:
-    - { role: bahmni-reports }
-  tags:
-    - bahmni-reports
-
 - hosts: bahmni-reports-db,bahmni-reports-db-slave
   sudo: yes
   roles:
@@ -75,6 +68,13 @@
      - { role: mysql-users, db_user: "{{reports_db_username}}" , db_password: "{{reports_db_password}}",database: bahmni_reports, items: "{{groups['bahmni-reports']}}" }
   tags:
     - bahmni-reports-db
+    - bahmni-reports
+
+- hosts: bahmni-reports
+  sudo: yes
+  roles:
+    - { role: bahmni-reports }
+  tags:
     - bahmni-reports
 
 - hosts: bahmni-lab-db,bahmni-lab-db-slave
@@ -105,7 +105,7 @@
   sudo: yes
   roles:
     - { role: postgres, postgres_user: openerp }
-    - { role: pg_hba, db_user: "{{openerp_db_username}}", db_name: openerp, app_server_group: bahmni-erp,
+    - { role: pg_hba, db_user: "{{openerp_db_username}}", db_name: all, app_server_group: bahmni-erp,
                       master_db_group: bahmni-erp-db, slave_db_group: bahmni-erp-db-slave}
 
   tags:
