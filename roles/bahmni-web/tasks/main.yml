@@ -9,3 +9,12 @@
 
 - name: Install bahmni-web from bahmni repo
   yum: name="bahmni-web-{{ bahmni_web_version }}" state=present
+
+- name: copy ssl conf file
+  template:
+      src=ssl.conf.j2
+      dest=/etc/httpd/conf.d/ssl.conf
+      mode=644
+      owner={{ bahmni_user }}
+      group={{ bahmni_group }}
+  tags: event-log
