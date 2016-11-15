@@ -50,15 +50,6 @@
     - { src: /etc/pki/tls/private/localhost.key, dest: /etc/bahmni-certs/domain.key}
   when: certificate_link.stat.exists == False
 
-- name: copy ssl conf file
-  template:
-      src=ssl.conf.j2
-      dest=/etc/httpd/conf.d/ssl.conf
-      mode=644
-      owner={{ bahmni_user }}
-      group={{ bahmni_group }}
-  tags: event-log
-
 - name: Switch off chkconfig for httpd on passive
   service: name=httpd state=stopped enabled=no
   when: passive is defined and passive == 'yes'
