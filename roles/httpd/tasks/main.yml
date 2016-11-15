@@ -44,7 +44,7 @@
   register: certificate_link
 
 - name: link local certificate and domain key
-  file: src={{ item.src }}  dest={{ item.dest }} state=link owner={{ bahmni_user }} group={{ bahmni_group }}
+  file: src={{ item.src }}  dest={{ item.dest }} state=link
   with_items:
     - { src: /etc/pki/tls/certs/localhost.crt, dest: /etc/bahmni-certs/cert.crt}
     - { src: /etc/pki/tls/private/localhost.key, dest: /etc/bahmni-certs/domain.key}
