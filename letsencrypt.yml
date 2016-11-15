@@ -8,7 +8,7 @@
      yum: name=openssl state=present
 
    - name: create certs directory
-     file: path={{ certs_dir }} state=directory
+     file: path={{ certs_dir }} state=directory mode=0755
 
    - name: check if letsencrypt account key is present
      stat: path={{ certs_dir }}/account.key
@@ -65,10 +65,13 @@
        data: "{{ letsencrypt_data }}"
 
    - name: link LetsEncrypt certificate
-     file: src={{ item.src }}  dest={{ item.dest }} state=link owner={{ bahmni_user }} group={{ bahmni_group }}
+     file: src={{ item.src }}  dest={{ item.dest }} state=link
      with_items:
         - {src: "{{ certs_dir }}/cert.crt", dest: /etc/bahmni-certs/cert.crt}
         - {src: "{{ certs_dir }}/domain.key", dest: /etc/bahmni-certs/domain.key}
+
+   - name: set strict file system permissions for all files
+     shell: chmod -R 0600 {{ certs_dir }}/*
 
    - name: start httpd service
      service: name=httpd state=restarted
