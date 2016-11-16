@@ -20,7 +20,7 @@
       {% for host in groups[slave_db_group] %}
       {% if host not in [False, 'localhost', '127.0.0.1'] and host != inventory_hostname %}
       host {{ db_name }} {{ db_user }} {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32 trust #access to slave db
-      host replication clinlims {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust #access to slave db ipv6
+      host replication {{ db_user }} {{ hostvars.get(host, {}).get('ansible_ssh_host') or host }}/32	trust #access to slave db ipv6
 
       {% endif %}
       {% endfor %}
