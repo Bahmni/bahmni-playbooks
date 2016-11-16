@@ -33,9 +33,6 @@
 - name: save iptables
   command: service iptables save
 
-- name: Uninstall bahmni-certs rpm
-  yum: name="bahmni-certs" state=absent
-
 - name: create bahmni-certs directory
   file: path=/etc/bahmni-certs state=directory owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
 
@@ -102,3 +99,6 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
   when: "{{ groups['bahmni-lab'] | length }} > 0"
+
+- name: Uninstall bahmni-certs rpm
+  yum: name="bahmni-certs" state=absent
