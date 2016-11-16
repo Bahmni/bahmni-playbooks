@@ -5,7 +5,7 @@
       login_password: "{{ mysql_root_password }}"
       state: absent
 
-- name: Create and grant privileges to openmrs user on localhost
+- name: Create and grant privileges to db user on localhost
   sudo: yes
   mysql_user:
     name: "{{ db_user }}"
@@ -15,7 +15,7 @@
     host: "localhost"
     priv: "{{database}}.*:ALL,GRANT"
 
-- name: Create and grant privileges to openmrs user from app server
+- name: Create and grant privileges to db user from app server
   sudo: yes
   mysql_user:
     name: "{{ db_user }}"
