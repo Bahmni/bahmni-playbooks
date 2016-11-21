@@ -78,14 +78,21 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
-- name: Make sure archive directory for dcm4chee exists in passive machine
+- name: create dcm4chee archive directory
   file:
     path={{ dcm4chee_archive_dir }}
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
     mode=0755
     state=directory
-  when: passive is defined and passive == 'yes'
+
+- name: link dcm4chee archive directory
+  file:
+    src={{ dcm4chee_archive_dir }}
+    dest={{ dcm4chee_archive_dir_link }}
+    owner={{ bahmni_user }}
+    group={{ bahmni_group }}
+    state=link
 
 - name: Install crontab
   yum: name=crontabs state=present

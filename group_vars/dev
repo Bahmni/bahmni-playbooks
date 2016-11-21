@@ -99,7 +99,8 @@ pacs_integration_version: 0.81
 dcm4chee_study_uid: 1.2.4.0.13.1.4.2252867.
 
 
-dcm4chee_archive_dir: /var/lib/bahmni/dcm4chee-2.18.1-psql/server/default/archive
+dcm4chee_archive_dir_link: /var/lib/bahmni/dcm4chee-2.18.1-psql/server/default/archive
+dcm4chee_archive_dir: /home/bahmni/pacs_images/archive
 
 #These varaibles should be there only in dev
 selinux_state: permissive
