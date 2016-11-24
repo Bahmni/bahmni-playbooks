@@ -3,6 +3,7 @@
   vars:
     certs_dir: /etc/letsencrypt-certs
     letsencrypt_prod_server: https://acme-v01.api.letsencrypt.org/directory
+    intermediate_cert: https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem
   tasks:
    - name: install openssl
      yum: name=openssl state=present
@@ -64,11 +65,15 @@
        challenge: "dns-01"
        data: "{{ letsencrypt_data }}"
 
+   - name: create certificate chain
+     shell: "{ cat {{ certs_dir }}/cert.crt & wget -O - {{ intermediate_cert }}; } > {{ certs_dir }}/chained.pem"
+
    - name: link LetsEncrypt certificate
      file: src={{ item.src }}  dest={{ item.dest }} state=link
      with_items:
         - {src: "{{ certs_dir }}/cert.crt", dest: /etc/bahmni-certs/cert.crt}
         - {src: "{{ certs_dir }}/domain.key", dest: /etc/bahmni-certs/domain.key}
+        - {src: "{{ certs_dir }}/chained.pem", dest: /etc/bahmni-certs/chained.pem}
 
    - name: set strict file system permissions for all files
      shell: chmod -R 0600 {{ certs_dir }}/*
