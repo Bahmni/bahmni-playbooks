@@ -1,5 +1,25 @@
+- name: bahmni-base-tests
+  hosts: all
+  sudo: yes
+  roles:
+    - bahmni-base
+
 - name: bahmni-emr-tests
   hosts: bahmni-emr
   sudo: yes
   roles:
     - bahmni-emr
+    - bahmni-lab-connect
+
+- name: bahmni-erp-tests
+  hosts: bahmni-erp
+  sudo: yes
+  roles:
+    - bahmni-erp
+    - bahmni-erp-connect
+
+- name: bahmni-lab-tests
+  hosts: bahmni-lab
+  sudo: yes
+  roles:
+    - bahmni-lab
