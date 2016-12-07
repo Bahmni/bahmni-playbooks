@@ -32,6 +32,7 @@
      login_user: "{{ mysql_root_user}}"
      login_password: "{{ mysql_root_password }}"
   delegate_to: "{{ groups['bahmni-reports-db'][0] }}"
+  when: "{{ groups['bahmni-reports-db'] | length }} > 0"
   register: repl_stat
 
 - name: change master parameters on slave to start the replication
@@ -56,6 +57,7 @@
     login_password: "{{ mysql_root_password }}"
     master_log_file: "{{ repl_stat.File }}"
     master_log_pos: "{{ repl_stat.Position }}"
+  when: "{{ groups['bahmni-reports-db'] | length }} > 0"
   ignore_errors: True
 
 - name: start replication

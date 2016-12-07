@@ -118,6 +118,8 @@
     mode=644
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
+  delegate_to:  "{{ groups['bahmni-emr'][0] }}"
 
 - name: reload httpd
   service: name=httpd state=reloaded
+  delegate_to:  "{{ groups['bahmni-emr'][0] }}"
