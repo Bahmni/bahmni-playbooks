@@ -18,9 +18,9 @@ describe package('ntp'), :if => os[:family] == 'redhat' do
   it { should be_installed }
 end
 
-describe file('/etc/bahmni-installer/setup.yml') do
-  its(:content_as_yaml) { should include('timezone') }
-end
+#describe file('/etc/bahmni-installer/setup.yml') do
+#  its(:content_as_yaml) { should include('timezone') }
+#end
 
 describe service('ntpd') do
   it { should be_enabled }

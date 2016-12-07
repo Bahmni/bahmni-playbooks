@@ -1,5 +1,5 @@
 - name: bahmni-base-tests
-  hosts: all
+  hosts: bahmni-emr
   sudo: yes
   roles:
     - bahmni-base
