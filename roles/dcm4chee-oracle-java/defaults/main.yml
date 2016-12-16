@@ -1,0 +1,9 @@
+download_folder: /opt
+java_runtime: jre
+java_version: 7u79
+java_build: b15
+java_rpm_name: "{{ java_runtime }}-{{ java_version }}-linux-x64.rpm"
+java_download_url: "http://download.oracle.com/otn-pub/java/jdk/{{java_version}}-{{java_build}}/{{ java_rpm_name }}"
+java_rpm_location: "{{download_folder}}/{{ java_rpm_name}}"
+md5_checksum_of_java: "28ecc42e74830bc4b69bf072e25377c2"
+force_new_java_download: false
