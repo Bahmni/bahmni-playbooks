@@ -34,12 +34,17 @@ def concat_config(fileName, path, offline_path):
         json.dump(result, outfile)
 
 
-paths = {
-         'clinical': '/var/www/bahmni_config/openmrs/apps/clinical/'
+paths = {'home': '/var/www/bahmni_config/openmrs/apps/home/',
+         'registration': '/var/www/bahmni_config/openmrs/apps/registration/',
+         'clinical': '/var/www/bahmni_config/openmrs/apps/clinical/',
+         'offline': '/var/www/bahmni_config/openmrs/apps/offline/',
          }
 
 offlinePaths = {
-    'clinical': '/var/www/bahmni_config/offline/openmrs/apps/clinical/'
+    'home': '/var/www/bahmni_config/offline/openmrs/apps/home/',
+    'registration': '/var/www/bahmni_config/offline/openmrs/apps/registration/',
+    'clinical': '/var/www/bahmni_config/offline/openmrs/apps/clinical/',
+    'offline': '/var/www/bahmni_config/offline/openmrs/apps/offline/',
 }
 
 for key in paths:
