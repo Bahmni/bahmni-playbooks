@@ -3,7 +3,8 @@
 
 declare -a paths=("/var/www/bahmni_config/openmrs/apps/home/home.json"
                 "/var/www/bahmni_config/openmrs/apps/registration/registration.json"
-                "/var/www/bahmni_config/openmrs/apps/clinical/clinical.json")
+                "/var/www/bahmni_config/openmrs/apps/clinical/clinical.json"
+                "/var/www/bahmni_config/openmrs/apps/offline/offline.json")
 
 for i in "${paths[@]}"
 do
