@@ -32,14 +32,14 @@ def concat_config(fileName, path, offline_path):
 paths = {'home': '/var/www/bahmni_config/openmrs/apps/home/',
          'registration': '/var/www/bahmni_config/openmrs/apps/registration/',
          'clinical': '/var/www/bahmni_config/openmrs/apps/clinical/',
-         'offline': '/var/www/bahmni_config/openmrs/apps/offline/',
+         'dbNameCondition': '/var/www/bahmni_config/openmrs/apps/dbNameCondition/',
          }
 
 offlinePaths = {
     'home': '/var/www/bahmni_config/offline/openmrs/apps/home/',
     'registration': '/var/www/bahmni_config/offline/openmrs/apps/registration/',
     'clinical': '/var/www/bahmni_config/offline/openmrs/apps/clinical/',
-    'offline': '/var/www/bahmni_config/offline/openmrs/apps/offline/',
+    'dbNameCondition': '/var/www/bahmni_config/offline/openmrs/apps/dbNameCondition/',
 }
 
 for key in paths:
