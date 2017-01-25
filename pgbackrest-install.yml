@@ -1,0 +1,20 @@
+- hosts: bahmni-lab-db
+  become: yes
+  roles:
+    - { role: pgbackrest-install }
+
+- hosts: bahmni-erp-db
+  become: yes
+  roles:
+    - { role: pgbackrest-install }
+
+- hosts: bahmni-lab-db-slave
+  become: yes
+  roles:
+    - { role: pgbackrest-install }
+
+- hosts: bahmni-erp-db-slave
+  become: yes
+  roles:
+    - { role: pgbackrest-install }
+

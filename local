@@ -37,6 +37,12 @@ localhost
 [atomfeed-console]
 localhost
 
+[pgbackrest-server]
+localhost
+
+[pgbackrest-repo]
+
+
 [pacs-integration]
 
 [pacs-integration-db]

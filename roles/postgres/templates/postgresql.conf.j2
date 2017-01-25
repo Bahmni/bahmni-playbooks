@@ -188,9 +188,9 @@ wal_level = {{ slave | default(false) | ternary('minimal', 'hot_standby') }}			#
 
 # - Archiving -
 
-#archive_mode = off		# allows archiving to be done
+#archive_mode = on		# allows archiving to be done
 				# (change requires restart)
-#archive_command = ''		# command to use to archive a logfile segment
+#archive_command = 'pgbackrest --stanza=demo archive-push %p'		# command to use to archive a logfile segment
 				# placeholders: %p = path of file to archive
 				#               %f = file name only
 				# e.g. 'test ! -f /mnt/server/archivedir/%f && cp %p /mnt/server/archivedir/%f'
@@ -389,7 +389,7 @@ log_rotation_size = 0			# Automatic rotation of logfiles will
 #log_duration = off
 #log_error_verbosity = default		# terse, default, or verbose messages
 #log_hostname = off
-#log_line_prefix = ''			# special values:
+log_line_prefix = ''			# special values:
 					#   %a = application name
 					#   %u = user name
 					#   %d = database name

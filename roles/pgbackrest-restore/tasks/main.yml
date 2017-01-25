@@ -1,0 +1,21 @@
+- name: Stop PostgreSQL
+  service:
+    name=postgresql-{{ postgres_version }}
+    state=stop
+  ignore_errors: true
+
+- name: Performing delta restore
+  sudo: yes
+  shell: sudo -u postgres pgbackrest --stanza=demo --delta --log-level-console=detail restore
+  when: type_of_restore == "delta"
+
+- name: Performing full restore
+  sudo: yes
+  shell: sudo -u postgres pgbackrest --stanza=demo restore
+  when: type_of_restore == "full"
+
+- name: Performing PITR restore 
+  sudo: yes 
+  shell: sudo -u postgres pgbackrest --stanza=demo --type=time  "--target={{ backup_id_time }}"    --set={{ backup_id }}  restore 
+  when: type_of_restore == "pitr"
+

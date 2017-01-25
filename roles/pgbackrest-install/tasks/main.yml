@@ -1,0 +1,104 @@
+- name: Install pgbackrest dependencies
+  sudo: yes
+  yum: name={{item}} state=present
+  with_items:
+   - perl-Time-HiRes
+   - perl-CPAN
+
+- name: Assigning CPAN parent
+  sudo: yes
+  shell: cpan -i parent
+
+- name:  Installing pgbackrest dependent libraries
+  sudo: yes
+  yum:  name={{item}} state=present
+  with_items:
+  - perl-DBD-Pg
+  - perl-JSON
+  - perl-Digest-SHA.x86_64
+  - centos-release-scl
+  - perl516-perl-Thread-Queue.noarch
+  - perl516-perl-JSON-PP.noarch
+  - perl516-perl-DBD-Pg.x86_64
+  - perl516-perl-Time-HiRes.x86_64
+  - perl516-perl-Digest-SHA.x86_64
+
+- name: Fetching  Pgbackrest
+  sudo: yes
+  shell: wget -q -O - \https://github.com/pgbackrest/pgbackrest/archive/release/1.12.tar.gz | \tar zx -C ~
+
+- name: Removing old version of pgbackrest
+  sudo: yes
+  file: path={{item}} state=absent
+  with_items:
+  - /usr/bin/pgbackrest
+  - /usr/bin/pg_backrest
+  - /usr/lib/perl5/BackRest
+  - /usr/share/perl5/BackRest
+  - /usr/lib/perl5/pgbackrest
+  - /usr/share/perl5/pgBackRest
+
+- name: Copying pgbackrest to usr folder
+  sudo: yes
+  copy:
+         src=~/pgbackrest-release-1.12/lib/pgBackRest
+         dest=/usr/share/perl5
+
+- name: Finding perl mode
+  sudo: yes
+  shell: find /usr/share/perl5/pgBackRest -type f -exec chmod 644 {} +
+
+- name: Changing perl mode
+  sudo: yes
+  shell: find /usr/share/perl5/pgBackRest -type d -exec chmod 755 {} +
+
+- name: Copying pgbackrest folder
+  sudo: yes
+  copy:
+       src=~/pgbackrest-release-1.12/bin/pgbackrest
+       dest=/usr/bin/pgbackrest
+       mode=755
+
+
+- name: Creating pgbackrest log directory
+  sudo: yes
+  file:
+        path=/var/log/pgbackrest
+        state=directory
+        mode=770
+        owner=postgres
+        group=postgres
+
+- name: Creating pgbackrest repo directory
+  sudo: yes
+  file:
+        path=/var/lib/pgbackrest
+        state=directory
+        mode=750
+        owner=postgres
+        group=postgres
+
+
+
+- name: Creating pgbackrest.conf file
+  sudo: yes
+  file:
+       path=/etc/pgbackrest.conf
+       state=touch
+       owner=postgres
+       mode=440
+
+
+- name: Editing pgbackrest.conf file
+  sudo: yes
+  template:
+      src=pgbackrest.conf.j2
+      dest=/etc/pgbackrest.conf
+
+- name: Restart PostgreSQL
+  service:
+    name=postgresql-{{ postgres_version }}
+    state=restarted
+  ignore_errors: true
+
+
