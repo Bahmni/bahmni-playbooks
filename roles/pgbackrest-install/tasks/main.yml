@@ -100,5 +100,3 @@
     name=postgresql-{{ postgres_version }}
     state=restarted
   ignore_errors: true
-
-

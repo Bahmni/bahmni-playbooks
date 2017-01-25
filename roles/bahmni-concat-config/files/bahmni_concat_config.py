@@ -13,7 +13,6 @@ def concat_config(fileName, path, offline_path):
         for jsfile in jsFiles:
             jsonfiles.append(jsfile)
             print "appended json files"
-            
 
     for file in jsonfiles:
         print file
