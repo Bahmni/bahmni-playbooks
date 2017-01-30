@@ -23,3 +23,18 @@
   sudo: yes
   roles:
     - bahmni-lab
+
+- name: mysql-replication-tests
+  hosts:
+    - bahmni-emr-db
+  sudo: yes
+  roles:
+    - mysql-replication
+
+- name: postgres-replication-tests
+  hosts:
+    - bahmni-erp-db-slave
+    - bahmni-lab-db-slave
+  sudo: yes
+  roles:
+    - postgres-replication
