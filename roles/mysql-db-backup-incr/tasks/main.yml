@@ -1,0 +1,55 @@
+- name: Get timestamp of file name to be created
+  command: date +%Y%m%d%H%M%S
+  register: time
+
+- name: Fetch all existing  backups
+  find: 
+     paths: "{{openmrs.path}}"
+     patterns: "*_*"
+     file_type: directory
+  register: result_files
+
+- set_fact:
+     latest_backup_dir: "{{ (result_files.files | sort(attribute='ctime') | last).path }}"
+  when: result_files.matched > 0
+
+- name: Take full backup using xtrabackup
+  shell: xtrabackup --user={{mysql_root_user}} --password={{mysql_root_password}}  --backup --target-dir={{ openmrs.path }}/{{ time.stdout }}_full/ --databases openmrs
+  sudo: yes
+  when: (strategy == "full") or (strategy == "incr" and result_files.matched == 0) 
+
+- name: Take Incremental backup using xtrabackup
+  shell: xtrabackup --user={{mysql_root_user}} --password={{mysql_root_password}} --backup --target-dir={{ openmrs.path }}/{{ time.stdout }}_incr/  --incremental-basedir={{ latest_backup_dir }}/ --databases openmrs
+  sudo: yes
+  when: strategy == "incr" and result_files.matched > 0
+
+- name: Find list full backups 
+  find:
+     paths: "{{openmrs.path}}"
+     patterns: "*_full"
+     file_type: directory
+  register: full_backups
+
+- name: Find target backup file for retention point
+  shell: ls -1tr {{openmrs.path}} |grep _full|tail -n{{openmrs.retention_limit}} |head -1
+  register: oldest_backup_dir_to_retain 
+
+- name: Find metadata of retention point file
+  find:
+     paths: "{{openmrs.path}}/"
+     patterns: "{{oldest_backup_dir_to_retain.stdout}}"
+     file_type: directory
+  register: oldest_backup_to_retain
+
+- debug:
+    msg: "{{ item}}"
+  when: item.ctime < oldest_backup_to_retain.files[0].ctime
+  with_items: "{{ result_files.files }}"
+
+- name: Remove old backup files invalid as per retention limit
+  file:
+    state: absent
+    path: "{{ item.path }}/"
+  when: item.ctime < oldest_backup_to_retain.files[0].ctime
+  with_items: "{{ result_files.files }}" 
+

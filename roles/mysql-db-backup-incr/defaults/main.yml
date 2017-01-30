@@ -1,0 +1,8 @@
+mysql_root_user: root
+mysql_root_password: password
+copy_to_local_machine: no
+backup_type: db
+strategy: full
+openmrs:
+  path: /db-backup/
+  retention_limit: 3 

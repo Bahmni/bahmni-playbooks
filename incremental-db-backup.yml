@@ -1,0 +1,5 @@
+- hosts: mysql-backup-tool
+  become: yes
+  roles:
+    - { role: mysql-db-backup-incr }
+

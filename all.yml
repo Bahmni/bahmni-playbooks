@@ -193,3 +193,11 @@
   sudo: yes
   roles:
     - { role: httpd-maintenance, maintenance_status: end , tags: always}
+
+- hosts: mysql-backup-tool
+  sudo: yes
+  roles:
+    - { role: mysql-backup-tool}
+  tags:
+    - mysql-backup-tool
+

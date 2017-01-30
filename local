@@ -59,6 +59,8 @@ localhost
 
 [bahmni-offline]
 
+[mysql-backup-tool]
+
 [local:children]
 nagios-server
 bahmni-emr
@@ -82,3 +84,4 @@ dcm4chee-db-slave
 bahmni-event-log-service
 bahmni-offline
 atomfeed-console
+mysql-backup-tool
