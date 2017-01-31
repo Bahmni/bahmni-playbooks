@@ -1,0 +1,24 @@
+
+- name: Make sure backup log directory exists
+  file: path={{item}} owner=root group=root mode=0755 state=directory
+  with_items:
+    - "{{backup_log_file_dir}}"
+
+- name: Make sure expire log file exists
+  file: path={{item}} owner=root group=root mode=0755 state=touch
+  with_items:
+    - "{{expire_log_file}}"
+
+- name: expire artifacts from dest to src location
+  shell: rm -rf {{item.path}}/$(ls -t {{item.path}}| grep {{item.name}} | tail -n +3)  2>{{expire_log_file}};
+  when: "item.name in options"
+  with_items:
+       - { path: "{{patient_images.backup_to_path}}", name: patient_images}
+       - { path: "{{document_images.backup_to_path}}", name: document_images}
+       - { path: "{{uploaded_files.backup_to_path}}", name: uploaded_files}
+       - { path: "{{uploaded_results.backup_to_path}}", name: uploaded_results}
+       - { path: "{{pacs_images.backup_to_path}}", name: pacs_images}
+       - { path: "{{reports.backup_to_path}}", name: reports}
+
+
+

@@ -1,0 +1,22 @@
+backup_temp_dest_dir: /tmp/temp_dest_backup
+backup_log_file_dir: /home/bahmni/backup_logs
+backup_log_file: /home/bahmni/backup_logs/backup.log
+
+patient_images:
+     backup_to_path: /mymount
+     backup_from_path: /home/bahmni/patient_images
+document_images:
+     backup_to_path: /mymount
+     backup_from_path: /home/bahmni/document_images
+uploaded_files:
+    backup_to_path: /mymount
+    backup_from_path: /home/bahmni/uploaded-files
+uploaded_results:
+     backup_to_path: /mymount
+     backup_from_path: /home/bahmni/uploaded_results
+pacs_images:
+    backup_to_path: /mymount
+    backup_from_path: /home/bahmni/pacs_images
+reports:
+    backup_to_path: /mymount
+    backup_from_path: /home/bahmni/reports
