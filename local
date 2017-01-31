@@ -60,6 +60,7 @@ localhost
 [bahmni-offline]
 
 [mysql-backup-tool]
+localhost
 
 [local:children]
 nagios-server

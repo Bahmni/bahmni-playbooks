@@ -13,6 +13,9 @@
      latest_backup_dir: "{{ (result_files.files | sort(attribute='ctime') | last).path }}"
   when: result_files.matched > 0
 
+- name: Log the backup event
+  shell: echo `date +%Y%m%d%H%M%S` 'type:{{strategy}}' 'basedir:{{latest_backup_dir}}' 'incrementaldir:{{ openmrs.path }}/{{ time.stdout }}_{{strategy}}' >>/var/log/bahmni-backup.log
+
 - name: Take full backup using xtrabackup
   shell: xtrabackup --user={{mysql_root_user}} --password={{mysql_root_password}}  --backup --target-dir={{ openmrs.path }}/{{ time.stdout }}_full/ --databases openmrs
   sudo: yes
@@ -25,7 +28,7 @@
 
 - name: Find list full backups 
   find:
-     paths: "{{openmrs.path}}"
+     paths: "{{ openmrs.path}}"
      patterns: "*_full"
      file_type: directory
   register: full_backups
@@ -53,3 +56,6 @@
   when: item.ctime < oldest_backup_to_retain.files[0].ctime
   with_items: "{{ result_files.files }}" 
 
+- name: Copy files to other machine
+  shell: rsync -avP -e ssh {{openmrs.path}} {{sync.user}}@{{sync.host}}:{{sync.path}}
+  when : not( (sync.host is undefined) or (sync.host is none) or (sync.host | trim == '') )  
