@@ -1,5 +1,14 @@
 - hosts: mysql-backup-tool
   become: yes
   roles:
+    - { role: httpd-maintenance, maintenance_status: start}
     - { role: mysql-db-backup-incr }
+    - { role: httpd-maintenance, maintenance_status: end , when: options='postgres' or option='all'}
 
+
+- host: postgres-backup-tool
+  sudo: yes
+  roles:
+    - { role: httpd-maintenance, maintenance_status: start}
+    - pgbackrest-backup
+    - { role: httpd-maintenance, maintenance_status: end}

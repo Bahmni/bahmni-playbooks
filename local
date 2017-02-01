@@ -37,12 +37,6 @@ localhost
 [atomfeed-console]
 localhost
 
-[pgbackrest-server]
-localhost
-
-[pgbackrest-repo]
-
-
 [pacs-integration]
 
 [pacs-integration-db]
@@ -61,6 +55,10 @@ localhost
 
 [mysql-backup-tool]
 localhost
+
+[postgres-backup-tool]
+master_ip
+slave_ip
 
 [local:children]
 nagios-server

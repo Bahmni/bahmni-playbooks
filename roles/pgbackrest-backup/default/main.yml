@@ -1,1 +1,5 @@
-type_of_backup: full
+strategy: full
+logfile: /var/log/backups/dbbackup.log
+bookeeping: /etc/bookeeping.txt
+repo: /var/lib/pgbackrest
+retention: 2

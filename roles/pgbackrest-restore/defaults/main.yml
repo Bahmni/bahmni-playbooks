@@ -1,0 +1,2 @@
+strategy: full
+logfile: /var/log/backups/dbrestore.log

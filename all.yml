@@ -38,7 +38,7 @@
   roles:
     - { role: mysql-users, db_user: "{{openmrs_db_username}}", db_password: "{{openmrs_db_password}}", database: openmrs, items: "{{groups['bahmni-emr']}}" }
     - { role: mysql-users, db_user: "{{openmrs_db_username}}", db_password: "{{openmrs_db_password}}", database: openmrs, items: "{{groups['bahmni-reports']}}", restrict_app_root: false }
-  tags:
+   tags:
     - bahmni-emr-db
     - bahmni-emr
 
@@ -83,6 +83,7 @@
   roles:
     - { role: postgres, postgres_user: clinlims }
     - { role: pg_hba, db_user: "{{openelis_db_username}}", db_name: clinlims, app_server_group: bahmni-lab,
+
                       master_db_group: bahmni-lab-db, slave_db_group: bahmni-lab-db-slave}
   tags:
     - bahmni-lab-db
@@ -201,3 +202,7 @@
   tags:
     - mysql-backup-tool
 
+- hosts: postgres-backup-tool
+  sudo: yes
+  roles:
+     - {role: pgbackrest-install}

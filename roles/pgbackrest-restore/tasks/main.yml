@@ -6,16 +6,16 @@
 
 - name: Performing delta restore
   sudo: yes
-  shell: sudo -u postgres pgbackrest --stanza=demo --delta --log-level-console=detail restore
-  when: type_of_restore == "delta"
+  shell: sudo -u postgres pgbackrest --stanza=demo --delta --log-level-console=detail restore 2>>{{ logfile }}
+  when: strategy == "delta"
 
 - name: Performing full restore
   sudo: yes
-  shell: sudo -u postgres pgbackrest --stanza=demo restore
-  when: type_of_restore == "full"
+  shell: sudo -u postgres pgbackrest --stanza=demo --log-level-console=detail restore 2>>{{ logfile }}
+  when: strategy == "full"
 
 - name: Performing PITR restore 
   sudo: yes 
-  shell: sudo -u postgres pgbackrest --stanza=demo --type=time  "--target={{ backup_id_time }}"    --set={{ backup_id }}  restore 
-  when: type_of_restore == "pitr"
+  shell: sudo -u postgres pgbackrest --stanza=demo --delta --type=time  "--target={{ backup_id_time }}"    --set={{ backup_id }}  --log-level-console=detail restore 2>>{{ logfile }} 
+  when: strategy == "pitr"
 

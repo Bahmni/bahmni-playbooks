@@ -1,32 +1,21 @@
-- name: create a cron tab to sync master and slave folders
-  cron:  
-     name="Synching master and slave db backup" 
-     minute="3" 
-     user=root 
-     job="rsync -a root@localhost:/var/lib/pgbackrest root@192.168.33.30:/var/lib/pgbackrest" 
+- name: Editing pgbackrest.conf file
+  sudo: yes
+  template:
+      src=pgbackrest.conf.j2
+      dest=/etc/pgbackrest.conf
+
+- name: create bookeeping file
+  sudo: yes
+  shell: pgbackrest info  | grep "incr backup\|backup reference list\|full backup" 1> {{ bookeeping }}
+
 
 - name: create full backup
   sudo: yes
-  shell: sudo -u postgres pgbackrest --stanza=demo --type=full --log-level-console=info backup
-  when: type_of_backup == "full"
+  shell: sudo -u postgres pgbackrest --stanza=demo --type=full --log-level-console=info backup 2>>{{ logfile }}
+  when: strategy == "full"
 
 - name: create incremental backup
   sudo: yes
-  shell: sudo -u postgres pgbackrest --stanza=demo --type=incr --log-level-console=info backup
-  when: type_of_backup == "incr"
+  shell: sudo -u postgres pgbackrest --stanza=demo --type=incr --log-level-console=info backup 2>>{{ logfile }}
+  when: strategy == "incr"
 
-- name: create a cron tab to create full-backup 
-  cron:  
-     name="creating_full_pgdb_backup" 
-     hour="23" 
-     user=root 
-     job="pgbackrest --type=full --stanza=demo backup" 
-  when: type_of_backup == "cronfull"
-
-- name: create a cron tab to create incr-backup 
-  cron:  
-      name="creating_incr_pgdb_backup" 
-      hour="1" 
-      user=root 
-      job="pgbackrest --type=incr --stanza=demo backup" 
-  when: type_of_backup == "cronincr"
