@@ -1,7 +1,0 @@
-- name: pgbackrest-backup-test
-  hosts: localhost
-  sudo: yes
-  roles:
-    - { role: httpd-maintenance, maintenance_status: start}
-    - pgbackrest-backup
-    - { role: httpd-maintenance, maintenance_status: end}
