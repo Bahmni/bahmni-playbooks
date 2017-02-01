@@ -11,6 +11,7 @@ pacs_images:
 reports:
     backup_to_path: /mymount
 
-backup_log_file_dir: /home/bahmni/backup_logs
-expire_log_file: /home/bahmni/backup_logs/expire.log
+backup_log_file_dir: /var/log/backup_logs
+expire_log_file: /var/log/backup_logs/expire.log
+retention_limit: 2
 

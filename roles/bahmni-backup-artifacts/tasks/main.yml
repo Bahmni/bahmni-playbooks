@@ -17,7 +17,7 @@
 - name: copy artifacts from src to dest location
   shell: tar -czvf {{backup_temp_dest_dir}}/$(date +%Y-%m-%d_%H%M%S)-{{item.name}}.tar.gz {{item.from_path}}  2>{{backup_log_file}};
          cp {{backup_temp_dest_dir}}/$(date +%Y-%m-%d_%H%M%S)-{{item.name}}.tar.gz {{item.to_path}} 2>{{backup_log_file}};
-  when: "item.name in options"
+  when: "item.name in options or options == 'all'"
   with_items:
       - { from_path: "{{patient_images.backup_from_path}}", to_path: "{{patient_images.backup_to_path}}", name: patient_images}
       - { from_path: "{{document_images.backup_from_path}}", to_path: "{{document_images.backup_to_path}}", name: document_images}
@@ -25,7 +25,8 @@
       - { from_path: "{{uploaded_results.backup_from_path}}", to_path: "{{uploaded_results.backup_to_path}}", name: uploaded_results}
       - { from_path: "{{pacs_images.backup_from_path}}", to_path: "{{pacs_images.backup_to_path}}" , name: pacs_images}
       - { from_path: "{{reports.backup_from_path}}", to_path: "{{reports.backup_to_path}}" , name: reports}
-
+  ignore_errors: true
+  
 - name: Make sure backup temporary dest file is deleted
   file: path={{item}}  state=absent
   with_items:

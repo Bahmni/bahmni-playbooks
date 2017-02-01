@@ -10,8 +10,8 @@
     - "{{expire_log_file}}"
 
 - name: expire artifacts from dest to src location
-  shell: rm -rf {{item.path}}/$(ls -t {{item.path}}| grep {{item.name}} | tail -n +3)  2>{{expire_log_file}};
-  when: "item.name in options"
+  shell: rm -rf {{item.path}}/$(ls -t {{item.path}}| ls -t | grep {{item.name}} | tail -n +{{retention_limit}})  2>{{expire_log_file}};
+  when: "item.name in options or options == 'all'"
   with_items:
        - { path: "{{patient_images.backup_to_path}}", name: patient_images}
        - { path: "{{document_images.backup_to_path}}", name: document_images}
@@ -19,6 +19,7 @@
        - { path: "{{uploaded_results.backup_to_path}}", name: uploaded_results}
        - { path: "{{pacs_images.backup_to_path}}", name: pacs_images}
        - { path: "{{reports.backup_to_path}}", name: reports}
+  ignore_errors: true
 
 
 

@@ -1,6 +1,6 @@
 backup_temp_dest_dir: /tmp/temp_dest_backup
-backup_log_file_dir: /home/bahmni/backup_logs
-backup_log_file: /home/bahmni/backup_logs/backup.log
+backup_log_file_dir: /var/log/backup_logs
+backup_log_file: /var/log/backup_logs/backup.log
 
 patient_images:
      backup_to_path: /mymount

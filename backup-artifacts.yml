@@ -4,6 +4,6 @@
   sudo: yes
   roles:
    - { role: bahmni-backup-artifacts}
-   - { role: bahmni-expire-artifacts}
+#   - { role: bahmni-expire-artifacts}
 
 
