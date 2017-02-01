@@ -6,3 +6,8 @@ strategy: full
 openmrs:
   path: /db-backup/
   retention_limit: 3 
+  restore_path: /db-backukp/
+bahmni_reports:
+  path: /db-reports/
+  retention_limit: 2
+  restore_path: /db-backukp_reports/
