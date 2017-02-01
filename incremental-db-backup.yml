@@ -1,4 +1,4 @@
-- hosts: mysql-backup-tool
+- hosts: bahmni-emr-db
   become: yes
   roles:
     - { role: httpd-maintenance, maintenance_status: start}

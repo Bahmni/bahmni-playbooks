@@ -1,7 +1,26 @@
-#- name: Run restore script for preparing restoratoin files.
-#  script: restore_backup.sh {{ file_path }} {{restore_point}}
-#  sudo: yes
+- name: Run restore script for preparing restoratoin files.
+  script: restore_backup.sh {{ openmrs.restore_path }} {{restore_point}}
+  sudo: yes
 
+- name: Stop Mysql Service
+  service: name=mysqld state=stopped
 
-- name: Restore backup
-  command: rsync -arP --del /db-restore/201701200736_full/{{db_name}}/ /var/lib/mysql/{{db_name}}/
+- name: Restore backup files
+  command: rsync -arP --del /tmp/restore_dir/base/openmrs/ /var/lib/mysql/openmrs/
+
+- name: Set permission to restored files
+  file:
+    state: directory
+    recurse: yes
+    owner: mysql
+    group: mysql
+    mode: 0777
+    path: /var/lib/mysql/openmrs/
+
+- name: Start Mysql Service
+  service: name=mysqld state=started enabled=true
+
+- name: Remove tempporary restore directory
+  file:
+    state: absent
+    path: "/tmp/restore_dir"
