@@ -3,8 +3,8 @@
   roles:
     - { role: httpd-maintenance, maintenance_status: start}
     - { role: mysql-db-backup-incr }
-    - { role: httpd-maintenance, maintenance_status: end , when: options='postgres' or option='all'}
-
+    - { role: httpd-maintenance, maintenance_status: end }
+  when: backup_type == all or option == openmrs or option == all
 
 - host: postgres-backup-tool
   sudo: yes
@@ -12,3 +12,4 @@
     - { role: httpd-maintenance, maintenance_status: start}
     - pgbackrest-backup
     - { role: httpd-maintenance, maintenance_status: end}
+  when: backup_type == all or option == postgres or option == all
