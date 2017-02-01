@@ -1,2 +1,17 @@
 - include: installer-config.yml
   when: installer_config_role_ran is not defined or installer_config_role_ran != true
+
+- name: Creating bahmni-backrest.conf file
+  sudo: yes
+  file:
+        path=/etc/bahmni-backrest.conf
+        state=touch
+        owner=root
+        mode=440
+
+
+- name: Editing bahmni-backrest.conf file
+  sudo: yes
+  template:
+       src=bahmni-backrest.conf.j2
+       dest=/etc/bahmni-backrest.conf
