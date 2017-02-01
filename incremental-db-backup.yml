@@ -1,3 +1,31 @@
+- name: Check if xtrabackup is installed
+  shell: yum list installed | grep  xtrabackup
+  register: installed_xtrabackup
+  ignore_errors: True
+
+- name: Fallback to older mysqldbbackup
+  hosts: bahmni-emr-db
+  become: yes
+  roles:
+      - { role: httpd-maintenance, maintenance_status: start}
+      - { role: mysql-db-backup }
+      - { role: httpd-maintenance, maintenance_status: end }
+  when: installed_xtrabackup.stdout.find("percona-xtrabackup") == -1
+
+- name: Check if pgbackrest is installed
+  shell: sudo -u postgres pgbackrest
+  register: installed_pgbackrest
+  ignore_errors: True
+
+- name: Fallback to older postgresdbbackup
+  hosts: postgres-backup-tool
+  become: yes
+  roles:
+      - { role: httpd-maintenance, maintenance_status: start}
+      - { role: postgres-db-backup }
+      - { role: httpd-maintenance, maintenance_status: end }
+  when: installed_pgbackrest.stdout.find("pgBackRest 1.12") == -1
+
 - hosts: bahmni-emr-db
   become: yes
   roles:
