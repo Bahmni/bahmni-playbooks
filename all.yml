@@ -202,7 +202,7 @@
   tags:
     - mysql-backup-tool
 
-- hosts: postgres-backup-tool
+- hosts: postgres-backup-tool,postgres-backup-tool-repo
   sudo: yes
   roles:
      - {role: pgbackrest-install}
