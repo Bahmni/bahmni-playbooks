@@ -1,5 +1,5 @@
 - hosts: bahmni-emr-db
   become: yes
   roles:
-    - { role: mysql-db-backup-incr }
+    - { role: mysql-db-restore-incr }
 
