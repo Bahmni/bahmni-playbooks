@@ -57,8 +57,7 @@ localhost
 localhost
 
 [postgres-backup-tool]
-master_ip
-slave_ip
+localhost
 
 [local:children]
 nagios-server
@@ -84,3 +83,4 @@ bahmni-event-log-service
 bahmni-offline
 atomfeed-console
 mysql-backup-tool
+postgres-backup-tool
