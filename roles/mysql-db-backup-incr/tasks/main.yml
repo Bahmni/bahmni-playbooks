@@ -23,7 +23,7 @@
   when: latest_backup_dir is defined
 
 - name: Take full backup using xtrabackup
-  shell: xtrabackup --user={{mysql_root_user}} --password={{mysql_root_password}}  --backup --target-dir={{ openmrs.path }}/{{ time.stdout }}_full/ --databases openmrs,bahmni_reports
+  shell: xtrabackup --user={{mysql_root_user}} --password={{mysql_root_password}}  --backup --target-dir={{ openmrs.path }}/{{ time.stdout }}_full/ --databases openmrs
   sudo: yes
   when: (strategy == "full") or (strategy == "incr" and result_files.matched == 0) 
 
