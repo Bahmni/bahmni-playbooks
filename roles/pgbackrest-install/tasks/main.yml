@@ -1,3 +1,12 @@
+- name: add key to yum repo
+  template: src=RPM-GPG-KEY-CentOS-SIG-SCLo.j2 dest=/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo
+
+- name: add Perl dependencies to yum repo
+  template: src=CentOS-SCLo-scl.repo.j2 dest=/etc/yum.repos.d/CentOS-SCLo-scl.repo
+
+- name: add Perl dependencies to yum repo
+  template: src=CentOS-SCLo-scl-rh.repo.j2 dest=/etc/yum.repos.d/CentOS-SCLo-scl-rh.repo
+
 - name: Install pgbackrest dependencies
   sudo: yes
   yum: name={{item}} state=present

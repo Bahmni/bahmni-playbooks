@@ -60,17 +60,6 @@
      file_type: directory
   register: oldest_backup_to_retain
 
-- debug:
-    msg: "{{ item}}"
-  when: item.ctime < oldest_backup_to_retain.files[0].ctime
-  with_items: "{{ result_files.files }}"
-
-- name: Remove old backup files invalid as per retention limit
-  file:
-    state: absent
-    path: "{{ item.path }}/"
-  when: item.ctime < oldest_backup_to_retain.files[0].ctime
-  with_items: "{{ result_files.files }}" 
 
 - name: Copy files to other machine
   shell: rsync -avP -e ssh {{openmrs.path}} {{sync.user}}@{{sync.host}}:{{sync.path}}

@@ -1,15 +1,16 @@
 - hosts: bahmni-emr-db
   become: yes
   roles:
-    - { role: mysql-db-restore-incr }
-  when: restore_type == all or option == openmrs or option == all
+    - { role: httpd-maintenance, maintenance_status: start}
+    - { role: mysql-db-restore-incr, when: restore_type == all or options == openmrs or options == all}
+    - { role: httpd-maintenance, maintenance_status: end}
 
 - name: pgbackrest-restore-test
   hosts: pgbackrest-backup-tool
   sudo: yes
   roles:
     - { role: httpd-maintenance, maintenance_status: start}
-    - pgbackrest-restore
+    - { role: pgbackrest-restore, when: restore_type == all or options == postgres or options == all}
     - { role: httpd-maintenance, maintenance_status: end}
-  when: restore_type == all or option == postgres or option == all
+
 
