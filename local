@@ -59,6 +59,9 @@ localhost
 [postgres-backup-tool]
 localhost
 
+[bahmni-backup-artifacts]
+localhost
+
 [local:children]
 nagios-server
 bahmni-emr
@@ -84,4 +87,5 @@ bahmni-offline
 atomfeed-console
 mysql-backup-tool
 postgres-backup-tool
+bahmni-backup-artifacts
 

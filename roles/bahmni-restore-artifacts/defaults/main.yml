@@ -1,6 +1,6 @@
 restore_temp_dest_dir: /tmp/restore_dest_backup
-backup_log_file_dir: /home/bahmni/backup_logs
-restore_log_file: /home/bahmni/backup_logs/restore.log
+backup_log_file_dir: /var/log/backup_logs
+restore_log_file: /var/log/backup_logs/restore.log
 
 patient_images:
      restore_from_path: /mymount
