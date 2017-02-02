@@ -1,2 +1,2 @@
 strategy: full
-logfile: /var/log/backups/dbrestore.log
+logfile: /var/log/dbrestore.log
