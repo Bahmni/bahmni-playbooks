@@ -4,12 +4,6 @@
       src=pgbackrest.conf.j2
       dest=/etc/pgbackrest.conf
 
-
-- name: create bookeeping file
-  sudo: yes
-  shell: pgbackrest info  | grep "incr backup\|backup reference list\|full backup" 1> {{ bookeeping }}
-
-
 - name: create full backup
   sudo: yes
   shell: sudo -u postgres pgbackrest --stanza=demo --type=full --log-level-console=info backup 2>>{{ logfile }}
@@ -20,3 +14,6 @@
   shell: sudo -u postgres pgbackrest --stanza=demo --type=incr --log-level-console=info backup 2>>{{ logfile }}
   when: strategy == "incr"
 
+- name: create bookeeping file
+  sudo: yes
+  shell: pgbackrest info  | grep "incr backup\|backup reference list\|full backup" 1>> {{ bookeeping }}
