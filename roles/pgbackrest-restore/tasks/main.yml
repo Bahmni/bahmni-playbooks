@@ -7,7 +7,7 @@
 - name: Performing delta restore
   sudo: yes
   shell: sudo -u postgres pgbackrest --stanza=demo --delta --log-level-console=detail restore 2>>{{ logfile }}
-  when: strategy == "delta"
+  when: strategy == "incr"
 
 - name: Performing full restore
   sudo: yes

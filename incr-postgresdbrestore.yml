@@ -1,5 +1,5 @@
-- name: pgbackrest-restore-test
-  hosts: pgbackrest-backup-tool
+- name: Restoring db via pgbackrest
+  hosts: postgres-backup-tool
   sudo: yes
   roles:
     - { role: httpd-maintenance, maintenance_status: start}
