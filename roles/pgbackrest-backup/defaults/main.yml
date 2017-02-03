@@ -1,5 +1,6 @@
 strategy: full
 logfile: /var/log/dbbackup.log
 bookeeping: /var/log/bookeeping.txt
-repo: /var/lib/pgbackrest
-retention: 2
+postgres:
+    path: /var/lib/pgbackrest
+    retention_limit: 2

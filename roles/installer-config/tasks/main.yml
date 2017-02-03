@@ -7,7 +7,7 @@
         path=/etc/bahmni-backrest.conf
         state=touch
         owner=root
-        mode=440
+        mode=777
 
 
 - name: Editing bahmni-backrest.conf file
