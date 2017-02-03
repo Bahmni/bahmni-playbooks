@@ -1,3 +1,9 @@
+- name: Editing pgbackrest.conf file
+  sudo: yes
+  template:
+      src=pgbackrest.conf.j2
+      dest=/etc/pgbackrest.conf
+
 - name: Stop PostgreSQL
   service:
     name=postgresql-{{ postgres_version }}

@@ -1,2 +1,5 @@
 strategy: full
 logfile: /var/log/dbrestore.log
+postgres:
+    path: /var/lib/pgbackrest
+    retention_limit: 2
