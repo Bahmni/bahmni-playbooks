@@ -2,5 +2,5 @@
   become: yes
   roles:
     - { role: httpd-maintenance, maintenance_status: start}
-    - { role: mysql-db-backup-incr, when: backup_type == 'all' or options == 'openmrs' or options == 'all' }
+    - { role: mysql-db-backup-incr }
     - { role: httpd-maintenance, maintenance_status: end }

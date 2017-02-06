@@ -1,12 +1,22 @@
+- name: Set openmrs variables
+  set_fact:
+     restore_path: "{{openmrs.restore_path }}"
+  when: db == "openmrs"
+
+- name: Set reports variables based on path
+  set_fact:
+      restore_path: "{{bahmni_reports.restore_path}}"
+  when: db  == "bahmni_reports"
+
 - name: Run restore script for preparing restoratoin files.
-  script: restore_backup.sh {{ openmrs.restore_path }} {{restore_point}}
+  script: restore_backup.sh {{restore_path}} {{restore_point}}
   sudo: yes
 
 - name: Stop Mysql Service
   service: name=mysqld state=stopped
 
 - name: Restore backup files
-  command: rsync -arP --del /tmp/restore_dir/base/openmrs/ /var/lib/mysql/openmrs/
+  command: rsync -arP --del /tmp/restore_dir/base/{{db}}/ /var/lib/mysql/{{db}}/
 
 - name: Set permission to restored files
   file:
@@ -15,7 +25,7 @@
     owner: mysql
     group: mysql
     mode: 0777
-    path: /var/lib/mysql/openmrs/
+    path: /var/lib/mysql/{{db}}/
 
 - name: Start Mysql Service
   service: name=mysqld state=started enabled=true

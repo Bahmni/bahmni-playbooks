@@ -4,5 +4,10 @@ copy_to_local_machine: no
 backup_type: db
 strategy: full
 openmrs:
-  path: /db-backup/
-  retention_limit: 3 
+  path: /db-backup/openmrs/
+  retention_limit: 2
+  restore_path: /db-backukp/openmrs/
+bahmni_reports:
+  path: /db-backup/reports/
+  retention_limit: 2
+  restore_path: /db-backukp/reports/

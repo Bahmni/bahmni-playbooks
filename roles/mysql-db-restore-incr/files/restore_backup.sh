@@ -13,6 +13,38 @@ incr_dirs=`ls -1 $1|grep -A100000 ${full_backp_dir} |grep -B10000 $2 |grep '_inc
 
 echo $full_backp_dir
 echo $incr_dirs
+restore_point=$2
+line=`grep $2 $1/backup-info.log`
+if [[  -z "${line// }" ]]; then
+   echo "Did not found the restore point in backup dir"
+   exit
+fi
+
+type=`echo $line|cut -d ' ' -f 2`
+
+
+declare -a arr
+arr=()
+if [ "$type" == "incr" ]
+then
+   while [ "$type" == "incr" ]
+   do
+      item=`echo $line|cut -d ' ' -f 3`
+      arr=($item)
+      arr=($item "${arr[@]}")
+      parent=`echo $line|cut -d ' ' -f 4`
+      line=`grep $parent $1/backup-info.log`
+      type=`echo $line|cut -d ' ' -f 2`
+   done
+fi
+
+if [ "$type" == "full" ]
+then
+   full_backup_dir=`echo $line|cut -d ' ' -f 3`
+fi
+
+echo $full_backp_dir
+echo $incr_dirs
 
 `rm -rf /tmp/restore_dir/`
 `mkdir -p /tmp/restore_dir/base/`
@@ -26,11 +58,10 @@ do
 
 done
 
-incr_dir_array=(${incr_dirs// / })
-echo ${incr_dir_array[1]}
+#incr_dir_array=(${incr_dirs// / })
+#echo ${incr_dir_array[1]}
 
 # Validation: Check if restore point exists
-
 
 # Prepare full backup
 echo "xtrabackup --prepare --apply-log-only --target-dir=/tmp/restore_dir/base/"
@@ -56,8 +87,6 @@ do
 done
 
 #`rsync -arP --del /tmp/restore_dir/$full_backp_dir/openmrs/ /var/lib/mysql/openmrs/`
-
-
 #`rm -rf /tmp/restore_dir/`
 #echo ${incr_dirs[1]}
 
