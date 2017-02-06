@@ -16,6 +16,16 @@
       retention_limit: "{{bahmni_reports.retention_limit}}"
   when: db  == "bahmni_reports"
 
+- name: Check if DB exists
+  shell: mysql -u{{mysql_root_user}} -p{{mysql_root_password}} -e 'SHOW DATABASES;' | grep {{db}}
+  register: dbstatus
+  ignore_errors: yes
+
+- name: Fail with Error Message if db does not exist
+  fail:
+    msg: "ERROR: Database: {{db}} does not exist"
+  when: dbstatus.rc != 0
+
 - name: Fetch all existing  backups
   find: 
      paths: "{{backup_path}}"
