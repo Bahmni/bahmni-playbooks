@@ -1,7 +1,7 @@
 export SERVER_PORT={{ bahmni_reports_port }}
-export BASE_DIR=/var/run/bahmni-reports
-export CONTEXT_PATH=/bahmnireports
-export WAR_DIRECTORY=/var/run/bahmni-reports/bahmni-reports
-export SERVER_OPTS="-Xms512m -Xmx1024m"
-export DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,address=8003,server=y,suspend=n"
+export BASE_DIR={{ bahmni_reports_base-dir }}
+export CONTEXT_PATH={{ bahmni_reports_context_path }}
+export WAR_DIRECTORY={{ bahmni_reports_war_directory }}
+export SERVER_OPTS="{{ bahmni_reports_server_opts }}"
+export DEBUG_OPTS="{{ bahmni_reports_debug_opts }}"
 export JAVA_HOME={{ java_home }}

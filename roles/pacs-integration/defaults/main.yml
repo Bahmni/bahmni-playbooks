@@ -4,3 +4,8 @@ oviyam2_listener_port: 1025
 openmrs_user_id: admin
 openmrs_user_password : test
 openmrs_port: 8050
+pacs_integration_base_dir: "/var/run/pacs-integration"
+pacs_integration_context_path: "/pacs-integration"
+pacs_integration_war_directory: "/var/run/pacs-integration/pacs-integration"
+pacs_integration_server_opts: "-Xms512m -Xmx1024m"
+pacs_integration_debug_opts: "-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"

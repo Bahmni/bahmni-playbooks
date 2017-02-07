@@ -1,7 +1,7 @@
 export SERVER_PORT={{ bahmni_lab_port }}
-export BASE_DIR=/var/run/bahmni-lab
-export CONTEXT_PATH=/openelis
-export WAR_DIRECTORY=/var/run/bahmni-lab/bahmni-lab
-export SERVER_OPTS="-Xms512m -Xmx1024m"
-export DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,address=8001,server=y,suspend=n"
+export BASE_DIR={{ bahmni_lab_base_dir }}
+export CONTEXT_PATH={{ bahmni_lab_context_path }}
+export WAR_DIRECTORY={{ bahmni_lab_war_directory }}
+export SERVER_OPTS="{{ bahmni_lab_server_opts }}"
+export DEBUG_OPTS="{{ bahmni_lab_debug_opts }}"
 export JAVA_HOME={{ java_home }}

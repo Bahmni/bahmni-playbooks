@@ -3,3 +3,8 @@ bahmni_reports_port: 8051
 openmrs_user_id: admin
 openmrs_user_password: test
 reports_save_dir: /home/bahmni/reports
+bahmni_reports_base_dir: "/var/run/bahmni-reports"
+bahmni_reports_context_path: "/bahmnireports"
+bahmni_reports_war_directory: "/var/run/bahmni-reports/bahmni-reports"
+bahmni_reports_server_opts: "-Xms512m -Xmx1024m"
+bahmni_reports_debug_opts: "-agentlib:jdwp=transport=dt_socket,address=8003,server=y,suspend=n"

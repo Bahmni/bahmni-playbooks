@@ -9,3 +9,8 @@ openmrs_user_id: admin
 openmrs_user_password: test
 openerp_user: admin
 openerp_password: password
+bahmni_erp_connect_server_opts: "-Xms512m -Xmx1024m"
+bahmni_erp_connect_context_path: /bahmni-erp-connect
+bahmni_erp_connect_war_directory: /var/run/bahmni-erp-connect/bahmni-erp-connect
+bahmni_erp_connect_base_dir: /var/run/bahmni-erp-connect
+bahmni_erp_connect_debug_opts: "-agentlib:jdwp=transport=dt_socket,address=8002,server=y,suspend=n"
