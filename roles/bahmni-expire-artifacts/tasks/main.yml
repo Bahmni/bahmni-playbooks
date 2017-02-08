@@ -10,7 +10,7 @@
     - "{{expire_log_file}}"
 
 - name: expire artifacts from src location
-  shell: rm -rf {{item.path}}/$(ls -t {{item.path}}| ls -t | grep {{item.name}} | tail -n +{{retention_limit}})  2>{{expire_log_file}};
+  shell: if [ $(ls -t {{item.path}}| ls -t | grep {{item.name}} | tail -n +{{retention_limit}} | wc -l) -gt 0 ]; then rm -rf {{item.path}}/$(ls -t {{item.path}}| ls -t | grep {{item.name}} | tail -n +{{retention_limit}})  2>{{expire_log_file}};fi
   when: "item.name in options or options == 'all'"
   with_items:
        - { path: "{{patient_images.backup_to_path}}", name: patient_images}
