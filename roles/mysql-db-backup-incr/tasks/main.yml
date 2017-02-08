@@ -87,14 +87,14 @@
 - debug:
     msg: "{{ item}}"
   when: item.ctime < oldest_backup_to_retain.files[0].ctime
-  with_items: "{{ result_files.files }}"
+  with_items: "{{ result_files.files | default([])  }}"
 
 - name: Remove old backup files invalid as per retention limit
   file:
     state: absent
     path: "{{ item.path }}/"
   when: item.ctime < oldest_backup_to_retain.files[0].ctime
-  with_items: "{{ result_files.files }}" 
+  with_items: "{{ result_files.files | default([]) }}"
 
 - name: Copy files to other machine
   shell: rsync -avP -e ssh {{backup_path}} {{sync.user}}@{{sync.host}}:{{sync.path}}

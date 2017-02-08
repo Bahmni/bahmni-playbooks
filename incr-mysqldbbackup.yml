@@ -1,6 +1,9 @@
 - hosts: bahmni-emr-db
   become: yes
   roles:
-    - { role: httpd-maintenance, maintenance_status: start}
-    - { role: mysql-db-backup-incr }
-    - { role: httpd-maintenance, maintenance_status: end }
+    - { role: mysql-db-backup-incr, when: "db == 'openmrs'" }
+
+- hosts: bahmni-reports-db
+  become: yes
+  roles:
+    - { role: mysql-db-backup-incr, when: "db == 'bahmni_reports'" }
