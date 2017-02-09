@@ -22,7 +22,7 @@
 
 - name: Performing PITR restore 
   sudo: yes 
-  shell: sudo -u postgres pgbackrest --stanza=demo --delta --type=time  "--target={{ backup_id_time }}"    --set={{ backup_id }}  --log-level-console=detail restore 2>>{{ logfile }} 
+  script: pitr.sh {{postgres.path}}  {{ restore_point }} {{ logfile }} 
   when: strategy == "pitr"
 
 - name: Start PostgreSQL
