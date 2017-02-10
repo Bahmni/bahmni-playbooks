@@ -1,65 +1,59 @@
 #!/bin/sh
-#set -e -x
-. /etc/bahmni-installer/bahmni.conf
+set -e -x
 
-#full_backp_dir=`ls -1 $1 | grep '_full'`
-#incr_dirs=`ls -1 $1 | grep '_incr'|sort`
-
-
-full_backp_dir=`ls -1 $1|grep -B 10000 ${2} | grep '_full' | tail -1`
-incr_dirs=`ls -1 $1|grep -A100000 ${full_backp_dir} |grep -B10000 $2 |grep '_incr'|sort`
+full_backup_dir=""
 
 #folderArray=(${folders/// })
 
-echo $full_backp_dir
-echo $incr_dirs
 restore_point=$2
-line=`grep $2 $1/backup-info.log`
-if [[  -z "${line// }" ]]; then
+search_string=`cat /data/test_backup/backup-info.log |awk -v id="$restore_point" '{if( $3 == id) print $3}'`
+if [ -z $search_string ]
+ then
    echo "Did not found the restore point in backup dir"
-   exit
+   exit -1
 fi
 
-type=`echo $line|cut -d ' ' -f 2`
-
+type=`cat /data/test_backup//backup-info.log |awk -v id="$restore_point" '{if( $3 == id) print $2}'`
+echo $type
 
 declare -a arr
 arr=()
-if [ "$type" == "incr" ]
-then
-   while [ "$type" == "incr" ]
-   do
-      item=`echo $line|cut -d ' ' -f 3`
-      arr=($item)
-      arr=($item "${arr[@]}")
-      parent=`echo $line|cut -d ' ' -f 4`
-      line=`grep $parent $1/backup-info.log`
-      type=`echo $line|cut -d ' ' -f 2`
-   done
-fi
+parent=$restore_point
+while [ "$type" == "incr" ]
+do
+      item=`cat /data/test_backup/backup-info.log |awk -v id="$parent" '{if( $3 == id) print $3}'`
+      arr=($item ${arr[@]})
+      echo ${arr[@]}
+      parent=`cat /data/test_backup/backup-info.log |awk -v id="$parent" '{if( $3 == id) print $4}'`
+      if [ ! -d "$1/$parent" ]; then
+         echo "Dependent restore files $1/$parent not present"
+         exit -1
+      fi
+      type=`cat /data/test_backup/backup-info.log |awk -v id="$parent" '{if( $3 == id) print $2}'`
+done
 
 if [ "$type" == "full" ]
 then
-   full_backup_dir=`echo $line|cut -d ' ' -f 3`
+   full_backup_dir=`cat /data/test_backup/backup-info.log |awk -v id="$parent" '{if( $3 == id) print $3}'`
 fi
 
-echo $full_backp_dir
+
+echo $full_backup_dir
+incr_dirs=${arr[@]}
 echo $incr_dirs
+echo ${arr[@]}
 
 `rm -rf /tmp/restore_dir/`
 `mkdir -p /tmp/restore_dir/base/`
 
-`cp -rf $1/$full_backp_dir/* /tmp/restore_dir/base/`
-
+echo "cp -rf $1/$full_backup_dir/ /tmp/restore_dir/base/"
+`cp -rf $1/$full_backup_dir/* /tmp/restore_dir/base/`
 
 for dir in $incr_dirs
 do
   `cp -rf $1/$dir /tmp/restore_dir/`
 
 done
-
-#incr_dir_array=(${incr_dirs// / })
-#echo ${incr_dir_array[1]}
 
 # Validation: Check if restore point exists
 
@@ -85,8 +79,4 @@ do
   `xtrabackup --prepare --apply-log-only --target-dir=/tmp/restore_dir/base/ --incremental-dir=/tmp/restore_dir/$dir`
 
 done
-
-#`rsync -arP --del /tmp/restore_dir/$full_backp_dir/openmrs/ /var/lib/mysql/openmrs/`
-#`rm -rf /tmp/restore_dir/`
-#echo ${incr_dirs[1]}
 
