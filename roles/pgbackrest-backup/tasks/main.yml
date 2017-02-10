@@ -12,12 +12,12 @@
   
 - name: create full backup
   sudo: yes
-  shell: sudo -u postgres pgbackrest --stanza=demo --type=full --log-level-console=info backup 2>>{{ logfile }}
+  shell: cd /;sudo -u postgres pgbackrest --stanza=demo --type=full --log-level-console=info backup 2>>{{ logfile }}
   when: strategy == "full"
 
 - name: create incremental backup
   sudo: yes
-  shell: sudo -u postgres pgbackrest --stanza=demo --type=incr --log-level-console=info backup 2>>{{ logfile }}
+  shell: cd /;sudo -u postgres pgbackrest --stanza=demo --type=incr --log-level-console=info backup 2>>{{ logfile }}
   when: strategy == "incr"
 
 - name: create bookeeping file
