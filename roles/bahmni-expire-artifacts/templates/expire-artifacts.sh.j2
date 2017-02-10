@@ -1,0 +1,67 @@
+#!/bin/bash
+
+if [ "{{item.name}}" == "document_images" ];
+then
+    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +{{retention_limit}} | wc -l) -gt 0 ];
+       then
+          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +{{retention_limit}})
+          do
+            rm -rf {{item.path}}/$files
+          done
+    fi
+fi
+
+if [ "{{item.name}}" == "patient_images" ];
+then
+    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +{{retention_limit}} | wc -l) -gt 0 ];
+       then
+          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +{{retention_limit}})
+          do
+            rm -rf {{item.path}}/$files
+          done
+    fi
+fi
+
+if [ "{{item.name}}" == "pacs_images" ];
+then
+    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +{{retention_limit}} | wc -l) -gt 0 ];
+       then
+          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +{{retention_limit}})
+          do
+            rm -rf {{item.path}}/$files
+          done
+    fi
+fi
+
+if [ "{{item.name}}" == "uploaded-files" ];
+then
+    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +{{retention_limit}} | wc -l) -gt 0 ];
+       then
+          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +{{retention_limit}})
+          do
+            rm -rf {{item.path}}/$files
+          done
+    fi
+fi
+
+if [ "{{item.name}}" == "uploaded_results" ];
+then
+    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +{{retention_limit}} | wc -l) -gt 0 ];
+       then
+          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +{{retention_limit}})
+          do
+            rm -rf {{item.path}}/$files
+          done
+    fi
+fi
+
+if [ "{{item.name}}" == "reports" ];
+then
+    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +{{retention_limit}} | wc -l) -gt 0 ];
+       then
+          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +{{retention_limit}})
+          do
+            rm -rf {{item.path}}/$files
+          done
+    fi
+fi

@@ -13,5 +13,5 @@ reports:
 
 backup_log_file_dir: /var/log/backup_logs
 expire_log_file: /var/log/backup_logs/expire.log
-retention_limit: 2
+retention_limit: 3
 

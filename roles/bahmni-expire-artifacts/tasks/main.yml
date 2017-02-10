@@ -9,16 +9,33 @@
   with_items:
     - "{{expire_log_file}}"
 
-- name: expire artifacts from src location
-  shell: if [ $(ls -t {{item.path}}| ls -t | grep {{item.name}} | tail -n +{{retention_limit}} | wc -l) -gt 0 ]; then rm -rf {{item.path}}/$(ls -t {{item.path}}| ls -t | grep {{item.name}} | tail -n +{{retention_limit}})  2>{{expire_log_file}};fi
+- name: Copy script to expire artifacts
+  template:
+      src=expire-artifacts.sh.j2
+      dest=/opt/bahmni-installer/expire-artifacts.sh
+      mode=755
+      owner=bahmni
+      group=bahmni
   when: "item.name in options or options == 'all'"
   with_items:
        - { path: "{{patient_images.backup_to_path}}", name: patient_images}
        - { path: "{{document_images.backup_to_path}}", name: document_images}
-       - { path: "{{uploaded_files.backup_to_path}}", name: uploaded_files}
+       - { path: "{{uploaded_files.backup_to_path}}", name: uploaded-files}
        - { path: "{{uploaded_results.backup_to_path}}", name: uploaded_results}
        - { path: "{{pacs_images.backup_to_path}}", name: pacs_images}
        - { path: "{{reports.backup_to_path}}", name: reports}
+
+- name: expire artifacts from src location
+  script: /opt/bahmni-installer/expire-artifacts.sh
+  when: "item.name in options or options == 'all'"
+  with_items:
+      - { path: "{{document_images.backup_to_path}}", name: document_images}
+      - { path: "{{uploaded_files.backup_to_path}}", name: uploaded-files}
+      - { path: "{{uploaded_results.backup_to_path}}", name: uploaded_results}
+      - { path: "{{pacs_images.backup_to_path}}", name: pacs_images}
+      - { path: "{{reports.backup_to_path}}", name: reports}
+      - { path: "{{patient_images.backup_to_path}}", name: patient_images}
+
 
 
 
