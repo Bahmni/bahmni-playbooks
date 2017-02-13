@@ -4,6 +4,14 @@
       src=pgbackrest.conf.j2
       dest=/etc/pgbackrest.conf
 
+- name: Create backupid directory
+  file:
+   path={{ postgres.path }}
+   state=directory
+   owner=postgres
+   group=postgres
+   mode=777
+
 - name: Start PostgreSQL
   service:
     name=postgresql-{{ postgres_version }}
@@ -12,12 +20,12 @@
   
 - name: create full backup
   sudo: yes
-  shell: cd /;sudo -u postgres pgbackrest --stanza=demo --type=full --log-level-console=info backup 2>>{{ logfile }}
+  shell: cd /;sudo -u postgres pgbackrest --stanza=bahmni-postgres --type=full --log-level-console=info backup 2>>{{ logfile }}
   when: strategy == "full"
 
 - name: create incremental backup
   sudo: yes
-  shell: cd /;sudo -u postgres pgbackrest --stanza=demo --type=incr --log-level-console=info backup 2>>{{ logfile }}
+  shell: cd /;sudo -u postgres pgbackrest --stanza=bahmni-postgres --type=incr --log-level-console=info backup 2>>{{ logfile }}
   when: strategy == "incr"
 
 - name: create bookeeping file

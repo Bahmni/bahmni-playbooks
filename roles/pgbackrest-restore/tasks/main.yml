@@ -12,12 +12,12 @@
 
 - name: Performing delta restore
   sudo: yes
-  shell: sudo -u postgres pgbackrest --stanza=demo --delta --log-level-console=detail restore 2>>{{ logfile }}
+  shell: sudo -u postgres pgbackrest --stanza=bahmni-postgres --delta --log-level-console=detail restore 2>>{{ logfile }}
   when: strategy == "incr"
 
 - name: Performing full restore
   sudo: yes
-  shell: sudo -u postgres pgbackrest --stanza=demo --log-level-console=detail restore 2>>{{ logfile }}
+  shell: sudo -u postgres pgbackrest --stanza=bahmni-postgres --log-level-console=detail restore 2>>{{ logfile }}
   when: strategy == "full"
 
 - name: Performing PITR restore 

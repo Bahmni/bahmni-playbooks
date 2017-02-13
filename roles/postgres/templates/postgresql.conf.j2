@@ -190,7 +190,7 @@ wal_level = {{ slave | default(false) | ternary('minimal', 'hot_standby') }}			#
 
 archive_mode = on		# allows archiving to be done
 				# (change requires restart)
-archive_command = 'pgbackrest --stanza=demo archive-push %p'		# command to use to archive a logfile segment
+archive_command = 'pgbackrest --stanza=bahmni-postgres archive-push %p'		# command to use to archive a logfile segment
 				# placeholders: %p = path of file to archive
 				#               %f = file name only
 				# e.g. 'test ! -f /mnt/server/archivedir/%f && cp %p /mnt/server/archivedir/%f'
