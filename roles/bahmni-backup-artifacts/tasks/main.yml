@@ -4,24 +4,38 @@
     - "{{backup_temp_dest_dir}}"
 
 - name: Make sure temporary backup directory exists
-  file: path={{item}} owner=root group=root mode=0755 state=directory
+  file: path={{item}} owner=bahmni group=bahmni mode=0755 state=directory
   with_items:
     - "{{backup_temp_dest_dir}}"
 
 - name: Make sure backup log directory exists
-  file: path={{item}} owner=root group=root mode=0755 state=directory
+  file: path={{item}} owner=bahmni group=bahmni mode=0755 state=directory
   with_items:
     - "{{backup_log_file_dir}}"
 
 - name: Make sure backup log file exists
-  file: path={{item}} owner=root group=root mode=0755 state=touch
+  file: path={{item}} owner=bahmni group=bahmni mode=0755 state=touch
   with_items:
     - "{{backup_log_file}}"
+
+- name: Make sure destination directory exists
+  file: path={{item}} owner=bahmni group=bahmni mode=0755 state=directory
+  with_items:
+    - "{{reports.backup_to_path}}"
+    - "{{pacs_images.backup_to_path}}"
+    - "{{patient_images.backup_to_path}}"
+    - "{{document_images.backup_to_path}}"
+    - "{{uploaded_files.backup_to_path}}"
+    - "{{uploaded_results.backup_to_path}}"
+
 
 - name: copy artifacts from src to dest location
   shell:
          tar -czvf {{backup_temp_dest_dir}}/$(date +%Y-%m-%d_%H%M%S)-{{item.name}}.tar.gz {{item.from_path}}  2>{{backup_log_file}};
+         chown bahmni:bahmni {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}});
+         chmod 0755 {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}});
          cp {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}}) {{item.to_path}} 2>{{backup_log_file}};
+
   async: 86400
   when: "options in item.name or options =='all'"
   with_items:
@@ -31,3 +45,5 @@
       - { from_path: "{{document_images.backup_from_path}}", to_path: "{{document_images.backup_to_path}}", name: document_images}
       - { from_path: "{{uploaded_files.backup_from_path}}", to_path: "{{uploaded_files.backup_to_path}}", name: uploaded-files}
       - { from_path: "{{uploaded_results.backup_from_path}}", to_path: "{{uploaded_results.backup_to_path}}", name: uploaded_results}
+  ignore_errors: true
+

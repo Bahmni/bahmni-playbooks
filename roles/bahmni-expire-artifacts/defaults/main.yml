@@ -1,17 +1,4 @@
-patient_images:
-     backup_to_path: /mymount
-document_images:
-     backup_to_path: /mymount
-uploaded_files:
-    backup_to_path: /mymount
-uploaded_results:
-     backup_to_path: /mymount
-pacs_images:
-    backup_to_path: /mymount
-reports:
-    backup_to_path: /mymount
 
 backup_log_file_dir: /var/log/backup_logs
 expire_log_file: /var/log/backup_logs/expire.log
-retention_limit: 3
 

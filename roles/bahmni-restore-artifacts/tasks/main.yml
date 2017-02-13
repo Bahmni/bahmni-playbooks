@@ -4,17 +4,17 @@
     - "{{restore_temp_dest_dir}}"
 
 - name: Make sure temporary backup directory exists
-  file: path={{item}} owner=root group=root mode=0755 state=directory
+  file: path={{item}} owner=bahmni group=bahmni mode=0755 state=directory
   with_items:
     - "{{restore_temp_dest_dir}}"
 
 - name: Make sure backup log directory exists
-  file: path={{item}} owner=root group=root mode=0755 state=directory
+  file: path={{item}} owner=bahmni group=bahmni mode=0755 state=directory
   with_items:
     - "{{backup_log_file_dir}}"
 
 - name: Make sure restore log file exists
-  file: path={{item}} owner=root group=root mode=0755 state=touch
+  file: path={{item}} owner=bahmni group=bahmni mode=0755 state=touch
   with_items:
     - "{{restore_log_file}}"
 
@@ -31,3 +31,4 @@
      - { from_path: "{{uploaded_results.restore_from_path}}", to_path: "{{uploaded_results.restore_to_path}}", name: uploaded_results}
      - { from_path: "{{pacs_images.restore_from_path}}", to_path: "{{pacs_images.restore_to_path}}" , name: pacs_images}
      - { from_path: "{{reports.restore_from_path}}", to_path: "{{reports.restore_to_path}}" , name: reports}
+  ignore_errors: true

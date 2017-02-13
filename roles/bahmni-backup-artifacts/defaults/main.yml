@@ -5,18 +5,24 @@ backup_log_file: /var/log/backup_logs/backup.log
 patient_images:
      backup_to_path: /mymount
      backup_from_path: /home/bahmni/patient_images
+     retention_limit: 3
 document_images:
      backup_to_path: /mymount
      backup_from_path: /home/bahmni/document_images
+     retention_limit: 3
 uploaded_files:
     backup_to_path: /mymount
     backup_from_path: /home/bahmni/uploaded-files
+    retention_limit: 3
 uploaded_results:
      backup_to_path: /mymount
      backup_from_path: /home/bahmni/uploaded_results
+     retention_limit: 3
 pacs_images:
     backup_to_path: /mymount
     backup_from_path: /home/bahmni/pacs_images
+    retention_limit: 3
 reports:
     backup_to_path: /mymount
     backup_from_path: /home/bahmni/reports
+    retention_limit: 3

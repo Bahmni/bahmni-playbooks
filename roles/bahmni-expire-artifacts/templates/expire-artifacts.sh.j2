@@ -2,9 +2,9 @@
 
 if [ "{{item.name}}" == "document_images" ];
 then
-    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +{{retention_limit}} | wc -l) -gt 0 ];
+    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +$(({{document_images.retention_limit}}+1)) | wc -l) -gt 0 ];
        then
-          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +{{retention_limit}})
+          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +$(({{document_images.retention_limit}}+1)))
           do
             rm -rf {{item.path}}/$files
           done
@@ -13,9 +13,10 @@ fi
 
 if [ "{{item.name}}" == "patient_images" ];
 then
-    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +{{retention_limit}} | wc -l) -gt 0 ];
+    tmp = $(({{patient_images.retention_limit}}+1))
+    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +$(({{patient_images.retention_limit}}+1)) | wc -l) -gt 0 ];
        then
-          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +{{retention_limit}})
+          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +$(({{patient_images.retention_limit}}+1)))
           do
             rm -rf {{item.path}}/$files
           done
@@ -24,9 +25,9 @@ fi
 
 if [ "{{item.name}}" == "pacs_images" ];
 then
-    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +{{retention_limit}} | wc -l) -gt 0 ];
+    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +$(({{pacs_images.retention_limit}}+1)) | wc -l) -gt 0 ];
        then
-          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +{{retention_limit}})
+          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +$(({{pacs_images.retention_limit}}+1)))
           do
             rm -rf {{item.path}}/$files
           done
@@ -35,9 +36,9 @@ fi
 
 if [ "{{item.name}}" == "uploaded-files" ];
 then
-    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +{{retention_limit}} | wc -l) -gt 0 ];
+    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +$(({{uploaded_files.retention_limit}}+1)) | wc -l) -gt 0 ];
        then
-          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +{{retention_limit}})
+          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +$(({{uploaded_files.retention_limit}}+1)))
           do
             rm -rf {{item.path}}/$files
           done
@@ -46,9 +47,9 @@ fi
 
 if [ "{{item.name}}" == "uploaded_results" ];
 then
-    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +{{retention_limit}} | wc -l) -gt 0 ];
+    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +$(({{uploaded_results.retention_limit}}+1)) | wc -l) -gt 0 ];
        then
-          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +{{retention_limit}})
+          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +$(({{uploaded_results.retention_limit}}+1)))
           do
             rm -rf {{item.path}}/$files
           done
@@ -57,9 +58,9 @@ fi
 
 if [ "{{item.name}}" == "reports" ];
 then
-    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +{{retention_limit}} | wc -l) -gt 0 ];
+    if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +$(({{reports.retention_limit}}+1)) | wc -l) -gt 0 ];
        then
-          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +{{retention_limit}})
+          for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +$(({{reports.retention_limit}}+1)))
           do
             rm -rf {{item.path}}/$files
           done

@@ -1,11 +1,6 @@
 
-- name: Make sure backup log directory exists
-  file: path={{item}} owner=root group=root mode=0755 state=directory
-  with_items:
-    - "{{backup_log_file_dir}}"
-
 - name: Make sure expire log file exists
-  file: path={{item}} owner=root group=root mode=0755 state=touch
+  file: path={{item}} owner=bahmni group=bahmni mode=0755 state=touch
   with_items:
     - "{{expire_log_file}}"
 
@@ -35,6 +30,8 @@
       - { path: "{{pacs_images.backup_to_path}}", name: pacs_images}
       - { path: "{{reports.backup_to_path}}", name: reports}
       - { path: "{{patient_images.backup_to_path}}", name: patient_images}
+  ignore_errors: true
+
 
 
 
