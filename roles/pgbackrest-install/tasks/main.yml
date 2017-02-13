@@ -34,7 +34,7 @@
 
 - name: Fetching  Pgbackrest
   sudo: yes
-  shell: wget -q -O - \https://github.com/pgbackrest/pgbackrest/archive/release/1.12.tar.gz | \tar zx -C ~
+  shell: wget -q -O - \https://github.com/pgbackrest/pgbackrest/archive/release/1.12.tar.gz | \tar zx -C /home/bahmni/
 
 - name: Removing old version of pgbackrest
   sudo: yes
@@ -50,7 +50,7 @@
 - name: Copying pgbackrest to usr folder
   sudo: yes
   copy:
-         src=~/pgbackrest-release-1.12/lib/pgBackRest
+         src=/home/bahmni/pgbackrest-release-1.12/lib/pgBackRest
          dest=/usr/share/perl5
 
 - name: Finding perl mode
@@ -64,17 +64,16 @@
 - name: Copying pgbackrest folder
   sudo: yes
   copy:
-       src=~/pgbackrest-release-1.12/bin/pgbackrest
+       src=/home/bahmni/pgbackrest-release-1.12/bin/pgbackrest
        dest=/usr/bin/pgbackrest
-       mode=755
-
+       mode=777
 
 - name: Creating pgbackrest log directory
   sudo: yes
   file:
         path=/var/log/pgbackrest
         state=directory
-        mode=770
+        mode=777
         owner=postgres
         group=postgres
 
@@ -83,11 +82,9 @@
   file:
         path=/var/lib/pgbackrest
         state=directory
-        mode=750
+        mode=777
         owner=postgres
         group=postgres
-
-
 
 - name: Creating pgbackrest.conf file
   sudo: yes
@@ -95,8 +92,7 @@
        path=/etc/pgbackrest.conf
        state=touch
        owner=postgres
-       mode=440
-
+       mode=777
 
 - name: Editing pgbackrest.conf file
   sudo: yes

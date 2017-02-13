@@ -23,3 +23,6 @@
 - name: create bookeeping file
   script: bookeeping.sh {{ postgres.path }}
   sudo: yes
+
+- name: Give permission to backup files
+  shell: chmod -R 775 {{postgres.path}}
