@@ -1,0 +1,20 @@
+- name: Create /db-backup directory
+  file:
+    path=/db-backup
+    state=directory
+
+- name: Get timestamp of file name to be created
+  command: date +%Y%m%d-%H%M%S
+  register: time
+
+- name: Take {{db_name}} DB backup
+  shell: pg_dump -Upostgres --create  {{ db_name }} | gzip > /db-backup/{{ db_name }}_dump_{{ time.stdout }}.sql.gz
+  sudo: yes
+
+- name: Create /db-backup directory in local machine
+  local_action: file path=/db-backup state=directory mode=0777
+  when: copy_to_local_machine == "yes"
+
+- name: Copy {{db_name}} backup file to local machine
+  fetch: src=/db-backup/{{ db_name }}_dump_{{time.stdout}}.sql.gz dest=/db-backup/ flat=yes
+  when: copy_to_local_machine == "yes"

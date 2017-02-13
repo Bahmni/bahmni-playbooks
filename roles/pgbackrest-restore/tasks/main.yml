@@ -1,3 +1,9 @@
+- name: Editing postgres.conf file
+  sudo: yes
+  template:
+      src=postgresql.conf.j2
+      dest=/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
+
 - name: Editing pgbackrest.conf file
   sudo: yes
   template:
@@ -10,20 +16,14 @@
     state=stopped
   ignore_errors: true
 
-- name: Performing delta restore
-  sudo: yes
-  shell: sudo -u postgres pgbackrest --stanza=bahmni-postgres --delta --log-level-console=detail restore 2>>{{ logfile }}
-  when: strategy == "incr"
-
-- name: Performing full restore
-  sudo: yes
-  shell: sudo -u postgres pgbackrest --stanza=bahmni-postgres --log-level-console=detail restore 2>>{{ logfile }}
-  when: strategy == "full"
-
 - name: Performing PITR restore 
   sudo: yes 
   script: pitr.sh {{postgres.path}}  {{ restore_point }} {{ logfile }} 
   when: strategy == "pitr"
+
+- name: Performing postgres dump
+  include: pgsqldumprestore.yml
+  when: strategy == "dump"
 
 - name: Start PostgreSQL
   service:

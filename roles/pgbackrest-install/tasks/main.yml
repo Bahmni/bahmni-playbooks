@@ -1,3 +1,9 @@
+- name: Editing postgres.conf file
+  sudo: yes
+  template:
+      src=postgresql.conf.j2
+      dest=/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
+
 - name: add key to yum repo
   template: src=RPM-GPG-KEY-CentOS-SIG-SCLo.j2 dest=/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo
 

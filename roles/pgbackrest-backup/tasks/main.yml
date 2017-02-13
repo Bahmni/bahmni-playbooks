@@ -1,3 +1,20 @@
+- name: Editing postgres.conf file
+  sudo: yes
+  template:
+      src=postgresql.conf.j2
+      dest=/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
+
+- name: Checking if pgbackrest is installed
+  sudo: yes
+  command: sudo -u postgres pgbackrest
+  register: installed_pgbackrest
+  ignore_errors: True
+
+- name: Fallback to pgsqldump if pgbackrest not installed
+  include: pgsqldumpbackup.yml
+  when: installed_pgbackrest.stdout.find("command not found") == 0
+
+
 - name: Editing pgbackrest.conf file
   sudo: yes
   template:
@@ -34,3 +51,7 @@
 
 - name: Give permission to backup files
   shell: chmod -R 775 {{postgres.path}}
+
+- name: Performing postgres dump
+  include: pgsqldumpbackup.yml
+
