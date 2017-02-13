@@ -26,15 +26,49 @@
     msg: "ERROR: Database: {{db}} does not exist"
   when: dbstatus.rc != 0
 
+- name: Create {{backup_path}} directory
+  file:
+    path: "{{backup_path}}"
+    state: directory
+    owner: "{{bahmni_user}}"
+    group: "{{bahmni_group}}"
+    mode: 0666
+
 - name: Check if xtrabackup installaed
   shell: yum list installed | grep  xtrabackup
   register: installed_xtrabackup
   ignore_errors: True
 
+- file:
+    path: "{{log_path}}"
+    owner: "{{bahmni_user}}"
+    group: "{{bahmni_group}}"
+    mode: 0644
+    state: directory
+
+- file:
+    path: "{{log_file}}"
+    owner: "{{bahmni_user}}"
+    group: "{{bahmni_group}}"
+    mode: 0644
+    state: touch
+
+- name: Log backup started using mysqldump
+  shell: "echo `date +%Y%m%d-%H:%M:%S` STARTED : Taking backup using mysql dump >> {{log_file}}"
+  when: installed_xtrabackup.stdout.find("percona-xtrabackup") == -1
+
 - name: Take {{db}} DB backup
-  shell: mysqldump -u{{mysql_root_user}} -p{{mysql_root_password}} --routines --databases {{db}} | grep -v 'SQL SECURITY DEFINER' | gzip  > {{backup_path}}/{{db}}_dump_{{ time.stdout }}.sql.gz
+  shell: mysqldump -u{{mysql_root_user}} -p{{mysql_root_password}} --routines --databases {{db}} | grep -v 'SQL SECURITY DEFINER' | gzip  > {{backup_path}}/{{db}}_dump_{{time.stdout}}.sql.gz
   sudo: yes
   when: installed_xtrabackup.stdout.find("percona-xtrabackup") == -1
+
+- name: Log backup ended using mysqldump
+  shell: "echo `date +%Y%m%d-%H:%M:%S` ENDED : Taking backup using mysql dump >> {{log_file}}"
+  when: installed_xtrabackup.stdout.find("percona-xtrabackup") == -1
+
+- name: Log backup started using xtrabackup
+  shell: "echo `date +%Y%m%d-%H:%M:%S` STARTED : Taking backup using Xtrabackup, Strategy:{{strategy}} >> {{log_file}}"
+  when: installed_xtrabackup.stdout.find("percona-xtrabackup") == 0
 
 - name: Take backup using xtrabckup
   include: xtrabackup.yml

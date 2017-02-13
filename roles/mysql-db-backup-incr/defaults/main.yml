@@ -3,6 +3,10 @@ mysql_root_password: password
 copy_to_local_machine: no
 backup_type: db
 strategy: full
+log_path: /home/bahmni/backrest/log/
+log_file: /home/bahmni/backrest/log/mysql_backrest.log
+bahmni_user: bahmni
+bahmni_group: bahmni
 openmrs:
   path: /db-backup/openmrs/
   retention_limit: 2

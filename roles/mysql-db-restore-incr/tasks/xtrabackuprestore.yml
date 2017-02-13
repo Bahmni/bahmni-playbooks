@@ -1,3 +1,6 @@
+- name: Log backup started using xtrabckup
+  shell: "echo `date +%Y%m%d-%H:%M:%S` STARTED : Restore using xtrabackup {{restore_path}}/{{restore_point}}  >> {{log_file}}"
+
 - name: Run restore script for preparing restoratoin files.
   script: restore_backup.sh {{restore_path}} {{restore_point}}
   sudo: yes
@@ -24,3 +27,6 @@
   file:
     state: absent
     path: "/tmp/restore_dir"
+
+- name: Log backup started using xtrabckup
+  shell: "echo `date +%Y%m%d-%H:%M:%S` COMPLETED : Restore using xtrabackup {{restore_path}}/{{restore_point}}  >> {{log_file}}"

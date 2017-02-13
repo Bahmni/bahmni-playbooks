@@ -33,6 +33,10 @@
   sudo: yes
   when: strategy == "full"
 
+- name: Log backup ended using xtrabackup
+  shell: "echo `date +%Y%m%d-%H:%M:%S` COMPLETED : Full backup using Xtrabackup to dir:{{backup_path}}/{{ time.stdout }}_full/  >> {{log_file}}"
+  when: (strategy == "full") or (strategy == "incr" and result_files.matched == 0)
+
 - name: Take Incremental backup using xtrabackup
   shell: xtrabackup --user={{mysql_root_user}} --password={{mysql_root_password}} --backup --target-dir={{backup_path}}/{{ time.stdout }}_incr/  --incremental-basedir={{ latest_backup_dir }}/ --databases {{db}}
   sudo: yes
@@ -43,12 +47,9 @@
   sudo: yes
   when: strategy == "incr" and result_files.matched > 0
 
-- name: Find list full backups
-  find:
-     paths: "{{ openmrs.path}}"
-     patterns: "*_full"
-     file_type: directory
-  register: full_backups
+- name: Log backup ended using xtrabackup
+  shell: "echo `date +%Y%m%d-%H:%M:%S` COMPLETED : Incremental backup using Xtrabackup to dir:{{backup_path}}/{{ time.stdout }}_incr/  >> {{log_file}}"
+  when: strategy == "incr" and result_files.matched > 0
 
 - name: Find target backup file for retention point
   shell: ls -1tr {{backup_path}} |grep _full|tail -n{{retention_limit}} |head -1
@@ -71,3 +72,4 @@
 - name: Copy files to other machine
   shell: rsync -avP -e ssh {{backup_path}} {{sync.user}}@{{sync.host}}:{{sync.path}}
   when : not( (sync.host is undefined) or (sync.host is none) or (sync.host | trim == '') )
+
