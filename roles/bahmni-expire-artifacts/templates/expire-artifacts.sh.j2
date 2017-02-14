@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "{{item.name}}" == "document_images" ];
+if [ "{{item.name}}" == "document_images" -a  {{document_images.retention_limit}} != 0  ];
 then
     if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +$(({{document_images.retention_limit}}+1)) | wc -l) -gt 0 ];
        then
@@ -11,9 +11,8 @@ then
     fi
 fi
 
-if [ "{{item.name}}" == "patient_images" ];
+if [ "{{item.name}}" == "patient_images" -a  {{patient_images.retention_limit}} != 0 ];
 then
-    tmp = $(({{patient_images.retention_limit}}+1))
     if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +$(({{patient_images.retention_limit}}+1)) | wc -l) -gt 0 ];
        then
           for files in $(ls -t {{item.path}} | grep {{item.name}} | tail -n +$(({{patient_images.retention_limit}}+1)))
@@ -23,7 +22,7 @@ then
     fi
 fi
 
-if [ "{{item.name}}" == "pacs_images" ];
+if [ "{{item.name}}" == "pacs_images" -a  {{pacs_images.retention_limit}} != 0 ];
 then
     if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +$(({{pacs_images.retention_limit}}+1)) | wc -l) -gt 0 ];
        then
@@ -34,7 +33,7 @@ then
     fi
 fi
 
-if [ "{{item.name}}" == "uploaded-files" ];
+if [ "{{item.name}}" == "uploaded-files" -a  {{uploaded_files.retention_limit}} != 0 ];
 then
     if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +$(({{uploaded_files.retention_limit}}+1)) | wc -l) -gt 0 ];
        then
@@ -45,7 +44,7 @@ then
     fi
 fi
 
-if [ "{{item.name}}" == "uploaded_results" ];
+if [ "{{item.name}}" == "uploaded_results" -a {{uploaded_results.retention_limit}} != 0 ];
 then
     if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +$(({{uploaded_results.retention_limit}}+1)) | wc -l) -gt 0 ];
        then
@@ -56,7 +55,7 @@ then
     fi
 fi
 
-if [ "{{item.name}}" == "reports" ];
+if [ "{{item.name}}" == "reports" -a {{reports.retention_limit}} != 0 ];
 then
     if [ $(ls -t {{item.path}}| grep {{item.name}} | tail -n +$(({{reports.retention_limit}}+1)) | wc -l) -gt 0 ];
        then
