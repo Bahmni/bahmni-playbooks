@@ -28,10 +28,8 @@
     - "{{uploaded_files.backup_to_path}}"
     - "{{uploaded_results.backup_to_path}}"
 
-
 - name: copy artifacts from src to dest location
   shell:
-        
          tar  -C $(dirname  {{item.from_path}} ) -czvf {{backup_temp_dest_dir}}/$(date +%Y-%m-%d_%H%M%S)-{{item.name}}.tar.gz $(basename {{item.from_path}}) 2>{{backup_log_file}};
          chown bahmni:bahmni {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}});
          chmod 0755 {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}});
@@ -48,3 +46,10 @@
       - { from_path: "{{uploaded_results.backup_from_path}}", to_path: "{{uploaded_results.backup_to_path}}", name: uploaded_results}
   ignore_errors: true
 
+- name: check if it's individual options
+  include: individual_artifact.yml
+  when: options != "all"
+
+- name: check if it's all options
+  include: all_artifacts.yml
+  when: options == "all"
