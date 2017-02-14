@@ -1,4 +1,4 @@
-strategy: full
+strategy: incr
 file_path: /db-backup
 logfile: /var/log/dbrestore.log
 postgres:
