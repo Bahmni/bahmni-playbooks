@@ -73,3 +73,11 @@
 - name: Take backup using xtrabckup
   include: xtrabackup.yml
   when: installed_xtrabackup.stdout.find("percona-xtrabackup") == 0
+
+- name: Give permissions to bahmni user
+  file:
+    path: "{{backup_path}}"
+    owner: "{{bahmni_user}}"
+    group: "{{bahmni_group}}"
+    recurse: yes
+    mode: 0777
