@@ -4,35 +4,17 @@
   with_items:
     - "{{expire_log_file}}"
 
-- name: Copy script to expire artifacts
-  template:
-      src=expire-artifacts.sh.j2
-      dest=/opt/bahmni-installer/expire-artifacts.sh
-      mode=755
-      owner=bahmni
-      group=bahmni
-  when: "item.name in options or options == 'all'"
-  with_items:
-       - { path: "{{patient_images.backup_to_path}}", name: patient_images}
-       - { path: "{{document_images.backup_to_path}}", name: document_images}
-       - { path: "{{uploaded_files.backup_to_path}}", name: uploaded-files}
-       - { path: "{{uploaded_results.backup_to_path}}", name: uploaded_results}
-       - { path: "{{pacs_images.backup_to_path}}", name: pacs_images}
-       - { path: "{{reports.backup_to_path}}", name: reports}
-
 - name: expire artifacts from src location
-  script: /opt/bahmni-installer/expire-artifacts.sh
+  script: expire-artifacts.sh {{item.name}} {{item.path}} {{item.retention_limit}}
   when: "item.name in options or options == 'all'"
   with_items:
-      - { path: "{{document_images.backup_to_path}}", name: document_images}
-      - { path: "{{uploaded_files.backup_to_path}}", name: uploaded-files}
-      - { path: "{{uploaded_results.backup_to_path}}", name: uploaded_results}
-      - { path: "{{pacs_images.backup_to_path}}", name: pacs_images}
-      - { path: "{{reports.backup_to_path}}", name: reports}
-      - { path: "{{patient_images.backup_to_path}}", name: patient_images}
+      - { path: "{{document_images.backup_to_path}}", name: document_images, retention_limit: "{{document_images.retention_limit}}"}
+      - { path: "{{uploaded_files.backup_to_path}}", name: uploaded-files, retention_limit: "{{uploaded_files.retention_limit}}"}
+      - { path: "{{uploaded_results.backup_to_path}}", name: uploaded_results, retention_limit: "{{uploaded_results.retention_limit}}"}
+      - { path: "{{pacs_images.backup_to_path}}", name: pacs_images, retention_limit: "{{pacs_images.retention_limit}}"}
+      - { path: "{{reports.backup_to_path}}", name: reports, retention_limit: "{{reports.retention_limit}}"}
+      - { path: "{{patient_images.backup_to_path}}", name: patient_images, retention_limit: "{{patient_images.retention_limit}}"}
   ignore_errors: true
-
-
 
 
 
