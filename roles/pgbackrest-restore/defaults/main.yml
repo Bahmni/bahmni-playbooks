@@ -1,4 +1,5 @@
 strategy: full
+file_path: /db-backup
 logfile: /var/log/dbrestore.log
 postgres:
     path: /var/lib/pgbackrest

@@ -3,6 +3,6 @@
   sudo: yes
   roles:
     - { role: httpd-maintenance, maintenance_status: start}
-    - { role: pgbackrest-backup, when: backup_type == 'all' or options == 'postgres' or options == 'all'}
+    - { role: pgbackrest-backup, when: backup_type == 'all' or options == 'postgres' or options == 'all' or options == 'openelis' or options == 'openerp' }
     - { role: httpd-maintenance, maintenance_status: end}
 

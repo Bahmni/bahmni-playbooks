@@ -3,7 +3,7 @@
   sudo: yes
   roles:
     - { role: httpd-maintenance, maintenance_status: start}
-    - { role: pgbackrest-restore, when: restore_type == 'all' or options == 'postgres' or options == 'all'}
+    - { role: pgbackrest-restore, when: restore_type == 'all' or options == 'postgres' or options == 'all' or strategy == 'dump'}
     - { role: httpd-maintenance, maintenance_status: end}
 
 

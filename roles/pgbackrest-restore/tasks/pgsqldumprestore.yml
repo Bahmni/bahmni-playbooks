@@ -8,12 +8,18 @@
     path=/db-restore
     state=directory
 
-- name: Copy {[ db_name }} backup to the machine
+- name: Copy {{ db_name }} backup to the machine
   copy: src={{ file_path }}
         dest=/db-restore/{{ db_name }}_dump.sql.gz
         mode=644
         owner={{ bahmni_user }}
         group={{ bahmni_group }}
+
+- name: Start PostgreSQL
+  service:
+    name=postgresql-{{ postgres_version }}
+    state=running
+  ignore_errors: true
 
 - name: Drop {{ db_name }} database
   postgresql_db:
