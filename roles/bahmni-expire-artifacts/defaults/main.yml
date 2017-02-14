@@ -1,4 +1,4 @@
 
-backup_log_file_dir: /var/log/backup_logs
-expire_log_file: /var/log/backup_logs/expire.log
+backup_log_file_dir: /var/log/backrest
+expire_log_file: /var/log/backrest/artifacts_expire.log
 

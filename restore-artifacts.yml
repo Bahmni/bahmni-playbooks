@@ -3,6 +3,8 @@
   hosts: bahmni-backup-artifacts
   sudo: yes
   roles:
+   - { role: httpd-maintenance, maintenance_status: start}
    - { role: bahmni-restore-artifacts}
+   - { role: httpd-maintenance, maintenance_status: end}
 
 

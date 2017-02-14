@@ -24,7 +24,7 @@
          chmod 0755 {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}});
          cp {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}}) {{item.to_path}} 2>{{backup_log_file}};
 
-  async: 86400
+  async: "{{artifacts.async_timing}}"
   when: "options in item.name"
   with_items:
       - { from_path: "{{reports.backup_from_path}}", to_path: "{{reports.backup_to_path}}" , name: reports}

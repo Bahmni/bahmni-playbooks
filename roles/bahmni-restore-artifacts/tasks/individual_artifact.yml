@@ -21,7 +21,8 @@
   shell:
          tar -xzvf {{item.from_path}}/$(ls -A1 {{item.from_path}} | grep {{item.name}} | tail -1) --strip-components 2 -C {{restore_temp_dest_dir}}  2>{{restore_log_file}};
          cp -r {{restore_temp_dest_dir}}/{{item.name}} {{item.to_path}} 2>{{restore_log_file}};
-  async: 86400
+
+  async: "{{artifacts.async_timing}}"
   when: "options in item.name"
   with_items:
      - { from_path: "{{patient_images.restore_from_path}}", to_path: "{{patient_images.restore_to_path}}", name: patient_images}
