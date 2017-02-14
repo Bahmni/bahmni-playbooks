@@ -1,7 +1,11 @@
-- name: Uninstalling implementer interface if disabled.
-  yum:  name="bahmni-implementer-interface" state=absent
-  when: (implementer_interface is not defined or implementer_interface != 'enabled')
+- name: Check if bahmni-implementer-interface rpm needs an update
+  command: yum list installed bahmni-implementer-interface
+  register: installed_bahmni_implementer_interface
+  ignore_errors: true
 
-- name: Installing implementer interface rpm if enabled.
+- name: Uninstall bahmni-implementer-interface rpm
+  yum: name="bahmni-implementer-interface" state=absent
+  when: installed_bahmni_implementer_interface.stdout.find("{{ bahmni_implementer_interface_version }}") == -1
+
+- name: Install bahmni-implementer-interface from bahmni repo
   yum:  name="bahmni-implementer-interface" state=latest update_cache=yes
-  when: (implementer_interface is defined and implementer_interface == 'enabled')

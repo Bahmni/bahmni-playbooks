@@ -93,6 +93,7 @@ bahmni_lab_version: 0.81
 bahmni_lab_connect_version: 0.81
 bahmni_reports_version: 0.81
 bahmni_web_version: 0.81
+bahmni_implementer_interface_version: 0.89
 dcm4chee_version: 0.81
 bahmni_openmrs_version: 0.82-9
 pacs_integration_version: 0.81
