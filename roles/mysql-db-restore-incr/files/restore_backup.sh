@@ -6,14 +6,14 @@ full_backup_dir=""
 #folderArray=(${folders/// })
 
 restore_point=$2
-search_string=`cat /data/test_backup/backup-info.log |awk -v id="$restore_point" '{if( $3 == id) print $3}'`
+search_string=`cat $1/backup_info.txt |awk -v id="$restore_point" '{if( $3 == id) print $3}'`
 if [ -z $search_string ]
  then
    echo "Did not found the restore point in backup dir"
    exit -1
 fi
 
-type=`cat /data/test_backup//backup-info.log |awk -v id="$restore_point" '{if( $3 == id) print $2}'`
+type=`cat $1/backup_info.txt |awk -v id="$restore_point" '{if( $3 == id) print $2}'`
 echo $type
 
 declare -a arr
@@ -21,20 +21,20 @@ arr=()
 parent=$restore_point
 while [ "$type" == "incr" ]
 do
-      item=`cat /data/test_backup/backup-info.log |awk -v id="$parent" '{if( $3 == id) print $3}'`
+      item=`cat $1/backup_info.txt |awk -v id="$parent" '{if( $3 == id) print $3}'`
       arr=($item ${arr[@]})
       echo ${arr[@]}
-      parent=`cat /data/test_backup/backup-info.log |awk -v id="$parent" '{if( $3 == id) print $4}'`
+      parent=`cat $1/backup_info.txt |awk -v id="$parent" '{if( $3 == id) print $4}'`
       if [ ! -d "$1/$parent" ]; then
          echo "Dependent restore files $1/$parent not present"
          exit -1
       fi
-      type=`cat /data/test_backup/backup-info.log |awk -v id="$parent" '{if( $3 == id) print $2}'`
+      type=`cat $1/backup_info.txt |awk -v id="$parent" '{if( $3 == id) print $2}'`
 done
 
 if [ "$type" == "full" ]
 then
-   full_backup_dir=`cat /data/test_backup/backup-info.log |awk -v id="$parent" '{if( $3 == id) print $3}'`
+   full_backup_dir=`cat $1/backup_info.txt |awk -v id="$parent" '{if( $3 == id) print $3}'`
 fi
 
 

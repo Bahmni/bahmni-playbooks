@@ -6,7 +6,7 @@
   register: result_files
 
 - name: Find base directory for backup
-  shell: touch {{backup_path}}/backup-info.log; cat {{backup_path}}/backup-info.log|tail -n 1|cut -f 3 -d ' '
+  shell: touch {{backup_path}}/backup_info.txt; cat {{backup_path}}/backup_info.txt|tail -n 1|cut -f 3 -d ' '
   register: base_directory
   when: strategy == 'incr'
 
@@ -24,12 +24,12 @@
   when: (strategy == "full") or (strategy == "incr" and result_files.matched == 0)
 
 - name: Write Full backup event to file
-  shell: echo `date +%Y%m%d%H%M%S` 'full {{ time.stdout }}_full' >> {{backup_path}}/backup-info.log
+  shell: echo `date +%Y%m%d%H%M%S` 'full {{ time.stdout }}_full' >> {{backup_path}}/backup_info.txt
   sudo: yes
   when: (strategy == "incr" and result_files.matched == 0)
 
 - name: Write Full backup event to file
-  shell: echo `date +%Y%m%d%H%M%S` '{{strategy}} {{ time.stdout }}_{{strategy}}' >> {{backup_path}}/backup-info.log
+  shell: echo `date +%Y%m%d%H%M%S` '{{strategy}} {{ time.stdout }}_{{strategy}}' >> {{backup_path}}/backup_info.txt
   sudo: yes
   when: strategy == "full"
 
@@ -43,7 +43,7 @@
   when: strategy == "incr" and result_files.matched > 0
 
 - name: Write Incremental backup event to file
-  shell: echo `date +%Y%m%d%H%M%S` '{{strategy}} {{ time.stdout }}_{{strategy}} {{base_directory.stdout}}' >> {{backup_path}}/backup-info.log
+  shell: echo `date +%Y%m%d%H%M%S` '{{strategy}} {{ time.stdout }}_{{strategy}} {{base_directory.stdout}}' >> {{backup_path}}/backup_info.txt
   sudo: yes
   when: strategy == "incr" and result_files.matched > 0
 
