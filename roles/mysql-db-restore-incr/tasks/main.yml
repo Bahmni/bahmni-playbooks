@@ -33,9 +33,9 @@
   when: file.stat.exists == false
 
 - name: Restore mysql backup
-  include: xtrabackupRestore.yml 
+  include: xtrabackuprestore.yml 
   when: strategy != "dump"
 
 - name: Restore mysql dump
-  include: mysqlDump.yml 
+  include: mysqldump.yml 
   when: strategy == "dump"
