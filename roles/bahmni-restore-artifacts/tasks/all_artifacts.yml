@@ -11,12 +11,24 @@
      - {from_path: "{{pacs_images.restore_from_path}}" , name: pacs_images}
      - {from_path: "{{reports.restore_from_path}}" , name: reports}
 
-
-
-- name: Fail with Error Message if {{options}} does not exist 
+- name: Find artifacts to be restore 
   set_fact: artifacts_to_restore="{{artifacts_to_restore|default([]) + [item.item.name] }}"
   when: "item.rc is defined and item.rc != 1"
   with_items: "{{ file.results }}"
+  ignore_errors: true
+
+- name: copy artifacts
+  shell:
+         cp -r {{item.to_path}}{{item.name}} {{item.to_path}}{{item.name}}_old/
+  async: "{{artifacts.async_timing}}"
+  when: "artifacts_to_restore is defined and item.name in artifacts_to_restore"
+  with_items:
+     - { from_path: "{{patient_images.restore_from_path}}", to_path: "{{patient_images.restore_to_path}}", name: patient_images}
+     - { from_path: "{{document_images.restore_from_path}}", to_path: "{{document_images.restore_to_path}}", name: document_images}
+     - { from_path: "{{uploaded_files.restore_from_path}}", to_path: "{{uploaded_files.restore_to_path}}", name: uploaded-files}
+     - { from_path: "{{uploaded_results.restore_from_path}}", to_path: "{{uploaded_results.restore_to_path}}", name: uploaded_results}
+     - { from_path: "{{pacs_images.restore_from_path}}", to_path: "{{pacs_images.restore_to_path}}" , name: pacs_images}
+     - { from_path: "{{reports.restore_from_path}}", to_path: "{{reports.restore_to_path}}" , name: reports}
   ignore_errors: true
 
 - name: restore artifacts from dest to src location
@@ -32,3 +44,10 @@
      - { from_path: "{{uploaded_results.restore_from_path}}", to_path: "{{uploaded_results.restore_to_path}}", name: uploaded_results}
      - { from_path: "{{pacs_images.restore_from_path}}", to_path: "{{pacs_images.restore_to_path}}" , name: pacs_images}
      - { from_path: "{{reports.restore_from_path}}", to_path: "{{reports.restore_to_path}}" , name: reports}
+  ignore_errors: true
+
+- name: Find artifacts that are not restored
+  fail:
+       msg: "{{item.item.name}} zip file does not exist"
+  failed_when: "item.rc is defined and item.rc == 1"
+  with_items: "{{ file.results }}"

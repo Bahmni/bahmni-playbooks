@@ -1,5 +1,5 @@
 - name: Check that the {{options}}  exists 
-  shell: ls -1tr {{ item.from_path }} | wc -l
+  shell: find {{ item.from_path }} -type f | wc -l
   register: file 
   ignore_errors: true
   when: "options in item.name"
@@ -13,13 +13,13 @@
 
 - name: Fail with Error Message if {{options}} does not exist 
   fail:
-     msg: "{{options}} directory does not exist"
+     msg: "{{options}} directory does not exist or it is empty"
   failed_when: "item.stdout is defined and item.stdout == '0'"
   with_items: "{{ file.results }}"
 
 - name: copy artifacts from src to dest location
   shell:
-         tar -czvf {{backup_temp_dest_dir}}/$(date +%Y-%m-%d_%H%M%S)-{{item.name}}.tar.gz {{item.from_path}}  2>{{backup_log_file}};
+         tar  -C $(dirname  {{item.from_path}} ) -czvf {{backup_temp_dest_dir}}/$(date +%Y-%m-%d_%H%M%S)-{{item.name}}.tar.gz $(basename {{item.from_path}}) 2>{{backup_log_file}};
          chown bahmni:bahmni {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}});
          chmod 0755 {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}});
          cp {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}}) {{item.to_path}} 2>{{backup_log_file}};
@@ -33,3 +33,4 @@
       - { from_path: "{{document_images.backup_from_path}}", to_path: "{{document_images.backup_to_path}}", name: document_images}
       - { from_path: "{{uploaded_files.backup_from_path}}", to_path: "{{uploaded_files.backup_to_path}}", name: uploaded-files}
       - { from_path: "{{uploaded_results.backup_from_path}}", to_path: "{{uploaded_results.backup_to_path}}", name: uploaded_results}
+  ignore_errors: true
