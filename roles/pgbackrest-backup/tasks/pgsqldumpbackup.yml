@@ -1,6 +1,6 @@
-- name: Create /db-backup directory
+- name: Create {{options}} directory
   file:
-    path=/db-backup
+    path={{ postgres.path }}/{{ options }}
     state=directory
     mode=777
 
@@ -9,13 +9,13 @@
   register: time
 
 - name: Take {{ options }} DB backup
-  shell: pg_dump -Upostgres --create  {{ options }} | gzip > /db-backup/{{ options }}_dump_{{ time.stdout }}.sql.gz
+  shell: pg_dump -Upostgres --create  {{ options }} | gzip > {{postgres.path}}/{{options}}/{{ options }}_dump_{{ time.stdout }}.sql.gz
   sudo: yes
 
-- name: Create /db-backup directory in local machine
-  local_action: file path=/db-backup state=directory mode=0777
+- name: Create {{postgres.path}}/{{options}} directory in local machine
+  local_action: file path={{postgres.path}}/pgdbdump-backup state=directory mode=0777
   when: copy_to_local_machine == "yes"
 
 - name: Copy {{options}} backup file to local machine
-  fetch: src=/db-backup/{{ options }}_dump_{{time.stdout}}.sql.gz dest=/db-backup/ flat=yes
+  fetch: src={{postgres.path}}/{{options}}/{{ options }}_dump_{{time.stdout}}.sql.gz dest={{postgres.path}}/{{options}}/ flat=yes
   when: copy_to_local_machine == "yes"

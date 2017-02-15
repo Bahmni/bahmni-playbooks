@@ -9,6 +9,19 @@
         owner=root
         mode=777
 
+- name: Creating backrest log directory
+  sudo: yes
+  file:
+        path=/var/log/backrest
+        state=directory
+        mode=777
+
+- name: Creating pgbackrest repo directory
+  sudo: yes
+  file:
+        path=/var/lib/pgbackrest
+        state=directory
+        mode=777
 
 - name: Editing bahmni-backrest.conf file
   sudo: yes

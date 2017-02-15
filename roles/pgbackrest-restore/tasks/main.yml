@@ -16,11 +16,6 @@
     state=stopped
   ignore_errors: true
 
-- name: Performing delta restore
-  sudo: yes
-  shell: sudo -u postgres pgbackrest --stanza=bahmni-postgres --delta --log-level-console=detail restore 2>>{{ logfile }}
-  when: strategy == "incr"
-
 - name: Performing PITR restore 
   sudo: yes 
   script: pitr.sh {{postgres.path}}  {{ restore_point }} {{ logfile }} 

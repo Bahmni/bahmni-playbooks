@@ -1,20 +1,7 @@
-- name: Get {{ db_name }} db file path
-  stat: path={{ file_path }}
-  register: pgsql_dump_file_path
-  failed_when: pgsql_dump_file_path.stat.exists == false
-
-- name: Create /db-restore
-  file:
-    path=/db-restore
-    state=directory
-    mode=777
-
-- name: Copy {{ db_name }} backup to the machine
-  copy: src={{ file_path }}
-        dest=/db-restore/{{ db_name }}_dump.sql.gz
-        mode=644
-        owner={{ bahmni_user }}
-        group={{ bahmni_group }}
+- name: Check if  {{ restore_point }} db dump exists in {{ postgres.path }}/{{options}}
+  stat: path={{ postgres.path }}/{{options}}/{{ restore_point }}
+  register: pgsql_dump
+  failed_when: pgsql_dump.stat.exists == false
 
 - name: Start PostgreSQL
   service:
@@ -22,16 +9,12 @@
     state=running
   ignore_errors: true
 
-- name: Drop {{ db_name }} database
+- name: Drop {{ options }} database
   postgresql_db:
-    name={{ db_name }}
+    name={{ options }}
     state=absent
     login_user=postgres
 
-- name: Restore {{ db_name }} db
-  shell: gunzip -c /db-restore/{{ db_name }}_dump.sql.gz | psql -U postgres
+- name: Restore {{ options }} db
+  shell: gunzip -c {{postgres.path}}/{{options}}/{{ restore_point }} | psql -U postgres
 
-- name: Delete restored file
-  file:
-    path=/db-restore/{{ db_name }}_dump.sql.gz
-    state=absent

@@ -1,6 +1,5 @@
 strategy: incr
-file_path: /db-backup
-logfile: /var/log/dbrestore.log
+logfile: /var/log/backrest/postgres_backrest.log
 postgres:
     path: /var/lib/pgbackrest
     retention_limit: 2
