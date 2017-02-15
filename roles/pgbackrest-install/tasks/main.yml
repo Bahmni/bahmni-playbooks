@@ -55,9 +55,7 @@
 
 - name: Copying pgbackrest to usr folder
   sudo: yes
-  copy:
-         src=/home/bahmni/pgbackrest-release-1.12/lib/pgBackRest
-         dest=/usr/share/perl5
+  command: cp -R "/home/bahmni/pgbackrest-release-1.12/lib/pgBackRest" /usr/share/perl5/
 
 - name: Finding perl mode
   sudo: yes
@@ -68,11 +66,9 @@
   shell: find /usr/share/perl5/pgBackRest -type d -exec chmod 755 {} +
 
 - name: Copying pgbackrest folder
-  sudo: yes
-  copy:
-       src=/home/bahmni/pgbackrest-release-1.12/bin/pgbackrest
-       dest=/usr/bin/pgbackrest
-       mode=777
+  become: yes
+  shell: cp -R "/home/bahmni/pgbackrest-release-1.12/bin/pgbackrest" /usr/bin/pgbackrest;
+         chmod 777 /usr/bin/pgbackrest;
 
 - name: Creating pgbackrest log directory
   sudo: yes
