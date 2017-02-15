@@ -16,6 +16,7 @@
      service: name=bahmni-reports state=stopped
      when: db == 'bahmni_reports' and (passive is not defined or passive != 'yes')
      become: yes
+     ignore_errors: true
 
 - hosts: bahmni-emr-db
   become: yes
@@ -40,6 +41,7 @@
      service: name=bahmni-reports state=started
      when: db == 'bahmni_reports' and (passive is not defined or passive != 'yes')
      become: yes
+     ignore_errors: true
 
 - hosts: bahmni-emr
   sudo: yes
