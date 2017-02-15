@@ -24,6 +24,10 @@
       src=pgbackrest.conf.j2
       dest=/etc/pgbackrest.conf
 
+- name: Creating postgres stanza
+  sudo: yes
+  shell: sudo -u postgres pgbackrest --stanza=bahmni-postgres --log-level-console=info stanza-create
+
 - name: Create backupid directory
   file:
    path={{ postgres.path }}
