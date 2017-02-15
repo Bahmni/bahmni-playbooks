@@ -24,6 +24,12 @@
       src=pgbackrest.conf.j2
       dest=/etc/pgbackrest.conf
 
+- name: Start PostgreSQL
+  service:
+    name=postgresql-{{ postgres_version }}
+    state=running
+  ignore_errors: true
+
 - name: Creating postgres stanza
   sudo: yes
   shell: sudo -u postgres pgbackrest --stanza=bahmni-postgres --log-level-console=info stanza-create
@@ -36,11 +42,6 @@
    group=postgres
    mode=777
 
-- name: Start PostgreSQL
-  service:
-    name=postgresql-{{ postgres_version }}
-    state=running
-  ignore_errors: true
   
 - name: create full backup
   sudo: yes
