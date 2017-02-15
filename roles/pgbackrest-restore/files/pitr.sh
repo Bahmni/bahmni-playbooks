@@ -6,5 +6,6 @@ if [ -z $time ]
    echo "Did not find the restore point in backup dir"
    exit -1
 fi
-backup_time=$(echo $time|awk 'BEGIN { FIELDWIDTHS = "4 2 2 2 2 2" } { printf "%s-%s-%s %s:%s:%s\n", $1, $2, $3, $4, $5+1, $6 }')
+time=$(date +'%Y%m%d%H%M%S')
+backup_time=$(echo $time|awk 'BEGIN { FIELDWIDTHS = "4 2 2 2 2 2" } { printf "%s-%s-%s %s:%s:%s\n", $1, $2, $3, $4+1, $5, $6 }')
 sudo -u postgres pgbackrest --stanza=bahmni-postgres --delta --type=time  "--target=$backup_time"    --set=$2   --log-level-console=detail restore 2>>$3  
