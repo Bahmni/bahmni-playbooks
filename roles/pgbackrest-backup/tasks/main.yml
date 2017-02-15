@@ -52,7 +52,7 @@
   sudo: yes
 
 - name: Give permission to backup files
-  shell: chmod -R 775 {{postgres.path}}
+  shell: chmod -R 777 {{postgres.path}}
 
 - name: Performing postgres dump
   include: pgsqldumpbackup.yml

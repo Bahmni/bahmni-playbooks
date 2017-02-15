@@ -32,7 +32,7 @@
     state: directory
     owner: "{{bahmni_user}}"
     group: "{{bahmni_group}}"
-    mode: 0666
+    mode: 0777
 
 - name: Check if xtrabackup installaed
   shell: yum list installed | grep  xtrabackup
@@ -43,14 +43,14 @@
     path: "{{log_path}}"
     owner: "{{bahmni_user}}"
     group: "{{bahmni_group}}"
-    mode: 0644
+    mode: 0777
     state: directory
 
 - file:
     path: "{{log_file}}"
     owner: "{{bahmni_user}}"
     group: "{{bahmni_group}}"
-    mode: 0644
+    mode: 0777
     state: touch
 
 - name: Log backup started using mysqldump
