@@ -111,3 +111,8 @@
     name=postgresql-{{ postgres_version }}
     state=restarted
   ignore_errors: true
+
+- name: Creating postgres stanza
+  sudo: yes
+  shell: sudo -u postgres pgbackrest --stanza=bahmni-postgres --log-level-console=info stanza-create
+
