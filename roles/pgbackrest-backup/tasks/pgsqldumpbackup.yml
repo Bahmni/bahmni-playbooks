@@ -2,6 +2,7 @@
   file:
     path=/db-backup
     state=directory
+    mode=777
 
 - name: Get timestamp of file name to be created
   command: date +%Y%m%d-%H%M%S

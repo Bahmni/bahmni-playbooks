@@ -10,8 +10,6 @@
   register: installed_pgbackrest
   ignore_errors: True
 
-- debug:
-    msg: ">>>{{installed_pgbackrest}}<<<<"
 
 - name: Fallback to pgsqldump if pgbackrest not installed
   include: pgsqldumpbackup.yml

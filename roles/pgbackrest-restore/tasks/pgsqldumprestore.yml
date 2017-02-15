@@ -7,6 +7,7 @@
   file:
     path=/db-restore
     state=directory
+    mode=777
 
 - name: Copy {{ db_name }} backup to the machine
   copy: src={{ file_path }}
