@@ -8,11 +8,14 @@ def concat_config(fileName, path, offline_path):
     result = {}
     jsonfiles = glob.glob(path + "*.json")
     jsFiles = glob.glob(path + "*.js")
+
     if len(jsFiles) > 0:
         for jsfile in jsFiles:
             jsonfiles.append(jsfile)
+            print "appended json files"
 
     for file in jsonfiles:
+        print file
         file_name = ntpath.basename(file)
         offline_file = glob.glob(offline_path + file_name)
         if os.path.isfile(offline_path + file_name):
@@ -24,6 +27,7 @@ def concat_config(fileName, path, offline_path):
             else:
                 file_name = ntpath.basename(file)
                 result[file_name] = infile.read().replace('\n', '').replace('\t', '')
+                print file_name
 
     with open(path + fileName + ".json", "w+") as outfile:
         json.dump(result, outfile)

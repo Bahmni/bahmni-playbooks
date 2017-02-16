@@ -1,0 +1,47 @@
+- name: Check that the {{options}}  exists 
+  shell: ls -1tr {{item.from_path}} | grep {{options}} 
+  register: file 
+  ignore_errors: true
+  when: "options in item.name"
+  with_items:
+     - {from_path: "{{document_images.restore_from_path}}", name: document_images}
+     - {from_path: "{{patient_images.restore_from_path}}", name: patient_images}
+     - {from_path: "{{uploaded_files.restore_from_path}}", name: uploaded-files}
+     - {from_path: "{{uploaded_results.restore_from_path}}", name: uploaded_results}
+     - {from_path: "{{pacs_images.restore_from_path}}" , name: pacs_images}
+     - {from_path: "{{reports.restore_from_path}}" , name: reports}
+
+- name: Fail with Error Message if {{options}} does not exist 
+  fail:
+     msg: "{{options}} zip file does not exist"
+  failed_when: "item.rc is defined and item.rc == 1"
+  with_items: "{{ file.results }}"
+
+- name: copy artifacts
+  shell:
+         cp -r {{item.to_path}}{{item.name}} {{item.to_path}}{{item.name}}_old/
+  async: "{{artifacts.async_timing}}"
+  when: "options in item.name"
+  with_items:
+     - { from_path: "{{patient_images.restore_from_path}}", to_path: "{{patient_images.restore_to_path}}", name: patient_images}
+     - { from_path: "{{document_images.restore_from_path}}", to_path: "{{document_images.restore_to_path}}", name: document_images}
+     - { from_path: "{{uploaded_files.restore_from_path}}", to_path: "{{uploaded_files.restore_to_path}}", name: uploaded-files}
+     - { from_path: "{{uploaded_results.restore_from_path}}", to_path: "{{uploaded_results.restore_to_path}}", name: uploaded_results}
+     - { from_path: "{{pacs_images.restore_from_path}}", to_path: "{{pacs_images.restore_to_path}}" , name: pacs_images}
+     - { from_path: "{{reports.restore_from_path}}", to_path: "{{reports.restore_to_path}}" , name: reports}
+  ignore_errors: true
+
+- name: restore artifacts from dest to src location
+  shell:
+         tar -xzvf {{item.from_path}}/$(ls -A1 {{item.from_path}} | grep {{item.name}} | tail -1) --strip-components 2 -C {{restore_temp_dest_dir}}  2>{{restore_log_file}};
+         cp -r {{restore_temp_dest_dir}}/{{item.name}} {{item.to_path}} 2>{{restore_log_file}};
+  async: "{{artifacts.async_timing}}"
+  when: "options in item.name"
+  with_items:
+     - { from_path: "{{patient_images.restore_from_path}}", to_path: "{{patient_images.restore_to_path}}", name: patient_images}
+     - { from_path: "{{document_images.restore_from_path}}", to_path: "{{document_images.restore_to_path}}", name: document_images}
+     - { from_path: "{{uploaded_files.restore_from_path}}", to_path: "{{uploaded_files.restore_to_path}}", name: uploaded-files}
+     - { from_path: "{{uploaded_results.restore_from_path}}", to_path: "{{uploaded_results.restore_to_path}}", name: uploaded_results}
+     - { from_path: "{{pacs_images.restore_from_path}}", to_path: "{{pacs_images.restore_to_path}}" , name: pacs_images}
+     - { from_path: "{{reports.restore_from_path}}", to_path: "{{reports.restore_to_path}}" , name: reports}
+  ignore_errors: true

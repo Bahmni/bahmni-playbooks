@@ -1,4 +1,4 @@
 #for atomfeed-console
 
 ProxyPass /atomfeed-console http://{{ groups['atomfeed-console'][0] }}:{{ atomfeed_console_port }}/atomfeed-console
-ProxyPassReverse /atomfeed-console http://{{ groups['atomfeed-console'][0] }}:{{ atomfeed_console_port }}/atomfeed-console
+ProxyPassReverse /atomfeed-console http://{{ ['atomfeed-console'][0] }}:{{ atomfeed_console_port }}/atomfeed-console

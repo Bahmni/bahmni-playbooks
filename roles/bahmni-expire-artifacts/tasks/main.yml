@@ -1,0 +1,20 @@
+
+- name: Make sure expire log file exists
+  file: path={{item}} owner=bahmni group=bahmni mode=0755 state=touch
+  with_items:
+    - "{{expire_log_file}}"
+
+- name: expire artifacts from src location
+  script: expire-artifacts.sh {{item.name}} {{item.path}} {{item.retention_limit}}
+  when: "item.name in options or options == 'all'"
+  with_items:
+      - { path: "{{document_images.backup_to_path}}", name: document_images, retention_limit: "{{document_images.retention_limit}}"}
+      - { path: "{{uploaded_files.backup_to_path}}", name: uploaded-files, retention_limit: "{{uploaded_files.retention_limit}}"}
+      - { path: "{{uploaded_results.backup_to_path}}", name: uploaded_results, retention_limit: "{{uploaded_results.retention_limit}}"}
+      - { path: "{{pacs_images.backup_to_path}}", name: pacs_images, retention_limit: "{{pacs_images.retention_limit}}"}
+      - { path: "{{reports.backup_to_path}}", name: reports, retention_limit: "{{reports.retention_limit}}"}
+      - { path: "{{patient_images.backup_to_path}}", name: patient_images, retention_limit: "{{patient_images.retention_limit}}"}
+  ignore_errors: true
+
+
+

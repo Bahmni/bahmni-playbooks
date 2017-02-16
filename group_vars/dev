@@ -50,6 +50,7 @@ sync_binlog: 1
 relay_log_file_name: relay-bin
 relay_log_index_file_name: relay-bin.index
 
+
 openmrs_port: 8050
 bahmni_reports_port: 8051
 bahmni_lab_port: 8052

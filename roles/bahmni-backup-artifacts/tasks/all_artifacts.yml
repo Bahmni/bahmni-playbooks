@@ -1,0 +1,42 @@
+- name: Check if {{options}}  exists 
+  shell: find {{ item.from_path }} -type f | wc -l
+  register: file 
+  ignore_errors: true
+  when: "options =='all'"
+  with_items:
+     - {from_path: "{{document_images.backup_from_path}}", name: document_images}
+     - {from_path: "{{patient_images.backup_from_path}}", name: patient_images}
+     - {from_path: "{{uploaded_files.backup_from_path}}", name: uploaded-files}
+     - {from_path: "{{uploaded_results.backup_from_path}}", name: uploaded_results}
+     - {from_path: "{{pacs_images.backup_from_path}}" , name: pacs_images}
+     - {from_path: "{{reports.backup_from_path}}" , name: reports}
+
+- name: Find artifacts to be backedup 
+  set_fact: artifacts_to_backup="{{artifacts_to_backup|default([]) + [item.item.name] }}"
+  when: "item.stdout is defined and item.stdout != '0'"
+  with_items: "{{ file.results }}"
+  ignore_errors: true
+
+- name: copy artifacts from src to dest location
+  shell:
+         tar  -C $(dirname  {{item.from_path}} ) -czvf {{backup_temp_dest_dir}}/$(date +%Y-%m-%d_%H%M%S)-{{item.name}}.tar.gz $(basename {{item.from_path}}) 2>{{backup_log_file}};
+         chown bahmni:bahmni {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}});
+         chmod 0755 {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}});
+         cp {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}}) {{item.to_path}} 2>{{backup_log_file}};
+
+  async: "{{artifacts.async_timing}}"
+  when: "artifacts_to_backup is defined and item.name in artifacts_to_backup"
+  with_items:
+      - { from_path: "{{reports.backup_from_path}}", to_path: "{{reports.backup_to_path}}" , name: reports}
+      - { from_path: "{{pacs_images.backup_from_path}}", to_path: "{{pacs_images.backup_to_path}}" , name: pacs_images}
+      - { from_path: "{{patient_images.backup_from_path}}", to_path: "{{patient_images.backup_to_path}}", name: patient_images}
+      - { from_path: "{{document_images.backup_from_path}}", to_path: "{{document_images.backup_to_path}}", name: document_images}
+      - { from_path: "{{uploaded_files.backup_from_path}}", to_path: "{{uploaded_files.backup_to_path}}", name: uploaded-files}
+      - { from_path: "{{uploaded_results.backup_from_path}}", to_path: "{{uploaded_results.backup_to_path}}", name: uploaded_results}
+  ignore_errors: true
+
+- name: Find artifacts that are not backedup
+  fail:
+       msg: "{{item.item.name}} directory does not exist or it is empty"
+  failed_when: "item.stdout is defined and item.stdout == '0'"
+  with_items: "{{ file.results }}"

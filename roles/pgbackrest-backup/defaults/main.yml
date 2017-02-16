@@ -1,0 +1,9 @@
+strategy: full
+logfile: /var/log/backrest/postgres_backrest.log
+bookeeping: /var/log/bookeeping.txt
+postgres:
+    path: /var/lib/pgbackrest
+    retention_limit: 2
+copy_to_local_machine: yes
+
+

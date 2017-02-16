@@ -1,0 +1,6 @@
+[bahmni-postgres]
+db-path=/var/lib/pgsql/{{ postgres_version }}/data
+
+[global]
+repo-path={{ postgres.path }}
+retention-full={{ postgres.retention_limit }}
