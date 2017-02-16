@@ -9,7 +9,7 @@
   service: name=mysqld state=stopped
 
 - name: Restore backup files
-  command: rsync -arP --del /tmp/restore_dir/base/{{db}}/ /var/lib/mysql/{{db}}/
+  command: rsync -arP /tmp/restore_dir/base/{{db}}/ /var/lib/mysql/{{db}}/
 
 - name: Set permission to restored files
   file:
