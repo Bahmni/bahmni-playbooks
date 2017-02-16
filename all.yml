@@ -83,6 +83,7 @@
   roles:
     - { role: postgres, postgres_user: clinlims }
     - { role: pg_hba, db_user: "{{openelis_db_username}}", db_name: clinlims, app_server_group: bahmni-lab,
+
                       master_db_group: bahmni-lab-db, slave_db_group: bahmni-lab-db-slave}
   tags:
     - bahmni-lab-db
@@ -193,3 +194,15 @@
   sudo: yes
   roles:
     - { role: httpd-maintenance, maintenance_status: end , tags: always}
+
+- hosts: mysql-backup-tool
+  sudo: yes
+  roles:
+    - { role: mysql-backup-tool}
+  tags:
+    - mysql-backup-tool
+
+- hosts: postgres-backup-tool
+  sudo: yes
+  roles:
+     - {role: pgbackrest-install}

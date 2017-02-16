@@ -1,0 +1,20 @@
+- name: Check if  {{ restore_point }} db dump exists in {{ postgres.path }}/{{options}}
+  stat: path={{ postgres.path }}/{{options}}/{{ restore_point }}
+  register: pgsql_dump
+  failed_when: pgsql_dump.stat.exists == false
+
+- name: Start PostgreSQL
+  service:
+    name=postgresql-{{ postgres_version }}
+    state=running
+  ignore_errors: true
+
+- name: Drop {{ options }} database
+  postgresql_db:
+    name={{ options }}
+    state=absent
+    login_user=postgres
+
+- name: Restore {{ options }} db
+  shell: gunzip -c {{postgres.path}}/{{options}}/{{ restore_point }} | psql -U postgres
+

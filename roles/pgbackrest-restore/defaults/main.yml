@@ -1,0 +1,5 @@
+strategy: incr
+logfile: /var/log/backrest/postgres_backrest.log
+postgres:
+    path: /var/lib/pgbackrest
+    retention_limit: 2

@@ -1,0 +1,32 @@
+- name: Editing postgres.conf file
+  sudo: yes
+  template:
+      src=postgresql.conf.j2
+      dest=/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
+
+- name: Editing pgbackrest.conf file
+  sudo: yes
+  template:
+      src=pgbackrest.conf.j2
+      dest=/etc/pgbackrest.conf
+
+- name: Stop PostgreSQL
+  service:
+    name=postgresql-{{ postgres_version }}
+    state=stopped
+  ignore_errors: true
+
+- name: Performing PITR restore 
+  sudo: yes 
+  script: pitr.sh {{postgres.path}}  {{ restore_point }} {{ logfile }} 
+  when: strategy == "pitr"
+
+- name: Performing postgres dump
+  include: pgsqldumprestore.yml
+  when: strategy == "dump"
+
+- name: Start PostgreSQL
+  service:
+    name=postgresql-{{ postgres_version }}
+    state=running
+  ignore_errors: true

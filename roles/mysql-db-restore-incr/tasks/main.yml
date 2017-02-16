@@ -1,0 +1,41 @@
+- name: Set openmrs variables
+  set_fact:
+     restore_path: "{{openmrs.restore_path }}"
+  when: db == "openmrs"
+
+- name: Set reports variables based on path
+  set_fact:
+      restore_path: "{{bahmni_reports.restore_path}}"
+  when: db  == "bahmni_reports"
+
+- file:
+    path: "{{log_path}}"
+    owner: "{{bahmni_user}}"
+    group: "{{bahmni_group}}"
+    mode: 0777
+    state: directory
+
+- file:
+    path: "{{log_file}}"
+    owner: "{{bahmni_user}}"
+    group: "{{bahmni_group}}"
+    mode: 0777
+    state: touch
+
+- name: Check that the {{restore_point}} exists
+  stat:
+    path: "{{restore_path}}/{{restore_point}}"
+  register: file
+
+- name: Fail with Error Message if {{restore_point}} does not exist
+  fail:
+    msg: "ERROR: File: {{restore_point}} does not exist"
+  when: file.stat.exists == false
+
+- name: Restore mysql backup
+  include: xtrabackuprestore.yml 
+  when: strategy != "dump"
+
+- name: Restore mysql dump
+  include: mysqldump.yml 
+  when: strategy == "dump"

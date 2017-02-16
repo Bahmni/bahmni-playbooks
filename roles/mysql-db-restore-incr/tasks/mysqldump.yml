@@ -1,0 +1,8 @@
+- name: Log backup started using mysqldump
+  shell: "echo `date +%Y%m%d-%H:%M:%S` STARTED : Restoring dump {{restore_path}}/{{restore_point}}  >> {{log_file}}"
+
+- name: Restore {{db}} database
+  shell: gunzip -c {{restore_path}}/{{restore_point}} | mysql -u{{ mysql_root_user }} -p{{ mysql_root_password }}
+
+- name: Log backup ended using mysqldump
+  shell: "echo `date +%Y%m%d-%H:%M:%S` COMPLETED : Restoring dump {{restore_path}}/{{restore_point}}  >> {{log_file}}"

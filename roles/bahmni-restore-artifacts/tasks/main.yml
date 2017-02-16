@@ -1,0 +1,28 @@
+
+- name: Make sure old restore temporary dest dir is deleted
+  file: path={{item}}  state=absent
+  with_items:
+    - "{{restore_temp_dest_dir}}"
+
+- name: Make sure temporary backup directory exists
+  file: path={{item}} owner=bahmni group=bahmni mode=0755 state=directory
+  with_items:
+    - "{{restore_temp_dest_dir}}"
+
+- name: Make sure backup log directory exists
+  file: path={{item}} owner=bahmni group=bahmni mode=0755 state=directory
+  with_items:
+    - "{{backup_log_file_dir}}"
+
+- name: Make sure restore log file exists
+  file: path={{item}} owner=bahmni group=bahmni mode=0755 state=touch
+  with_items:
+    - "{{restore_log_file}}"
+
+- name: check if it's individual options
+  include: individual_artifact.yml
+  when: options != "all"
+
+- name: check if it's all options
+  include: all_artifacts.yml
+  when: options == "all"

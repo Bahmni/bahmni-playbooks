@@ -53,6 +53,15 @@ localhost
 
 [bahmni-offline]
 
+[mysql-backup-tool]
+localhost
+
+[postgres-backup-tool]
+localhost
+
+[bahmni-backup-artifacts]
+localhost
+
 [local:children]
 nagios-server
 bahmni-emr
@@ -76,3 +85,7 @@ dcm4chee-db-slave
 bahmni-event-log-service
 bahmni-offline
 atomfeed-console
+mysql-backup-tool
+postgres-backup-tool
+bahmni-backup-artifacts
+
