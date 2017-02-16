@@ -22,7 +22,7 @@
          tar  -C $(dirname  {{item.from_path}} ) -czvf {{backup_temp_dest_dir}}/$(date +%Y-%m-%d_%H%M%S)-{{item.name}}.tar.gz $(basename {{item.from_path}}) 2>{{backup_log_file}};
          chown bahmni:bahmni {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}});
          chmod 0755 {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}});
-         cp {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}}) {{item.to_path}} 2>{{backup_log_file}};
+         cp -rp {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}}) {{item.to_path}} 2>{{backup_log_file}};
 
   async: "{{artifacts.async_timing}}"
   when: "options in item.name"
