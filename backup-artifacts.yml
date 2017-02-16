@@ -3,7 +3,7 @@
   hosts: bahmni-backup-artifacts
   sudo: yes
   roles:
-   - { role: bahmni-backup-artifacts}
+   - { role: bahmni-backup-artifacts, ignore_errors: true}
    - { role: bahmni-expire-artifacts}
 
 
