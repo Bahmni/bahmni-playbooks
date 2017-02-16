@@ -1,5 +1,5 @@
 - name: Check if {{options}}  exists 
-  shell: ls -1tr {{ item.from_path }} | wc -l
+  shell: find {{ item.from_path }} -type f | wc -l
   register: file 
   ignore_errors: true
   when: "options =='all'"
