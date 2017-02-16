@@ -33,7 +33,7 @@
 
 - name: restore artifacts from dest to src location
   shell:
-         tar -xzvf {{item.from_path}}/$(ls -A1 {{item.from_path}} | grep {{item.name}} | tail -1) --strip-components 2 -C {{restore_temp_dest_dir}}  2>{{restore_log_file}};
+         tar -xzvf {{item.from_path}}/$(ls -A1 {{item.from_path}} | grep {{item.name}} | tail -1) -C {{restore_temp_dest_dir}}  2>{{restore_log_file}};
          cp -r {{restore_temp_dest_dir}}/{{item.name}} {{item.to_path}} 2>{{restore_log_file}};
   async: "{{artifacts.async_timing}}"
   when: "artifacts_to_restore is defined and item.name in artifacts_to_restore"
