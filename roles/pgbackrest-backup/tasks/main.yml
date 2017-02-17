@@ -4,30 +4,6 @@
       src=postgresql.conf.j2
       dest=/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
 
-- name: Checking if pgbackrest is installed
-  sudo: yes
-  command: sudo -u postgres pgbackrest
-  register: installed_pgbackrest
-  ignore_errors: True
-
-
-- name: Fallback to pgsqldump if pgbackrest not installed
-  include: pgsqldumpbackup.yml
-  when: installed_pgbackrest.stdout.find("pgbackrest [options] [command]") == -1
-
-
-- name: Editing pgbackrest.conf file
-  sudo: yes
-  template:
-      src=pgbackrest.conf.j2
-      dest=/etc/pgbackrest.conf
-
-- name: Start PostgreSQL
-  service:
-    name=postgresql-{{ postgres_version }}
-    state=running
-  ignore_errors: true
-
 - name: Create backupid directory
   file:
    path={{ postgres.path }}
@@ -36,24 +12,16 @@
    group=postgres
    mode=777
 
-  
-- name: create full backup
+- name: Checking if pgbackrest is installed
   sudo: yes
-  shell: cd /;sudo -u postgres pgbackrest --stanza=bahmni-postgres --type=full --log-level-console=info backup 2>>{{ logfile }}
-  when: strategy == "full"
+  command: sudo -u postgres pgbackrest
+  register: installed_pgbackrest
+  ignore_errors: True
 
-- name: create incremental backup
-  sudo: yes
-  shell: cd /;sudo -u postgres pgbackrest --stanza=bahmni-postgres --type=incr --log-level-console=info backup 2>>{{ logfile }}
-  when: strategy == "incr"
-
-- name: create bookeeping file
-  script: bookeeping.sh {{ postgres.path }}
-  sudo: yes
-
-- name: Give permission to backup files
-  shell: chmod -R 777 {{postgres.path}}
-
-- name: Performing postgres dump
+- name: Fallback to pgsqldump if pgbackrest not installed
   include: pgsqldumpbackup.yml
+  when: installed_pgbackrest.stdout.find("pgbackrest [options] [command]") == -1
 
+- name: run pgbackrest if it is installed
+  include: pgbackrestbackup.yml
+  when: installed_pgbackrest.stdout.find("pgbackrest [options] [command]") >= 0

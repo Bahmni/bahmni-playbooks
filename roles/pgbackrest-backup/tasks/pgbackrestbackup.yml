@@ -1,0 +1,28 @@
+- name: Editing pgbackrest.conf file
+  sudo: yes
+  template:
+      src=pgbackrest.conf.j2
+      dest=/etc/pgbackrest.conf
+
+- name: Start PostgreSQL
+  service:
+    name=postgresql-{{ postgres_version }}
+    state=running
+  ignore_errors: true
+
+- name: create full backup
+  sudo: yes
+  shell: cd /;sudo -u postgres pgbackrest --stanza=bahmni-postgres --type=full --log-level-console=info backup 2>>{{ logfile }}
+  when: strategy == "full"
+
+- name: create incremental backup
+  sudo: yes
+  shell: cd /;sudo -u postgres pgbackrest --stanza=bahmni-postgres --type=incr --log-level-console=info backup 2>>{{ logfile }}
+  when: strategy == "incr"
+
+- name: create bookeeping file
+  script: bookeeping.sh {{ postgres.path }}
+  sudo: yes
+
+- name: Give permission to backup files
+  shell: chmod -R 777 {{postgres.path}}
