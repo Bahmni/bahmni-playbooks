@@ -32,6 +32,15 @@
     msg: "ERROR: File: {{restore_point}} does not exist"
   when: file.stat.exists == false
 
+- name: Check if DB exists
+  shell: mysql -u{{mysql_root_user}} -p{{mysql_root_password}} -e 'SHOW DATABASES;' | grep {{db}}
+  register: dbstatus
+  ignore_errors: yes
+
+- name: Drop {{db}} database
+  shell: mysql -u{{ mysql_root_user }} -p{{ mysql_root_password }} -e'drop database {{db}};';
+  when: dbstatus.rc == 0
+
 - name: Restore mysql backup
   include: xtrabackuprestore.yml 
   when: strategy != "dump"

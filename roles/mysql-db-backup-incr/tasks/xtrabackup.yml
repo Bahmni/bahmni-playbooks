@@ -28,6 +28,10 @@
   sudo: yes
   when: (strategy == "incr" and result_files.matched == 0)
 
+- name: Backup the schema of db to full backkup dir
+  shell: mysqldump -u {{mysql_root_user}}  --password={{mysql_root_password}} --no-data --routines {{db}} >{{backup_path}}/{{ time.stdout }}_full/{{db}}_schema.sql
+  when: (strategy == "full") or (strategy == "incr" and result_files.matched == 0)
+
 - name: Write Full backup event to file
   shell: echo `date +%Y%m%d%H%M%S` '{{strategy}} {{ time.stdout }}_{{strategy}}' >> {{backup_path}}/backup_info.txt
   sudo: yes
@@ -40,6 +44,10 @@
 - name: Take Incremental backup using xtrabackup
   shell: xtrabackup --user={{mysql_root_user}} --password={{mysql_root_password}} --backup --target-dir={{backup_path}}/{{ time.stdout }}_incr/  --incremental-basedir={{ latest_backup_dir }}/ --databases {{db}}
   sudo: yes
+  when: strategy == "incr" and result_files.matched > 0
+
+- name: Backup the schema of db to incr backkup dir
+  shell: mysqldump -u {{mysql_root_user}}  --password={{mysql_root_password}} --no-data --routines {{db}} >{{backup_path}}/{{ time.stdout }}_incr/{{db}}_schema.sql
   when: strategy == "incr" and result_files.matched > 0
 
 - name: Write Incremental backup event to file
@@ -72,4 +80,3 @@
 - name: Copy files to other machine
   shell: rsync -avP -e ssh {{backup_path}} {{sync.user}}@{{sync.host}}:{{sync.path}}
   when : not( (sync.host is undefined) or (sync.host is none) or (sync.host | trim == '') )
-
