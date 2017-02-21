@@ -16,7 +16,7 @@ describe file('/opt/bahmni-erp-connect/bahmni-erp-connect/WEB-INF/classes/atomfe
   it { should exist }
 end
 
-describe service('bahmni-erp-connect'), :if => os[:family] == 'redhat' do
+describe service('bahmni-erp-connect'), :if => os[:family] == 'redhat' && $passive == 'false' do
   it { should be_running }
 end
 

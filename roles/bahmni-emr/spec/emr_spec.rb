@@ -31,10 +31,10 @@ describe file('/var/www/cgi-bin/getversion.py'), :if => os[:family] == 'redhat' 
   it { should exist }
 end
 
-describe service('openmrs'), :if => os[:family] == 'redhat' do
+describe service('openmrs'), :if => os[:family] == 'redhat' && $passive == 'false' do
   it { should be_running }
 end
 
-describe port (8050), :if => os[:family] == 'redhat' do
+describe port(8050), :if => os[:family] == 'redhat' && $passive == 'false' do
   it { should be_listening }
 end

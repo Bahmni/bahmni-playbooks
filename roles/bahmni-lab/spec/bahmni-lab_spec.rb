@@ -20,7 +20,7 @@ describe iptables, :if => os[:family] == 'redhat' do
   it { should have_rule('-P INPUT ACCEPT').with_table('mangle').with_chain('INPUT') }
 end
 
-describe file('/opt/bahmni-lab/add_remote_ip_in_openelis_markers.sh'), :if => os[:family] == 'redhat' do
+describe file('/opt/bahmni-lab/add_remote_ip_in_openelis_markers.sh'), :if => os[:family] == 'redhat' && $passive == 'false' do
   it { should exist }
 end
 

@@ -32,11 +32,11 @@ describe iptables, :if => os[:family] == 'redhat' do
   it { should have_rule('-P INPUT ACCEPT').with_table('mangle').with_chain('INPUT') }
 end
 
-describe service('openerp'), :if => os[:family] == 'redhat' do
+describe service('openerp'), :if => os[:family] == 'redhat' && $passive == 'false' do
   it { should be_running }
 end
 
-describe port (8069), :if => os[:family] == 'redhat' do
+describe port(8069), :if => os[:family] == 'redhat' && $passive == 'false' do
   it { should be_listening }
 end
 

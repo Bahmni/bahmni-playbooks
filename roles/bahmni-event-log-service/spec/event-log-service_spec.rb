@@ -20,7 +20,7 @@ describe iptables, :if => os[:family] == 'redhat' do
   it { should have_rule('-P INPUT ACCEPT').with_table('mangle').with_chain('INPUT') }
 end
 
-describe service('bahmni-event-log-service'), :if => os[:family] == 'redhat' do
+describe service('bahmni-event-log-service'), :if => os[:family] == 'redhat' && $passive == 'false' do
   it { should be_running }
 end
 

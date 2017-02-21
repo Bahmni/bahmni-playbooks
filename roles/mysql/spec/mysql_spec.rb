@@ -44,7 +44,7 @@ describe iptables, :if => os[:family] == 'redhat' do
   it { should have_rule('-P INPUT ACCEPT').with_table('mangle').with_chain('INPUT') }
 end
 
-describe port (3306), :if => os[:family] == 'redhat' do
+describe port(3306), :if => os[:family] == 'redhat' do
   it { should be_listening }
 end
 

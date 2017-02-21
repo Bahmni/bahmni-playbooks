@@ -11,12 +11,14 @@ describe "replication" do
     print masterDbHost
     print slaveDbHost
 
+    if slaveDbHost != 'null' then
     masterDbConnection = PG.connect :host=> masterDbHost, :user => 'postgres', :password=> '', :dbname => 'clinlims'
     slaveDbConnection = PG.connect :host=> slaveDbHost, :user => 'clinlims', :password=> '', :dbname => 'clinlims'
     masterDbConnection.query("create table dummy_table (id int)")
     results = slaveDbConnection.query("select * from information_schema.tables where table_name = 'dummy_table';")
     expect(results).not_to be_nil
     masterDbConnection.query("drop table dummy_table")
+      end
     end
 
   it "should work in openerp database" do
@@ -26,11 +28,13 @@ describe "replication" do
     print masterDbHost
     print slaveDbHost
 
+    if slaveDbHost != 'null' then    
     masterDbConnection = PG.connect :host=> masterDbHost, :user => 'postgres', :password=> '', :dbname => 'openerp'
     slaveDbConnection = PG.connect :host=> slaveDbHost, :user => 'openerp', :password=> '', :dbname => 'openerp'
     masterDbConnection.query("create table dummy_table (id int)")
     results = slaveDbConnection.query("select * from information_schema.tables where table_name = 'dummy_table';")
     expect(results).not_to be_nil
     masterDbConnection.query("drop table dummy_table")
+     end
   end
 end

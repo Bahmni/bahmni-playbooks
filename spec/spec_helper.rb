@@ -11,6 +11,14 @@ require 'termios'
 host = ENV['TARGET_HOST']
 hosts = ENV["TARGET_HOSTS"]
 
+$passive = false
+inventory = AnsibleSpec.load_targets(AnsibleSpec.load_ansiblespec[1])
+slaveDbHost = inventory["bahmni-emr-db-slave"][0]["uri"]
+if host == slaveDbHost then
+  $passive = true
+end
+puts "passive values #{$passive}"
+
 group_idx = ENV['TARGET_GROUP_INDEX'].to_i
 vars = AnsibleSpec.get_variables(host, group_idx,hosts)
 set_property vars
