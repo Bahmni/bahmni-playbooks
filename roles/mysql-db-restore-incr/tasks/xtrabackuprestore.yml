@@ -5,23 +5,43 @@
   script: restore_backup.sh {{restore_path}} {{restore_point}}
   sudo: yes
 
+- name: create fresh db
+  shell: mysql -u{{ mysql_root_user }} -p{{ mysql_root_password }} -e'create database {{db}};';
+
+- name: disable foriegn key contraints
+  shell: mysql -u{{ mysql_root_user }} -p{{ mysql_root_password }} -e'set global foreign_key_checks=0;'
+
+- name: Load schema for {{db}}
+  shell: cat {{restore_path}}/{{restore_point}}/{{db}}_schema.sql | mysql -u{{ mysql_root_user }} -p{{ mysql_root_password }} {{db}}
+  become: yes
+
+- name: Discard table space for newly restored data files
+  script: restore_tablespace.sh {{mysql_root_user}} {{mysql_root_password}} {{db}} DISCARD
+
 - name: Stop Mysql Service
   service: name=mysqld state=stopped
+  become: yes
 
 - name: Restore backup files
-  command: rsync -arP /tmp/restore_dir/base/{{db}}/ /var/lib/mysql/{{db}}/
+  shell: cp -f /tmp/restore_dir/base/{{db}}/*.ibd /var/lib/mysql/{{db}}/
+  become: yes
 
-- name: Set permission to restored files
-  file:
-    state: directory
-    recurse: yes
-    owner: mysql
-    group: mysql
-    mode: 0777
-    path: /var/lib/mysql/{{db}}/
+- name: Change permissions to copied files
+  shell: chmod 660 /var/lib/mysql/{{db}}/*.ibd; chown mysql:mysql /var/lib/mysql/{{db}}/*.ibd;
+  become: yes
 
 - name: Start Mysql Service
   service: name=mysqld state=started enabled=true
+  become: yes
+
+- name: disable foriegn key contraints
+  shell: mysql -u{{ mysql_root_user }} -p{{ mysql_root_password }} -e'set global foreign_key_checks=0;'
+
+- name: Import table space for newly restored data files
+  script: restore_tablespace.sh {{mysql_root_user}} {{mysql_root_password}} {{db}} IMPORT
+
+- name: disable foriegn key contraints
+  shell: mysql -u{{ mysql_root_user }} -p{{ mysql_root_password }} -e'set global foreign_key_checks=1;'
 
 - name: Remove tempporary restore directory
   file:
