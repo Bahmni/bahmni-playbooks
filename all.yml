@@ -149,6 +149,8 @@
   become: yes
   roles:
     - {role: atomfeed-console}
+  tags:
+      - atomfeed-console
 
 - hosts: dcm4chee-db,dcm4chee-db-slave
   sudo: yes
