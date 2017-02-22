@@ -225,3 +225,11 @@
       group={{ bahmni_group }}
   delegate_to: "{{ item }}"
   with_items: "{{groups['bahmni-emr']}}"
+
+- name: Copying systemdate script
+  copy: src=systemdate.sh
+        dest=/var/www/cgi-bin/systemdate
+        mode=755
+        owner={{ bahmni_user }}
+        group={{ bahmni_group }}
+  tags: version
