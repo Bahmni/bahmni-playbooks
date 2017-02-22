@@ -92,6 +92,7 @@
             load("/bahmni_revisions/bahmni_openmrs_revision.json", 'bahmni');
             load("/bahmni_revisions/bahmni_openelis_revision.json", 'elis');
             load("/bahmni_revisions/bahmni_openerp_revision.json", 'erp');
+            serverTimeZone();
         }
         function initLinks() {
             var erpElement = document.getElementById("erp-app-link");
@@ -151,6 +152,29 @@
             xmlhttp.open("GET", url, true);
             xmlhttp.send();
         }
+        function serverTimeZone() {
+            callAjax("/cgi-bin/systemdate", function(data) {
+               if(data){
+                   var serverTime = data.date;
+                   var list = serverTime.split(" ");
+                   var serverTimeZone = list[list.length-1];
+                   var localTime = new Date().toLocaleString();
+                   var localTimeZone = getLocalTimeZone();
+                   if(localTimeZone !== serverTimeZone) {
+                        var warningMessageDiv = document.getElementsByClassName("warning-message")[0];
+                        warningMessageDiv.innerHTML= "Warning: The server timezone (" + serverTime + ") and your timezone (" + localTime + " " +localTimeZone + ") don't seem to match. This will result in unpredictable data / reporting issues. Please contact Administrator to get this issue fixed.";
+                   }
+               }
+            });
+        }
+        var getLocalTimeZone = function () {
+            var currentLocalTime = new Date().toString();
+            var localTimeZoneList = currentLocalTime.split(" ");
+            var localTimeZone = localTimeZoneList[localTimeZoneList.length-1];
+            localTimeZone = localTimeZone.substring(1, localTimeZone.length - 1);
+            return localTimeZone;
+        };
+
     </script>
 </head>
 
@@ -202,5 +226,6 @@
     </div>
     {% endif %}
 </div>
+    <div class="warning-message"></div>
 </body>
 </html>

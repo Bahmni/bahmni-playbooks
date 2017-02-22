@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-OUTPUT="$(date)"
+OUTPUT=$(date +"%D %r %Z")
 
  echo "Content-type: application/json"
  echo ""
