@@ -13,11 +13,11 @@ hosts = ENV["TARGET_HOSTS"]
 
 $passive = false
 inventory = AnsibleSpec.load_targets(AnsibleSpec.load_ansiblespec[1])
-slaveDbHost = inventory["bahmni-emr-db-slave"][0]["uri"]
-if host == slaveDbHost then
+masterDbHost = inventory["bahmni-emr"][0]["uri"]
+if host != masterDbHost then
   $passive = true
 end
-puts "passive values #{$passive}"
+puts "This setup has passive = #{$passive}"
 
 group_idx = ENV['TARGET_GROUP_INDEX'].to_i
 vars = AnsibleSpec.get_variables(host, group_idx,hosts)

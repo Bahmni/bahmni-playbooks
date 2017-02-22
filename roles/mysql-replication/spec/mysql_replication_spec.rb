@@ -6,7 +6,12 @@ inventory = AnsibleSpec.load_targets(AnsibleSpec.load_ansiblespec[1])
 describe "mysql replication" do
   it "should work" do
     masterDbHost = inventory["bahmni-emr-db"][0]["uri"]
-    slaveDbHost = inventory["bahmni-emr-db-slave"][0]["uri"]
+    begin
+      slaveDbHost = inventory["bahmni-emr-db-slave"][0]["uri"]
+    rescue
+      slaveDbHost = 'null'
+    end
+
     if slaveDbHost != 'null' then
     masterDbConnection = Mysql2::Client.new(:host => masterDbHost, :username => "root", :password => "password", :database => "openmrs")
     slaveDbConnection = Mysql2::Client.new(:host => slaveDbHost, :username => "root", :password => "password", :database => "openmrs")

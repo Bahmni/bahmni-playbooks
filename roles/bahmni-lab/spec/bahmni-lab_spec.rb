@@ -24,7 +24,7 @@ describe file('/opt/bahmni-lab/add_remote_ip_in_openelis_markers.sh'), :if => os
   it { should exist }
 end
 
-describe service('bahmni-lab'), :if => os[:family] == 'redhat' do
+describe service('bahmni-lab'), :if => os[:family] == 'redhat' && $passive == 'false' do
   it { should be_running }
 end
 
