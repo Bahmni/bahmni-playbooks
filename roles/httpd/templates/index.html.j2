@@ -161,8 +161,10 @@
                    var localTime = new Date().toLocaleString();
                    var localTimeZone = getLocalTimeZone();
                    if(localTimeZone !== serverTimeZone) {
-                        var warningMessageDiv = document.getElementsByClassName("warning-message")[0];
-                        warningMessageDiv.innerHTML= "Warning: The server timezone (" + serverTime + ") and your timezone (" + localTime + " " +localTimeZone + ") don't seem to match. This will result in unpredictable data / reporting issues. Please contact Administrator to get this issue fixed.";
+                        var warningMessageParagraph = document.getElementsByClassName("warning-message-paragraph")[0];
+                        var warningMessage = document.getElementsByClassName("warning-message-span")[0];
+                        warningMessage.innerHTML = "Warning";
+                        warningMessageParagraph.innerHTML= "The server timezone (" + serverTime + ") and your timezone (" + localTime + " " +localTimeZone + ") don't seem to match. This will result in unpredictable data / reporting issues. Please contact Administrator to get this issue fixed.";
                    }
                }
             });
@@ -226,6 +228,9 @@
     </div>
     {% endif %}
 </div>
-    <div class="warning-message"></div>
+    <div class="warning-message">
+    <span class="warning-message-span"></span>
+    <p class="warning-message-paragraph"></p>
+    </div>
 </body>
 </html>
