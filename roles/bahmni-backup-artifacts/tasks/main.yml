@@ -1,3 +1,8 @@
+- name: Fail with Error Message if all_artifacts is not configured
+  fail:
+     msg: "all_artifacts is not defined"
+  failed_when: all_artifacts is not defined
+
 - name: Make sure old backup temporary dest file is deleted
   file: path={{item}}  state=absent
   with_items:
@@ -8,30 +13,20 @@
   with_items:
     - "{{backup_temp_dest_dir}}"
 
-- name: Make sure backup log directory exists
+- name: Make sure log directory exists
   file: path={{item}} owner=bahmni group=bahmni mode=0755 state=directory
   with_items:
-    - "{{backup_log_file_dir}}"
+    - "{{log_file_dir}}"
 
 - name: Make sure backup log file exists
   file: path={{item}} owner=bahmni group=bahmni mode=0755 state=touch
   with_items:
     - "{{backup_log_file}}"
 
-- name: Make sure destination directory exists
-  file: path={{item}} owner=bahmni group=bahmni mode=0755 state=directory
-  with_items:
-    - "{{reports.backup_to_path}}"
-    - "{{pacs_images.backup_to_path}}"
-    - "{{patient_images.backup_to_path}}"
-    - "{{document_images.backup_to_path}}"
-    - "{{uploaded_files.backup_to_path}}"
-    - "{{uploaded_results.backup_to_path}}"
-
 - name: check if it's individual options
   include: individual_artifact.yml
-  when: options != "all"
+  when: options != "all" and all_artifacts is defined
 
 - name: check if it's all options
   include: all_artifacts.yml
-  when: options == "all"
+  when: options == "all" and all_artifacts is defined

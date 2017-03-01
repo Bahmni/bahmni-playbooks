@@ -1,0 +1,6 @@
+- name: expire artifacts from src location
+  script: expire-artifacts.sh {{item.name}} {{item.backup_to_path}} {{item.retention_limit}}
+  when: "item.name in options or options == 'all'"
+  with_items:
+     - "{{all_artifacts}}"
+  ignore_errors: true

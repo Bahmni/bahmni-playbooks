@@ -1,15 +1,38 @@
-- name: Check that the {{options}}  exists 
-  shell: find {{ item.from_path }} -type f | wc -l
+- name: Make sure destination directory exists
+  file: path={{item.backup_to_path}} owner=bahmni group=bahmni mode=0755 state=directory
+  with_items:
+    - "{{all_artifacts}}"
+
+- set_fact:
+    item_configured: false
+
+- name: check if {{options}} is configured
+  set_fact:
+   item_configured: true
+  when: "item.name == options"
+  with_items: "{{all_artifacts}}"
+
+- name: Fail with Error Message if {{options}} is not configured
+  fail:
+     msg: "{{options}} directory is not configured"
+  failed_when: item_configured == false
+
+- name: Check if {{options}}  exists 
+  shell: find {{ item.backup_from_path }} -type f | wc -l
   register: file 
   ignore_errors: true
   when: "options in item.name"
   with_items:
-     - {from_path: "{{document_images.backup_from_path}}", name: document_images}
-     - {from_path: "{{patient_images.backup_from_path}}", name: patient_images}
-     - {from_path: "{{uploaded_files.backup_from_path}}", name: uploaded-files}
-     - {from_path: "{{uploaded_results.backup_from_path}}", name: uploaded_results}
-     - {from_path: "{{pacs_images.backup_from_path}}" , name: pacs_images}
-     - {from_path: "{{reports.backup_from_path}}" , name: reports}
+     - "{{all_artifacts}}"
+
+- set_fact:
+    item_exists: true
+
+- name: set variable item_exists if {{options}} is empty
+  set_fact:
+        item_exists: false
+  when: "item.stdout is defined and item.stdout == '0'"
+  with_items: "{{ file.results }}"
 
 - name: Fail with Error Message if {{options}} does not exist 
   fail:
@@ -19,18 +42,12 @@
 
 - name: copy artifacts from src to dest location
   shell:
-         tar  -C $(dirname  {{item.from_path}} ) -czvf {{backup_temp_dest_dir}}/$(date +%Y-%m-%d_%H%M%S)-{{item.name}}.tar.gz $(basename {{item.from_path}}) 2>{{backup_log_file}};
+         tar  -C $(dirname  {{item.backup_from_path}} ) -czvf {{backup_temp_dest_dir}}/$(date +%Y-%m-%d_%H%M%S)-{{item.name}}.tar.gz $(basename {{item.backup_from_path}}) 2>{{backup_log_file}};
          chown bahmni:bahmni {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}});
          chmod 0755 {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}});
-         cp -rp {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}}) {{item.to_path}} 2>{{backup_log_file}};
-
+         cp -rp {{backup_temp_dest_dir}}/$(ls -t {{backup_temp_dest_dir}} | grep {{item.name}}) {{item.backup_to_path}} 2>{{backup_log_file}};
   async: "{{artifacts.async_timing}}"
-  when: "options in item.name"
+  when: "options in item.name and item_exists == true"
   with_items:
-      - { from_path: "{{reports.backup_from_path}}", to_path: "{{reports.backup_to_path}}" , name: reports}
-      - { from_path: "{{pacs_images.backup_from_path}}", to_path: "{{pacs_images.backup_to_path}}" , name: pacs_images}
-      - { from_path: "{{patient_images.backup_from_path}}", to_path: "{{patient_images.backup_to_path}}", name: patient_images}
-      - { from_path: "{{document_images.backup_from_path}}", to_path: "{{document_images.backup_to_path}}", name: document_images}
-      - { from_path: "{{uploaded_files.backup_from_path}}", to_path: "{{uploaded_files.backup_to_path}}", name: uploaded-files}
-      - { from_path: "{{uploaded_results.backup_from_path}}", to_path: "{{uploaded_results.backup_to_path}}", name: uploaded_results}
+      - "{{all_artifacts}}"
   ignore_errors: true
