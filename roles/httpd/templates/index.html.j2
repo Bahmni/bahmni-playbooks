@@ -4,15 +4,21 @@
     <meta charset="UTF-8">
     <title>Bahmni</title>
     <style>
+        html {
+            height: 100%;
+        }
         body {
             font-family: OpenSans, Arial, sans-serif;
+            position: relative;
+            height: 100%;
         }
         a {
             text-decoration: none;
         }
         .container {
             width: 670px;
-            margin: 100px auto;
+            margin: 100px auto 20px;
+            overflow: hidden;
         }
         .section {
             float: left;
@@ -80,11 +86,57 @@
             background-repeat: no-repeat;
             background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAABBNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iCiAgICAgICAgICAgIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIgogICAgICAgICAgICB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIj4KICAgICAgICAgPHhtcE1NOkRlcml2ZWRGcm9tIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgPHN0UmVmOmluc3RhbmNlSUQ+eG1wLmlpZDpFNTE3OEEyODk5QTAxMUUyOUExNUJDMTA0NkE4OTA0RDwvc3RSZWY6aW5zdGFuY2VJRD4KICAgICAgICAgICAgPHN0UmVmOmRvY3VtZW50SUQ+eG1wLmRpZDpFNTE3OEEyOTk5QTAxMUUyOUExNUJDMTA0NkE4OTA0RDwvc3RSZWY6ZG9jdW1lbnRJRD4KICAgICAgICAgPC94bXBNTTpEZXJpdmVkRnJvbT4KICAgICAgICAgPHhtcE1NOkRvY3VtZW50SUQ+eG1wLmRpZDpFNTE3OEEyQjk5QTAxMUUyOUExNUJDMTA0NkE4OTA0RDwveG1wTU06RG9jdW1lbnRJRD4KICAgICAgICAgPHhtcE1NOkluc3RhbmNlSUQ+eG1wLmlpZDpFNTE3OEEyQTk5QTAxMUUyOUExNUJDMTA0NkE4OTA0RDwveG1wTU06SW5zdGFuY2VJRD4KICAgICAgICAgPHhtcDpDcmVhdG9yVG9vbD5BZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpPC94bXA6Q3JlYXRvclRvb2w+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpu3rz2AAACW0lEQVQ4EW1TTWtTQRS9M/k0rTTRvJdHiPonRBEammXXunJZcenClT/BtVRFsKIuBReuCqUoFEIXgh8bQSkujIQkzXuLLIxNSGbGc+Y9sQsvDHPuvefcmXvnPSWpaWyWMAiCtha9JeI6cC8xBuuJqAMr9kUcx900JF6j4HjQarXOLOaLRxDeUkqJc448X5ScfzH1vFAq3On3+yc+Tlaz2azYxXJPad32Qogpp4jGmEfwfSFru7qQ3xwMBr95upiFeah1rm2tOQD3No79hPAJ8DcuYsZ8DhxyqaFWonp9oxGELgobLqqHTxhjO5hFBFjgImaMOXLI9Rpo81bpLTTInDilFtzR3wwbe/SGwY0APIkcArZiMWytnHTIQp8z48xjYhhb87xTe9ouOOSSRK0GrUUHJeJqtfrDw3T6nOPp5V8k5bg4nbK0WBUFwVNqJUkS32dW5L9bytGr6TuJY4EemXigc6VcaSNT5XwoczLMmBSLxQ7ar2WpHlt459/WualotxOdj64gucTi9f/OgXgZhuE15dQ2b0wNsm+1tvYpkjC3A9auyst7PNFnkhnkIo6CsIuhHcK9gJhlEW1zz/LDJPnYCBrb+DjuGmfX8TEdofxVY8xPEL3lTG5itVnP3JnWugzeg2Ey/MAresMJezjuslNyE4TBaDT6ioS/wcW1tdq8WDqCX0dOrLVvjuPxDeY5RC4ZxeNNtPUSQ9kXY7/g2gEJzM3LZX6RdSxozX2IrwMzpzlZD7j/mk73V0tnX+MW3ysrlcPJZMJhSq1Wg87G+CfvHY/HrxiD8WD7B5l2Fm85SHc6AAAAAElFTkSuQmCC)
         }
+        .warning-message {
+            text-align: center;
+            margin: 0 auto;
+            color: #ffac2e;
+            width: 50%;
+        }
+        .warning-message span {
+            font-weight: bolder;
+            font-size: 13px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        .warning-message p {
+            padding: 0 50px;
+            margin: 0;
+            font-size: 14px;
+        }
+        .emr-login-text {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 900;
+            color: #669999;
+            width: 100%;
+        }
         .power-by {
-          font-family: sans-serif ;
-          height:1%;
-          text-align: center;
-          margin-top: 550px;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            text-align: center;
+            background: #fafafa;
+            padding-bottom: 5px;
+            font-size: 10px;
+        }
+        .power-by img {
+            width: 65px;
+            vertical-align: middle;
+            margin: 0 1px;
+        }
+        .clint-logo-wrapper {
+            display: block;
+            text-align: center;
+            padding-top: 10px;
+        }
+        .clint-logo-wrapper img {
+            max-width: 200px;
+            vertical-align: middle;
+        }
+        .clint-logo-wrapper span {
+            vertical-align: middle;
+            color: #888;
+            font-size: 20px;
         }
     </style>
 
@@ -207,11 +259,11 @@
 </head>
 
 <body onload="init()">
-<div class="landing-page-text">
+<div class="emr-login-text">
     <b>WELCOME TO BAHMNI EMR & HOSPITAL SERVICE SOmething</b>
 </div>
-<dev class="clint_logo">
-    <img class="implementor-logo" src="/bahmni/images/bahmniLogo.png" height="4%" width="4%" align="middle">
+<dev class="clint-logo-wrapper">
+    <img class="implementor-logo" src="/bahmni/images/bahmniLogoFull.png" />
 </dev>
 <div class="container">
     <div class="section">
@@ -259,14 +311,18 @@
     </div>
     {% endif %}
 </div>
-<div class="power-by">
-    Power by <b>Thought</b>Works <img src="/bahmni/images/bahmniLogo.png" height="1%" width="1%"> Bahmni
-    <br>
-    <a class="helper-url" href="https://bahmni.atlassian.net/wiki/display/BAH/Bahmni+Home"> Bahmni Help</a>
-</div>
-    <div class="warning-message">
+<div class="warning-message">
+    <img src="/bahmni/images/warning.png">
     <span class="warning-message-span"></span>
     <p class="warning-message-paragraph"></p>
     </div>
+<div class="power-by">
+    Power by
+                <img src="/bahmni/images/twlogo.png" alt="ThoughtWorks">
+                <img src="/bahmni/images/bahmniLogoFull.png" alt="Bahmni" >
+            <br>
+    <a class="helper-url" href="https://bahmni.atlassian.net/wiki/display/BAH/Bahmni+Home"> Bahmni Help</a>
+</div>
+
 </body>
 </html>
