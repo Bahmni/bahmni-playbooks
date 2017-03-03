@@ -1,2 +1,18 @@
 - name: Install bahmni-offline from bahmni-repo
   yum: name="bahmni-offline-{{ bahmni_offline_version }}" state=present
+
+
+- name: Change ssl.conf file
+  blockinfile:
+    dest: /etc/httpd/conf.d/ssl.conf
+    marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK connect-ssl -->"
+    insertafter: "#connect-ssl"
+    state: present
+    block: |
+      {% for connect_host in groups['bahmni-offline'] %}
+      {% if hostvars[connect_host].get('passive', 'no') == hostvars[item].get('passive', 'no') %}
+          Alias /bahmni-connect /var/www/bahmni-connect-apps
+      {% endif %}
+      {% endfor %}
+  delegate_to: "{{ item }}"
+  with_items: "{{groups['bahmni-emr']}}"
