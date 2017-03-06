@@ -1,0 +1,10 @@
+- name: Copy bahmni connect artifacts creation python script
+  copy: src=bahmni_create_connect_artifacts.py dest=/tmp/.
+
+- name: create bahmni connect artifacts
+  script: bahmni_create_connect_artifacts.sh {{ OpenMRS_username }} {{ OpenMRS_password }}
+  sudo: yes
+
+- name: Delete bahmni connect artifacts creation python script
+  file: path=/tmp/bahmni_create_connect_artifacts.py state=absent
+

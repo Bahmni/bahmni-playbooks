@@ -1,0 +1,13 @@
+- hosts: bahmni-emr
+  sudo: yes
+  roles:
+    - { role: bahmni-create-connect-artifacts }
+
+  vars_prompt:
+    - name: "OpenMRS_username"
+      prompt: "Please enter OpenMRS username"
+      private: no
+
+    - name: "OpenMRS_password"
+      prompt: "Please enter OpenMRS password"
+      private: yes
