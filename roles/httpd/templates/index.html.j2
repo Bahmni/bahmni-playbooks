@@ -238,7 +238,7 @@
                    if(localTimeZone !== serverTimeZone) {
                         var warningMessageParagraph = document.getElementsByClassName("warning-message-paragraph")[0];
                         var warningMessage = document.getElementsByClassName("warning-message-span")[0];
-                        warningMessage.innerHTML = "Warning";
+                        warningMessage.innerHTML = "<img src='/bahmni/images/warning.png'> Warning";
                         warningMessageParagraph.innerHTML= "The server timezone (" + serverTime + ") and your timezone (" + localTime + " " +localTimeZone + ") don't seem to match. This will result in unpredictable data / reporting issues. Please contact Administrator to get this issue fixed.";
                    }
                }
@@ -328,7 +328,6 @@
     {% endif %}
 </div>
 <div class="warning-message">
-    <img src="/bahmni/images/warning.png">
     <span class="warning-message-span"></span>
     <p class="warning-message-paragraph"></p>
     </div>
