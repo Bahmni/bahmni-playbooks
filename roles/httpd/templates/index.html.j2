@@ -119,7 +119,7 @@
             margin: 0;
             font-size: 14px;
         }
-        .emr-login-text {
+        .header_text {
             text-align: center;
             margin: 35px auto 25px;
             color: #88b67f;
@@ -256,16 +256,22 @@
             callAjax("/bahmni_config/openmrs/apps/home/whiteLabel.json", function(data) {
                 if(data) {
                     if(data.homePage.header_text) {
-                        var headerTextElement = document.getElementsByClassName("landing-page-text")[0];
+                        var headerTextElement = document.getElementsByClassName("header_text")[0];
                         headerTextElement.innerHTML = "<b>" + data.homePage.header_text+ "</b>"
                     }
+
                     if(data.homePage.logo) {
-                        var logoImage = document.getElementsByClassName("implementor-logo")[0];
+                        var logoImage = document.getElementsByClassName("client_logo")[0];
                         logoImage.src = data.homePage.logo
                     }
+
                     if(data.helpLink.url) {
-                        var headerTextElement = document.getElementsByClassName("helper-url")[0];
+                        var headerTextElement = document.getElementsByClassName("helper_url")[0];
                         headerTextElement.href = data.helpLink.url;
+                    }
+                    if(data.homePage.client_text) {
+                        var clientTextElement = document.getElementsByClassName("client_text")[0] ;
+                        clientTextElement.innerHTML = data.homePage.client_text;
                     }
                 }
             });
@@ -276,9 +282,10 @@
 
 <body onload="init()">
 <dev class="clint-logo-wrapper">
-    <img class="implementor-logo" src="/bahmni/images/bahmniLogoFull.png" />
+    <img class="client_logo" src="/bahmni/images/bahmniLogoFull.png" />
+    <span class="client_text"> CLIENT LOGO </span>
 </dev>
-<div class="emr-login-text">
+<div class="header_text">
     <b>WELCOME TO<br />BAHMNI EMR & HOSPITAL SERVICE</b>
 </div>
 <div class="container">
@@ -336,7 +343,7 @@
                 <img src="/bahmni/images/twlogo.png" alt="ThoughtWorks">
                 <img src="/bahmni/images/bahmniLogoFull.png" alt="Bahmni" >
             <br>
-    <a class="helper-url" href="https://bahmni.atlassian.net/wiki/display/BAH/Bahmni+Home"> Bahmni Help</a>
+    <a class="helper_url" href="https://bahmni.atlassian.net/wiki/display/BAH/Bahmni+Home"> Bahmni Help</a>
 </div>
 
 </body>
