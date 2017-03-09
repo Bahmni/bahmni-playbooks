@@ -2,3 +2,5 @@ apps_max_age: 1
 uploaded_results_dir: /home/bahmni/uploaded_results
 uploaded_files_dir: /home/bahmni/uploaded-files
 patient_document_max_age: 86400
+
+

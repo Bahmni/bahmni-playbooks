@@ -147,14 +147,16 @@ SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM:+LOW
 # the certificate is encrypted, then you will be prompted for a
 # pass phrase.  Note that a kill -HUP will prompt again.  A new
 # certificate can be generated using the genkey(1) command.
-SSLCertificateFile /etc/bahmni-certs/cert.crt
+
+SSLCertificateFile {{ SSLCertificateFilePath }}
 
 #   Server Private Key:
 #   If the key is not combined with the certificate, use this
 #   directive to point at the key file.  Keep in mind that if
 #   you've both a RSA and a DSA private key you can configure
 #   both in parallel (to also allow the use of DSA ciphers, etc.)
-SSLCertificateKeyFile /etc/bahmni-certs/domain.key
+
+SSLCertificateKeyFile {{ SSLCertificateKeyFilePath }}
 
 #   Server Certificate Chain:
 #   Point SSLCertificateChainFile at a file containing the
@@ -164,8 +166,9 @@ SSLCertificateKeyFile /etc/bahmni-certs/domain.key
 #   when the CA certificates are directly appended to the server
 #   certificate for convinience.
 
-SSLCertificateChainFile /etc/bahmni-certs/chained.pem
-
+{% if SSLCertificateChainFilePath is defined %}
+SSLCertificateChainFile {{ SSLCertificateChainFilePath }}
+{% endif %}
 
 #   Certificate Authority (CA):
 #   Set the CA certificate verification path where to find CA

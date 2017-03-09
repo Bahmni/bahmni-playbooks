@@ -1,7 +1,7 @@
 ---
 
 - name: Restart Apache
-  service: name=httpd state=reloaded
+  service: name=httpd state=restarted
 
 - name: Restart Nagios
   service: name=nagios state=reloaded
