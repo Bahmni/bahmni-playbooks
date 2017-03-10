@@ -188,12 +188,14 @@
         function load(url, elementClass) {
             callAjax(url, function (data) {
                 var infoElement = document.getElementsByClassName(elementClass)[0];
-                if (data) {
-                    var infoDetailsElement = infoElement.getElementsByClassName("info-details")[0];
-                    renderInfoLinks(data, infoDetailsElement);
-                } else {
-                    var infoIconElement = infoElement.getElementsByClassName("info-icon")[0];
-                    infoIconElement.className += " error";
+                if (infoElement) {
+                    if (data) {
+                        var infoDetailsElement = infoElement.getElementsByClassName("info-details")[0];
+                        renderInfoLinks(data, infoDetailsElement);
+                    } else {
+                        var infoIconElement = infoElement.getElementsByClassName("info-icon")[0];
+                        infoIconElement.className += " error";
+                    }
                 }
             });
         }
