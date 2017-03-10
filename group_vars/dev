@@ -110,4 +110,4 @@ timezone: Asia/Kolkata
 
 SSLCertificateFilePath: /etc/bahmni-certs/cert.crt
 SSLCertificateKeyFilePath: /etc/bahmni-certs/domain.key
-SSLCertificateChainFilePath: /etc/bahmni-certs/certs/chained.pem
+SSLCertificateChainFilePath: /etc/bahmni-certs/chained.pem
