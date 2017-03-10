@@ -11,7 +11,7 @@
     block: |
       {% for connect_host in groups['bahmni-offline'] %}
       {% if hostvars[connect_host].get('passive', 'no') == hostvars[item].get('passive', 'no') %}
-          Alias /bahmni-connect /var/www/bahmni-connect-apps
+            Alias /bahmni-connect /var/www/bahmni-connect-apps
       {% endif %}
       {% endfor %}
   delegate_to: "{{ item }}"

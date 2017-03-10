@@ -312,6 +312,7 @@ RequestHeader set "X-Forwarded-Proto" "https"
 				Alias /uploaded_results {{ uploaded_results_dir }}
 				Alias /uploaded-files {{ uploaded_files_dir }}
                 Alias /implementer-interface /var/www/implementer_interface
+#connect-ssl
 
 
 			Redirect permanent /home /bahmni/home/
