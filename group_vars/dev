@@ -107,3 +107,7 @@ dcm4chee_archive_dir: /home/bahmni/pacs_images/archive
 #These varaibles should be there only in dev
 selinux_state: permissive
 timezone: Asia/Kolkata
+
+SSLCertificateFilePath: /etc/bahmni-certs/cert.crt
+SSLCertificateKeyFilePath: /etc/bahmni-certs/domain.key
+SSLCertificateChainFilePath: /opt/bahmni-certs/certs/chain1.pem
