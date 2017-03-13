@@ -2,7 +2,7 @@ import glob
 import json
 import ntpath
 import os
-
+import sys
 
 def concat_config(fileName, path, offline_path):
     result = {}
@@ -47,4 +47,11 @@ offlinePaths = {
 }
 
 for key in paths:
-    concat_config(key, paths[key], offlinePaths[key])
+    try:
+        concat_config(key, paths[key], offlinePaths[key])
+    except Exception, e:
+        if key == "dbNameCondition" :
+            sys.stderr.write(str(e))
+            pass
+        else :
+            raise Exception(e)
