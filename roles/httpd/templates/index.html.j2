@@ -243,7 +243,7 @@
                         var warningMessageParagraph = document.getElementsByClassName("warning-message-paragraph")[0];
                         var warningMessage = document.getElementsByClassName("warning-message-span")[0];
                         warningMessage.innerHTML = "<img src='/bahmni/images/warning.png'> Warning";
-                        warningMessageParagraph.innerHTML= "The server timezone (" + serverTime + ") and your timezone (" + localTime + " " +localTimeZone + ") don't seem to match. This will result in unpredictable data / reporting issues. Please contact Administrator to get this issue fixed.";
+                        warningMessageParagraph.innerHTML= "The server timezone (" + serverTime + ") is different from your browser's time/timezone (" + localTime + " " +localTimeZone + "). This can cause some data or reports to appear incorrect. Please contact the administrator for further assistance.";
                    }
                }
             });
@@ -343,7 +343,7 @@
     <p class="warning-message-paragraph"></p>
     </div>
 <div class="power-by">
-    Power by
+    Powered by
                 <img src="/bahmni/images/twlogo.png" alt="ThoughtWorks">
                 <img src="/bahmni/images/bahmniLogoFull.png" alt="Bahmni" >
             <br>
