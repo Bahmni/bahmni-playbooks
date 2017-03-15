@@ -23,14 +23,14 @@
   tasks:
    - name: Stop pacs-integration
      service: name=pacs-integration state=stopped
-     when: options == 'pacs-integration-db'
+     when: options == 'pacsdb'
      become: yes
 
 - hosts: dcm4chee
   tasks:
    - name: Stop dcm4chee
      service: name=dcm4chee state=stopped
-     when: options == 'dcm4chee-db'
+     when: options == 'bahmni_pacs'
      become: yes
 
 - name: Restoring db via pgbackrest
@@ -66,13 +66,13 @@
   tasks:
    - name: Start pacs-integration
      service: name=pacs-integration state=started
-     when: options == 'pacs-integration-db'
+     when: options == 'pacsdb'
      become: yes
 
 - hosts: dcm4chee
   tasks:
    - name: Start dcm4chee
      service: name=dcm4chee state=started
-     when: options == 'dcm4chee-db'
+     when: options == 'bahmni_pacs'
      become: yes
 
