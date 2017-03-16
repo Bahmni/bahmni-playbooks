@@ -21,6 +21,7 @@
         .container {
             width: 750px;
             margin: 20px auto;
+            padding: 0 15px 20px;
             overflow: hidden;
         }
         .container > h4 {
@@ -39,8 +40,12 @@
             background: #fff;
             padding: 5px;
             border-radius: 11px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
         }
+        .section:hover {
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+         }
         .launch {
             text-align: center;
             font-size: 20px;
