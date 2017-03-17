@@ -8,30 +8,38 @@
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep "WEB SERVER"  -m 1 | cut -c 1-2
   register: matchedRule
+  tags: iptables
 
 - name: delete matching rule if exists
   shell: iptables -D INPUT {{ matchedRule.stdout }}
   when: matchedRule.stdout!=""
+  tags:	iptables
 
 - name: Allow port 80 through firewall
   command: /sbin/iptables -I INPUT 1 -p tcp --dport  80 -j ACCEPT -m comment --comment "WEB SERVER"
+  tags:	iptables
 
 - name: save iptables
   command: service iptables save
+  tags:	iptables
 
 - name: Get matched IpTable rule
   shell: iptables -nL --line-numbers | grep https  -m 1 | cut -c 1-2
   register: matchedRule
+  tags:	iptables
 
 - name: delete matching rule if exists
   shell: iptables -D INPUT {{ matchedRule.stdout }}
   when: matchedRule.stdout!=""
+  tags:	iptables
 
 - name: Allow port 443 through firewall
   command: /sbin/iptables -I INPUT 1 -p tcp --dport  443 -j ACCEPT -m comment --comment "https"
+  tags:	iptables
 
 - name: save iptables
   command: service iptables save
+  tags:	iptables
 
 - name: create bahmni-certs directory
   file: path=/etc/bahmni-certs state=directory owner={{ bahmni_user }} group={{ bahmni_group }} mode=755
