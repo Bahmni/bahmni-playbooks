@@ -209,13 +209,18 @@
         mode=755
         owner={{ bahmni_user }}
         group={{ bahmni_group }}
-  tags: version
+
+- name: Check SELinux status
+  command: /usr/sbin/getenforce
+  changed_when: false
+  register: selinuxenforcing
 
 - name: set httpd_enable_cgi for SELinux
   seboolean:
     name=httpd_enable_cgi
     state=yes
     persistent=yes
+  when: selinuxenforcing.stdout.find("Enforcing") != -1
 
 - name: Start openmrs
   service: name=openmrs state=started enabled=yes
