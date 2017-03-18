@@ -13,7 +13,7 @@
   roles:
     - { role: httpd-maintenance, maintenance_status: start , tags: always}
 
-- hosts: all
+- hosts: local
   sudo: yes
   roles:
     - { role: selinux, selinux_state: enforcing, selinux_policy: targeted, tags: selinux }
