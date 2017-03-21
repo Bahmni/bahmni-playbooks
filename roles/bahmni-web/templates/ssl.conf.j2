@@ -148,7 +148,9 @@ SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM:+LOW
 # pass phrase.  Note that a kill -HUP will prompt again.  A new
 # certificate can be generated using the genkey(1) command.
 
+{% if SSLCertificateFilePath is defined %}
 SSLCertificateFile {{ SSLCertificateFilePath }}
+{% endif %}
 
 #   Server Private Key:
 #   If the key is not combined with the certificate, use this
@@ -156,7 +158,9 @@ SSLCertificateFile {{ SSLCertificateFilePath }}
 #   you've both a RSA and a DSA private key you can configure
 #   both in parallel (to also allow the use of DSA ciphers, etc.)
 
+{% if SSLCertificateKeyFilePath is defined %}
 SSLCertificateKeyFile {{ SSLCertificateKeyFilePath }}
+{% endif %}
 
 #   Server Certificate Chain:
 #   Point SSLCertificateChainFile at a file containing the
