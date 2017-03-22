@@ -103,4 +103,3 @@ force_new_java_download: false
 
 SSLCertificateFilePath: /etc/bahmni-certs/cert.crt
 SSLCertificateKeyFilePath: /etc/bahmni-certs/domain.key
-SSLCertificateChainFilePath: /etc/bahmni-certs/chained.pem
