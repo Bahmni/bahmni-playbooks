@@ -278,9 +278,9 @@
                         var headerTextElement = document.getElementsByClassName("helper_url")[0];
                         headerTextElement.href = data.helpLink.url;
                     }
-                    if(data.homePage.client_text) {
-                        var clientTextElement = document.getElementsByClassName("client_text")[0] ;
-                        clientTextElement.innerHTML = data.homePage.client_text;
+                    if(data.homePage.title_text) {
+                        var titleTextElement = document.getElementsByClassName("title_text")[0] ;
+                        titleTextElement.innerHTML = data.homePage.title_text;
                     }
                 }
             });
@@ -292,7 +292,7 @@
 <body onload="init()">
 <dev class="clint-logo-wrapper">
     <img class="client_logo" src="/bahmni/images/bahmniLogoFull.png" />
-    <span class="client_text"> CLIENT LOGO </span>
+    <span class="title_text"> TITLE TEXT </span>
 </dev>
 <div class="header_text">
     <b>WELCOME TO<br />BAHMNI EMR & HOSPITAL SERVICE</b>
