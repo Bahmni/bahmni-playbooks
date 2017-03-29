@@ -342,6 +342,26 @@
         </div>
     </div>
     {% endif %}
+    {% if groups['bahmni-offline']|length > 0  %}
+    <div class="section">
+        <div class="launch">
+            <a href="/bahmni-offline" target="_blank">
+                 <img src="/bahmni/images/connect.png" />
+                <span>Connect</span>
+            </a>
+        </div>
+    </div>
+    {% endif %}
+    {% if groups['pacs-integration']|length > 0  %}
+    <div class="section">
+        <div class="launch">
+            <a href="/pacs-integration" target="_blank">
+                 <img src="/bahmni/images/pac.png" />
+                <span>Radiology</span>
+            </a>
+        </div>
+    </div>
+    {% endif %}
 </div>
 <div class="warning-message">
     <span class="warning-message-span"></span>
