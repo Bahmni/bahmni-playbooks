@@ -92,7 +92,7 @@ SSLCryptoDevice builtin
 
 							<Directory /var/www/bahmniapps>
 					Header unset Pragma
-					Options Indexes FollowSymLinks
+					Options FollowSymLinks
 					Header set Cache-Control "max-age= {{ apps_max_age }}"
 				</Directory>
 								CacheEnable disk /openmrs/ws/rest/v1/concept
