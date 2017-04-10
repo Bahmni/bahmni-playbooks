@@ -85,7 +85,7 @@ SSLCryptoDevice builtin
 
 							<Directory /home/bahmni/document_images>
 					Header unset Pragma
-					Options Indexes FollowSymLinks
+					Options FollowSymLinks
 					Header set Cache-Control "max-age={{ patient_document_max_age }}"
 				</Directory>
 								CacheEnable disk /var/www/bahmniapps
