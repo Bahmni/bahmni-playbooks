@@ -5,24 +5,25 @@
     <title>Bahmni</title>
     <style>
         html {
-            height: 100%;
-            overflow: hidden;
+            overflow: auto;
         }
         body {
             font-family: OpenSans, Arial, sans-serif;
             position: relative;
-            height: 100%;
             background: #f8f8f8;
             overflow: hidden;
+            padding-bottom: 40px;
         }
         a {
             text-decoration: none;
         }
         .container {
             width: 750px;
-            margin: 20px auto;
+            margin: 20px auto 0;
             padding: 0 15px 20px;
             overflow: hidden;
+            background: #f8f8f8;
+            z-index: 2;
         }
         .container > h4 {
             margin: 0;
@@ -115,6 +116,8 @@
             margin: 0 auto;
             color: #ffac2e;
             width: 50%;
+            background: #f8f8f8;
+            padding-top: 10px;
         }
         .warning-message span {
             font-weight: bolder;
@@ -135,14 +138,14 @@
             width: 100%;
         }
         .power-by {
-            position: absolute;
+            position: fixed;
             width: 100%;
             bottom: 7px;
             text-align: center;
             background: #f8f8f8;
             padding-bottom: 5px;
             font-size: 12px;
-            z-index: 1;
+            z-index: -1;
             color: #898989;
         }
         .power-by img {
