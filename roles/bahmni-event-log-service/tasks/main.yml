@@ -26,19 +26,22 @@
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
 
-- name: Get matched IpTable rule
-  shell: iptables -nL --line-numbers | grep BAHMNIEVENTLOGSERVICE  -m 1 | cut -c 1-2
-  register: matchedRule
+- block:
+    - name: Get matched IpTable rule
+      shell: iptables -nL --line-numbers | grep BAHMNIEVENTLOGSERVICE  -m 1 | cut -c 1-2
+      register: matchedRule
 
-- name: delete matching rule if exists
-  shell: iptables -D INPUT {{ matchedRule.stdout }}
-  when: matchedRule.stdout!=""
+    - name: delete matching rule if exists
+      shell: iptables -D INPUT {{ matchedRule.stdout }}
+      when: matchedRule.stdout!=""
 
-- name: Allow bahmni-event-log-service port through firewall
-  command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ bahmni_event_log_service_port }} -j ACCEPT -m comment --comment "BAHMNIEVENTLOGSERVICE"
+    - name: Allow bahmni-event-log-service port through firewall
+      command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ bahmni_event_log_service_port }} -j ACCEPT -m comment --comment "BAHMNIEVENTLOGSERVICE"
 
-- name: save iptables
-  command: service iptables save
+    - name: save iptables
+      command: service iptables save
+
+  when: docker is not defined
 
 - name: Switch off chkconfig for bahmni-event-log-service on passive
   service: name=bahmni-event-log-service state=stopped enabled=no

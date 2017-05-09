@@ -13,19 +13,23 @@
 - name: restart atomfeed-console service
   service: name=atomfeed-console state=restarted enabled=true
 
-- name: get matched iptable rule
-  shell: iptables -nL --line-numbers | grep ATOMFEED_CONSOLE  -m 1 | cut -c 1-2
-  register: matchedRule
+- block:
 
-- name: delete matching rule if exists
-  shell: iptables -D INPUT {{ matchedRule.stdout }}
-  when: matchedRule.stdout!=""
+   - name: get matched iptable rule
+     shell: iptables -nL --line-numbers | grep ATOMFEED_CONSOLE  -m 1 | cut -c 1-2
+     register: matchedRule
 
-- name: allow atomfeed console port through firewall
-  command: /sbin/iptables -I INPUT 1 -p tcp --dport {{ atomfeed_console_port }} -j ACCEPT -m comment --comment "ATOMFEED_CONSOLE"
+   - name: delete matching rule if exists
+     shell: iptables -D INPUT {{ matchedRule.stdout }}
+     when: matchedRule.stdout!=""
 
-- name: save iptables
-  command: service iptables save
+   - name: allow atomfeed console port through firewall
+     command: /sbin/iptables -I INPUT 1 -p tcp --dport {{ atomfeed_console_port }} -j ACCEPT -m comment --comment "ATOMFEED_CONSOLE"
+
+   - name: save iptables
+     command: service iptables save
+
+  when: docker is not defined
 
 - name: Install python-psycopg2
   yum: name=python-psycopg2 state=present

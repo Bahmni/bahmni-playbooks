@@ -62,19 +62,23 @@
   when: inventory_hostname in groups['bahmni-lab-db'] or inventory_hostname in groups['bahmni-erp-db'] or inventory_hostname in groups['pacs-integration-db'] or inventory_hostname in groups['dcm4chee-db']
   register: recovery_conf
 
-- name: Get matched IpTable rule
-  shell: iptables -nL --line-numbers | grep POSTGRES  -m 1 | cut -c 1-2
-  register: matchedRule
+- block:
 
-- name: delete matching rule if exists
-  shell: iptables -D INPUT {{ matchedRule.stdout }}
-  when: matchedRule.stdout!=""
+    - name: Get matched IpTable rule
+      shell: iptables -nL --line-numbers | grep POSTGRES  -m 1 | cut -c 1-2
+      register: matchedRule
 
-- name: Allow postgres port through firewall
-  command: /sbin/iptables -I INPUT 1 -p tcp --dport  5432 -j ACCEPT -m comment --comment "POSTGRES"
+    - name: delete matching rule if exists
+      shell: iptables -D INPUT {{ matchedRule.stdout }}
+      when: matchedRule.stdout!=""
 
-- name: save iptables
-  command: service iptables save
+    - name: Allow postgres port through firewall
+      command: /sbin/iptables -I INPUT 1 -p tcp --dport  5432 -j ACCEPT -m comment --comment "POSTGRES"
+
+    - name: save iptables
+      command: service iptables save
+
+  when: docker is not defined
 
 - name: Stop PostgreSQL
   service:

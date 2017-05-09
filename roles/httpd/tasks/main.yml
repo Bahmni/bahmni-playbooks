@@ -5,33 +5,37 @@
    - mod_ssl
    - mod_wsgi
 
-- name: Get matched IpTable rule
-  shell: iptables -nL --line-numbers | grep "WEB SERVER"  -m 1 | cut -c 1-2
-  register: matchedRule
+- block :
 
-- name: delete matching rule if exists
-  shell: iptables -D INPUT {{ matchedRule.stdout }}
-  when: matchedRule.stdout!=""
+    - name: Get matched IpTable rule
+      shell: iptables -nL --line-numbers | grep "WEB SERVER"  -m 1 | cut -c 1-2
+      register: matchedRule
 
-- name: Allow port 80 through firewall
-  command: /sbin/iptables -I INPUT 1 -p tcp --dport  80 -j ACCEPT -m comment --comment "WEB SERVER"
+    - name: delete matching rule if exists
+      shell: iptables -D INPUT {{ matchedRule.stdout }}
+      when: matchedRule.stdout!=""
 
-- name: save iptables
-  command: service iptables save
+    - name: Allow port 80 through firewall
+      command: /sbin/iptables -I INPUT 1 -p tcp --dport  80 -j ACCEPT -m comment --comment "WEB SERVER"
 
-- name: Get matched IpTable rule
-  shell: iptables -nL --line-numbers | grep https  -m 1 | cut -c 1-2
-  register: matchedRule
+    - name: save iptables
+      command: service iptables save
 
-- name: delete matching rule if exists
-  shell: iptables -D INPUT {{ matchedRule.stdout }}
-  when: matchedRule.stdout!=""
+    - name: Get matched IpTable rule
+      shell: iptables -nL --line-numbers | grep https  -m 1 | cut -c 1-2
+      register: matchedRule
 
-- name: Allow port 443 through firewall
-  command: /sbin/iptables -I INPUT 1 -p tcp --dport  443 -j ACCEPT -m comment --comment "https"
+    - name: delete matching rule if exists
+      shell: iptables -D INPUT {{ matchedRule.stdout }}
+      when: matchedRule.stdout!=""
 
-- name: save iptables
-  command: service iptables save
+    - name: Allow port 443 through firewall
+      command: /sbin/iptables -I INPUT 1 -p tcp --dport  443 -j ACCEPT -m comment --comment "https"
+
+    - name: save iptables
+      command: service iptables save
+
+  when: docker is not defined
 
 - name: create bahmni-certs directory
   file: path=/etc/bahmni-certs state=directory owner={{ bahmni_user }} group={{ bahmni_group }} mode=755

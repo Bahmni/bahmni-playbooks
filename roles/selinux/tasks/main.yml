@@ -1,17 +1,21 @@
-- name: install libselinux-python
-  yum: name=libselinux-python state=present
+- block:
 
-- name: install libsemanage-python
-  yum: name=libsemanage-python state=present
+    - name: install libselinux-python
+      yum: name=libselinux-python state=present
 
-- name: Get selinux status
-  command: getenforce
-  register: selinux_status
+    - name: install libsemanage-python
+      yum: name=libsemanage-python state=present
 
-- name: set selinux state and policy
-  selinux:
-    policy={{ selinux_policy }}
-    state={{ selinux_state }}
+    - name: Get selinux status
+      command: getenforce
+      register: selinux_status
 
-- include: enforcing_policies.yml
-  when: selinux_state == 'enforcing'
+    - name: set selinux state and policy
+      selinux:
+        policy={{ selinux_policy }}
+        state={{ selinux_state }}
+
+    - include: enforcing_policies.yml
+      when: selinux_state == 'enforcing'
+
+  when: docker is not defined

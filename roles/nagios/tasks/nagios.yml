@@ -18,20 +18,24 @@
     - python-passlib
     - check_nrpe
 
-- name: Find iptable rules
-  shell: iptables -L
-  register: iptablesrules
-  tags: iptables
+- block:
 
-- name: Allow apache http port through firewall
-  command: /sbin/iptables -I INPUT 1 -p tcp --dport 80 -j ACCEPT -m comment --comment "ApacheHttp"
-  when: iptablesrules.stdout.find("ApacheHttp") == -1
-  tags: iptables
+    - name: Find iptable rules
+      shell: iptables -L
+      register: iptablesrules
+      tags: iptables
 
-- name: save iptables
-  shell: iptables-save > /etc/sysconfig/iptables
-  tags: iptables
-  
+    - name: Allow apache http port through firewall
+      command: /sbin/iptables -I INPUT 1 -p tcp --dport 80 -j ACCEPT -m comment --comment "ApacheHttp"
+      when: iptablesrules.stdout.find("ApacheHttp") == -1
+      tags: iptables
+
+    - name: save iptables
+      shell: iptables-save > /etc/sysconfig/iptables
+      tags: iptables
+
+  when: docker is not defined
+
 - name: Add cgi.cfg
   template:
     src=cgi.cfg

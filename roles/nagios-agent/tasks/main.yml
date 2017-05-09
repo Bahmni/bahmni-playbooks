@@ -29,20 +29,24 @@
 - name: Ensure NRPE server is running
   service: name="nrpe" state=restarted enabled=yes
 
-- name: Read iptable rules
-  shell: iptables -L
-  register: iptablesrules
-  tags: iptables
+- block:
 
-- name: Allow nagios nrpe port through firewall
-  command: /sbin/iptables -I INPUT 1 -p tcp --dport 5666 -j ACCEPT -m comment --comment "NagiosNRPE"
-  when: iptablesrules.stdout.find("NagiosNRPE") == -1
-  tags: iptables
+    - name: Read iptable rules
+      shell: iptables -L
+      register: iptablesrules
+      tags: iptables
 
-- name: save iptables
-  shell: iptables-save > /etc/sysconfig/iptables
-  sudo: yes
-  tags: iptables
+    - name: Allow nagios nrpe port through firewall
+      command: /sbin/iptables -I INPUT 1 -p tcp --dport 5666 -j ACCEPT -m comment --comment "NagiosNRPE"
+      when: iptablesrules.stdout.find("NagiosNRPE") == -1
+      tags: iptables
+
+    - name: save iptables
+      shell: iptables-save > /etc/sysconfig/iptables
+      sudo: yes
+      tags: iptables
+
+  when: docker is not defined
 
 - name: set nagios_run_sudo for SELinux
   seboolean:

@@ -38,19 +38,22 @@
   with_items:
     - "{{reports_save_dir}}"
 
-- name: Get matched IpTable rule
-  shell: iptables -nL --line-numbers | grep BAHMNIREPORTS  -m 1 | cut -c 1-2
-  register: matchedRule
+- block:
 
-- name: delete matching rule if exists
-  shell: iptables -D INPUT {{ matchedRule.stdout }}
-  when: matchedRule.stdout!=""
+    - name: Get matched IpTable rule
+      shell: iptables -nL --line-numbers | grep BAHMNIREPORTS  -m 1 | cut -c 1-2
+      register: matchedRule
 
-- name: Allow bahmni-reports port through firewall
-  command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ bahmni_reports_port }} -j ACCEPT -m comment --comment "BAHMNIREPORTS"
+    - name: delete matching rule if exists
+      shell: iptables -D INPUT {{ matchedRule.stdout }}
+      when: matchedRule.stdout!=""
 
-- name: save iptables
-  command: service iptables save
+    - name: Allow bahmni-reports port through firewall
+      command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ bahmni_reports_port }} -j ACCEPT -m comment --comment "BAHMNIREPORTS"
+
+    - name: save iptables
+      command: service iptables save
+  when: docker is not defined
 
 - name: Switch off chkconfig for bahmni-reports on passive
   service: name=bahmni-reports state=stopped enabled=no
