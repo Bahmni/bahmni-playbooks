@@ -2,4 +2,3 @@ bahmni_repo_url: http://repo.mybahmni.org/rpm/bahmni/
 implementation_name: default
 timezone: Asia/Kolkata
 selinux_state: permissive
-docker: yes
