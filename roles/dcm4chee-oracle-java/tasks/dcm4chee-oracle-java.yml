@@ -8,11 +8,11 @@
 
 - name: Delete java rpm if checksum does not match
   file: path={{ java_rpm_location }} state=absent
-  when: "{{ force_new_java_download == true }}"
+  when: "{{ force_new_java_download == true }} and java_file_url is not defined"
 
 - name: Download Java
   command: "wget -q -p -O {{ java_rpm_location }} --no-check-certificate --no-cookies --header 'Cookie:oraclelicense=accept-securebackup-cookie' {{java_download_url}} creates={{ java_rpm_location }}"
-  when: "{{ downloaded_java.stat.exists == false  }} or {{ force_new_java_download == true }}"
+  when: "{{ downloaded_java.stat.exists == false  }} or {{ force_new_java_download == true }} and java_file_url is not defined"
 
 - name: install oracle java rpm
   yum: name={{ java_rpm_location }} state=present
