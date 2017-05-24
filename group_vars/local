@@ -103,3 +103,4 @@ force_new_java_download: false
 
 SSLCertificateFilePath: /etc/bahmni-certs/cert.crt
 SSLCertificateKeyFilePath: /etc/bahmni-certs/domain.key
+java_file_url: file:/opt/jre-7u79-linux-x64.rpm
