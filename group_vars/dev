@@ -110,3 +110,5 @@ timezone: Asia/Kolkata
 
 SSLCertificateFilePath: /etc/bahmni-certs/cert.crt
 SSLCertificateKeyFilePath: /etc/bahmni-certs/domain.key
+
+java_file_url: /opt/jre-7u79-linux-x64.rpm

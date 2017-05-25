@@ -102,3 +102,5 @@ md5_checksum_of_java: "8eeed2ea9f48b688cd01b888d3c72bec"
 force_new_java_download: false
 SSLCertificateFilePath: /etc/bahmni-certs/cert.crt
 SSLCertificateKeyFilePath: /etc/bahmni-certs/domain.key
+
+java_file_url: /opt/jre-7u79-linux-x64.rpm
