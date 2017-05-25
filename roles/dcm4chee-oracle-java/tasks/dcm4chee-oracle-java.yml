@@ -1,7 +1,3 @@
-- name: check if java is already downloaded
-  stat: path={{java_file_url}}
-  register: downloaded_java
-
 - name: install oracle java rpm
   yum: name={{ java_file_url }} state=present
 
