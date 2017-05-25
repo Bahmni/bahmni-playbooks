@@ -7,22 +7,17 @@ localhost
 
 [bahmni-emr-db]
 localhost
-
 [bahmni-emr-db-slave]
 
 [bahmni-erp]
 localhost
-
 [bahmni-erp-db]
 localhost
-
 [bahmni-erp-db-slave]
 
 [bahmni-lab]
-localhost
 
 [bahmni-lab-db]
-localhost
 
 [bahmni-lab-db-slave]
 
@@ -30,12 +25,10 @@ localhost
 localhost
 
 [bahmni-reports-db]
-localhost
 
 [bahmni-reports-db-slave]
 
 [atomfeed-console]
-localhost
 
 [pacs-integration]
 
@@ -44,8 +37,10 @@ localhost
 [pacs-integration-db-slave]
 
 [dcm4chee]
+localhost
 
 [dcm4chee-db]
+localhost
 
 [dcm4chee-db-slave]
 
@@ -54,13 +49,10 @@ localhost
 [bahmni-offline]
 
 [mysql-backup-tool]
-localhost
 
 [postgres-backup-tool]
-localhost
 
 [bahmni-backup-artifacts]
-localhost
 
 [local:children]
 nagios-server
