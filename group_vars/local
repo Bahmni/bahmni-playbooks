@@ -98,7 +98,7 @@ bahmni_two_factor_auth_server_options: "-Xms512m -Xmx1024m"
 bahmni_two_factor_auth_debug_args: "-agentlib:jdwp=transport=dt_socket,address=8005,server=y,suspend=n"
 
 dcm4chee_study_uid: 1.2.4.0.13.1.4.2252867.
-md5_checksum_of_java: "8eeed2ea9f48b688cd01b888d3c72bec"
+md5_checksum_of_java: "ebebfd327e67c4bbe47dabe6b9f6e961"
 force_new_java_download: false
 
 SSLCertificateFilePath: /etc/bahmni-certs/cert.crt
