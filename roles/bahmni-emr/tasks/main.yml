@@ -108,20 +108,23 @@
     mode=644
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
+- block:
 
-- name: Get matched IpTable rule
-  shell: iptables -nL --line-numbers | grep OPENMRS  -m 1 | cut -c 1-2
-  register: matchedRule
+    - name: Get matched IpTable rule
+      shell: iptables -nL --line-numbers | grep OPENMRS  -m 1 | cut -c 1-2
+      register: matchedRule
 
-- name: delete matching rule if exists
-  shell: iptables -D INPUT {{ matchedRule.stdout }}
-  when: matchedRule.stdout!=""
+    - name: delete matching rule if exists
+      shell: iptables -D INPUT {{ matchedRule.stdout }}
+      when: matchedRule.stdout!=""
 
-- name: Allow openmrs port through firewall
-  command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ openmrs_port }} -j ACCEPT -m comment --comment "OPENMRS"
+    - name: Allow openmrs port through firewall
+      command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ openmrs_port }} -j ACCEPT -m comment --comment "OPENMRS"
 
-- name: save iptables
-  command: service iptables save
+    - name: save iptables
+      command: service iptables save
+
+  when: docker is not defined
 
 - name: Retrieve salt from users
   command: >
