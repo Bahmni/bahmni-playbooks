@@ -10,22 +10,26 @@
 - name: Install dcm4chee from bahmni-repo
   yum: name="dcm4chee-{{ dcm4chee_version }}" state=present
 
-- name: Get matched IpTable rule
-  shell: iptables -nL --line-numbers | grep DCM4CHEE  -m 1 | cut -c 1-2
-  register: matchedRule
+- block:
 
-- name: delete matching rule if exists
-  shell: iptables -D INPUT {{ matchedRule.stdout }}
-  when: matchedRule.stdout!=""
+    - name: Get matched IpTable rule
+      shell: iptables -nL --line-numbers | grep DCM4CHEE  -m 1 | cut -c 1-2
+      register: matchedRule
 
-- name: Allow dcm4chee port through firewall
-  command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ dchm4chee_port }} -j ACCEPT -m comment --comment "DCM4CHEE"
+    - name: delete matching rule if exists
+      shell: iptables -D INPUT {{ matchedRule.stdout }}
+      when: matchedRule.stdout!=""
 
-- name: Allow dcm4chee port through firewall
-  command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ dcm4chee_imagestorage_port }} -j ACCEPT -m comment --comment "dcm4cheeimagestorage"
+    - name: Allow dcm4chee port through firewall
+      command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ dchm4chee_port }} -j ACCEPT -m comment --comment "DCM4CHEE"
 
-- name: save iptables
-  command: service iptables save
+    - name: Allow dcm4chee port through firewall
+      command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ dcm4chee_imagestorage_port }} -j ACCEPT -m comment --comment "dcm4cheeimagestorage"
+
+    - name: save iptables
+      command: service iptables save
+
+  when: docker is not defined
 
 - name: Switch off chkconfig for dcm4chee on passive
   service: name=dcm4chee state=stopped enabled=no
