@@ -171,6 +171,18 @@
             color: #888;
             font-size: 20px;
         }
+
+        .bottom-banner-wrapper {
+            position: fixed;
+            text-align: center;
+            bottom: 20px;
+            width: 100%;
+        }
+
+        .bottom-banner-wrapper img {
+            max-width: 35%;
+            height: auto;
+        }
     </style>
 
     <script>
@@ -292,6 +304,9 @@
                         var titleTextElement = document.getElementsByClassName("title_text")[0] ;
                         titleTextElement.innerHTML = data.homePage.title_text;
                     }
+                    if (data.homePage.bottomBanner){
+                        document.getElementById("bottom-banner-image").src = data.homePage.bottomBanner;
+                    }
                 }
             });
         }
@@ -376,7 +391,10 @@
 <div class="warning-message">
     <span class="warning-message-span"></span>
     <p class="warning-message-paragraph"></p>
-    </div>
+</div>
+<div class="bottom-banner-wrapper">
+   <img id="bottom-banner-image">
+</div>
 <div class="power-by">
     Powered by
     <img src="/bahmni/images/twlogo.png" alt="ThoughtWorks">
