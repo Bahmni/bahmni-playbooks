@@ -6,3 +6,5 @@ postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
 
 openerp_db_username: openerp
 openerp_db_password: openerp
+
+mx_download_url: ftp://195.220.108.108/linux/Mandriva/devel/cooker/x86_64/media/contrib/release/mx-1.4.5-1-mdv2012.0.x86_64.rpm
