@@ -139,7 +139,7 @@
      owner=root
      group=nagios
      mode=0644
-  with_items: "{{ nagios_users }}"
+  with_items: nagios_users
   notify: Restart Apache
 
 
