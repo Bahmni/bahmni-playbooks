@@ -86,6 +86,7 @@ document_images_dir: /home/bahmni/document_images
 uploaded_results_dir: /home/bahmni/uploaded_results
 uploaded_files_dir: /home/bahmni/uploaded-files
 reports_save_dir: /home/bahmni/reports
+clinical_forms_dir: /home/bahmni/clinical_forms
 
 dcm4chee_archive_dir_link: /var/lib/bahmni/dcm4chee-2.18.1-psql/server/default/archive
 dcm4chee_archive_dir: /home/bahmni/pacs_images/archive
