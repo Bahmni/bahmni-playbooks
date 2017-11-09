@@ -23,6 +23,7 @@
     - "{{document_images_dir}}"
     - "{{uploaded_files_dir}}"
     - "{{uploaded_results_dir}}"
+    - "{{clinical_forms_dir}}"
 
 - name: Install crontab
   yum: name=crontabs state=present
@@ -34,6 +35,7 @@
    - sync_document_image_cron
    - sync_uploaded_files_cron
    - sync_uploaded_results_cron
+   - sync_clinical_forms_cron
 
 - name: create a cron tab to sync patient_images directories
   cron:
@@ -70,6 +72,16 @@
     job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -pog {{uploaded_results_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{uploaded_results_dir}}/../"
   when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
   with_items: "{{groups['bahmni-emr']}}"
+
+- name: create a cron tab to sync clinical forms directories
+  cron:
+    name="sync_clinical_forms_cron"
+    minute="*/1"
+    user=root
+    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -pog {{clinical_forms_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{clinical_forms_dir}}/../"
+  when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
+  with_items: "{{groups['bahmni-emr']}}"
+
 
 - name: Start cron service
   service: name=crond state=started
