@@ -1,9 +1,9 @@
 - name: Install nrpe and nagios plugins
   yum: pkg={{item}} state=installed
   with_items:
-    - nrpe
-    - nagios-plugins-all
-    - check_nrpe
+    - https://kojipkgs.fedoraproject.org/packages/nrpe/2.15/7.el6/x86_64/nrpe-2.15-7.el6.x86_64.rpm
+    - https://kojipkgs.fedoraproject.org/packages/nagios-plugins/2.0.3/3.fc21/x86_64/nagios-plugins-all-2.0.3-3.fc21.x86_64.rpm
+    - https://kojipkgs.fedoraproject.org/packages/nrpe/2.15/7.el6/x86_64/nagios-plugins-nrpe-2.15-7.el6.x86_64.rpm
 
 - name: copy nrpe.cfg
   template:
