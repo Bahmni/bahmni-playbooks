@@ -10,13 +10,13 @@
 - name: Install nagios
   yum: pkg={{item}} state=installed
   with_items:
-    - nagios
-    - nagios-common
-    - nagios-devel
-    - nagios-plugins-all
+    - https://kojipkgs.fedoraproject.org/packages/nagios/3.5.1/1.el6/x86_64/nagios-3.5.1-1.el6.x86_64.rpm
+    - https://kojipkgs.fedoraproject.org/packages/nagios/3.5.1/1.el6/x86_64/nagios-common-3.5.1-1.el6.x86_64.rpm
+    - https://kojipkgs.fedoraproject.org/packages/nagios/3.5.1/1.el6/x86_64/nagios-devel-3.5.1-1.el6.x86_64.rpm
+    - https://kojipkgs.fedoraproject.org/packages/nagios-plugins/2.0.3/3.fc21/x86_64/nagios-plugins-all-2.0.3-3.fc21.x86_64.rpm
     - libselinux-python
     - python-passlib
-    - check_nrpe
+    - https://kojipkgs.fedoraproject.org/packages/nrpe/2.15/7.el6/x86_64/nagios-plugins-nrpe-2.15-7.el6.x86_64.rpm
 
 - block:
 
