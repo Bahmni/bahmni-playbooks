@@ -2,5 +2,6 @@
 {% for dcm4chee_host in groups['dcm4chee'] %}
 {% if hostvars[dcm4chee_host].get('passive', 'no') == hostvars[item].get('passive', 'no') %}
 		ProxyPass /oviyam2 http://{{ dcm4chee_host }}:{{ dchm4chee_port }}/oviyam2
+		ProxyPass /dcm4chee-web3 http://{{ dcm4chee_host }}:{{ dchm4chee_port }}/dcm4chee-web3
 {% endif %}
 {% endfor %}
