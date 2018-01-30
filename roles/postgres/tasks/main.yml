@@ -3,7 +3,10 @@
   register: postgresRepoRpm
 
 - name: Download postgres yum repo rpm if not present
-  command: "wget -q -O {{ postgres_repo_rpm_location }} {{postgres_repo_download_url}} creates={{ postgres_repo_rpm_location }}"
+  uri:
+    url: "{{ postgres_repo_download_url }}"
+    dest: "{{ postgres_repo_rpm_location }}"
+    creates: "{{ postgres_repo_rpm_location }}"
   when: postgresRepoRpm.stat.exists == false
 
 - name: Install postgresql yum repository

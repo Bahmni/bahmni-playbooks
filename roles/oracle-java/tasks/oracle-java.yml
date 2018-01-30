@@ -11,7 +11,13 @@
   when: "{{ force_new_java_download == true }}"
 
 - name: Download Java
-  command: "wget -q -p -O {{ java_rpm_location }} --no-check-certificate --no-cookies --header 'Cookie:oraclelicense=accept-securebackup-cookie' {{java_download_url}} creates={{ java_rpm_location }}"
+  uri:
+    url: "{{ java_download_url }}"
+    dest: "{{ java_rpm_location }}"
+    headers:
+      Cookie: "oraclelicense=accept-securebackup-cookie"
+    validate_certs: no
+    creates: "{{ java_rpm_location }}"
   when: "{{ downloaded_java.stat.exists == false  }} or {{ force_new_java_download == true }}"
 
 - name: install oracle java rpm
