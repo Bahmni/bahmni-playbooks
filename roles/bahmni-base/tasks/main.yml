@@ -54,5 +54,6 @@
     - unzip
     - python-pip
     - rsync
+  when: not docker|default(false)|bool
   tags: utils
 
