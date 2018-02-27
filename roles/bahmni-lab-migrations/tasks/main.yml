@@ -1,0 +1,2 @@
+- include: migrate.yml
+  when: implementation_name != 'default'

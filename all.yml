@@ -93,6 +93,7 @@
   sudo: yes
   roles:
     - { role: bahmni-lab }
+    - { role: bahmni-lab-migrations, tags: config}
   tags:
     - bahmni-lab
 

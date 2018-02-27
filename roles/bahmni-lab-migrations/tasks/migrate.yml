@@ -1,0 +1,5 @@
+
+- name: Run OpenELIS liquibase migrations
+  script: run-implementation-openelis-liquibase.sh
+  when: passive is not defined or passive != 'yes'
+
