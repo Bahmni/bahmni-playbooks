@@ -1,0 +1,88 @@
+- name: Creating pub SSH keys in active machine
+  user: name=root generate_ssh_key=yes ssh_key_bits=2048
+  when: passive is not defined or passive != 'yes'
+
+- name: Downloading pub key
+  fetch: src=/root/.ssh/id_rsa.pub dest=/tmp/id_rsa.pub flat=yes fail_on_missing=yes mode=766
+  when: passive is not defined or passive != 'yes'
+
+- block:
+   - name: Add authorized key to passive machine
+     authorized_key: user={{ bahmni_support_user }} key="{{ lookup('file', '/tmp/id_rsa.pub') }}"
+     when: passive is defined and passive == 'yes'
+
+- always:
+   - name: Deleting temporal files
+     local_action: file path=/tmp/id_rsa.pub state=absent
+     ignore_errors: true
+
+- name: Make sure patient_images directory exists in passive machine
+  file: path={{item}} owner={{ bahmni_user }} group={{ bahmni_group }} mode=0755 state=directory
+  with_items:
+    - "{{patient_images_dir}}"
+    - "{{document_images_dir}}"
+    - "{{uploaded_files_dir}}"
+    - "{{uploaded_results_dir}}"
+    - "{{clinical_forms_dir}}"
+
+- name: Install crontab
+  yum: name=crontabs state=present
+
+- name: Remove crontab jobs for upload directories
+  cron: name="{{item}}" user=root state=absent
+  with_items:
+   - sync_patient_image_cron
+   - sync_document_image_cron
+   - sync_uploaded_files_cron
+   - sync_uploaded_results_cron
+   - sync_clinical_forms_cron
+
+- name: create a cron tab to sync patient_images directories
+  cron:
+    name="sync_patient_image_cron"
+    minute="*/1"
+    user=root
+    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -pog {{patient_images_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{patient_images_dir}}/../"
+  when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
+  with_items: "{{groups['bahmni-emr']}}"
+
+- name: create a cron tab to sync document_images directories
+  cron:
+    name="sync_document_image_cron"
+    minute="*/1"
+    user=root
+    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -pog {{document_images_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{document_images_dir}}/../"
+  when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
+  with_items: "{{groups['bahmni-emr']}}"
+
+- name: create a cron tab to sync uploaded-files directories
+  cron:
+    name="sync_uploaded_files_cron"
+    minute="*/1"
+    user=root
+    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -pog {{uploaded_files_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{uploaded_files_dir}}/../"
+  when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
+  with_items: "{{groups['bahmni-emr']}}"
+
+- name: create a cron tab to sync uploaded_results directories
+  cron:
+    name="sync_uploaded_results_cron"
+    minute="*/1"
+    user=root
+    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -pog {{uploaded_results_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{uploaded_results_dir}}/../"
+  when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
+  with_items: "{{groups['bahmni-emr']}}"
+
+- name: create a cron tab to sync clinical forms directories
+  cron:
+    name="sync_clinical_forms_cron"
+    minute="*/1"
+    user=root
+    job="rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -pog {{clinical_forms_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{clinical_forms_dir}}/../"
+  when: "{{ (passive is not defined or passive != 'yes') and hostvars[item].get('passive') | default('') == 'yes' }}"
+  with_items: "{{groups['bahmni-emr']}}"
+
+
+- name: Start cron service
+  service: name=crond state=started
+  when: passive is not defined or passive != 'yes'

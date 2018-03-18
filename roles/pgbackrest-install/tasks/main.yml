@@ -39,9 +39,12 @@
   - perl516-perl-Time-HiRes.x86_64
   - perl516-perl-Digest-SHA.x86_64
 
-- name: Fetching  Pgbackrest
+- name: Fetching Pgbackrest
+  unarchive:
+    src: "https://github.com/pgbackrest/pgbackrest/archive/release/1.12.tar.gz"
+    dest: "/home/bahmni/"
+    remote_src: yes
   sudo: yes
-  shell: wget -q -O - \https://github.com/pgbackrest/pgbackrest/archive/release/1.12.tar.gz | \tar zx -C /home/bahmni/
 
 - name: Removing old version of pgbackrest
   sudo: yes

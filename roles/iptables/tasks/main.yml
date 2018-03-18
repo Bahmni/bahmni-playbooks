@@ -33,4 +33,4 @@
 
     - name: Save the changes
       command: service iptables save
-  when: docker is not defined
+  when: not docker|default(false)|bool
