@@ -46,6 +46,12 @@ openerp.username= {{ openerp_db_username }}
 openerp.password= {{ openerp_db_password }}
 {% endif %}
 
+{% if groups['bahmni-mart-db']|length > 0 %}
+bahmni.mart.url=jdbc:postgresql://{{ groups['bahmni-mart-db'][0] }}:5432/{{ analytics_db_name }}
+bahmni.mart.username={{ analytics_db_user }}
+bahmni.mart.password={{ analytics_db_password }}
+{% endif %}
+
 {% if groups['bahmni-reports-db']|length > 0 %}
 bahmnireports.db.url=jdbc:mysql://{{ groups['bahmni-reports-db'][0] }}:3306/bahmni_reports?allowMultiQueries=true
 {% endif %}
