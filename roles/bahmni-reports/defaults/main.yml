@@ -8,6 +8,3 @@ bahmni_reports_context_path: "/bahmnireports"
 bahmni_reports_war_directory: "/var/run/bahmni-reports/bahmni-reports"
 bahmni_reports_server_opts: "-Xms512m -Xmx1024m"
 bahmni_reports_debug_opts: "-agentlib:jdwp=transport=dt_socket,address=8003,server=y,suspend=n"
-analytics_db_name: analytics
-analytics_db_user: analytics
-analytics_db_password: ''
