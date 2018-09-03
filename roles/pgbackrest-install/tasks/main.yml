@@ -33,11 +33,11 @@
   - perl-JSON
   - perl-Digest-SHA.x86_64
   - centos-release-scl
-  - perl516-perl-Thread-Queue.noarch
-  - perl516-perl-JSON-PP.noarch
-  - perl516-perl-DBD-Pg.x86_64
-  - perl516-perl-Time-HiRes.x86_64
-  - perl516-perl-Digest-SHA.x86_64
+  - rh-perl524-perl-Thread-Queue.noarch
+  - rh-perl524-perl-JSON-PP.noarch
+  - rh-perl524-perl-DBD-Pg.x86_64
+  - rh-perl524-perl-Time-HiRes.x86_64
+  - rh-perl524-perl-Digest-SHA.x86_64
 
 - name: Fetching  Pgbackrest
   sudo: yes
