@@ -1,11 +1,11 @@
 ---
 
 - name: Restart Apache
-  service: name=httpd state=restarted
+  systemd: name=httpd state=restarted
 
 - name: Restart Nagios
-  service: name=nagios state=reloaded
+  systemd: name=nagios state=reloaded
 
 - name: Restart ssmtp
-  service: name=sendmail state=reloaded
+  systemd: name=sendmail state=reloaded
 

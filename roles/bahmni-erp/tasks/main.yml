@@ -53,7 +53,7 @@
   yum: name="bahmni-erp-{{ bahmni_erp_version }}" state=present
 
 - name: Stop Openerp
-  service:
+  systemd:
     name=openerp
     state=stopped
   when: passive is not defined or passive != 'yes'
@@ -76,12 +76,12 @@
       command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ openerp_port }} -j ACCEPT -m comment --comment "BAHMNIERP"
 
     - name: save iptables
-      command: service iptables save
+      command: /usr/libexec/iptables/iptables.init save
 
   when: docker is not defined
 
 - name: Switch off chkconfig for Openerp on passive
-  service: name=openerp state=stopped enabled=no
+  systemd: name=openerp state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
 - name: Change ssl.conf file
@@ -103,7 +103,7 @@
   with_items: "{{groups['bahmni-emr']}}"
 
 - name: Start Openerp and enable at boot
-  service:
+  systemd:
     name=openerp
     enabled=yes
     state=started

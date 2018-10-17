@@ -22,7 +22,7 @@
   yum: name="pacs-integration-{{ pacs_integration_version }}" state=present
 
 - name: Stop pacs-integration
-  service:
+  systemd:
     name=pacs-integration
     state=stopped
   when: passive is not defined or passive != 'yes'
@@ -66,11 +66,11 @@
       command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ pacs_integration_port }} -j ACCEPT -m comment --comment "PACSINTEGRATION"
 
     - name: save iptables
-      command: service iptables save
+      command: /usr/libexec/iptables/iptables.init save
   when: docker is not defined
 
 - name: Switch off chkconfig for pacs-integration on passive
-  service: name=pacs-integration state=stopped enabled=no
+  systemd: name=pacs-integration state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
 - name: Backup pacs_integration markers, failed_events tables
@@ -91,7 +91,7 @@
   when: passive is not defined or passive != 'yes'
 
 - name: Start pacs-integration and enable at boot
-  service:
+  systemd:
     name=pacs-integration
     enabled=yes
     state=started
