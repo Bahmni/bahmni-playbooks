@@ -27,7 +27,7 @@
     - check_scheduled_tasks.py
 
 - name: Ensure NRPE server is running
-  service: name="nrpe" state=restarted enabled=yes
+  systemd: name="nrpe" state=restarted enabled=yes
 
 - block:
 
