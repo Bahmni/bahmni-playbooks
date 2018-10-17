@@ -11,7 +11,7 @@
     group={{ atomfeed_console_group }}
 
 - name: restart atomfeed-console service
-  service: name=atomfeed-console state=restarted enabled=true
+  systemd: name=atomfeed-console state=restarted enabled=true
 
 - block:
 
@@ -27,7 +27,7 @@
      command: /sbin/iptables -I INPUT 1 -p tcp --dport {{ atomfeed_console_port }} -j ACCEPT -m comment --comment "ATOMFEED_CONSOLE"
 
    - name: save iptables
-     command: service iptables save
+     command: /usr/libexec/iptables/iptables.init save
 
   when: docker is not defined
 
@@ -87,7 +87,7 @@
     - {group: "{{ groups['pacs-integration-db'] }}", db_user: "{{ atomfeed_console_db_username }}", db: bahmni_pacs}
 
 - name: reload postgresql
-  service:
+  systemd:
     name=postgresql-{{ postgres_version }}
     state=reloaded
   delegate_to: "{{ item }}"
@@ -125,5 +125,5 @@
   delegate_to:  "{{ groups['bahmni-emr'][0] }}"
 
 - name: reload httpd
-  service: name=httpd state=reloaded
+  systemd: name=httpd state=reloaded
   delegate_to:  "{{ groups['bahmni-emr'][0] }}"

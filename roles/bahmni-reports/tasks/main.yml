@@ -11,7 +11,7 @@
   yum: name="bahmni-reports-{{ bahmni_reports_version }}" state=present
 
 - name: Stop bahmni-reports
-  service:
+  systemd:
     name=bahmni-reports
     state=stopped
   when: passive is not defined or passive != 'yes'
@@ -52,15 +52,15 @@
       command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ bahmni_reports_port }} -j ACCEPT -m comment --comment "BAHMNIREPORTS"
 
     - name: save iptables
-      command: service iptables save
+      command: /usr/libexec/iptables/iptables.init save
   when: docker is not defined
 
 - name: Switch off chkconfig for bahmni-reports on passive
-  service: name=bahmni-reports state=stopped enabled=no
+  systemd: name=bahmni-reports state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
 - name: Start bahmni-reports and enable at boot
-  service:
+  systemd:
     name=bahmni-reports
     enabled=yes
     state=started

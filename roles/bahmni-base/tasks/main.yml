@@ -41,7 +41,7 @@
   tags: ntp
 
 - name: start and enable ntpd
-  service: name=ntpd state=started enabled=yes
+  systemd: name=ntpd state=started enabled=yes
   tags: ntp
 
 - name: install utils

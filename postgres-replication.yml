@@ -13,7 +13,7 @@
   sudo: yes
   tasks:
    - name: Stop openerp
-     service:
+     systemd:
        name: openerp
        state: stopped
      when: passive is not defined or passive != 'yes'
@@ -22,7 +22,7 @@
   sudo: yes
   tasks:
    - name: Stop bahmni-lab
-     service:
+     systemd:
        name: bahmni-lab
        state: stopped
      when: passive is not defined or passive != 'yes'
@@ -31,7 +31,7 @@
   sudo: yes
   tasks:
    - name: Stop pacs-integration
-     service:
+     systemd:
        name: pacs-integration
        state: stopped
      when: passive is not defined or passive != 'yes'
@@ -40,7 +40,7 @@
   sudo: yes
   tasks:
    - name: Stop dcm4chee
-     service:
+     systemd:
        name: dcm4chee
        state: stopped
      when: passive is not defined or passive != 'yes'
@@ -80,7 +80,7 @@
   sudo: yes
   tasks:
    - name: Start openerp
-     service:
+     systemd:
        name: openerp
        state: started
      when: passive is not defined or passive != 'yes'
@@ -89,7 +89,7 @@
   sudo: yes
   tasks:
    - name: Start bahmni-lab
-     service:
+     systemd:
        name: bahmni-lab
        state: started
      when: passive is not defined or passive != 'yes'
@@ -98,7 +98,7 @@
   sudo: yes
   tasks:
    - name: Start pacs-integration
-     service:
+     systemd:
        name: pacs-integration
        state: started
      when: passive is not defined or passive != 'yes'
@@ -107,7 +107,7 @@
   sudo: yes
   tasks:
    - name: Start dcm4chee
-     service:
+     systemd:
        name: dcm4chee
        state: started
      when: passive is not defined or passive != 'yes'

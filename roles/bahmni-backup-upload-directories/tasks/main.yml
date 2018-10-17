@@ -84,5 +84,5 @@
 
 
 - name: Start cron service
-  service: name=crond state=started
+  systemd: name=crond state=started
   when: passive is not defined or passive != 'yes'

@@ -11,7 +11,7 @@
   yum: name="bahmni-erp-connect-{{ bahmni_erp_connect_version }}" state=present
 
 - name: Stop bahmni-openerp-connect
-  service:
+  systemd:
     name=bahmni-erp-connect
     state=stopped
   when: passive is not defined or passive != 'yes'
@@ -26,7 +26,7 @@
     mode=0644
 
 - name: Switch off chkconfig for bahmni-openerp-connect on passive
-  service: name=bahmni-erp-connect state=stopped enabled=no
+  systemd: name=bahmni-erp-connect state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
 - name: Copy atomfeed properties
@@ -53,7 +53,7 @@
   when: passive is not defined or passive != 'yes'
 
 - name: Start bahmni-openerp-connect and enable at boot
-  service:
+  systemd:
     name=bahmni-erp-connect
     enabled=yes
     state=started

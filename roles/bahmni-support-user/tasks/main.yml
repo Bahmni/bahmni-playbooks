@@ -41,4 +41,4 @@
     - sshd
 
 - name: reload sshd
-  service: name=sshd state=reloaded
+  systemd: name=sshd state=reloaded
