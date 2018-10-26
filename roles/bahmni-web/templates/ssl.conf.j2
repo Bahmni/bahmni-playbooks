@@ -40,7 +40,7 @@ SSLSessionCacheTimeout  300
 #   Semaphore:
 #   Configure the path to the mutual exclusion semaphore the
 #   SSL engine uses internally for inter-process synchronization.
-SSLMutex default
+Mutex default
 
 #   Pseudo Random Number Generator (PRNG):
 #   Configure one or more sources to seed the PRNG of the
@@ -70,32 +70,32 @@ SSLCryptoDevice builtin
 
 # Mod cache Settings
 <IfModule mod_cache.c>
-	LoadModule disk_cache_module modules/mod_disk_cache.so
-	<IfModule mod_disk_cache.c>
+	LoadModule cache_disk_module modules/mod_cache_disk.so
+	<IfModule mod_cache_disk.c>
 		CacheRoot /var/cache/mod_proxy
 
 			CacheEnable disk /home/bahmni/patient_images
 
-							<Directory /home/bahmni/patient_images>
+				<Directory /home/bahmni/patient_images>
 					Header unset Pragma
 					Options Indexes FollowSymLinks
 					Header set Cache-Control "max-age={{ patient_document_max_age }}"
 				</Directory>
-								CacheEnable disk /home/bahmni/document_images
+				CacheEnable disk /home/bahmni/document_images
 
-							<Directory /home/bahmni/document_images>
+				<Directory /home/bahmni/document_images>
 					Header unset Pragma
 					Options FollowSymLinks
 					Header set Cache-Control "max-age={{ patient_document_max_age }}"
 				</Directory>
-								CacheEnable disk /var/www/bahmniapps
+				CacheEnable disk /var/www/bahmniapps
 
-							<Directory /var/www/bahmniapps>
+				<Directory /var/www/bahmniapps>
 					Header unset Pragma
 					Options FollowSymLinks
 					Header set Cache-Control "max-age= {{ apps_max_age }}"
 				</Directory>
-								CacheEnable disk /openmrs/ws/rest/v1/concept
+				CacheEnable disk /openmrs/ws/rest/v1/concept
 
 
 	    CacheDirLevels 5
