@@ -19,7 +19,7 @@
     - mysql
   when: mysqlVersion|success and mysqlVersion.stdout.find('5.7') == -1
 
-- name: Install mysql from mysql57 yum repository
+- name: Install mysql from mysql5.7 yum repository
   yum: name={{ item }} state=present
   with_items:
     - mysql-community-common
@@ -29,32 +29,11 @@
 
   when: mysqlVersion|failed or mysqlVersion.stdout.find('5.7') == -1
 
-- name: Create /var/log/mysql directory to store binlogs if it does not exist
-  file: path=/var/log/mysql state=directory mode=0755 owner=mysql group=mysql
-
-- name: Copy mysql config
-  template:
-    src=templates/my.cnf.j2
-    dest=/etc/my.cnf
-    backup=yes
-    mode=755
-  register: my_cnf
-
-- name: Stop Mysql Service
-  service: name=mysqld state=stopped
-  when: my_cnf.changed == true
-
 - name: Start Mysql Service
   service: name=mysqld state=started enabled=true
 
 - name: Update mysql root password
-  mysql_user: name=root
-              password="{{ mysql_root_password }}"
-              check_implicit_admin=yes
-              login_user=root
-              login_password="{{ mysql_old_root_password }}"
-              state=present
-  ignore_errors: yes
+  command: /usr/bin/sh /opt/bahmni-installer/bahmni-playbooks/roles/mysql/tasks/mysql_secure_installation.sh
 
 - block:
 
