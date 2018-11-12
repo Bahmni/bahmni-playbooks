@@ -19,7 +19,7 @@
       command: /sbin/iptables -I INPUT 1 -p tcp --dport  80 -j ACCEPT -m comment --comment "WEB SERVER"
 
     - name: save iptables
-      command: service iptables save
+      command: /usr/libexec/iptables/iptables.init save
 
     - name: Get matched IpTable rule
       shell: iptables -nL --line-numbers | grep https  -m 1 | cut -c 1-2
@@ -33,7 +33,7 @@
       command: /sbin/iptables -I INPUT 1 -p tcp --dport  443 -j ACCEPT -m comment --comment "https"
 
     - name: save iptables
-      command: service iptables save
+      command: /usr/libexec/iptables/iptables.init save
 
   when: docker is not defined
 
@@ -53,17 +53,17 @@
   when: certificate_link.stat.exists == False
 
 - name: Switch off chkconfig for httpd on passive
-  service: name=httpd state=stopped enabled=no
+  systemd: name=httpd state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
 - name: Stop httpd
-  service: name=httpd state=stopped
+  systemd: name=httpd state=stopped
   tags: 
       - run_bahmni_web
       - stop_bahmni
 
 - name: Start httpd
-  service: name=httpd state=started enabled=yes
+  systemd: name=httpd state=started enabled=yes
   tags:
       - run_bahmni_web
       - start_bahmni

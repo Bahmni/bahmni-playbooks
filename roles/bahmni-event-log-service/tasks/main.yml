@@ -39,23 +39,23 @@
       command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ bahmni_event_log_service_port }} -j ACCEPT -m comment --comment "BAHMNIEVENTLOGSERVICE"
 
     - name: save iptables
-      command: service iptables save
+      command: /usr/libexec/iptables/iptables.init save
 
   when: docker is not defined
 
 - name: Switch off chkconfig for bahmni-event-log-service on passive
-  service: name=bahmni-event-log-service state=stopped enabled=no
+  systemd: name=bahmni-event-log-service state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
 - name: Stop bahmni-event-log-service
-  service:
+  systemd:
     name=bahmni-event-log-service
     state=stopped
   when: passive is not defined or passive != 'yes'
   tags: stop_bahmni
 
 - name: Start bahmni-event-log-service and enable at boot
-  service:
+  systemd:
     name=bahmni-event-log-service
     enabled=yes
     state=started

@@ -11,7 +11,7 @@
       dest=/etc/pgbackrest.conf
 
 - name: Stop PostgreSQL
-  service:
+  systemd:
     name=postgresql-{{ postgres_version }}
     state=stopped
   ignore_errors: true
@@ -26,7 +26,7 @@
   when: strategy == "dump"
 
 - name: Start PostgreSQL
-  service:
+  systemd:
     name=postgresql-{{ postgres_version }}
     state=running
   ignore_errors: true

@@ -1,35 +1,35 @@
 - hosts: bahmni-lab
   tasks:
    - name: Stop bahmni-lab
-     service: name="bahmni-lab" state=stopped
+     systemd: name="bahmni-lab" state=stopped
      when: options == 'clinlims'
      become: yes
 
 - hosts: bahmni-erp
   tasks:
    - name: Stop bahmni-erp
-     service: name=openerp state=stopped
+     systemd: name=openerp state=stopped
      when: options == 'openerp'
      become: yes
 
 - hosts: bahmni-erp
   tasks:
    - name: Stop bahmni-erp-connect
-     service: name=bahmni-erp-connect state=stopped
+     systemd: name=bahmni-erp-connect state=stopped
      when: options == 'openerp'
      become: yes
 
 - hosts: pacs-integration
   tasks:
    - name: Stop pacs-integration
-     service: name=pacs-integration state=stopped
+     systemd: name=pacs-integration state=stopped
      when: options == 'pacsdb'
      become: yes
 
 - hosts: dcm4chee
   tasks:
    - name: Stop dcm4chee
-     service: name=dcm4chee state=stopped
+     systemd: name=dcm4chee state=stopped
      when: options == 'bahmni_pacs'
      become: yes
 
@@ -44,35 +44,35 @@
 - hosts: bahmni-lab
   tasks:
    - name: Start bahmni-lab
-     service: name=bahmni-lab state=started
+     systemd: name=bahmni-lab state=started
      when: options == 'clinlims'
      become: yes
 
 - hosts: bahmni-erp
   tasks:
    - name: Start openerp
-     service: name=openerp state=started
+     systemd: name=openerp state=started
      when: options == 'openerp'
      become: yes
 
 - hosts: bahmni-erp
   tasks:
    - name: Start bahmni-erp
-     service: name=bahmni-erp-connect state=started
+     systemd: name=bahmni-erp-connect state=started
      when: options == 'openerp'
      become: yes
 
 - hosts: pacs-integration
   tasks:
    - name: Start pacs-integration
-     service: name=pacs-integration state=started
+     systemd: name=pacs-integration state=started
      when: options == 'pacsdb'
      become: yes
 
 - hosts: dcm4chee
   tasks:
    - name: Start dcm4chee
-     service: name=dcm4chee state=started
+     systemd: name=dcm4chee state=started
      when: options == 'bahmni_pacs'
      become: yes
 

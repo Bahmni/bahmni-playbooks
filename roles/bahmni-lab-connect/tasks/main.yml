@@ -8,11 +8,11 @@
   when: installed_bahmni_lab_connect.stdout.find("{{ bahmni_lab_connect_version }}") == -1
 
 - name: Stop openmrs and bahmni-emr
-  service: name=openmrs state=stopped
+  systemd: name=openmrs state=stopped
 
 - name: Install bahmni-lab-connect from bahmni-repo
   yum: name="bahmni-lab-connect-{{ bahmni_lab_connect_version }}" state=present
 
 - name: Start openmrs and bahmni-emr
-  service: name=openmrs state=started
+  systemd: name=openmrs state=started
   when: passive is not defined or passive != 'yes'

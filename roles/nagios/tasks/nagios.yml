@@ -144,7 +144,7 @@
 
 
 - name: Start Nagios service
-  service: name=nagios state=restarted enabled=yes
+  systemd: name=nagios state=restarted enabled=yes
 
 - name: Start httpd service
-  service: name=httpd state=started enabled=yes
+  systemd: name=httpd state=started enabled=yes
