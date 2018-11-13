@@ -2,10 +2,6 @@
 # tasks file for iptables
 - block:
 
-    - name: Install iptables-services
-      yum:
-        name: iptables-services
-
     - name: get iptables rules
       shell: iptables -L
       register: iptablesrules
@@ -19,7 +15,7 @@
       when: iptablesrules.stdout.find("lo") == -1
 
     - name:  Allow Established
-      command: /sbin/iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+      command: /sbin/iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT --state "ESTABLISHED"
       when: iptablesrules.stdout.find("ESTABLISHED") == -1
 
     - name: Allow SSH
