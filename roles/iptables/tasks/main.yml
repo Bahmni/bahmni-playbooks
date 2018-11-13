@@ -5,7 +5,7 @@
     - name: get iptables rules
       shell: iptables -L
       register: iptablesrules
-      check_mode: no
+      always_run: yes
 
     - name: Allow Input ACCEPT
       command: /sbin/iptables -P INPUT ACCEPT

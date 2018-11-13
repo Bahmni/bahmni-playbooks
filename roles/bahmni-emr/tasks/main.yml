@@ -133,7 +133,7 @@
     --host={{ groups['bahmni-emr-db'][0] }} --batch --skip-column-names
     --execute="SELECT salt from users where username='{{ openmrs_user_id }}' or system_id='{{ openmrs_user_id }}';"
   register: salt
-  check_mode: no
+  always_run: True
   changed_when: False
   when: passive is not defined or passive != 'yes'
 
@@ -147,7 +147,7 @@
       mysql --user={{mysql_root_user}} --password={{mysql_root_password}} openmrs
       --host={{ groups['bahmni-emr-db'][0] }} --batch --skip-column-names
       --execute="UPDATE users set password='{{ hashedPassword.stdout }}' where username='{{ openmrs_user_id }}' or system_id='{{ openmrs_user_id }}';"
-  check_mode: no
+  always_run: True
   changed_when: False
   when: passive is not defined or passive != 'yes'
 
@@ -156,7 +156,7 @@
       mysql --user={{mysql_root_user}} --password={{mysql_root_password}} openmrs
       --host={{ groups['bahmni-emr-db'][0] }} --batch --skip-column-names
       --execute="UPDATE global_property set property_value='{{ openmrs_user_password }}' where property='scheduler.password' ;"
-  check_mode: no
+  always_run: True
   changed_when: False
   when: passive is not defined or passive != 'yes'
 
