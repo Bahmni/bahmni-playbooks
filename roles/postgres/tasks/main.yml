@@ -13,13 +13,13 @@
   yum: name=python-psycopg2 state=present
 
 - name: Install postgresql
-  yum: name="postgresql92-server" state=present
+  yum: name="postgresql{{postgres_bin_version}}-server.x86_64" state=present
 
 - name: Install postgresql-contrib
-  yum: name="postgresql92-contrib" state=present
+  yum: name="postgresql{{postgres_bin_version}}-contrib.x86_64" state=present
 
 - name: Initiate database
-  command: service postgresql-{{ postgres_version }} initdb creates=/var/lib/pgsql/data/postgresql.conf
+  command: /usr/pgsql-{{postgres_version}}/bin/postgresql{{postgres_bin_version}}-setup initdb creates=/var/lib/pgsql/{{postgres_version}}/data/postgresql.conf
 
 - name: Copy postgresql conf
   template:
@@ -76,18 +76,18 @@
       command: /sbin/iptables -I INPUT 1 -p tcp --dport  5432 -j ACCEPT -m comment --comment "POSTGRES"
 
     - name: save iptables
-      command: service iptables save
+      command: /usr/libexec/iptables/iptables.init save
 
   when: docker is not defined
 
 - name: Stop PostgreSQL
-  service:
+  systemd:
     name=postgresql-{{ postgres_version }}
     state=stopped
   when: postgres_conf.changed==true or (recovery_conf is defined and recovery_conf.changed==true)
 
 - name: Start PostgreSQL and enable at boot
-  service:
+  systemd:
     name=postgresql-{{ postgres_version }}
     enabled=yes
     state=started

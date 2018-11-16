@@ -19,9 +19,9 @@
   ignore_errors: True
 
 - name: Fallback to pgsqldump if pgbackrest not installed
-  include: pgsqldumpbackup.yml
+  include_tasks: pgsqldumpbackup.yml
   when: installed_pgbackrest.stdout.find("pgbackrest [options] [command]") == -1
 
 - name: run pgbackrest if it is installed
-  include: pgbackrestbackup.yml
+  include_tasks: pgbackrestbackup.yml
   when: installed_pgbackrest.stdout.find("pgbackrest [options] [command]") >= 0
