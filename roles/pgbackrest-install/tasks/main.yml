@@ -20,7 +20,6 @@
    - perl-Time-HiRes
    - perl-CPAN
 
-
 - name: Assigning CPAN parent
   sudo: yes
   shell: cpan -i parent
@@ -31,6 +30,7 @@
   with_items:
   - perl-DBD-Pg
   - perl-JSON
+  - perl-JSON-PP
   - perl-Digest-SHA.x86_64
   - centos-release-scl
   - rh-perl524-perl-Thread-Queue.noarch
@@ -110,6 +110,6 @@
   ignore_errors: true
 
 - name: Creating postgres stanza
-  sudo: yes
-  shell: sudo -u postgres pgbackrest --stanza=bahmni-postgres --log-level-console=info stanza-create
-
+  become: yes
+  become_user: postgres
+  shell: pgbackrest --stanza=bahmni-postgres --log-level-console=info stanza-create
