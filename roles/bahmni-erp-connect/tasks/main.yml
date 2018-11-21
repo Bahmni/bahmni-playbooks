@@ -4,11 +4,11 @@
   ignore_errors: true
 
 - name: Unintall bahmni-erp-connect rpm
-  yum: name="bahmni-erp-connect" state=absent
+  package: name="bahmni-erp-connect" state=absent
   when: installed_bahmni_erp_connect.stdout.find("{{ bahmni_erp_connect_version }}") == -1
 
 - name: Install bahmni-erp-connect from bahmni-repo
-  yum: name="bahmni-erp-connect-{{ bahmni_erp_connect_version }}" state=present
+  package: name="bahmni-erp-connect-{{ bahmni_erp_connect_version }}" state=present
 
 - name: Stop bahmni-openerp-connect
   systemd:

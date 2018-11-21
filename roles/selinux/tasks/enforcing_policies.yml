@@ -5,7 +5,7 @@
       when: selinux_status.stdout.find("Disabled") != -1
 
     - name: Install policycoreutils-python
-      yum: name="policycoreutils-python" state=present
+      package: name="policycoreutils-python" state=present
 
     - name: set httpd_can_network_relay for SELinux
       seboolean:

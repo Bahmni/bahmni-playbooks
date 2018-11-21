@@ -4,11 +4,11 @@
   ignore_errors: true
 
 - name: Uninstall dcm4chee rpm
-  yum: name="dcm4chee" state=absent
+  package: name="dcm4chee" state=absent
   when: installed_dcm4chee.stdout.find("{{ dcm4chee_version }}") == -1
 
 - name: Install dcm4chee from bahmni-repo
-  yum: name="dcm4chee-{{ dcm4chee_version }}" state=present
+  package: name="dcm4chee-{{ dcm4chee_version }}" state=present
 - block:
 
     - name: Get matched IpTable rule
@@ -98,7 +98,7 @@
     state=link
 
 - name: Install crontab
-  yum: name=crontabs state=present
+  package: name=crontabs state=present
 
 - name: Remove crontab jobs for dcm4chee archive directory
   cron: name="{{item}}" state=absent

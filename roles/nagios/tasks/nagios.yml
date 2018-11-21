@@ -1,5 +1,5 @@
 - name: Install Apache
-  yum: pkg={{item}} state=installed
+  package: pkg={{item}} state=present
   with_items:
     - httpd
     - php
@@ -8,7 +8,7 @@
 
     
 - name: Install nagios
-  yum: pkg={{item}} state=installed
+  package: pkg={{item}} state=present
   with_items:
     - nagios-common-3.5.1
     - nagios-3.5.1

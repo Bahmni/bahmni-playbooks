@@ -4,9 +4,9 @@
   ignore_errors: true
 
 - name: Uninstall bahmni-implementer-interface rpm
-  yum: name="bahmni-implementer-interface" state=absent
+  package: name="bahmni-implementer-interface" state=absent
   when: installed_bahmni_implementer_interface.stdout.find("{{ bahmni_implementer_interface_version }}") == -1
 
 - name: Install bahmni-implementer-interface from bahmni repo
-  yum: name="bahmni-implementer-interface-{{ bahmni_implementer_interface_version }}" state=present
+  package: name="bahmni-implementer-interface-{{ bahmni_implementer_interface_version }}" state=present
   

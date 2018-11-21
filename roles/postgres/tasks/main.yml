@@ -7,16 +7,16 @@
   when: postgresRepoRpm.stat.exists == false
 
 - name: Install postgresql yum repository
-  yum: name={{postgres_repo_rpm_location}} state=present
+  package: name={{postgres_repo_rpm_location}} state=present
 
 - name: Install python-psycopg2
-  yum: name=python-psycopg2 state=present
+  package: name=python-psycopg2 state=present
 
 - name: Install postgresql
-  yum: name="postgresql92-server" state=present
+  package: name="postgresql92-server" state=present
 
 - name: Install postgresql-contrib
-  yum: name="postgresql92-contrib" state=present
+  package: name="postgresql92-contrib" state=present
 
 - name: Initiate database
   command: service postgresql-{{ postgres_version }} initdb creates=/var/lib/pgsql/data/postgresql.conf

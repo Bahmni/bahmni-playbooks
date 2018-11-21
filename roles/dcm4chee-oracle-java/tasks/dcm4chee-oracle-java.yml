@@ -15,7 +15,7 @@
   when: "{{ downloaded_java.stat.exists == false  }} or {{ force_new_java_download == true }}"
 
 - name: install oracle java rpm
-  yum: name={{ java_rpm_location }} state=present
+  package: name={{ java_rpm_location }} state=present
 
 - name: set java_role_ran fact
   set_fact:

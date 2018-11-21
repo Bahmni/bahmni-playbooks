@@ -1,5 +1,5 @@
 - name: Install nrpe and nagios plugins
-  yum: pkg={{item}} state=installed
+  package: pkg={{item}} state=present
   with_items:
     - nrpe-2.15
     - nagios-plugins-all-2.0.3

@@ -26,7 +26,7 @@
     - "{{clinical_forms_dir}}"
 
 - name: Install crontab
-  yum: name=crontabs state=present
+  package: name=crontabs state=present
 
 - name: Remove crontab jobs for upload directories
   cron: name="{{item}}" user=root state=absent
