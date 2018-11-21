@@ -1,10 +1,10 @@
 - name: Install mx
-  yum:
+  package:
     name: "{{mx_download_url}}"
     state: present
 
 - name: Install python-gdata
-  yum: name=python-gdata-2.0.11-1.el6.noarch state=present
+  package: name=python-gdata-2.0.11-1.el6.noarch state=present
 
 - name: install nonblockingloghandler
   pip: name=nonblockingloghandler state=present
@@ -18,10 +18,10 @@
   when: postgresRepoRpm.stat.exists == false
 
 - name: Install postgresql yum repository
-  yum: name={{postgres_repo_rpm_location}} state=present
+  package: name={{postgres_repo_rpm_location}} state=present
 
 - name: Install python-psycopg2
-  yum: name=python-psycopg2 state=present
+  package: name=python-psycopg2 state=present
 
 - name: Check if bahmni-erp rpm needs an update
   command: yum list installed bahmni-erp
@@ -29,7 +29,7 @@
   ignore_errors: true
 
 - name: Uninstall bahmni-erp rpm
-  yum: name="bahmni-erp" state=absent
+  package: name="bahmni-erp" state=absent
   when: installed_bahmni_erp.stdout.find("{{ bahmni_erp_version }}") == -1
 
 - name: Check if openerp database dump is provided in /etc/bahmni-installer/deployment-artifacts
@@ -50,7 +50,7 @@
   when: openerp_backup_file.stat.exists == True
 
 - name: Install bahmni-erp from bahmni-repo
-  yum: name="bahmni-erp-{{ bahmni_erp_version }}" state=present
+  package: name="bahmni-erp-{{ bahmni_erp_version }}" state=present
 
 - name: Stop Openerp
   systemd:

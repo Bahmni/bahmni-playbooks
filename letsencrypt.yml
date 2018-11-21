@@ -6,7 +6,7 @@
     intermediate_cert: https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem
   tasks:
    - name: install openssl
-     yum: name=openssl state=present
+     package: name=openssl state=present
 
    - name: create certs directory
      file: path={{ certs_dir }} state=directory mode=0755

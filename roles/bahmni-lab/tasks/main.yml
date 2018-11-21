@@ -7,7 +7,7 @@
   when: postgresRepoRpm.stat.exists == false
 
 - name: Install postgresql yum repository
-  yum: name={{postgres_repo_rpm_location}} state=present
+  package: name={{postgres_repo_rpm_location}} state=present
 
 - name: Check if bahmni-lab rpm needs an update
   command: yum list installed bahmni-lab
@@ -15,7 +15,7 @@
   ignore_errors: true
 
 - name: Uninstall bahmni-lab rpm
-  yum: name="bahmni-lab" state=absent
+  package: name="bahmni-lab" state=absent
   when: installed_bahmni_lab.stdout.find("{{ bahmni_lab_version }}") == -1
 
 - name: Check if openelis database dump is provided in /etc/bahmni-installer/deployment-artifacts
@@ -36,7 +36,7 @@
   when: openelis_backup_file.stat.exists == True
 
 - name: Install bahmni-lab from bahmni-repo
-  yum: name="bahmni-lab-{{ bahmni_lab_version }}" state=present
+  package: name="bahmni-lab-{{ bahmni_lab_version }}" state=present
 
 - name: Stop bahmni-lab
   systemd:

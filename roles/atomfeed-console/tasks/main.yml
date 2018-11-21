@@ -1,6 +1,6 @@
 ---
 - name: install atomfeed-console rpm
-  yum: name=atomfeed-console-{{ atomfeed_console_version }} state=latest
+  package: name=atomfeed-console-{{ atomfeed_console_version }} state=latest
 
 - name: copy atomfeed-console config
   template:
@@ -32,7 +32,7 @@
   when: docker is not defined
 
 - name: Install python-psycopg2
-  yum: name=python-psycopg2 state=present
+  package: name=python-psycopg2 state=present
 
 - name: create atomfeed console application user in postgres databases
   postgresql_user: name={{ atomfeed_console_db_username }} role_attr_flags=NOSUPERUSER
@@ -98,7 +98,7 @@
     - "{{ groups['pacs-integration-db'] }}"
 
 - name: Install python mysql for ansible
-  yum: name=MySQL-python state=present
+  package: name=MySQL-python state=present
 
 - name: allow atomfeed console application to access openmrs database
   mysql_user:

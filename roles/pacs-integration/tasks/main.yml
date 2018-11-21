@@ -7,7 +7,7 @@
   when: postgresRepoRpm.stat.exists == false
 
 - name: Install postgresql yum repository
-  yum: name={{postgres_repo_rpm_location}} state=present
+  package: name={{postgres_repo_rpm_location}} state=present
 
 - name: Check if pacs-integration rpm needs an update
   command: yum list installed pacs-integration
@@ -15,11 +15,11 @@
   ignore_errors: true
 
 - name: Uninstall pacs-integration rpm
-  yum: name="pacs-integration" state=absent
+  package: name="pacs-integration" state=absent
   when: installed_pacs_integration.stdout.find("{{ pacs_integration_version }}") == -1
 
 - name: Install pacs-integration from bahmni-repo
-  yum: name="pacs-integration-{{ pacs_integration_version }}" state=present
+  package: name="pacs-integration-{{ pacs_integration_version }}" state=present
 
 - name: Stop pacs-integration
   systemd:

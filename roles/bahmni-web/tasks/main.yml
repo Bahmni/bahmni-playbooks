@@ -4,11 +4,11 @@
   ignore_errors: true
 
 - name: Uninstall bahmni-web rpm
-  yum: name="bahmni-web" state=absent
+  package: name="bahmni-web" state=absent
   when: installed_bahmni_web.stdout.find("{{ bahmni_web_version }}") == -1
 
 - name: Install bahmni-web from bahmni repo
-  yum: name="bahmni-web-{{ bahmni_web_version }}" state=present
+  package: name="bahmni-web-{{ bahmni_web_version }}" state=present
 
 - name: copy ssl conf file
   template:

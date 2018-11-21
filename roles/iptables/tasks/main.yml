@@ -3,7 +3,7 @@
 - block:
 
     - name: install iptables-services
-      yum:
+      package:
           name: "iptables-services"
           state: latest
 

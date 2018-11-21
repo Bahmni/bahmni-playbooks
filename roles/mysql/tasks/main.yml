@@ -5,7 +5,7 @@
     dest=/etc/yum.repos.d/mysql.repo
 
 - name: Install python mysql for ansible
-  yum: name=MySQL-python state=present
+  package: name=MySQL-python state=present
 
 - name: Check if any version of mysql is present
   command: mysql --version
@@ -13,14 +13,14 @@
   ignore_errors: true
 
 - name: Uninstall MySQL if 5.6 is absent
-  yum: name={{ item }} state=absent
+  package: name={{ item }} state=absent
   with_items:
     - mysql-server
     - mysql
   when: mysqlVersion|success and mysqlVersion.stdout.find('5.6') == -1
 
 - name: Install mysql from mysql56 yum repository
-  yum: name={{ item }} state=present
+  package: name={{ item }} state=present
   with_items:
     - mysql-community-common
     - mysql-community-libs

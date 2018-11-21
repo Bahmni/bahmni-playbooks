@@ -1,12 +1,12 @@
 ---
 - name: Install libselinux-python
-  yum: name=libselinux-python state=present
+  package: name=libselinux-python state=present
 
 - name: add bahmni yum repo
   template: src=bahmni.repo.j2 dest=/etc/yum.repos.d/bahmni.repo
 
 - name: Install EPEL repo.
-  yum:
+  package:
     name: "epel-release"
     state: present
 
@@ -16,7 +16,7 @@
     state: present
 
 - name: Install ntp
-  yum: name=ntp state=present
+  package: name=ntp state=present
   tags: ntp
 
 - name: Fail if timezone is not provided
@@ -45,7 +45,7 @@
   tags: ntp
 
 - name: install utils
-  yum: name={{ item }} state=present
+  package: name={{ item }} state=present
   with_items:
     - tree
     - htop

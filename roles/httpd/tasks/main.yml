@@ -1,5 +1,5 @@
 - name: Install Apache server from yum repository
-  yum: name={{item}} state=present
+  package: name={{item}} state=present
   with_items:
    - httpd
    - mod_ssl
@@ -106,7 +106,7 @@
   when: "{{ groups['bahmni-lab'] | length }} > 0"
 
 - name: Uninstall bahmni-certs rpm
-  yum: name="bahmni-certs" state=absent
+  package: name="bahmni-certs" state=absent
 
 - name: Remove ssl.conf
   file: path=/etc/httpd/conf.d/ssl.conf state=absent

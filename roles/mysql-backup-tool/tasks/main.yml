@@ -5,7 +5,7 @@
   tags: install
 
 - name: Install percona xtrabackup tool for mysql backup
-  yum:
+  package:
     name=https://www.percona.com/downloads/XtraBackup/Percona-XtraBackup-2.4.5/binary/redhat/6/x86_64/percona-xtrabackup-24-2.4.5-1.el6.x86_64.rpm
     state=present
   when: installed_xtrabackup.stdout.find("percona-xtrabackup") == -1

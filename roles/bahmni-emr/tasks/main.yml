@@ -4,7 +4,7 @@
     dest=/etc/yum.repos.d/mysql.repo
 
 - name: Uninstall openmrs rpm
-  yum: name="openmrs" state=absent
+  package: name="openmrs" state=absent
   ignore_errors: true
 
 - name: Check if bahmni-openmrs rpm needs an update
@@ -14,10 +14,10 @@
 
 # Uninstall 2FA app before uninstalling OpenMRS
 - name: Uninstall two factor authentication rpm
-  yum:  name="bahmni-two-factor-auth" state=absent
+  package:  name="bahmni-two-factor-auth" state=absent
 
 - name: Uninstall bahmni-openmrs rpm
-  yum: name="bahmni-openmrs" state=absent
+  package: name="bahmni-openmrs" state=absent
   when: installed_openmrs.stdout.find("{{ bahmni_openmrs_version }}") == -1
 
 - name: Check if bahmni-emr rpm needs an update
@@ -26,7 +26,7 @@
   ignore_errors: true
 
 - name: Uninstall bahmni-emr rpm
-  yum: name="bahmni-emr" state=absent
+  package: name="bahmni-emr" state=absent
   when: installed_bahmni_emr.stdout.find("{{ bahmni_emr_version }}") == -1
 
 - name: Check if openmrs database dump is provided in /etc/bahmni-installer/deployment-artifacts
@@ -47,10 +47,10 @@
   when: openmrs_backup_file.stat.exists == True
 
 - name: Install bahmni-openmrs from bahmni-repo
-  yum: name="bahmni-openmrs-{{ bahmni_openmrs_version }}" state=present
+  package: name="bahmni-openmrs-{{ bahmni_openmrs_version }}" state=present
 
 - name: Install bahmni-emr from bahmni-repo
-  yum: name="bahmni-emr-{{ bahmni_emr_version }}" state=present
+  package: name="bahmni-emr-{{ bahmni_emr_version }}" state=present
 
 - name: Stop openmrs
   systemd: name=openmrs state=stopped
@@ -59,7 +59,7 @@
 
 # Install 2FA app only after OpenMRS is installed
 - name: Installing two factor authentication rpm if enabled
-  yum:  name="bahmni-two-factor-auth" state=latest update_cache=yes
+  package:  name="bahmni-two-factor-auth" state=latest update_cache=yes
   when: two_factor_auth is defined and two_factor_auth == 'enabled'
 
 - name: Copy openmrs conf

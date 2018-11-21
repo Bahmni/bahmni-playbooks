@@ -1,10 +1,10 @@
 - block:
 
     - name: install libselinux-python
-      yum: name=libselinux-python state=present
+      package: name=libselinux-python state=present
 
     - name: install libsemanage-python
-      yum: name=libsemanage-python state=present
+      package: name=libsemanage-python state=present
 
     - name: Get selinux status
       command: getenforce
