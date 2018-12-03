@@ -97,7 +97,6 @@ bahmni_reports_version: 0.81
 bahmni_web_version: 0.81
 bahmni_implementer_interface_version: 0.89
 dcm4chee_version: 0.81
-bahmni_openmrs_version: 0.82-9
 pacs_integration_version: 0.81
 dcm4chee_study_uid: 1.2.4.0.13.1.4.2252867.
 
