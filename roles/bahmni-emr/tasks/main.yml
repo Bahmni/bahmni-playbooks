@@ -40,6 +40,11 @@
 - name: Install bahmni-emr from bahmni-repo
   yum: name="bahmni-emr-{{ bahmni_emr_version }}" state=present
 
+- name: Stop openmrs
+  systemd: name=openmrs state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
+
 # Install 2FA app only after OpenMRS is installed
 - name: Installing two factor authentication rpm if enabled
   yum:  name="bahmni-two-factor-auth" state=latest update_cache=yes
@@ -70,7 +75,8 @@
     group={{ bahmni_group }}
 
 - name: Backup openmrs markers, failed_events tables
-  command: /opt/bahmni-installer/bahmni-playbooks/roles/bahmni-emr/files/dump_openmrs_atomfeed_tables.sh
+  sudo: yes
+  script: dump_openmrs_atomfeed_tables.sh
   delegate_to: "{{ groups['bahmni-emr-db'][0] }}"
 
 - name: Copy script to update localhost with remote IP in markers
