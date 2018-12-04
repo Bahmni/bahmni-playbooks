@@ -13,13 +13,13 @@
   yum: name=python-psycopg2 state=present
 
 - name: Install postgresql
-  yum: name="postgresql92-server" state=present
+  yum: name="postgresql{{postgres_bin_version}}-server.x86_64" state=present
 
 - name: Install postgresql-contrib
-  yum: name="postgresql92-contrib" state=present
+  yum: name="postgresql{{postgres_bin_version}}-contrib.x86_64" state=present
 
 - name: Initiate database
-  command: service postgresql-{{ postgres_version }} initdb creates=/var/lib/pgsql/data/postgresql.conf
+  command: /usr/pgsql-{{postgres_version}}/bin/postgresql{{postgres_bin_version}}-setup initdb creates=/var/lib/pgsql/{{postgres_version}}/data/postgresql.conf
 
 - name: Copy postgresql conf
   template:

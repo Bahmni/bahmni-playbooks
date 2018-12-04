@@ -74,10 +74,10 @@ python_gdata_rpm_name: python-gdata-2.0.11-1.el6.noarch.rpm
 python_gdata_rpm_url: "{{bahmni_repo_url}}/{{python_gdata_rpm_name}}"
 python_gdata_rpm_location: "{{download_folder}}/{{ python_gdata_rpm_name}}"
 
-postgres_repo_rpm_name: pgdg-centos92-9.2-7.noarch.rpm
-postgres_repo_download_url: http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/{{postgres_repo_rpm_name}}
+postgres_repo_rpm_name: pgdg-centos95-9.5-3.noarch.rpm
+postgres_repo_download_url: https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/{{postgres_repo_rpm_name}}
 postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
-postgres_version: 9.2
+postgres_version: 9.5
 java_home: "{{ java_home_location }}"
 
 patient_images_dir: /home/bahmni/patient_images
