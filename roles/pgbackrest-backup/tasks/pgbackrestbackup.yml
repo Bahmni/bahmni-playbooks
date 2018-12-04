@@ -22,7 +22,7 @@
 
 - name: create bookeeping file
   sudo: yes
-  command: /opt/bahmni-installer/bahmni-playbooks/roles/pgbackrest-backup/files/bookeeping.sh {{ postgres.path }}
+  script: bookeeping.sh {{ postgres.path }}
 
 - name: Give permission to backup files
   shell: chmod -R 777 {{postgres.path}}
