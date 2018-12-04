@@ -13,7 +13,7 @@
     - name: get iptables rules
       shell: iptables -L
       register: iptablesrules
-      always_run: yes
+      check_mode: no
 
     - name: Allow Input ACCEPT
       command: /sbin/iptables -P INPUT ACCEPT

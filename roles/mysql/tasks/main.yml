@@ -1,5 +1,5 @@
 ---
-- name: add mysql 5.6 yum repo
+- name: add mysql 5.7 yum repo
   template:
     src=mysql.repo.j2
     dest=/etc/yum.repos.d/mysql.repo
@@ -12,14 +12,14 @@
   register: mysqlVersion
   ignore_errors: true
 
-- name: Uninstall MySQL if 5.6 is absent
+- name: Uninstall MySQL if 5.7 is absent
   yum: name={{ item }} state=absent
   with_items:
     - mysql-server
     - mysql
-  when: mysqlVersion|success and mysqlVersion.stdout.find('5.6') == -1
+  when: mysqlVersion|success and mysqlVersion.stdout.find('5.7') == -1
 
-- name: Install mysql from mysql56 yum repository
+- name: Install mysql from mysql5.7 yum repository
   yum: name={{ item }} state=present
   with_items:
     - mysql-community-common
@@ -27,10 +27,7 @@
     - mysql-community-client
     - mysql-community-server
 
-  when: mysqlVersion|failed or mysqlVersion.stdout.find('5.6') == -1
-
-- name: Create /var/log/mysql directory to store binlogs if it does not exist
-  file: path=/var/log/mysql state=directory mode=0755 owner=mysql group=mysql
+  when: mysqlVersion|failed or mysqlVersion.stdout.find('5.7') == -1
 
 - name: Copy mysql config
   template:
@@ -48,12 +45,7 @@
   service: name=mysqld state=started enabled=true
 
 - name: Update mysql root password
-  mysql_user: name=root
-              password="{{ mysql_root_password }}"
-              check_implicit_admin=yes
-              login_user=root
-              login_password="{{ mysql_old_root_password }}"
-              state=present
+  command: /usr/bin/sh /opt/bahmni-installer/bahmni-playbooks/roles/mysql/tasks/mysql_secure_installation.sh
   ignore_errors: yes
 
 - block:
