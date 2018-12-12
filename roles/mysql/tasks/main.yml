@@ -44,9 +44,15 @@
 - name: Start Mysql Service
   service: name=mysqld state=started enabled=true
 
+- name: Copy mysql SQL script
+  copy: src=mysql_secure_installation.sql dest=/tmp/.
+
 - name: Update mysql root password
-  command: /usr/bin/sh /opt/bahmni-installer/bahmni-playbooks/roles/mysql/tasks/mysql_secure_installation.sh
+  script: mysql_secure_installation.sh
   ignore_errors: yes
+
+- name: Delete the mysql SQL script
+  file: path=/tmp/mysql_secure_installation.sql state=absent
 
 - block:
 
