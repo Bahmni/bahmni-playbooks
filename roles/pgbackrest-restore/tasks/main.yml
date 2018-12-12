@@ -28,5 +28,5 @@
 - name: Start PostgreSQL
   systemd:
     name=postgresql-{{ postgres_version }}
-    state=running
+    state=started
   ignore_errors: true
