@@ -1,4 +1,3 @@
----
 - name: add mysql 5.7 yum repo
   template:
     src=mysql.repo.j2
@@ -38,11 +37,11 @@
   register: my_cnf
 
 - name: Stop Mysql Service
-  service: name=mysqld state=stopped
+  systemd: name=mysqld state=stopped
   when: my_cnf.changed == true
 
 - name: Start Mysql Service
-  service: name=mysqld state=started enabled=true
+  systemd: name=mysqld state=started enabled=true
 
 - name: Copy mysql SQL script
   copy: src=mysql_secure_installation.sql dest=/tmp/.
@@ -68,6 +67,6 @@
       command: /sbin/iptables -I INPUT 1 -p tcp --dport 3306 -j ACCEPT -m comment --comment "MYSQL"
 
     - name: save iptables
-      command: service iptables save
+      command: /usr/libexec/iptables/iptables.init save
 
   when: docker is not defined
