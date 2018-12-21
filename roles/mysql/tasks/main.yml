@@ -28,6 +28,9 @@
 
   when: mysqlVersion|failed or mysqlVersion.stdout.find('5.7') == -1
 
+- name: Create /var/log/mysql directory to store binlogs if it does not exist
+  file: path=/var/log/mysql state=directory mode=0755 owner=mysql group=mysql
+
 - name: Copy mysql config
   template:
     src=templates/my.cnf.j2
