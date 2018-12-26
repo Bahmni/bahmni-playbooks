@@ -56,6 +56,13 @@
 - name: Delete the mysql SQL script
   file: path=/tmp/mysql_secure_installation.sql state=absent
 
+- name: Upgrade Mysql
+  command: mysql_upgrade -u{{mysql_root_user}} -p{{mysql_root_password}}
+  ignore_errors: yes
+
+- name: Restart Mysql Service
+  systemd: name=mysqld state=restarted
+
 - block:
 
     - name: Get matched IpTable rule
