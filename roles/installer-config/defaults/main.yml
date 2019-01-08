@@ -1,8 +1,8 @@
 openmrs_db_username: openmrs-user
-openmrs_db_password: password
+openmrs_db_password: P@ssw0rd
 openelis_db_username: clinlims
 openelis_db_password: password
 openerp_db_username: openerp
 openerp_db_password: password
 mysql_root_user: root
-mysql_root_password: password
+mysql_root_password: P@ssw0rd
