@@ -6,13 +6,13 @@ openmrs_debug_args: "-agentlib:jdwp=transport=dt_socket,address=8000,server=y,su
 
 openmrs_auto_update_database: "true"
 openmrs_db_username: openmrs-user
-openmrs_db_password: password
+openmrs_db_password: P@ssw0rd
 openmrs_application_data_directory: /opt/openmrs/
 openmrs_module_allow_web_admin: "false"
 openmrs_install_dir: /opt/openmrs
 
 mysql_root_user: root
-mysql_root_password: password
+mysql_root_password: P@ssw0rd
 openmrs_user_id: admin
 openmrs_user_password : test
 
