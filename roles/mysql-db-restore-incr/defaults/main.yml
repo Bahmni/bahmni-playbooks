@@ -1,5 +1,5 @@
 mysql_root_user: root
-mysql_root_password: password
+mysql_root_password: P@ssw0rd
 log_path: /var/log/backrest/
 log_file: /var/log/backrest/mysql_backrest.log
 bahmni_user: bahmni
