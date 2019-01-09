@@ -46,15 +46,14 @@
 - name: Start Mysql Service
   systemd: name=mysqld state=started enabled=true
 
-- name: Copy mysql SQL script
-  copy: src=mysql_secure_installation.sql dest=/tmp/.
-
-- name: Update mysql root password
-  script: mysql_secure_installation.sh
+- name: Retrieve the temp mysql root password
+  shell: 'grep ''temporary password'' /var/log/mysqld.log | awk ''{print $11}'''
+  register: mysql_temp_password
   ignore_errors: yes
 
-- name: Delete the mysql SQL script
-  file: path=/tmp/mysql_secure_installation.sql state=absent
+- name: Update mysql root password
+  shell: 'mysql -e "SET PASSWORD = PASSWORD(''{{ mysql_root_password }}'');" --connect-expired-password -uroot -ip"{{ mysql_temp_password.stdout }}"'
+  ignore_errors: yes 
 
 - name: Upgrade Mysql
   command: mysql_upgrade -u{{mysql_root_user}} -p{{mysql_root_password}}
