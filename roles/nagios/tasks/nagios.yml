@@ -10,13 +10,13 @@
 - name: Install nagios
   yum: pkg={{item}} state=installed
   with_items:
-    - nagios-common-3.5.1
-    - nagios-3.5.1
-    - nagios-devel-3.5.1
-    - nagios-plugins-all-2.0.3
+    - nagios-common-4.3.4
+    - nagios-4.3.4
+    - nagios-devel-4.3.4
+    - nagios-plugins-all-2.2.1
     - libselinux-python
     - python-passlib
-    - nagios-plugins-nrpe-2.15
+    - nagios-plugins-nrpe-3.2.1
 
 - block:
 
