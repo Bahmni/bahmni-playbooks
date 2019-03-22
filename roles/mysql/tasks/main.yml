@@ -51,9 +51,15 @@
   register: mysql_temp_password
   ignore_errors: yes
 
+- name: Update mysql root password with temp password
+  shell: 'mysql -e "SET PASSWORD = PASSWORD(''{{ mysql_root_password }}''); FLUSH PRIVILEGES;" --connect-expired-password -u root -i -p''{{ mysql_temp_password.stdout }}'''
+  when: mysql_temp_password.stdout != ''
+  register: mysqlPasswordUpdated
+  ignore_errors: yes
+
 - name: Update mysql root password
-  shell: 'mysql -e "SET PASSWORD = PASSWORD(''{{ mysql_root_password }}'');" --connect-expired-password -uroot -ip"{{ mysql_temp_password.stdout }}"'
-  ignore_errors: yes 
+  shell: 'mysql -e "UPDATE mysql.user SET authentication_string=PASSWORD(''{{mysql_root_password}}'') WHERE User=''root''; FLUSH PRIVILEGES;" -u root -i -p''{{mysql_old_root_password}}'''
+  when: mysqlPasswordUpdated|skipped or mysqlPasswordUpdated|failed
 
 - name: Upgrade Mysql
   command: mysql_upgrade -u{{mysql_root_user}} -p{{mysql_root_password}}
@@ -61,6 +67,10 @@
 
 - name: Restart Mysql Service
   systemd: name=mysqld state=restarted
+
+- name: set mysql_role_ran fact
+  set_fact:
+    mysql_role_ran: true
 
 - block:
 
