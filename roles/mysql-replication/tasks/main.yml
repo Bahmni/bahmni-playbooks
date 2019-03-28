@@ -6,7 +6,7 @@
     mode=755
 
 - name: Restart Mysql Service
-  service: name=mysqld state=restarted enabled=true
+  systemd: name=mysqld state=restarted enabled=true
 
 - name: Create /opt/mysql-replication directory
   file:

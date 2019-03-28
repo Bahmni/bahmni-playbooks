@@ -1,11 +1,11 @@
 - name: Start openmrs server
-  service:
+  systemd:
     name: openmrs
     state: started
   check_mode: no
 
 - name: Start bahmni-reports service
-  service:
+  systemd:
     name: bahmni-reports
     state: started
   ignore_errors: true
