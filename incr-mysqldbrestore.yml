@@ -6,14 +6,14 @@
 - hosts: bahmni-emr
   tasks:
    - name: Stop openmrs
-     service: name=openmrs state=stopped
+     systemd: name=openmrs state=stopped
      when: db == 'openmrs' and (passive is not defined or passive != 'yes')
      become: yes
 
 - hosts: bahmni-reports
   tasks:
    - name: Stop bahmni-reports
-     service: name=bahmni-reports state=stopped
+     systemd: name=bahmni-reports state=stopped
      when: db == 'bahmni_reports' and (passive is not defined or passive != 'yes')
      become: yes
 
@@ -30,14 +30,14 @@
 - hosts: bahmni-emr
   tasks:
    - name: Start openmrs
-     service: name=openmrs state=started
+     systemd: name=openmrs state=started
      when: db == 'openmrs' and (passive is not defined or passive != 'yes')
      become: yes
 
 - hosts: bahmni-reports
   tasks:
    - name: Start bahmni-reports
-     service: name=bahmni-reports state=started
+     systemd: name=bahmni-reports state=started
      when: db == 'bahmni_reports' and (passive is not defined or passive != 'yes')
      become: yes
 

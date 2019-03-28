@@ -19,7 +19,7 @@
   script: restore_tablespace.sh {{mysql_root_user}} {{mysql_root_password}} {{db}} DISCARD
 
 - name: Stop Mysql Service
-  service: name=mysqld state=stopped
+  systemd: name=mysqld state=stopped
   become: yes
 
 - name: Restore backup files
@@ -31,7 +31,7 @@
   become: yes
 
 - name: Start Mysql Service
-  service: name=mysqld state=started enabled=true
+  systemd: name=mysqld state=started enabled=true
   become: yes
 
 - name: disable foriegn key contraints
