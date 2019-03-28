@@ -67,4 +67,4 @@
    login_password: "{{ mysql_root_password }}"
 
 - name: Restart mysql server to reflect the changes
-  service: name=mysqld state=restarted enabled=true
+  systemd: name=mysqld state=restarted enabled=true
