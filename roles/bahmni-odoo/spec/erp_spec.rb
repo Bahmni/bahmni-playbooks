@@ -12,7 +12,8 @@ describe command('rpm -qa | grep pgdg-centos') do
   its(:exit_status) { should eq 0 }
 end
 
-describe command('sudo pip show nonblockingloghandler') do
+describe command('sudo
+pip show nonblockingloghandler') do
   its(:exit_status) { should eq 0 }
 end
 
@@ -24,7 +25,7 @@ describe package('bahmni-erp'), :if => os[:family] == 'redhat' do
   it { should be_installed }
 end
 
-describe file('/etc/openerp/openerp-server.conf'), :if => os[:family] == 'redhat' do
+describe file('/etc/odoo.conf'), :if => os[:family] == 'redhat' do
   it { should exist }
 end
 

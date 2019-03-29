@@ -12,5 +12,5 @@ fi
 
 if [ "$RESULT_DB" == "0" ]; then
     createdb -Uodoo -h$OPENERP_DB_SERVER odoo;
-    psql -Uodoo -h$OPENERP_DB_SERVER odoo < '/etc/bahmni-installer/deployment-artifacts/openerp_backup.sql'
+    psql -Uodoo -h$OPENERP_DB_SERVER odoo < '/etc/bahmni-installer/deployment-artifacts/odoo_backup.sql'
 fi
