@@ -1,13 +1,3 @@
-- name: Install mx
-  yum:
-    name: "{{mx_download_url}}"
-    state: present
-
-- name: Install python-gdata
-  yum: name=python-gdata-2.0.11-1.el6.noarch state=present
-
-- name: install nonblockingloghandler
-  pip: name=nonblockingloghandler state=present
 
 - name: Check if postgres yum repo rpm is present
   stat: path={{postgres_repo_rpm_location}}
@@ -20,8 +10,36 @@
 - name: Install postgresql yum repository
   yum: name={{postgres_repo_rpm_location}} state=present
 
-- name: Install python-psycopg2
-  yum: name=python-psycopg2 state=present
+
+- name: Upgrade setup tools to latest vesion
+  pip:
+    name: setuptools
+    extra_args: --upgrade
+
+- name: Upgrade pip to latest vesion
+  pip:
+    name: pip
+    extra_args: --upgrade
+
+- name: Install curl
+  become: yes
+  yum: name=curl state=present
+
+- name: Install nodesoure 10.x
+  become: yes
+  shell: curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
+
+- name: Install odoo UI dependecncies
+  become: yes
+  yum: name=nodejs state=present
+
+- name: Install "less, less-plugin-clean-css" node.js package globally.
+  npm:
+    name: "{{ item }}"
+    global: yes
+  with_items:
+    - less
+    - less-plugin-clean-css
 
 - name: Check if bahmni-erp rpm needs an update
   command: yum list installed bahmni-erp
@@ -32,19 +50,19 @@
   yum: name="bahmni-erp" state=absent
   when: installed_bahmni_erp.stdout.find("{{ bahmni_erp_version }}") == -1
 
-- name: Check if openerp database dump is provided in /etc/bahmni-installer/deployment-artifacts
+- name: Check if Odoo database dump is provided in /etc/bahmni-installer/deployment-artifacts
   local_action: stat path=/etc/bahmni-installer/deployment-artifacts/openerp_backup.sql
   register: openerp_backup_file
 
 - name: Copy file to remote location if it is available
-  copy: src=/etc/bahmni-installer/deployment-artifacts/openerp_backup.sql
-        dest=/etc/bahmni-installer/deployment-artifacts/openerp_backup.sql
+  copy: src=/etc/bahmni-installer/deployment-artifacts/odoo_backup.sql
+        dest=/etc/bahmni-installer/deployment-artifacts/odoo_backup.sql
         mode=644
         owner={{ bahmni_user }}
         group={{ bahmni_group }}
   when: openerp_backup_file.stat.exists == True
 
-- name: Install openerp database dump if provided and database does not exist
+- name: Install Odoo database dump if provided and database does not exist
   script: restore_openerp_dump.sh
   sudo: yes
   when: openerp_backup_file.stat.exists == True
@@ -52,15 +70,15 @@
 - name: Install bahmni-erp from bahmni-repo
   yum: name="bahmni-erp-{{ bahmni_erp_version }}" state=present
 
-- name: Stop Openerp
+- name: Stop Odoo
   systemd:
     name=odoo
     state=stopped
   when: passive is not defined or passive != 'yes'
   tags: stop_bahmni
 
-- name: Copy openerp server template
-  template: src=openerp-server.conf.j2 dest=/etc/openerp/openerp-server.conf owner=odoo group=odoo mode=0655
+- name: Copy odoo server template
+  template: src=odoo.conf.j2 dest=/etc/odoo.conf owner=odoo group=odoo mode=0655
 
 - block:
 
@@ -72,7 +90,7 @@
       shell: iptables -D INPUT {{ matchedRule.stdout }}
       when: matchedRule.stdout!=""
 
-    - name: Allow openerp port through firewall
+    - name: Allow Odoo port through firewall
       command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ openerp_port }} -j ACCEPT -m comment --comment "BAHMNIERP"
 
     - name: save iptables
@@ -80,8 +98,8 @@
 
   when: docker is not defined
 
-- name: Switch off chkconfig for Openerp on passive
-  systemd: name=odoo state=stopped enabled=no
+- name: Switch off chkconfig for Odoo on passive
+  systemd: name=Odoo state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
 - name: Change ssl.conf file
@@ -102,7 +120,7 @@
   delegate_to: "{{ item }}"
   with_items: "{{groups['bahmni-emr']}}"
 
-- name: Start Openerp and enable at boot
+- name: Start Odoo and enable at boot
   systemd:
     name=odoo
     enabled=yes
