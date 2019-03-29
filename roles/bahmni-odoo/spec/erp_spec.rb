@@ -25,7 +25,7 @@ describe package('bahmni-erp'), :if => os[:family] == 'redhat' do
   it { should be_installed }
 end
 
-describe file('/etc/openerp/openerp-server.conf'), :if => os[:family] == 'redhat' do
+describe file('/etc/odoo.conf'), :if => os[:family] == 'redhat' do
   it { should exist }
 end
 
@@ -33,7 +33,7 @@ describe iptables, :if => os[:family] == 'redhat' do
   it { should have_rule('-P INPUT ACCEPT').with_table('mangle').with_chain('INPUT') }
 end
 
-describe service('openerp'), :if => os[:family] == 'redhat' && $passive == 'false' do
+describe service('odoo'), :if => os[:family] == 'redhat' && $passive == 'false' do
   it { should be_running }
 end
 

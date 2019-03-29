@@ -55,8 +55,8 @@
   register: openerp_backup_file
 
 - name: Copy file to remote location if it is available
-  copy: src=/etc/bahmni-installer/deployment-artifacts/openerp_backup.sql
-        dest=/etc/bahmni-installer/deployment-artifacts/openerp_backup.sql
+  copy: src=/etc/bahmni-installer/deployment-artifacts/odoo_backup.sql
+        dest=/etc/bahmni-installer/deployment-artifacts/odoo_backup.sql
         mode=644
         owner={{ bahmni_user }}
         group={{ bahmni_group }}
@@ -68,10 +68,10 @@
   when: openerp_backup_file.stat.exists == True
 
 - name: Install bahmni-erp from bahmni-repo
-  command: yum -y install /bahmni/bahmni-package/bahmni-erp/build/distributions/bahmni-erp-0.91.2-1.noarch.rpm
+  yum: name="bahmni-erp-{{ bahmni_erp_version }}" state=present
 
 - name: Stop Odoo
-  service:
+  systemd:
     name=odoo
     state=stopped
   when: passive is not defined or passive != 'yes'
@@ -94,12 +94,12 @@
       command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ openerp_port }} -j ACCEPT -m comment --comment "BAHMNIERP"
 
     - name: save iptables
-      command: service iptables save
+      command: /usr/libexec/iptables/iptables.init save
 
   when: docker is not defined
 
 - name: Switch off chkconfig for Odoo on passive
-  service: name=Odoo state=stopped enabled=no
+  systemd: name=Odoo state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
 - name: Change ssl.conf file
@@ -121,7 +121,7 @@
   with_items: "{{groups['bahmni-emr']}}"
 
 - name: Start Odoo and enable at boot
-  service:
+  systemd:
     name=odoo
     enabled=yes
     state=started
