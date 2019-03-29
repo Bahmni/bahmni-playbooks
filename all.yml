@@ -117,7 +117,7 @@
 - hosts: bahmni-erp
   sudo: yes
   roles:
-    - { role: bahmni-erp }
+    - { role: bahmni-odoo }
   tags:
     - bahmni-erp
 
