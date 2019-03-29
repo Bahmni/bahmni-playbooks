@@ -67,7 +67,7 @@
   when: "item.group | length > 0"
   with_items:
     - { group: "{{ groups['bahmni-lab-db'] }}", db: clinlims, schema: clinlims}
-    - { group: "{{ groups['bahmni-erp-db'] }}", db: odoo, schema: public }
+    - { group: "{{ groups['bahmni-erp-db'] }}", db: openerp, schema: public }
     - { group: "{{ groups['pacs-integration-db'] }}", db: bahmni_pacs, schema: public }
 
 - name: allow atomfeed console application host to access postgres databases
@@ -83,7 +83,7 @@
   when: "item.group | length > 0"
   with_items:
     - {group: "{{ groups['bahmni-lab-db'] }}", db_user: "{{atomfeed_console_db_username}}", db: clinlims}
-    - {group: "{{ groups['bahmni-erp-db'] }}", db_user: "{{ atomfeed_console_db_username }}", db: odoo}
+    - {group: "{{ groups['bahmni-erp-db'] }}", db_user: "{{ atomfeed_console_db_username }}", db: openerp}
     - {group: "{{ groups['pacs-integration-db'] }}", db_user: "{{ atomfeed_console_db_username }}", db: bahmni_pacs}
 
 - name: reload postgresql

@@ -8,15 +8,15 @@
 - hosts: bahmni-erp
   tasks:
    - name: Stop bahmni-erp
-     systemd: name=odoo state=stopped
-     when: options == 'odoo'
+     systemd: name=openerp state=stopped
+     when: options == 'openerp'
      become: yes
 
 - hosts: bahmni-erp
   tasks:
    - name: Stop bahmni-erp-connect
      systemd: name=bahmni-erp-connect state=stopped
-     when: options == 'odoo'
+     when: options == 'openerp'
      become: yes
 
 - hosts: pacs-integration
@@ -38,7 +38,7 @@
   sudo: yes
   roles:
     - { role: httpd-maintenance, maintenance_status: start}
-    - { role: pgbackrest-restore, when: options == 'postgres' or options == 'odoo'  or options == 'clinlims' or options == 'dcm4chee-db' or options == 'pacs-integration-db'}
+    - { role: pgbackrest-restore, when: options == 'postgres' or options == 'openerp'  or options == 'clinlims' or options == 'dcm4chee-db' or options == 'pacs-integration-db'}
     - { role: httpd-maintenance, maintenance_status: end}
 
 - hosts: bahmni-lab
@@ -51,15 +51,15 @@
 - hosts: bahmni-erp
   tasks:
    - name: Start openerp
-     systemd: name=odoo state=started
-     when: options == 'odoo'
+     systemd: name=openerp state=started
+     when: options == 'openerp'
      become: yes
 
 - hosts: bahmni-erp
   tasks:
    - name: Start bahmni-erp
      systemd: name=bahmni-erp-connect state=started
-     when: options == 'odoo'
+     when: options == 'openerp'
      become: yes
 
 - hosts: pacs-integration

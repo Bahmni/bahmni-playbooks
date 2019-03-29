@@ -10,7 +10,7 @@ appConfigs:
 {% if groups['bahmni-erp-db']|length > 0 %}
     -
        appName: OpenERP
-       dbUrl: jdbc:postgresql://{{ groups['bahmni-erp-db'][0] }}:5432/odoo
+       dbUrl: jdbc:postgresql://{{ groups['bahmni-erp-db'][0] }}:5432/openerp
        dbUser: {{ atomfeed_console_db_username }}
 
 {% endif %}

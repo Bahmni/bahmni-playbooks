@@ -1,14 +1,14 @@
 bahmni_erp_connect_version: 0.78-846
 bahmni_erp_connect_port: 8053
 openerp_port: 8069
-openerp_db_username: odoo
+openerp_db_username: openerp
 openerp_db_password: openerp
 openmrs_port: 8050
 bahmni_lab_port: 8052
 openmrs_user_id: admin
 openmrs_user_password: test
 openerp_user: admin
-openerp_password: admin
+openerp_password: password
 bahmni_erp_connect_server_opts: "-Xms512m -Xmx1024m"
 bahmni_erp_connect_context_path: /bahmni-erp-connect
 bahmni_erp_connect_war_directory: /var/run/bahmni-erp-connect/bahmni-erp-connect

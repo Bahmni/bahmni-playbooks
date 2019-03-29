@@ -2,7 +2,7 @@
 jdbc.driverClassName=org.postgresql.Driver
 jdbc.username=postgres
 jdbc.password=postgres
-jdbc.url=jdbc:postgresql://{{ groups['bahmni-erp-db'][0] | default('localhost', true)}}/odoo
+jdbc.url=jdbc:postgresql://{{ groups['bahmni-erp-db'][0] | default('localhost', true)}}/openerp
 update.atomfeed.marker=false
 
 atomdb.show_sql=false
@@ -49,7 +49,7 @@ openerp.port={{ openerp_port }}
 openerp.host={{ host }}
 {% endif %}
 {% endfor %}
-openerp.database=odoo
+openerp.database=openerp
 openerp.user={{ openerp_user }}
 openerp.password={{ openerp_password }}
 openerp.connectionTimeoutInMilliseconds=5000
