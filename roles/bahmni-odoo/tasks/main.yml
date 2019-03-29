@@ -77,6 +77,9 @@
   when: passive is not defined or passive != 'yes'
   tags: stop_bahmni
 
+- name: Copy odoo server template
+  template: src=odoo.conf.j2 dest=/etc/odoo.conf owner=odoo group=odoo mode=0655
+
 - block:
 
     - name: Get matched IpTable rule
