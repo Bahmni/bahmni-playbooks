@@ -30,10 +30,10 @@ openelis_password: AdminadMIN*
 openelis_db_username: clinlims
 openelis_db_password: password
 
-openerp_db_username: openerp
+openerp_db_username: odoo
 openerp_db_password: password
 openerp_user: admin
-openerp_password: password
+openerp_password: admin
 
 openmrs_user_id: admin
 openmrs_user_password : test

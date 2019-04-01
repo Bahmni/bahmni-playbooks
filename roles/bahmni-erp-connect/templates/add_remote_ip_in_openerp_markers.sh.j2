@@ -5,7 +5,7 @@ set -e -x
 {% for host in groups['bahmni-emr'] %}
 {% if hostvars[host].get('passive') != 'yes' %}
 
-psql -U openerp -h  $OPENERP_DB_SERVER  -c "UPDATE
+psql -U odoo -h  $OPENERP_DB_SERVER  -c "UPDATE
    markers
  SET
    feed_uri_for_last_read_entry = regexp_replace(
@@ -15,7 +15,7 @@ psql -U openerp -h  $OPENERP_DB_SERVER  -c "UPDATE
        feed_uri, 'http://.*/openmrs', 'http://{{ host }}:{{ openmrs_port }}/openmrs'
    ) where feed_uri ~ 'openmrs';"
 
-psql -U openerp -h  $OPENERP_DB_SERVER  -c " UPDATE
+psql -U odoo -h  $OPENERP_DB_SERVER  -c " UPDATE
      failed_events
     SET
      feed_uri = regexp_replace(
