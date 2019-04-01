@@ -32,7 +32,7 @@ describe iptables, :if => os[:family] == 'redhat' do
   it { should have_rule('-P INPUT ACCEPT').with_table('mangle').with_chain('INPUT') }
 end
 
-describe service('odoo'), :if => os[:family] == 'redhat' && $passive == 'false' do
+describe service('openerp'), :if => os[:family] == 'redhat' && $passive == 'false' do
   it { should be_running }
 end
 

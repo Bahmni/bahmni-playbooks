@@ -54,13 +54,13 @@
 
 - name: Stop Openerp
   systemd:
-    name=odoo
+    name=openerp
     state=stopped
   when: passive is not defined or passive != 'yes'
   tags: stop_bahmni
 
 - name: Copy openerp server template
-  template: src=openerp-server.conf.j2 dest=/etc/openerp/openerp-server.conf owner=odoo group=odoo mode=0655
+  template: src=openerp-server.conf.j2 dest=/etc/openerp/openerp-server.conf owner=openerp group=openerp mode=0655
 
 - block:
 
@@ -81,7 +81,7 @@
   when: docker is not defined
 
 - name: Switch off chkconfig for Openerp on passive
-  systemd: name=odoo state=stopped enabled=no
+  systemd: name=openerp state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
 - name: Change ssl.conf file
@@ -104,7 +104,7 @@
 
 - name: Start Openerp and enable at boot
   systemd:
-    name=odoo
+    name=openerp
     enabled=yes
     state=started
   when: passive is not defined or passive != 'yes'
