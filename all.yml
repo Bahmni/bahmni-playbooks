@@ -105,7 +105,7 @@
 - hosts: bahmni-erp-db:bahmni-erp-db-slave
   sudo: yes
   roles:
-    - { role: postgres, postgres_user: openerp }
+    - { role: postgres, postgres_user: odoo }
     - { role: pg_hba, db_user: "{{openerp_db_username}}", db_name: all, app_server_group: bahmni-erp,
                       master_db_group: bahmni-erp-db, slave_db_group: bahmni-erp-db-slave}
 
