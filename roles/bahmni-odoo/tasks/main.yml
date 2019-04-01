@@ -51,8 +51,8 @@
   when: installed_bahmni_erp.stdout.find("{{ bahmni_erp_version }}") == -1
 
 - name: Check if Odoo database dump is provided in /etc/bahmni-installer/deployment-artifacts
-  local_action: stat path=/etc/bahmni-installer/deployment-artifacts/openerp_backup.sql
-  register: openerp_backup_file
+  local_action: stat path=/etc/bahmni-installer/deployment-artifacts/odoo_backup.sql
+  register: odoo_backup_file
 
 - name: Copy file to remote location if it is available
   copy: src=/etc/bahmni-installer/deployment-artifacts/odoo_backup.sql
@@ -60,12 +60,12 @@
         mode=644
         owner={{ bahmni_user }}
         group={{ bahmni_group }}
-  when: openerp_backup_file.stat.exists == True
+  when: odoo_backup_file.stat.exists == True
 
 - name: Install Odoo database dump if provided and database does not exist
   script: restore_openerp_dump.sh
   sudo: yes
-  when: openerp_backup_file.stat.exists == True
+  when: odoo_backup_file.stat.exists == True
 
 - name: Install bahmni-erp from bahmni-repo
   yum: name="bahmni-erp-{{ bahmni_erp_version }}" state=present
