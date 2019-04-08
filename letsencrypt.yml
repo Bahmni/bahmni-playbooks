@@ -49,6 +49,7 @@
        csr: "{{ certs_dir }}/csr.csr"
        dest: "{{ certs_dir }}/cert.crt"
        challenge: "dns-01"
+       agreement: "https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf"
      register: letsencrypt_data
 
    - name: prompt challeges to the user
