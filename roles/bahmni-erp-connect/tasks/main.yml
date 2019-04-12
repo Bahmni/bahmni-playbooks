@@ -31,8 +31,8 @@
 
 - name: Copy atomfeed properties
   template:
-    src=atomfeed.properties.j2
-    dest=/opt/bahmni-erp-connect/bahmni-erp-connect/WEB-INF/classes/atomfeed.properties
+    src=erp-atomfeed.properties.j2
+    dest=/opt/bahmni-erp-connect/bahmni-erp-connect/WEB-INF/classes/erp-atomfeed.properties
     mode=644
     owner={{ bahmni_user }}
     group={{ bahmni_group }}
