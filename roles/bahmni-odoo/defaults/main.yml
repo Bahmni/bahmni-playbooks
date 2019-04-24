@@ -4,3 +4,5 @@ postgres_repo_download_url: https://download.postgresql.org/pub/repos/yum/9.6/re
 postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
 openerp_db_username: odoo
 openerp_db_password: openerp
+odoo_pip_version: 19.0.0
+odoo_setuptools_version: 40.0.0
