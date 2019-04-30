@@ -56,3 +56,24 @@
     - rsync
   tags: utils
 
+- name: Check if pip is installed with required version
+  command: pip --version
+  register: pipVersion
+
+- name: Upgrade pip to latest vesion
+  pip:
+    name: pip=={{odoo_pip_version}}
+    extra_args: --upgrade
+  when:  pipVersion.stdout.find("{{ odoo_pip_version }}") == -1
+
+- name: Check if setup tools is installed with required version
+  command: pip show setuptools | grep Version
+  register: setupToolsVersion
+
+- name: Upgrade setup tools to latest vesion
+  pip:
+    name: setuptools=={{odoo_setuptools_version}}
+    extra_args: --upgrade
+  when: setupToolsVersion.stdout.find("{{ odoo_setuptools_version }}") == -1
+
+
