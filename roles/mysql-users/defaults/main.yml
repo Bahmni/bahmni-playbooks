@@ -1,8 +1,8 @@
 openmrs_db_username: openmrs-user
-openmrs_db_password: password
+openmrs_db_password: P@ssw0rd
 reports_db_username: reports-user
-reports_db_password: password
+reports_db_password: P@ssw0rd
 mysql_root_user: root
-mysql_root_password: password
+mysql_root_password: P@ssw0rd
 mysql_replication_username: replication-user
-mysql_replication_password: password
+mysql_replication_password: P@ssw0rd

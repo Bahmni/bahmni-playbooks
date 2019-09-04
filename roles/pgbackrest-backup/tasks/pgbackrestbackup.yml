@@ -5,9 +5,9 @@
       dest=/etc/pgbackrest.conf
 
 - name: Start PostgreSQL
-  service:
+  systemd:
     name=postgresql-{{ postgres_version }}
-    state=running
+    state=started
   ignore_errors: true
 
 - name: create full backup
@@ -21,8 +21,8 @@
   when: strategy == "incr"
 
 - name: create bookeeping file
-  script: bookeeping.sh {{ postgres.path }}
   sudo: yes
+  script: bookeeping.sh {{ postgres.path }}
 
 - name: Give permission to backup files
   shell: chmod -R 777 {{postgres.path}}

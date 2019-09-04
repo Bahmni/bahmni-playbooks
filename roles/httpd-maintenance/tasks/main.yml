@@ -21,7 +21,7 @@
   when: maintenance_status == 'end'
 
 - name: reload_httpd_service
-  service: name=httpd state=reloaded
+  systemd: name=httpd state=reloaded
   delegate_to: "{{ item }}"
   with_items: "{{groups['bahmni-emr']}}"
   when:  maintenance_status == 'end'

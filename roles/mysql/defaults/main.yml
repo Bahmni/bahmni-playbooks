@@ -1,10 +1,10 @@
 openmrs_db_username: openmrs-user
-openmrs_db_password: password
+openmrs_db_password: P@ssw0rd
 mysql_root_user: root
-mysql_root_password: password
-mysql_old_root_password: password
+mysql_root_password: P@ssw0rd
+mysql_old_root_password: P@ssw0rd
 mysql_replication_username: replication-user
-mysql_replication_password: password
+mysql_replication_password: P@ssw0rd
 master_server_id: 1
 slave_server_id: 2
 max_binlog_size: 100M

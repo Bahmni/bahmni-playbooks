@@ -7,18 +7,9 @@
   yum: name="openmrs" state=absent
   ignore_errors: true
 
-- name: Check if bahmni-openmrs rpm needs an update
-  command: yum list installed bahmni-openmrs
-  register: installed_openmrs
-  ignore_errors: true
-
 # Uninstall 2FA app before uninstalling OpenMRS
 - name: Uninstall two factor authentication rpm
   yum:  name="bahmni-two-factor-auth" state=absent
-
-- name: Uninstall bahmni-openmrs rpm
-  yum: name="bahmni-openmrs" state=absent
-  when: installed_openmrs.stdout.find("{{ bahmni_openmrs_version }}") == -1
 
 - name: Check if bahmni-emr rpm needs an update
   command: yum list installed bahmni-emr
@@ -46,14 +37,11 @@
   sudo: yes
   when: openmrs_backup_file.stat.exists == True
 
-- name: Install bahmni-openmrs from bahmni-repo
-  yum: name="bahmni-openmrs-{{ bahmni_openmrs_version }}" state=present
-
 - name: Install bahmni-emr from bahmni-repo
   yum: name="bahmni-emr-{{ bahmni_emr_version }}" state=present
 
 - name: Stop openmrs
-  service: name=openmrs state=stopped
+  systemd: name=openmrs state=stopped
   when: passive is not defined or passive != 'yes'
   tags: stop_bahmni
 
@@ -87,6 +75,7 @@
     group={{ bahmni_group }}
 
 - name: Backup openmrs markers, failed_events tables
+  sudo: yes
   script: dump_openmrs_atomfeed_tables.sh
   delegate_to: "{{ groups['bahmni-emr-db'][0] }}"
 
@@ -123,7 +112,7 @@
       command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ openmrs_port }} -j ACCEPT -m comment --comment "OPENMRS"
 
     - name: save iptables
-      command: service iptables save
+      command: /usr/libexec/iptables/iptables.init save
 
   when: docker is not defined
 
@@ -133,7 +122,7 @@
     --host={{ groups['bahmni-emr-db'][0] }} --batch --skip-column-names
     --execute="SELECT salt from users where username='{{ openmrs_user_id }}' or system_id='{{ openmrs_user_id }}';"
   register: salt
-  always_run: True
+  check_mode: no
   changed_when: False
   when: passive is not defined or passive != 'yes'
 
@@ -147,7 +136,7 @@
       mysql --user={{mysql_root_user}} --password={{mysql_root_password}} openmrs
       --host={{ groups['bahmni-emr-db'][0] }} --batch --skip-column-names
       --execute="UPDATE users set password='{{ hashedPassword.stdout }}' where username='{{ openmrs_user_id }}' or system_id='{{ openmrs_user_id }}';"
-  always_run: True
+  check_mode: no
   changed_when: False
   when: passive is not defined or passive != 'yes'
 
@@ -156,7 +145,7 @@
       mysql --user={{mysql_root_user}} --password={{mysql_root_password}} openmrs
       --host={{ groups['bahmni-emr-db'][0] }} --batch --skip-column-names
       --execute="UPDATE global_property set property_value='{{ openmrs_user_password }}' where property='scheduler.password' ;"
-  always_run: True
+  check_mode: no
   changed_when: False
   when: passive is not defined or passive != 'yes'
 
@@ -165,7 +154,7 @@
   with_items: "{{ omods }}"
 
 - name: Switch off checkconfig for openmrs on passive
-  service: name=openmrs state=stopped enabled=no
+  systemd: name=openmrs state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
 - name: Copying Modules
@@ -180,7 +169,7 @@
   script: external_omod.sh
 
 - name: Stop bahmni-two-factor-auth
-  service: name=bahmni-two-factor-auth state=stopped
+  systemd: name=bahmni-two-factor-auth state=stopped
   when: (passive is not defined or passive != 'yes') and two_factor_auth is defined and two_factor_auth == 'enabled'
   tags: stop_bahmni
 
@@ -203,7 +192,7 @@
   when: two_factor_auth is defined and two_factor_auth == 'enabled'
 
 - name: Start bahmni-two-factor-auth
-  service: name=bahmni-two-factor-auth state=started enabled=yes
+  systemd: name=bahmni-two-factor-auth state=started enabled=yes
   when: (passive is not defined or passive != 'yes') and two_factor_auth is defined and two_factor_auth == 'enabled'
   tags: start_bahmni
 
@@ -227,7 +216,7 @@
   when: selinuxenforcing.stdout.find("Enforcing") != -1
 
 - name: Start openmrs
-  service: name=openmrs state=started enabled=yes
+  systemd: name=openmrs state=started enabled=yes
   when: passive is not defined or passive != 'yes'
   tags: start_bahmni
 

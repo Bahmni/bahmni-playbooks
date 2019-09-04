@@ -11,7 +11,7 @@
   or inventory_hostname in groups['pacs-integration-db-slave'] or inventory_hostname in groups['dcm4chee-db-slave'] }}"
 
 - name: Restart PostgreSQL
-  service:
+  systemd:
     name=postgresql-{{ postgres_version }}
     state=restarted
   ignore_errors: true

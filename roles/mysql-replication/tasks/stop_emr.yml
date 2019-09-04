@@ -1,10 +1,10 @@
 - name: Stop openmrs server
-  service:
+  systemd:
     name: openmrs
     state: stopped
 
 - name: Stop bahmni-reports service
-  service:
+  systemd:
     name: bahmni-reports
     state: stopped
   ignore_errors: true

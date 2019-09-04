@@ -58,7 +58,7 @@
 - hosts: bahmni-reports-db,bahmni-reports-db-slave
   sudo: yes
   roles:
-     - { role: mysql }
+     - { role: mysql, when: mysql_role_ran is not defined or mysql_role_ran != true }
   tags:
     - bahmni-reports-db
     - bahmni-reports
@@ -83,7 +83,6 @@
   roles:
     - { role: postgres, postgres_user: clinlims }
     - { role: pg_hba, db_user: "{{openelis_db_username}}", db_name: clinlims, app_server_group: bahmni-lab,
-
                       master_db_group: bahmni-lab-db, slave_db_group: bahmni-lab-db-slave}
   tags:
     - bahmni-lab-db
@@ -106,7 +105,7 @@
 - hosts: bahmni-erp-db:bahmni-erp-db-slave
   sudo: yes
   roles:
-    - { role: postgres, postgres_user: openerp }
+    - { role: postgres, postgres_user: odoo }
     - { role: pg_hba, db_user: "{{openerp_db_username}}", db_name: all, app_server_group: bahmni-erp,
                       master_db_group: bahmni-erp-db, slave_db_group: bahmni-erp-db-slave}
 
@@ -117,7 +116,7 @@
 - hosts: bahmni-erp
   sudo: yes
   roles:
-    - { role: bahmni-erp }
+    - { role: bahmni-odoo }
   tags:
     - bahmni-erp
 

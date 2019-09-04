@@ -2,10 +2,18 @@
 # tasks file for iptables
 - block:
 
+    - name: install iptables-services
+      yum:
+          name: "iptables-services"
+          state: latest
+
+    - name: Start iptables Service
+      systemd: name=iptables enabled=true state=started
+
     - name: get iptables rules
       shell: iptables -L
       register: iptablesrules
-      always_run: yes
+      check_mode: no
 
     - name: Allow Input ACCEPT
       command: /sbin/iptables -P INPUT ACCEPT
@@ -15,7 +23,7 @@
       when: iptablesrules.stdout.find("lo") == -1
 
     - name:  Allow Established
-      command: /sbin/iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT --state "ESTABLISHED"
+      command: /sbin/iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
       when: iptablesrules.stdout.find("ESTABLISHED") == -1
 
     - name: Allow SSH
@@ -32,5 +40,6 @@
       command: /sbin/iptables -P OUTPUT ACCEPT
 
     - name: Save the changes
-      command: service iptables save
+      command: /usr/libexec/iptables/iptables.init save
+
   when: docker is not defined

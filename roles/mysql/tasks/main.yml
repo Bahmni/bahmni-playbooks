@@ -1,5 +1,4 @@
----
-- name: add mysql 5.6 yum repo
+- name: add mysql 5.7 yum repo
   template:
     src=mysql.repo.j2
     dest=/etc/yum.repos.d/mysql.repo
@@ -12,14 +11,14 @@
   register: mysqlVersion
   ignore_errors: true
 
-- name: Uninstall MySQL if 5.6 is absent
+- name: Uninstall MySQL if 5.7 is absent
   yum: name={{ item }} state=absent
   with_items:
     - mysql-server
     - mysql
-  when: mysqlVersion|success and mysqlVersion.stdout.find('5.6') == -1
+  when: mysqlVersion|success and mysqlVersion.stdout.find('5.7') == -1
 
-- name: Install mysql from mysql56 yum repository
+- name: Install mysql from mysql5.7 yum repository
   yum: name={{ item }} state=present
   with_items:
     - mysql-community-common
@@ -27,7 +26,7 @@
     - mysql-community-client
     - mysql-community-server
 
-  when: mysqlVersion|failed or mysqlVersion.stdout.find('5.6') == -1
+  when: mysqlVersion|failed or mysqlVersion.stdout.find('5.7') == -1
 
 - name: Create /var/log/mysql directory to store binlogs if it does not exist
   file: path=/var/log/mysql state=directory mode=0755 owner=mysql group=mysql
@@ -41,20 +40,37 @@
   register: my_cnf
 
 - name: Stop Mysql Service
-  service: name=mysqld state=stopped
+  systemd: name=mysqld state=stopped
   when: my_cnf.changed == true
 
 - name: Start Mysql Service
-  service: name=mysqld state=started enabled=true
+  systemd: name=mysqld state=started enabled=true
+
+- name: Retrieve the temp mysql root password
+  shell: 'grep ''temporary password'' /var/log/mysqld.log | awk ''{print $11}'''
+  register: mysql_temp_password
+  ignore_errors: yes
+
+- name: Update mysql root password with temp password
+  shell: 'mysql -e "SET PASSWORD = PASSWORD(''{{ mysql_root_password }}''); FLUSH PRIVILEGES;" --connect-expired-password -u root -i -p''{{ mysql_temp_password.stdout }}'''
+  when: mysql_temp_password.stdout != ''
+  register: mysqlPasswordUpdated
+  ignore_errors: yes
 
 - name: Update mysql root password
-  mysql_user: name=root
-              password="{{ mysql_root_password }}"
-              check_implicit_admin=yes
-              login_user=root
-              login_password="{{ mysql_old_root_password }}"
-              state=present
+  shell: 'mysql -e "UPDATE mysql.user SET authentication_string=PASSWORD(''{{mysql_root_password}}'') WHERE User=''root''; FLUSH PRIVILEGES;" -u root -i -p''{{mysql_old_root_password}}'''
+  when: mysqlPasswordUpdated|skipped or mysqlPasswordUpdated|failed
+
+- name: Upgrade Mysql
+  command: mysql_upgrade -u{{mysql_root_user}} -p{{mysql_root_password}}
   ignore_errors: yes
+
+- name: Restart Mysql Service
+  systemd: name=mysqld state=restarted
+
+- name: set mysql_role_ran fact
+  set_fact:
+    mysql_role_ran: true
 
 - block:
 
@@ -70,6 +86,6 @@
       command: /sbin/iptables -I INPUT 1 -p tcp --dport 3306 -j ACCEPT -m comment --comment "MYSQL"
 
     - name: save iptables
-      command: service iptables save
+      command: /usr/libexec/iptables/iptables.init save
 
   when: docker is not defined

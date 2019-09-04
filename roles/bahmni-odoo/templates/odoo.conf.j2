@@ -1,0 +1,10 @@
+[options]
+; This is the password that allows database operations:
+admin_passwd = {{ odoo_master_password }}
+db_host = {{ groups['bahmni-erp-db'][0] | default('localhost', true) }}
+db_port = False
+db_user = odoo
+db_password = False
+addons_path = /opt/bahmni-erp/bahmni-addons,/opt/bahmni-erp/odoo/addons,/usr/lib/python2.7/site-packages
+logfile = /var/log/odoo/odoo.log
+log_level = error

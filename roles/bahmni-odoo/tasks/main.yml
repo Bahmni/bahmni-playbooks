@@ -1,0 +1,118 @@
+
+- name: Check if postgres yum repo rpm is present
+  stat: path={{postgres_repo_rpm_location}}
+  register: postgresRepoRpm
+
+- name: Download postgres yum repo rpm if not present
+  command: "wget -q -O {{ postgres_repo_rpm_location }} {{postgres_repo_download_url}} creates={{ postgres_repo_rpm_location }}"
+  when: postgresRepoRpm.stat.exists == false
+
+- name: Install postgresql yum repository
+  yum: name={{postgres_repo_rpm_location}} state=present
+
+- name: Install curl
+  become: yes
+  yum: name=curl state=present
+
+- name: Install nodesoure 10.x
+  become: yes
+  shell: curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
+
+- name: Install odoo UI dependecncies
+  become: yes
+  yum: name=nodejs state=present
+
+- name: Install "less, less-plugin-clean-css" node.js package globally.
+  npm:
+    name: "{{ item }}"
+    global: yes
+  with_items:
+    - less
+    - less-plugin-clean-css
+
+- name: Check if bahmni-erp rpm needs an update
+  command: yum list installed bahmni-erp
+  register: installed_bahmni_erp
+  ignore_errors: true
+
+- name: Uninstall bahmni-erp rpm
+  yum: name="bahmni-erp" state=absent
+  when: installed_bahmni_erp.stdout.find("{{ bahmni_erp_version }}") == -1
+
+- name: Check if Odoo database dump is provided in /etc/bahmni-installer/deployment-artifacts
+  local_action: stat path=/etc/bahmni-installer/deployment-artifacts/odoo_backup.sql
+  register: odoo_backup_file
+
+- name: Copy file to remote location if it is available
+  copy: src=/etc/bahmni-installer/deployment-artifacts/odoo_backup.sql
+        dest=/etc/bahmni-installer/deployment-artifacts/odoo_backup.sql
+        mode=644
+        owner={{ bahmni_user }}
+        group={{ bahmni_group }}
+  when: odoo_backup_file.stat.exists == True
+
+- name: Install Odoo database dump if provided and database does not exist
+  script: restore_openerp_dump.sh
+  sudo: yes
+  when: odoo_backup_file.stat.exists == True
+
+- name: Install bahmni-erp from bahmni-repo
+  yum: name="bahmni-erp-{{ bahmni_erp_version }}" state=present
+
+- name: Stop Odoo
+  systemd:
+    name=odoo
+    state=stopped
+  when: passive is not defined or passive != 'yes'
+  tags: stop_bahmni
+
+- name: Copy odoo server template
+  template: src=odoo.conf.j2 dest=/etc/odoo.conf owner=odoo group=odoo mode=0655
+
+- block:
+
+    - name: Get matched IpTable rule
+      shell: iptables -nL --line-numbers | grep BAHMNIERP  -m 1 | cut -c 1-2
+      register: matchedRule
+
+    - name: delete matching rule if exists
+      shell: iptables -D INPUT {{ matchedRule.stdout }}
+      when: matchedRule.stdout!=""
+
+    - name: Allow Odoo port through firewall
+      command: /sbin/iptables -I INPUT 1 -p tcp --dport  {{ openerp_port }} -j ACCEPT -m comment --comment "BAHMNIERP"
+
+    - name: save iptables
+      command: /usr/libexec/iptables/iptables.init save
+
+  when: docker is not defined
+
+- name: Switch off chkconfig for Odoo on passive
+  systemd: name=Odoo state=stopped enabled=no
+  when: passive is defined and passive == 'yes'
+
+- name: Change ssl.conf file
+  blockinfile:
+    dest: /etc/httpd/conf.d/ssl.conf
+    marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK erp-ssl -->"
+    insertafter: "#erp-ssl"
+    state: present
+    block: |
+      {% if openerp_url is defined and openerp_url.startswith('https') %}
+        {% for erp_host in groups['bahmni-erp'] %}
+        {% if hostvars[erp_host].get('passive', 'no') == hostvars[item].get('passive', 'no') %}
+            RewriteCond %{HTTP_HOST} ={{ openerp_url | regex_replace('(?:https?://)?([^/:]+)?.*', '\1')  }}
+            RewriteRule (.*) http://{{ erp_host }}:{{ openerp_port }}$1 [P]
+        {% endif %}
+        {% endfor %}
+      {% endif %}
+  delegate_to: "{{ item }}"
+  with_items: "{{groups['bahmni-emr']}}"
+
+- name: Start Odoo and enable at boot
+  systemd:
+    name=odoo
+    enabled=yes
+    state=started
+  when: passive is not defined or passive != 'yes'
+  tags: start_bahmni

@@ -5,8 +5,8 @@ bahmni_support_group: bahmni_support
 bahmni_password_hash: $1$IW4OvlrH$Kui/55oif8W3VZIrnX6jL1
 
 mysql_root_user: root
-mysql_old_root_password: password
-mysql_root_password: password
+mysql_old_root_password: P@ssw0rd
+mysql_root_password: P@ssw0rd
 
 openmrs_install_dir: /opt/openmrs
 openmrs_log_dir: /var/log/openmrs
@@ -17,7 +17,7 @@ openmrs_server_options: "-Xms512m -Xmx1024m"
 
 openmrs_auto_update_database: "true"
 openmrs_db_username: openmrs-user
-openmrs_db_password: password
+openmrs_db_password: P@ssw0rd
 openmrs_snapshots_tmp_dir: /tmp/openmrs-snapshots
 openmrs_application_data_directory: /opt/openmrs/
 openmrs_module_allow_web_admin: "true"
@@ -27,10 +27,10 @@ openelis_password: AdminadMIN*
 openelis_db_username: clinlims
 openelis_db_password: password
 
-openerp_db_username: openerp
+openerp_db_username: odoo
 openerp_db_password: password
 openerp_user: admin
-openerp_password: password
+openerp_password: admin
 copy_to_local_machine: no
 
 openmrs_user_id: admin
@@ -74,10 +74,11 @@ python_gdata_rpm_name: python-gdata-2.0.11-1.el6.noarch.rpm
 python_gdata_rpm_url: "{{bahmni_repo_url}}/{{python_gdata_rpm_name}}"
 python_gdata_rpm_location: "{{download_folder}}/{{ python_gdata_rpm_name}}"
 
-postgres_repo_rpm_name: pgdg-centos92-9.2-7.noarch.rpm
-postgres_repo_download_url: http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/{{postgres_repo_rpm_name}}
+postgres_repo_rpm_name: pgdg-centos96-9.6-3.noarch.rpm
+postgres_repo_download_url: https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/{{postgres_repo_rpm_name}}
 postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
-postgres_version: 9.2
+postgres_version: 9.6
+postgres_bin_version: 96
 java_home: "{{ java_home_location }}"
 
 patient_images_dir: /home/bahmni/patient_images
@@ -97,7 +98,6 @@ bahmni_reports_version: 0.81
 bahmni_web_version: 0.81
 bahmni_implementer_interface_version: 0.89
 dcm4chee_version: 0.81
-bahmni_openmrs_version: 0.82-9
 pacs_integration_version: 0.81
 dcm4chee_study_uid: 1.2.4.0.13.1.4.2252867.
 

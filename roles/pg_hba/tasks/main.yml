@@ -26,6 +26,6 @@
       {% endfor %}
 
 - name: Reload postgresql
-  service:
+  systemd:
     name=postgresql-{{ postgres_version }}
     state=reloaded

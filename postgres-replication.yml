@@ -13,8 +13,8 @@
   sudo: yes
   tasks:
    - name: Stop openerp
-     service:
-       name: openerp
+     systemd:
+       name: odoo
        state: stopped
      when: passive is not defined or passive != 'yes'
 
@@ -22,7 +22,7 @@
   sudo: yes
   tasks:
    - name: Stop bahmni-lab
-     service:
+     systemd:
        name: bahmni-lab
        state: stopped
      when: passive is not defined or passive != 'yes'
@@ -31,7 +31,7 @@
   sudo: yes
   tasks:
    - name: Stop pacs-integration
-     service:
+     systemd:
        name: pacs-integration
        state: stopped
      when: passive is not defined or passive != 'yes'
@@ -40,7 +40,7 @@
   sudo: yes
   tasks:
    - name: Stop dcm4chee
-     service:
+     systemd:
        name: dcm4chee
        state: stopped
      when: passive is not defined or passive != 'yes'
@@ -48,8 +48,8 @@
 - hosts: bahmni-erp-db:bahmni-erp-db-slave
   sudo: yes
   roles:
-    - { role: postgres, postgres_user: openerp }
-    - { role: postgres-replication, replication_user: openerp, master_db: "{{ groups['bahmni-erp-db'][0] }}" }
+    - { role: postgres, postgres_user: odoo }
+    - { role: postgres-replication, replication_user: odoo, master_db: "{{ groups['bahmni-erp-db'][0] }}" }
 
 - hosts: bahmni-lab-db:bahmni-lab-db-slave
   sudo: yes
@@ -80,8 +80,8 @@
   sudo: yes
   tasks:
    - name: Start openerp
-     service:
-       name: openerp
+     systemd:
+       name: odoo
        state: started
      when: passive is not defined or passive != 'yes'
 
@@ -89,7 +89,7 @@
   sudo: yes
   tasks:
    - name: Start bahmni-lab
-     service:
+     systemd:
        name: bahmni-lab
        state: started
      when: passive is not defined or passive != 'yes'
@@ -98,7 +98,7 @@
   sudo: yes
   tasks:
    - name: Start pacs-integration
-     service:
+     systemd:
        name: pacs-integration
        state: started
      when: passive is not defined or passive != 'yes'
@@ -107,7 +107,7 @@
   sudo: yes
   tasks:
    - name: Start dcm4chee
-     service:
+     systemd:
        name: dcm4chee
        state: started
      when: passive is not defined or passive != 'yes'

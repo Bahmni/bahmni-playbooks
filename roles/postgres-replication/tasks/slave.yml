@@ -1,5 +1,5 @@
 - name: Stop PostgreSQL
-  service:
+  systemd:
     name=postgresql-{{ postgres_version }}
     state=stopped
   ignore_errors: true

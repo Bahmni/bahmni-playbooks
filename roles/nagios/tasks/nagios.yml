@@ -10,13 +10,13 @@
 - name: Install nagios
   yum: pkg={{item}} state=installed
   with_items:
-    - nagios-common-3.5.1
-    - nagios-3.5.1
-    - nagios-devel-3.5.1
-    - nagios-plugins-all-2.0.3
+    - nagios-common
+    - nagios
+    - nagios-devel
+    - nagios-plugins-all
     - libselinux-python
     - python-passlib
-    - nagios-plugins-nrpe-2.15
+    - nagios-plugins-nrpe
 
 - block:
 
@@ -142,9 +142,17 @@
   with_items: "{{ nagios_users }}"
   notify: Restart Apache
 
+- name: Add nagios.conf
+  template:
+     src=nagios.conf
+     dest=/etc/httpd/conf.d/nagios.conf
+     owner=root
+     group=root
+     mode=0664
+  notify: Restart Apache
 
 - name: Start Nagios service
-  service: name=nagios state=restarted enabled=yes
+  systemd: name=nagios state=restarted enabled=yes
 
 - name: Start httpd service
-  service: name=httpd state=started enabled=yes
+  systemd: name=httpd state=started enabled=yes
