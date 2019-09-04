@@ -2,11 +2,11 @@
   systemd:
     name: openmrs
     state: started
-  always_run: yes
+  check_mode: no
 
 - name: Start bahmni-reports service
   systemd:
     name: bahmni-reports
     state: started
   ignore_errors: true
-  always_run: yes
+  check_mode: no
