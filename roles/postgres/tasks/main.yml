@@ -21,15 +21,6 @@
 - name: Initiate database
   command: /usr/pgsql-{{postgres_version}}/bin/postgresql{{postgres_bin_version}}-setup initdb creates=/var/lib/pgsql/{{postgres_version}}/data/postgresql.conf
 
-- name: Copy postgresql conf
-  template:
-    src=postgresql.conf.j2
-    dest=/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
-    owner=postgres
-    group=postgres
-    mode=644
-  register: postgres_conf
-
 - name: insert/update postgres config after "local" is for Unix domain socket connections only line
   lineinfile:
     dest: /var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf
@@ -84,7 +75,7 @@
   systemd:
     name=postgresql-{{ postgres_version }}
     state=stopped
-  when: postgres_conf.changed==true or (recovery_conf is defined and recovery_conf.changed==true)
+  when: recovery_conf is defined and recovery_conf.changed==true
 
 - name: Start PostgreSQL and enable at boot
   systemd:
