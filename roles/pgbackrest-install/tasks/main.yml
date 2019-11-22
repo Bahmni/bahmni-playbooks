@@ -102,13 +102,10 @@
       marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK pgBackRest-Install -->"
       dest: /var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
       block: |
-        wal_level = {{ slave | default(false) | ternary('minimal', 'hot_standby') }}
         archive_mode = on
-        archive_command = 'pgbackrest --stanza=bahmni-postgres archive-push %p' 
-        max_wal_senders = {{ slave | default(false) | ternary('0', '3') }}  
-        wal_keep_segments = {{ slave | default(false) | ternary('0', '32') }}
-        hot_standby = on
-
+        archive_command = 'pgbackrest --stanza=bahmni-postgres archive-push %p'
+        wal_level = hot_standby 
+        
 - name: Restart PostgreSQL
   systemd:
     name=postgresql-{{ postgres_version }}
