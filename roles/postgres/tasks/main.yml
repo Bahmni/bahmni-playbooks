@@ -11,6 +11,7 @@
 
 - name: Install python-psycopg2
   yum: name=python-psycopg2 state=present
+  check_mode: yes
 
 - name: Install postgresql
   yum: name="postgresql{{postgres_bin_version}}-server.x86_64" state=present
@@ -21,14 +22,28 @@
 - name: Initiate database
   command: /usr/pgsql-{{postgres_version}}/bin/postgresql{{postgres_bin_version}}-setup initdb creates=/var/lib/pgsql/{{postgres_version}}/data/postgresql.conf
 
-- name: Copy postgresql conf
-  template:
-    src=postgresql.conf.j2
-    dest=/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
-    owner=postgres
-    group=postgres
-    mode=644
-  register: postgres_conf
+- set_fact: 
+    master: "{{ (inventory_hostname in groups['bahmni-lab-db'] and (groups['bahmni-lab-db-slave'] is defined and groups['bahmni-lab-db-slave']|length > 0)) or
+            (inventory_hostname in groups['bahmni-erp-db'] and (groups['bahmni-erp-db-slave'] is defined and groups['bahmni-erp-db-slave']|length > 0)) or
+            (inventory_hostname in groups['pacs-integration-db'] and (groups['pacs-integration-db-slave'] is defined and groups['pacs-integration-db-slave']|length > 0)) or
+            (inventory_hostname in groups['dcm4chee-db'] and (groups['dcm4chee-db-slave'] is defined and groups['dcm4chee-db-slave']|length > 0)) }}"
+
+- set_fact:
+    slave: "{{ 'bahmni-lab-db-slave' in group_names or
+                'bahmni-erp-db-slave' in group_names or
+                'pacs-integration-db-slave' in group_names or
+                'dcm4chee-db-slave' in group_names }}" 
+
+- name: Update postgresql conf with replication configuration
+  blockinfile:
+      marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK postgresql-replication -->"
+      dest: /var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
+      block: |
+        wal_level = {{ slave | default(false) | ternary('minimal', 'hot_standby') }}
+        max_wal_senders = {{ slave | default(false) | ternary('0', '3') }}  
+        wal_keep_segments = {{ slave | default(false) | ternary('0', '32') }}
+        hot_standby = on
+  when: "master or slave" 
 
 - name: insert/update postgres config after "local" is for Unix domain socket connections only line
   lineinfile:
@@ -84,7 +99,7 @@
   systemd:
     name=postgresql-{{ postgres_version }}
     state=stopped
-  when: postgres_conf.changed==true or (recovery_conf is defined and recovery_conf.changed==true)
+  when: recovery_conf is defined and recovery_conf.changed==true
 
 - name: Start PostgreSQL and enable at boot
   systemd:
@@ -97,3 +112,4 @@
   sudo_user: postgres
   when: postgres_user is defined and (inventory_hostname in groups['bahmni-lab-db'] or inventory_hostname in groups['bahmni-erp-db'] or inventory_hostname in groups['pacs-integration-db'] or inventory_hostname in groups['dcm4chee-db'])
 # creating user only in master dbs. User creation will be replicated in slave.
+

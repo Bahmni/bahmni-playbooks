@@ -1,9 +1,3 @@
-- name: Editing postgres.conf file
-  sudo: yes
-  template:
-      src=postgresql.conf.j2
-      dest=/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
-
 - name: add key to yum repo
   template: src=RPM-GPG-KEY-CentOS-SIG-SCLo.j2 dest=/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo
 
@@ -103,6 +97,15 @@
       src=pgbackrest.conf.j2
       dest=/etc/pgbackrest.conf
 
+- name: Updating postgresql.conf
+  blockinfile:
+      marker: "#<!-- {mark} ANSIBLE MANAGED BLOCK pgBackRest-Install -->"
+      dest: /var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
+      block: |
+        archive_mode = on
+        archive_command = 'pgbackrest --stanza=bahmni-postgres archive-push %p'
+        wal_level = hot_standby 
+        
 - name: Restart PostgreSQL
   systemd:
     name=postgresql-{{ postgres_version }}
