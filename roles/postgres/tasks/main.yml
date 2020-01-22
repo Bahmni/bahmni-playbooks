@@ -11,7 +11,6 @@
 
 - name: Install python-psycopg2
   yum: name=python-psycopg2 state=present
-  check_mode: yes
 
 - name: Install postgresql
   yum: name="postgresql{{postgres_bin_version}}-server.x86_64" state=present
