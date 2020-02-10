@@ -2,7 +2,7 @@
   become: yes
   vars:
     certs_dir: /etc/letsencrypt-certs
-    letsencrypt_prod_server: https://acme-v01.api.letsencrypt.org/directory
+    letsencrypt_prod_server: https://acme-staging-v02.api.letsencrypt.org/directory
     intermediate_cert: https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem
   tasks:
    - name: install openssl
