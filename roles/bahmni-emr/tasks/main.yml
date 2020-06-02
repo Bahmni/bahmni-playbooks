@@ -11,15 +11,6 @@
 - name: Uninstall two factor authentication rpm
   yum:  name="bahmni-two-factor-auth" state=absent
 
-- name: Check if bahmni-emr rpm needs an update
-  command: yum list installed bahmni-emr
-  register: installed_bahmni_emr
-  ignore_errors: true
-
-- name: Uninstall bahmni-emr rpm
-  yum: name="bahmni-emr" state=absent
-  when: installed_bahmni_emr.stdout.find("{{ bahmni_emr_version }}") == -1
-
 - name: Check if openmrs database dump is provided in /etc/bahmni-installer/deployment-artifacts
   local_action: stat path=/etc/bahmni-installer/deployment-artifacts/openmrs_backup.sql
   register: openmrs_backup_file
@@ -37,8 +28,9 @@
   sudo: yes
   when: openmrs_backup_file.stat.exists == True
 
-- name: Install bahmni-emr from bahmni-repo
-  yum: name="bahmni-emr-{{ bahmni_emr_version }}" state=present
+- name: Install bahmni-emr from msf repo
+  command: yum install /root/bahmni-emr-0.92-1.noarch.rpm -y
+  ignore_errors: yes
 
 - name: Stop openmrs
   systemd: name=openmrs state=stopped
