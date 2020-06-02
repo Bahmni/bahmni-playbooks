@@ -1,0 +1,77 @@
+- name: add mysql 5.6 yum repo
+  template:
+    src=mysql56.repo.j2
+    dest=/etc/yum.repos.d/mysql56.repo
+
+- name: Install python mysql for ansible
+  yum: name={{ item }} state=present
+  with_items:
+    - mysql-community-common-{{mysql_version}}
+    - mysql-community-libs-{{mysql_version}}
+    - MySQL-python
+
+- name: Check if any version of mysql is present
+  command: mysql --version
+  register: mysqlVersion
+  ignore_errors: true
+
+- name: Uninstall MySQL if {{mysql_version}} is absent
+  yum: name={{ item }} state=absent
+  with_items:
+    - mysql-server
+    - mysql
+  when: mysqlVersion|success and mysqlVersion.stdout.find('{{mysql_version}}') == -1
+
+- name: Install mysql from mysql{{mysql_version}} yum repository
+  yum: name={{ item }} state=present
+  with_items:
+    - mysql-community-common-{{mysql_version}}
+    - mysql-community-libs-{{mysql_version}}
+    - mysql-community-client-{{mysql_version}}
+    - mysql-community-server-{{mysql_version}}
+
+  when: mysqlVersion|failed or mysqlVersion.stdout.find('{{mysql_version}}') == -1
+
+- name: Create /var/log/mysql directory to store binlogs if it does not exist
+  file: path=/var/log/mysql state=directory mode=0755 owner=mysql group=mysql
+
+- name: Copy mysql config for mysql 5.6
+  template:
+    src=templates/my56.cnf.j2
+    dest=/etc/my.cnf
+    backup=yes
+    mode=755
+  register: my_cnf
+
+- name: Stop Mysql Service
+  systemd: name=mysqld state=stopped
+  when: my_cnf.changed == true
+
+- name: Start Mysql Service
+  systemd: name=mysqld state=started enabled=true
+
+- name: Update mysql root password for mysql 5.6
+  mysql_user: name=root
+    password="{{ mysql_root_password }}"
+    check_implicit_admin=yes
+    login_user=root
+    login_password="{{ mysql_old_root_password }}"
+    state=present
+  ignore_errors: yes
+
+- block:
+    - name: Get matched IpTable rule
+      shell: iptables -nL --line-numbers | grep MYSQL  -m 1 | cut -c 1-2
+      register: matchedRule
+
+    - name: delete matching rule if exists
+      shell: iptables -D INPUT {{ matchedRule.stdout }}
+      when: matchedRule.stdout!=""
+
+    - name: Allow mysql port through firewall
+      command: /sbin/iptables -I INPUT 1 -p tcp --dport 3306 -j ACCEPT -m comment --comment "MYSQL"
+
+    - name: save iptables
+      command: /usr/libexec/iptables/iptables.init save
+
+  when: docker is not defined
