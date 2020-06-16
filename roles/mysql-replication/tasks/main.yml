@@ -1,9 +1,18 @@
-- name: Copy mysql config
+- name: Copy mysql config for mysql 5.6
   template:
-    src=templates/my.cnf.j2
+    src=templates/my56.cnf.j2
     dest=/etc/my.cnf
     backup=yes
     mode=755
+  when: "{{ '5.6' in mysql_version }}"
+
+- name: Copy mysql config for mysql 5.7
+  template:
+    src=templates/my57.cnf.j2
+    dest=/etc/my.cnf
+    backup=yes
+    mode=755
+  when: "{{ '5.7' in mysql_version }}"
 
 - name: Restart Mysql Service
   systemd: name=mysqld state=restarted enabled=true

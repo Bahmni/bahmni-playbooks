@@ -105,3 +105,5 @@ force_new_java_download: false
 
 SSLCertificateFilePath: /etc/bahmni-certs/cert.crt
 SSLCertificateKeyFilePath: /etc/bahmni-certs/domain.key
+
+mysql_version: 5.7.30
