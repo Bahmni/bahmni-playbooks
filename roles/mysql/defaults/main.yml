@@ -13,3 +13,4 @@ log_bin_file_name: /var/log/mysql/mysql-bin
 log_bin_index_file_name: /var/log/mysql/mysql-bin.index
 innodb_flush_log_at_trx_commit: 1
 sync_binlog: 1
+mysql_version: 5.7.30

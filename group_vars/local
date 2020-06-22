@@ -75,7 +75,7 @@ python_gdata_rpm_name: python-gdata-2.0.11-1.el6.noarch.rpm
 python_gdata_rpm_url: "{{bahmni_repo_url}}/{{python_gdata_rpm_name}}"
 python_gdata_rpm_location: "{{download_folder}}/{{ python_gdata_rpm_name}}"
 
-postgres_repo_rpm_name: pgdg-centos96-9.6-3.noarch.rpm
+postgres_repo_rpm_name: pgdg-redhat-repo-42.0-11.noarch.rpm
 postgres_repo_download_url: https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/{{postgres_repo_rpm_name}}
 postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
 postgres_version: 9.6
@@ -105,3 +105,5 @@ force_new_java_download: false
 
 SSLCertificateFilePath: /etc/bahmni-certs/cert.crt
 SSLCertificateKeyFilePath: /etc/bahmni-certs/domain.key
+
+mysql_version: 5.7.30
