@@ -1,0 +1,12 @@
+- name: Check if bahmni-appointments-frontend rpm needs an update
+  command: yum list installed bahmni-appointments-frontend
+  register: installed_bahmni_appointments_frontend
+  ignore_errors: true
+
+- name: Uninstall bahmni-appointments-frontend rpm
+  yum: name="bahmni-appointments-frontend" state=absent
+  when: installed_bahmni_appointments_frontend.stdout.find("{{ bahmni_appointments_frontend_version }}") == -1
+
+- name: Install bahmni-appointments-frontend from bahmni repo
+  yum: name="bahmni-appointments-frontend-{{ bahmni_appointments_frontend_version }}" state=present
+  
