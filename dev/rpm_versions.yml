@@ -9,3 +9,4 @@ bahmni_web_version: 0.81
 bahmni_implementer_interface_version: 0.89
 dcm4chee_version: 0.81
 pacs_integration_version: 0.81
+bahmni_appointments_frontend_version: 0.93
