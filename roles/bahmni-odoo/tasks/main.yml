@@ -27,7 +27,7 @@
     name: "{{ item }}"
     global: yes
   with_items:
-    - less
+    - less@3.5.3
     - less-plugin-clean-css
 
 - name: Check if bahmni-erp rpm needs an update
