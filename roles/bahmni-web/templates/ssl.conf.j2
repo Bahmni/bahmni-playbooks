@@ -320,14 +320,14 @@ RequestHeader set "X-Forwarded-Proto" "https"
 
 
 			Redirect permanent /home /bahmni/home/
-	            WSGIDaemonProcess client_side_logging user=apache group=apache threads=1
+	        WSGIDaemonProcess client_side_logging python-path=/var/www/client_side_logging user=apache group=apache threads=1
             WSGIScriptAlias /log /var/www/client_side_logging/client_side_logging.wsgi
 
             <Directory /var/www/client_side_logging>
-            WSGIProcessGroup client_side_logging
-            WSGIApplicationGroup %{GLOBAL}
-            Order deny,allow
-            Allow from all
+            	WSGIProcessGroup client_side_logging
+            	WSGIApplicationGroup %{GLOBAL}
+            	Order deny,allow
+            	Allow from all
             </Directory>
 
 
