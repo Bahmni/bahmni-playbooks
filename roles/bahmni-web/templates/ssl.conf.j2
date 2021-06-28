@@ -301,7 +301,7 @@ SSLProxyEngine on
 	RewriteEngine on
 RewriteCond %{REQUEST_URI} ^/openmrs/*
 RewriteCond %{HTTP_COOKIE} ^.*JSESSIONID=([^;]+)
-RewriteRule ^.*$ - [CO=reporting_session:%1:%{HTTP_HOST}:86400:/:true:true]
+RewriteRule ^.*$ - [CO=reporting_session:%1:%{SERVER_NAME}:86400:/:true:true]
 
 RequestHeader set "X-Forwarded-Proto" "https"
 

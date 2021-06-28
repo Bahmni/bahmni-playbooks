@@ -1,7 +1,7 @@
 #For Bahmni-Reports
 {% for reports_host in groups['bahmni-reports'] %}
 {% if hostvars[reports_host].get('passive', 'no') == hostvars[item].get('passive', 'no') %}
-		  ProxyPass /bahmnireports http://{{ reports_host }}:{{ bahmni_reports_port }}/bahmnireports
-          ProxyPassReverse /bahmnireports http://{{ reports_host }}:{{ bahmni_reports_port }}/bahmnireports
+ProxyPass /bahmnireports http://{{ reports_host }}:{{ bahmni_reports_port }}/bahmnireports
+ProxyPassReverse / http://{{ reports_host }}:{{ bahmni_reports_port }}
 {% endif %}
 {% endfor %}
