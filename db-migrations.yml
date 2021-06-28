@@ -9,7 +9,7 @@
   become: yes
   tasks:
     - name: Run Implementation Config Openelis Migrations
-      script: roles/bahmni-lab/files/run-implementation-openelis-liquibase.sh
+      script: roles/bahmni-lab-migrations/files/run-implementation-openelis-liquibase.sh
     - name: Run Bahmni-Lab-Connect Migrations
       script: /opt/bahmni-lab-connect/run-liquibase.sh
   tags: run-migration-openelis
