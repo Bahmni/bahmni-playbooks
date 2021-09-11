@@ -10,7 +10,7 @@
   yum: name={{postgres_repo_rpm_location}} state=present
 
 - name: Install python-psycopg2
-  yum: name=python-psycopg2 state=present
+  command: yum -y install python-psycopg2
 
 - name: Install postgresql
   yum: name="postgresql{{postgres_bin_version}}-server.x86_64" state=present
