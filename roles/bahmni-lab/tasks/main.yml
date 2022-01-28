@@ -63,7 +63,7 @@
 
 - name: Copy log4j config
   template:
-    src=log4j.xml.j2
+    src=log4j2.xml.j2
     dest=/opt/bahmni-lab/bahmni-lab/WEB-INF/classes/
     mode=644
     owner={{ bahmni_user }}
