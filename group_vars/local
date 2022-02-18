@@ -13,7 +13,7 @@ openmrs_log_dir: /var/log/openmrs
 openmrs_modules_dir: /home/bahmni/.OpenMRS/modules
 openmrs_run_dir: /var/run/openmrs
 openmrs_context_path: openmrs
-openmrs_server_options: "-Xms512m -Xmx1024m"
+openmrs_server_options: "-Xms512m -Xmx1024m -Dorg.jboss.logging.provider=slf4j -DLOGS_DIR=/var/log/openmrs"
 
 openmrs_auto_update_database: "true"
 openmrs_db_username: openmrs-user
