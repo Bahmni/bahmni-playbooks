@@ -11,6 +11,7 @@
 
 LoadModule ssl_module modules/mod_ssl.so
 LoadModule cache_module modules/mod_cache.so
+Header set X-Robots-Tag "noindex, nofollow"
 
 #
 # When we also provide SSL we have to listen to the
