@@ -3,8 +3,8 @@ openmrs_user_password: test
 bahmni_lab_port: 8052
 openmrs_port: 8050
 download_folder: /opt
-postgres_repo_rpm_name: pgdg-redhat-repo-42.0-23.noarch.rpm
-postgres_repo_download_url: https://yum.postgresql.org/common/redhat/rhel-7-x86_64/pgdg-redhat-repo-42.0-23.noarch.rpm
+postgres_repo_rpm_name: pgdg-redhat-repo-42.0-26.noarch.rpm
+postgres_repo_download_url: https://yum.postgresql.org/common/redhat/rhel-7-x86_64/pgdg-redhat-repo-42.0-26.noarch.rpm
 postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
 bahmni_lab_server_opts: "-Xms512m -Xmx1024m -Dcatalina.base=/var/log/bahmni-lab"
 bahmni_lab_debug_opts: "-agentlib:jdwp=transport=dt_socket,address=8001,server=y,suspend=n"
