@@ -88,7 +88,7 @@
   when: docker is not defined
 
 - name: Switch off chkconfig for Odoo on passive
-  systemd: name=Odoo state=stopped enabled=no
+  systemd: name=odoo state=stopped enabled=no
   when: passive is defined and passive == 'yes'
 
 - name: Change ssl.conf file
