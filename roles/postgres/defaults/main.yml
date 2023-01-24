@@ -1,5 +1,9 @@
 download_folder: /opt
-postgres_repo_rpm_name: pgdg-redhat-repo-42.0-23.noarch.rpm
-postgres_repo_rpm_mirror: https://yum.postgresql.org/common/redhat/rhel-7-x86_64
-postgres_repo_download_url: "{{postgres_repo_rpm_mirror}}/{{postgres_repo_rpm_name}}"
-postgres_repo_rpm_location: "{{download_folder}}/{{ postgres_repo_rpm_name}}"
+postgres_rpm_name: postgresql96-9.6.24-1PGDG.rhel7.x86_64.rpm
+postgres_server_rpm_name: postgresql96-server-9.6.24-1PGDG.rhel7.x86_64.rpm
+postgres_libs_rpm_name: postgresql96-libs-9.6.24-1PGDG.rhel7.x86_64.rpm
+postgres_contrib_rpm_name: postgresql96-contrib-9.6.24-1PGDG.rhel7.x86_64.rpm
+postgres_rpm_location: "{{download_folder}}/{{postgres_rpm_name}}"
+postgres_server_rpm_location: "{{download_folder}}/{{postgres_server_rpm_name}}"
+postgres_libs_rpm_location: "{{download_folder}}/{{postgres_libs_rpm_name}}"
+postgres_contrib_rpm_location: "{{download_folder}}/{{postgres_contrib_rpm_name}}"
