@@ -1,22 +1,17 @@
-- name: Check if postgres yum repo rpm is present
-  stat: path={{postgres_repo_rpm_location}}
-  register: postgresRepoRpm
-
-- name: Download postgres yum repo rpm if not present
-  command: "wget -q -O {{ postgres_repo_rpm_location }} {{postgres_repo_download_url}} creates={{ postgres_repo_rpm_location }}"
-  when: postgresRepoRpm.stat.exists == false
-
-- name: Install postgresql yum repository
-  yum: name={{postgres_repo_rpm_location}} state=present
-
 - name: Install python-psycopg2
   command: yum -y install python-psycopg2
 
-- name: Install postgresql
-  yum: name="postgresql{{postgres_bin_version}}-server" state=present
+- name: Install postgresql libs
+  yum: name={{postgres_libs_rpm_location}} state=present
+
+- name: Install postgres
+  yum: name={{postgres_rpm_location}} state=present
+
+- name: Install postgresql server
+  yum: name={{postgres_server_rpm_location}} state=present
 
 - name: Install postgresql-contrib
-  yum: name="postgresql{{postgres_bin_version}}-contrib" state=present
+  yum: name={{postgres_contrib_rpm_location}} state=present
 
 - name: Initiate database
   command: /usr/pgsql-{{postgres_version}}/bin/postgresql{{postgres_bin_version}}-setup initdb creates=/var/lib/pgsql/{{postgres_version}}/data/postgresql.conf
