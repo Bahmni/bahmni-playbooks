@@ -7,3 +7,26 @@ Copyright © 2026 OpenMRS Inc
 ### Contributors
 
 This repository has got source code generated at Thoughtworks.
+
+This repository includes certain third-party components that are
+distributed under their own open source licenses.
+
+The following files are licensed under the GNU General Public License
+(GPL) and are not covered by the primary project license.
+
+letsencrypt.py
+
+License: GNU General Public License v3.0 or later (GPL-3.0+)
+
+check_exit_status.pl
+
+License: GNU General Public License v2.0 or later (GPL-2.0+)
+
+pg_hba role metadata
+
+License: GNU General Public License v2.0 and Creative Commons
+Attribution 4.0 International (CC-BY-4.0)
+
+These files remain under their respective licenses and are distributed
+with this repository for convenience. The primary project license does
+not apply to these components.
